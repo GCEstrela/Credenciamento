@@ -169,6 +169,39 @@ namespace IMOD.Infra.Repositorios
         }
 
         /// <summary>
+        ///     ListarComAnexo
+        /// </summary>
+        /// <returns></returns>
+        public ICollection<VeiculoAnexo> ListarComAnexo(params object[] o)
+        {
+            try
+            {
+                using (var conn = _dataBase.CreateOpenConnection())
+                {
+                    using (var cmd = _dataBase.SelectText("VeiculosAnexos", conn))
+
+                    {
+
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoID", DbType.Int32, o, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoAnexoId", DbType.Int32, o, 1).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NomeArquivo", DbType.String, o, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, o, 3).Like()));
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<VeiculoAnexo>();
+
+                        return d1;
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
         ///     Deletar registro
         /// </summary>
         /// <param name="objects"></param>

@@ -22,8 +22,6 @@
             </div>
         </div>
         <fieldset class="form-horizontal">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item active">
                     <a class="nav-link" id="link1" data-toggle="tab" href="#home" role="tab" aria-controls="home"
@@ -64,14 +62,14 @@
                     <br />
                     @*<div class="form-group">
 
-                        @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-2">
+                    @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
 
-                            <img class="resize" id="blah" src="#" alt="Selecione uma Imagem" style="padding-bottom: 15px" />
-                            <input type='file' id="imgInp" />
-                        </div>
+                        <img class="resize" id="blah" src="#" alt="Selecione uma Imagem" style="padding-bottom: 15px" />
+                        <input type='file' id="imgInp" />
+                    </div>
 
-                    </div>*@
+                </div>*@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-2">
@@ -510,6 +508,7 @@ Texto de Termos de Aceite
                     </fieldset>
                 </div>
             </div>
+            @Html.ValidationSummary(false, "Os campos a seguir são obrigatórios:", new { @class = "text-danger" })
         </fieldset>
     </div>
 }
@@ -683,7 +682,7 @@ Texto de Termos de Aceite
                  });
         };
     </script>
-    <script>
+    @*<script>
 
         $('[id^=link]').click(function () {
 
@@ -818,7 +817,7 @@ Texto de Termos de Aceite
                 return false;
             }
         });
-    </script>
+    </script>*@
     <script>
         function BuscarMunicipio() {
             var id = $("#ddlEstado").val();

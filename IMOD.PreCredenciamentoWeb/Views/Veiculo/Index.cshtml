@@ -24,6 +24,7 @@
         <table class="table table-hover table-responsive table-dark" id="tbColaborador">
             <thead>
                 <tr>
+                    <th></th>
                     <th>
                         @Html.DisplayNameFor(model => model.PlacaIdentificador)
                     </th>
@@ -48,54 +49,58 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Ano)
                     </th>
-                    <th></th>
+
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.PlacaIdentificador)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.SerieChassi)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Descricao)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Patrimonio)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Marca)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Modelo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Cor)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Ano)
-                        </td>
-                        <td class="col-lg-1">
+                <tr>
+                    
+                    <td class="col-lg-1">
+                        <a href='@Url.Action("Details", "Veiculo", new { id = item.EquipamentoVeiculoId })'>
+
+                            <span class="glyphicon glyphicon-search"></span>
+                        </a>
+                        @if (item.Precadastro)
+                        {
                             <a href='@Url.Action("Edit", "Veiculo", new { id = item.EquipamentoVeiculoId })'>
                                 @*<img src="~/images/edit.png" />*@
                                 <span class="glyphicon glyphicon-edit"></span>
                             </a>
-                            |
-                            <a href='@Url.Action("Details", "Veiculo", new { id = item.EquipamentoVeiculoId })'>
-                                @*<img src="~/images/lupa.png" />*@
-                                <span class="glyphicon glyphicon-search"></span>
-                            </a>
-                            |
+
                             <a href='@Url.Action("Delete", "Veiculo", new { id = item.EquipamentoVeiculoId })'>
                                 @*<img src="~/images/remove.png" />*@
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
-                        </td>
-                    </tr>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PlacaIdentificador)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SerieChassi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descricao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Patrimonio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Marca)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Modelo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ano)
+                    </td>
+
+                </tr>
                 }
             </tbody>
 

@@ -157,7 +157,6 @@
     <Compile Include="Models\ColaboradorViewModel.cs" />
     <Compile Include="Models\LoginViewModel .cs" />
     <Compile Include="Models\EmpresaViewModel.cs" />
-    <Compile Include="Models\VeiculoSeguroViewModel.cs" />
     <Compile Include="Models\VeiculoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\SessionUsuario.cs" />
@@ -635,6 +634,7 @@
     <Content Include="Views\Empresa\Edit.cshtml" />
     <Content Include="Views\Colaborador\Details.cshtml" />
     <Content Include="Views\Login\TrocaSenha.cshtml" />
+    <Content Include="Views\Veiculo\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

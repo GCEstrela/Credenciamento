@@ -26,7 +26,7 @@
             @Html.Hidden("ColaboradorId", @Model.ColaboradorId)
             @Html.Hidden("ContratoEmpresaID", @Model.ContratoEmpresaID)
             @Html.Hidden("Precadastro", @Model.Precadastro)
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
 
 
 
@@ -59,10 +59,10 @@
                     <a class="disabled" id="link7" data-toggle="tab" href="#curso" role="tab" aria-controls="curso"
                        aria-selected="false">Curso</a>
                 </li>
-                <li class="nav-item">
+                @*<li class="nav-item">
                     <a class="disabled" id="link8" data-toggle="tab" href="#aceite" role="tab" aria-controls="aceite"
                        aria-selected="false">Aceite</a>
-                </li>
+                </li>*@
             </ul>
 
             <div class="tab-content" id="myTabContent">
@@ -85,14 +85,14 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-6">
-                            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control text-uppercase", @id = "Nome" } })
+                            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Nome" } })
                             @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Apelido, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-6">
-                            @Html.EditorFor(model => model.Apelido, new { htmlAttributes = new { @class = "form-control text-uppercase", @id = "Apelido" } })
+                            @Html.EditorFor(model => model.Apelido, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Apelido" } })
                             @Html.ValidationMessageFor(model => model.Apelido, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -184,7 +184,7 @@
                                 @Html.ValidationMessageFor(model => model.MunicipioId, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        </fieldset>
+                    </fieldset>
                 </div>
                 <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                     <br />
@@ -494,14 +494,14 @@ Texto de Termos de Aceite
                             </div>
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.NomeArquivoAnexoAceite, htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.LabelFor(model => model.NomeArquivoAnexoAceite, htmlAttributes: new { @class = "control-label col-md-2", id = "NomeArquivoAnexoAceite" })
                                 <div class="col-md-10">
                                     <input type="file" name="FileUploadAceite" id="FileUploadAceite" accept=".pdf" />
                                 </div>
                                 <div class="row"></div>
                                 @if (Model.NomeArquivoAnexoAceite != null)
                                 {
-                                    
+
                                     <div class="col-md-3">
 
                                         <span class="glyphicon glyphicon-download-alt"></span>
@@ -510,23 +510,38 @@ Texto de Termos de Aceite
                                 }
                             </div>
                             @*<div class="form-group">
-            <div class="col-md-12 " style="padding-left: 30px; padding-top: 15px;">
-                <input type="file" name="Aceite" id="Aceite" accept=".pdf" />
-                @Html.ValidationMessageFor(model => model.Aceite, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-                            <div class="checkbox col-md-12" style="padding-left: 50px;">
-                                <div class="col-md-4">
-                                    <input type="checkbox" model="chkAceite" name="chkAceite" value="true"><b>Aceito</b><br />
-
-                                    @Html.ValidationMessageFor(model => model.chkAceite, "", new { @class = "text-danger" })
+                            <div class="col-md-12 " style="padding-left: 30px; padding-top: 15px;">
+                                <input type="file" name="Aceite" id="Aceite" accept=".pdf" />
+                                @Html.ValidationMessageFor(model => model.Aceite, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+                        <div class="form-group">
+                            <div class="col-lg-4" style="vertical-align:top">
+                                <div>
+                                    @Html.Label("Aceito", htmlAttributes: new { @class = "control-label " })
+                                    @Html.CheckBox("Aceito", htmlAttributes: new { @id = "Aceito" })
+                                    @Html.ValidationMessageFor(model => model.Aceito, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                        </div>
+                                    @*@Html.LabelFor(model => model.Aceito, htmlAttributes: new { @class = "control-label col-md-2", id = "Aceito" })
+                <div class="col-md-1" style="padding-left:35px">
+                    <div class="checkbox">
+                        @Html.CheckBox(model => model.Aceito, htmlAttributes: new { @checked = "checked" })
+                        @Html.ValidationMessageFor(model => model.Aceito, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+                                    @*<div class="col-md-4">
+                    <input type="checkbox" model="chkAceite" name="chkAceite" value="true"><b>Aceito</b><br />
 
-                    </fieldset>
+                    @Html.ValidationMessageFor(model => model.chkAceite, "", new { @class = "text-danger", id = "chkAceite" })
+                </div>*@
+                                </div>
+                            </div>
+
+</fieldset>
                 </div>
             </div>
+            @Html.ValidationSummary(false, "Os campos a seguir são obrigatórios:", new { @class = "text-danger" })
         </fieldset>
     </div>
 }
@@ -679,7 +694,7 @@ Texto de Termos de Aceite
                  });
         };
     </script>
-    <script>
+    @*<script>
         $('[id^=link]').click(function () {
 
             //var isValid = ${ ViewData.ModelState.IsValid };
@@ -818,7 +833,7 @@ Texto de Termos de Aceite
                 return false;
             }
         });
-    </script>
+    </script>*@
     <script>
         function BuscarMunicipio() {
             var id = $("#ddlEstado").val();

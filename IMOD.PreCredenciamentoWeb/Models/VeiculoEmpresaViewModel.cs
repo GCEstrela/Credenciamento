@@ -13,16 +13,15 @@ namespace IMOD.PreCredenciamentoWeb.Models
 
         public int VeiculoEmpresaId { get; set; }
         public string CardHolderGuid { get; set; }
+        public int VeiculoId { get; set; }
         public int EmpresaId { get; set; }
         public int EmpresaContratoId { get; set; }
         public string Descricao { get; set; }
         public string EmpresaNome { get; set; }
-        public string EmpresaSigla { get; set; }
+        public string Cargo { get; set; }
         public string Matricula { get; set; }
         public bool Ativo { get; set; }
-        public string NomeAnexo { get; set; }
-        public string Anexo { get; set; }
-        public bool FlagAreaManobra { get; set; }
+        public bool AreaManobra { get; set; }
         #endregion
 
         public override bool Equals(object obj)
