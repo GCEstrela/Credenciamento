@@ -134,9 +134,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "Documento Aceite")]
         public HttpPostedFileBase FileUploadAceite { get; set; }
 
-        [Range(typeof(bool), "true", "true", ErrorMessage = "É necessário aceitar o termo!")]
-        public bool Aceito { get; set; }
-
+        
         #endregion
     }
 }

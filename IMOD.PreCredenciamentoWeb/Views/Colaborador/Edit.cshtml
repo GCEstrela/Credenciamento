@@ -516,11 +516,10 @@ Texto de Termos de Aceite
                             </div>
                         </div>*@
                         <div class="form-group">
-                            <div class="col-lg-4" style="vertical-align:top">
-                                <div>
-                                    @Html.Label("Aceito", htmlAttributes: new { @class = "control-label " })
-                                    @Html.CheckBox("Aceito", htmlAttributes: new { @id = "Aceito" })
-                                    @Html.ValidationMessageFor(model => model.Aceito, "", new { @class = "text-danger" })
+                           <div class="checkbox col-md-12" style="padding-left: 20px;">
+                                <div class="col-md-4">
+                                    <input type="checkbox" checked model="chkAceite" name="chkAceite" value="true"><b>Aceito</b><br />
+
                                 </div>
                             </div>
                                     @*@Html.LabelFor(model => model.Aceito, htmlAttributes: new { @class = "control-label col-md-2", id = "Aceito" })

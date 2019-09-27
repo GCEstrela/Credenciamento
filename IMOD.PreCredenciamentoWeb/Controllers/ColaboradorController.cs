@@ -167,6 +167,12 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 {
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
                     colaboradorMapeado.Precadastro = true;
+
+                    if (colaboradorMapeado.Estrangeiro)
+                    {
+                        colaboradorMapeado.Cpf = "000.000.000-00";
+                    }
+
                     objService.Criar(colaboradorMapeado);
 
                     // excluir os contratos removidos da lista

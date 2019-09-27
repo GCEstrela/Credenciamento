@@ -34,6 +34,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             var colaboradorCursos = "";
 
+
             foreach (var item in cursos)
             {
                 if (item.Cracha)

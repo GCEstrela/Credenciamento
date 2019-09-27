@@ -479,7 +479,7 @@
                         </div>
                     </fieldset>
                 </div>
-                <div class="tab-pane fade" id="aceite" role="tabpanel" aria-labelledby="aceite-tab">
+                @*<div class="tab-pane fade" id="aceite" role="tabpanel" aria-labelledby="aceite-tab">
                     <br />
                     <fieldset>
                         <div class="form-group">
@@ -500,13 +500,13 @@ Texto de Termos de Aceite
                                 <div class="col-md-4">
                                     <input type="checkbox" model="chkAceite" name="chkAceite" value="true"><b>Aceito</b><br />
 
-                                    @Html.ValidationMessageFor(model => model.chkAceite, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.chkAceite, "", new { @class = "text-danger"})
                                 </div>
                             </div>
                         </div>
 
                     </fieldset>
-                </div>
+                </div>*@
             </div>
             @Html.ValidationSummary(false, "Os campos a seguir são obrigatórios:", new { @class = "text-danger" })
         </fieldset>
