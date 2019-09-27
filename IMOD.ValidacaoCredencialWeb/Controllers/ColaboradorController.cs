@@ -5,6 +5,10 @@ using AutoMapper;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using System.Net;
+using System.Collections.Generic;
+using IMOD.Domain.Entities;
+using System.Linq;
+using IMOD.CredenciamentoDeskTop.Views.Model;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
 {
@@ -12,8 +16,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
     {
         // GET: Colaborador
         private readonly IColaboradorCredencialService objColaboradorCredencialService = new ColaboradorCredencialService();
+        private readonly IColaboradorCursoService objColaboradorCursoService = new ColaboradorCursosService();
         private readonly IConfiguraSistemaService objConfiguraSistema = new ConfiguraSistemaService();
 
+        private List<ColaboradorCurso> cursos = new List<ColaboradorCurso>();
 
         // GET: Veiculo/Credential/5
         public ActionResult Credential(string id)
@@ -24,6 +30,20 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             var identificador = Helper.CriptografiaHelper.Decriptar(id);
 
             var credencialView = objColaboradorCredencialService.ObterCredencialView(Convert.ToInt16(identificador));
+            cursos = objColaboradorCursoService.Listar(Convert.ToInt16(identificador), null, null, null, null).ToList();
+
+            var colaboradorCursos = "";
+
+            foreach (var item in cursos)
+            {
+                if (item.Cracha)
+                {
+                    colaboradorCursos += item.Descricao + ", ";
+                }
+
+            }
+
+            ViewBag.Cursos = colaboradorCursos.Substring(0, colaboradorCursos.Length - 2);
 
             if (credencialView != null)
             {

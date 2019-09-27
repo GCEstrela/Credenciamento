@@ -24,7 +24,7 @@ namespace IMOD.Domain.Entities
         public DateTime? Validade { get; set; }
         public bool Controlado { get; set; }
         public string Descricao { get; set; }
-
+        public bool Cracha { get; set; }
         #endregion
     }
 }

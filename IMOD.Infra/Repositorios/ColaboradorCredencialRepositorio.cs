@@ -1153,6 +1153,41 @@ namespace IMOD.Infra.Repositorios
                 throw ex;
             }
         }
+
+        /// <summary>
+        ///     Obter credencial
+        /// </summary>
+        /// <param name="colaboradorCredencialId"></param>
+        /// <returns></returns>
+        public CredencialView ObterCursosColaboradorView(int colaboradorCredencialId)
+        {
+            try
+            {
+                using (var conn = _dataBase.CreateOpenConnection())
+                {
+                    using (var cmd = _dataBase.SelectText("ColaboradoresCursosView", conn))
+
+                    {
+                        try
+                        {
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, colaboradorCredencialId).Igual()));
+                            var reader = cmd.ExecuteReaderSelect();
+                            var d1 = reader.MapToList<CredencialView>();
+                            return d1.FirstOrDefault();
+                        }
+                        catch (Exception ex)
+                        {
+                            Utils.TraceException(ex);
+                            throw;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 }

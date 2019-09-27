@@ -41,6 +41,7 @@ namespace IMOD.ValidacaoCredencialWeb.Models
         [Display(Name = "Categoria CNH")]
         public string CNHCategoria { get; set; }
         public string LayoutRPT { get; set; }
+        [Display(Name = "Cursos")]
         public string CrachaCursos { get; set; }
         public string ImpressaoMotivo { get; set; }
         public string TerceirizadaNome { get; set; }

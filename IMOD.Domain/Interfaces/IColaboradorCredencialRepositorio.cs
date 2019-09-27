@@ -163,6 +163,12 @@ namespace IMOD.Domain.Interfaces
         /// <returns></returns>
         List<ColaboradoresCredenciaisView> ListarColaboradorCredencialExtraviadasView(FiltroReportColaboradoresCredenciais entity);
 
+        /// <summary>
+        ///     Obter credencial
+        /// </summary>
+        /// <param name="colaboradorCredencialId"></param>
+        /// <returns></returns>
+        CredencialView ObterCursosColaboradorView(int colaboradorCredencialId);
         #endregion
     }
 }

@@ -31,7 +31,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public DateTime? Validade { get; set; }
         [Required(ErrorMessage = "Se Controlado é requerido.")]
         public bool Controlado { get; set; }
-
+        public bool Cracha { get; set; }
         #endregion
     }
 }
