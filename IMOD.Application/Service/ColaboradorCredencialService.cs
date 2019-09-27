@@ -173,7 +173,7 @@ namespace IMOD.Application.Service
             //                      $"\r\nAutor {UsuarioLogado.Nome} {UsuarioLogado.Email}";
             //pendencia.Impeditivo = true;
             //--------------------------
-            if (!entity.DevolucaoEntregaBo)
+            if (!entity.DevolucaoEntregaBo && !entity.Ativa)
             {
                 pendencia.EmpresaId = entity.EmpresaId;
                 pendencia.ColaboradorId = entity.ColaboradorId;
