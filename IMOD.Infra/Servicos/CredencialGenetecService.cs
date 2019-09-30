@@ -140,7 +140,7 @@ namespace IMOD.Infra.Servicos
         private void ValidarCriarCardHolder(CardHolderEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            
+
             //if (string.IsNullOrWhiteSpace(entity.Empresa)) throw new ArgumentNullException(nameof(entity.Empresa));
             //if (string.IsNullOrWhiteSpace(entity.Nome)) throw new ArgumentNullException(nameof(entity.Nome));
             //if (string.IsNullOrWhiteSpace(entity.Identificador)) throw new ArgumentNullException(nameof(entity.Identificador));
@@ -201,7 +201,7 @@ namespace IMOD.Infra.Servicos
                     entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
                 }
                 //entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
-                
+
             }
             catch (Exception ex)
             {
@@ -277,6 +277,7 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
+                //_sdk.ReportManager.CreateReportQuery(ReportType.AssetAreaPresence);
                 bool ativo = false;
                 if (string.IsNullOrWhiteSpace(entity.IdentificadorCardHolderGuid)) throw new ArgumentNullException(nameof(entity.IdentificadorCardHolderGuid));
                 _sdk.TransactionManager.CreateTransaction();
@@ -306,9 +307,12 @@ namespace IMOD.Infra.Servicos
                 }
 
                 cardholder.Groups.Clear();
-                foreach (Guid cardholderGuid in entity.listadeGrupos)
+                if (entity.listadeGrupos != null)
                 {
-                    cardholder.Groups.Add(cardholderGuid);
+                    foreach (Guid cardholderGuid in entity.listadeGrupos)
+                    {
+                        cardholder.Groups.Add(cardholderGuid);
+                    }
                 }
                 if (cardholder.Credentials.Count == 0)
                 {
@@ -431,7 +435,7 @@ namespace IMOD.Infra.Servicos
                     entity.IdentificadorCardHolderGuid = cardHolder.Guid.ToString(); //Set identificador Guid
 
                     SetValorCamposCustomizados(entity, cardHolder);
-                   
+
                     //EncontrarGrupos(entity.GrupoPadrao);
                     if (entity.GrupoPadrao != null)
                     {
@@ -449,6 +453,7 @@ namespace IMOD.Infra.Servicos
                     }
 
                     cardHolder.Groups.Clear();
+                    if(entity.listadeGrupos!=null)
                     foreach (Guid cardholderGuid in entity.listadeGrupos)
                     {
                         //Guid grupoencontrado = new Guid(EncontrarGrupos(cardholderNome));
@@ -462,13 +467,13 @@ namespace IMOD.Infra.Servicos
                         cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                     }
                     cardHolder.Picture = entity.Foto;
-                    
+
 
                     _sdk.TransactionManager.CommitTransaction();
                 }
                 else
                 {
-                    
+
                     var cardHolder = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
                     cardHolder.Groups.Clear();
                     foreach (Guid cardholderGuid in entity.listadeGrupos)
@@ -478,7 +483,7 @@ namespace IMOD.Infra.Servicos
                         cardHolder.Groups.Add(cardholderGuid);
                     }
                 }
-                
+
 
                 //VerificaRegraAcesso(entity);
             }
@@ -584,12 +589,12 @@ namespace IMOD.Infra.Servicos
 
             EntityConfigurationQuery query;
             QueryCompletedEventArgs result;
-            
+
             try
             {
                 //bool regra1 = false;
                 //bool regra2 = false;
-                
+
                 var guid = new Guid(entity.IdentificadorCardHolderGuid);
                 var cardHolder = _sdk.GetEntity(guid) as Cardholder;
                 bool regraencontrada1 = false;
@@ -632,7 +637,7 @@ namespace IMOD.Infra.Servicos
                                     accesso.Members.Add(cardHolder.Guid);
                                 }
                             }
-                            
+
                         }
                         if (entity.Identificacao2 != null)
                         {
@@ -648,7 +653,7 @@ namespace IMOD.Infra.Servicos
                                     accesso.Members.Add(cardHolder.Guid);
                                 }
                             }
-                            
+
                         }
 
                     }
@@ -688,8 +693,8 @@ namespace IMOD.Infra.Servicos
             {
                 //throw ex;
             }
-                
-            
+
+
         }
 
         public void GerarEvento(string _evento, Entity _entidade = null, string _mensagem = "mensagem custom event")
@@ -1139,7 +1144,7 @@ namespace IMOD.Infra.Servicos
                     }
                 }
             }
-            return false;    
+            return false;
         }
         #endregion
     }
