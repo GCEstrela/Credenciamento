@@ -44,7 +44,6 @@ namespace IMOD.Domain.EntitiesCustom
          public int CredencialVia { get; set; }
         public int CredencialmotivoViaAdicionalID { get; set; }
         public bool Estrangeiro { get; set; }
-        
-
+        public int ColaboradorID { get; set; }
     }
 }

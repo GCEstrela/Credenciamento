@@ -180,6 +180,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\wizard.css" />
     <Content Include="Content\datatables.css" />
     <Content Include="Content\datatables.min.css" />
     <Content Include="Content\Login.css" />
@@ -634,7 +635,6 @@
     <Content Include="Views\Veiculo\Edit.cshtml" />
     <Content Include="Views\Empresa\Edit.cshtml" />
     <Content Include="Views\Colaborador\Details.cshtml" />
-    <Content Include="Views\Login\TrocaSenha.cshtml" />
     <Content Include="Views\Veiculo\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -122,9 +122,9 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.FileUpload, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.NomeArquivo, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            <input type="file" name="FileUpload" id="FileUpload" accept=".pdf" />
+                            <input type="file" name="NomeArquivo" id="NomeArquivo" accept=".pdf" />
                         </div>
                         @*@if (Model.FileUpload != null)
                         {
@@ -309,17 +309,16 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.FileUploadSeguro, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            <input type="file" name="FileUpload" id="FileUpload" accept=".pdf" />
-                            @Html.ValidationMessageFor(model => model.FileUploadSeguro, "", new { @class = "text-danger" })
+                        @Html.LabelFor(model => model.NomeArquivoAnexo, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <input type="file" name="NomeArquivoAnexo" id="NomeArquivoAnexo" accept=".pdf" />
                         </div>
-                        @*@if (Model.FileUploadSeguro != null)
+                        @*@if (Model.NomeArquivoAnexo != null)
                         {
-                    <div class="col-md-3">
-                        <span class="glyphicon glyphicon-download-alt"></span>
-                        @Html.ActionLink(Model.FileUploadSeguro, "Download", new { id = Model.SeguroId })
-                    </div>
+                            <div class="col-md-3">
+                                <span class="glyphicon glyphicon-download-alt"></span>
+                                @Html.ActionLink(Model.NomeArquivoAnexo, "Download", new { id = Model.ColaboradorId })
+                            </div>
                         }*@
                     </div>
 

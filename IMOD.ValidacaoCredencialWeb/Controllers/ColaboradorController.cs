@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using IMOD.Domain.Entities;
 using System.Linq;
 using IMOD.CredenciamentoDeskTop.Views.Model;
+using System.Windows.Media.Imaging;
+using System.Drawing;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
 {
@@ -30,7 +32,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             var identificador = Helper.CriptografiaHelper.Decriptar(id);
 
             var credencialView = objColaboradorCredencialService.ObterCredencialView(Convert.ToInt16(identificador));
-            cursos = objColaboradorCursoService.Listar(Convert.ToInt16(identificador), null, null, null, null).ToList();
+            cursos = objColaboradorCursoService.Listar(Convert.ToInt16(credencialView.ColaboradorID), null, null, null, null).ToList();
 
             var colaboradorCursos = "";
 
@@ -44,7 +46,14 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             }
 
-            ViewBag.Cursos = colaboradorCursos.Substring(0, colaboradorCursos.Length - 2);
+            if (colaboradorCursos.Length > 0)
+            {
+                ViewBag.Cursos = colaboradorCursos.Substring(0, colaboradorCursos.Length - 2);
+            }
+            else
+            {
+                ViewBag.Cursos = "";
+            }
 
             if (credencialView != null)
             {
@@ -67,9 +76,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 ViewBag.ocultaBagagem = !objCredencialMapeado.ManuseioBagagem ? "hidden='Hidden'" : "";
                 ViewBag.ocultaOperaEmbarque = !objCredencialMapeado.OperadorPonteEmbarque ? "hidden='Hidden'" : "";
 
-                ViewBag.ImgOperador = GetImagemOperadorAereo();
 
-                return View(objCredencialMapeado);
+                GetImagemOperadorAereo();
+
+                return View(objCredencialMapeado); 
             }
 
             return View();
@@ -80,9 +90,19 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private string GetImagemOperadorAereo()
         {
             var configSistema = objConfiguraSistema.BuscarPelaChave(1);
-            if (configSistema == null || configSistema.EmpresaLOGO == null || String.IsNullOrEmpty(configSistema.EmpresaLOGO)) return string.Empty;
 
-            return string.Format("data:image/png;base64,{0}", configSistema.EmpresaLOGO);
+            if (configSistema.NomeAeroporto.Substring(27, configSistema.NomeAeroporto.Length-27) == "PORTO ALEGRE")
+            {
+                ViewBag.Logo = "~/Images/FraportPortoAlegre.PNG";
+                return ViewBag.Logo;
+            }
+            else
+            {
+                ViewBag.Logo = "~/Images/FraportFortaleza.PNG";
+                return ViewBag.Logo;
+            }
+
+            //return string.Format("data:image/png;base64,{0}", configSistema.EmpresaLOGO);
         }
 
         #endregion

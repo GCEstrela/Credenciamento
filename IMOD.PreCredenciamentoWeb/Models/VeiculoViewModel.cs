@@ -88,8 +88,11 @@ namespace IMOD.PreCredenciamentoWeb.Models
 
         public string CaminhoArquivo { get; set; }
 
+        [Display(Name = "Documento Anexo")]
+        public string NomeArquivoAnexo { get; set; }
+
         [Display(Name = "Documento Anexo")] 
-        public HttpPostedFileBase FileUpload { get; set; }
+        public HttpPostedFileBase FileUploadAnexo { get; set; }
 
         public string Licenciamento { get; set; }
 
@@ -127,7 +130,10 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public int VeiculoId { get; set; }
 
         [Display(Name = "Apólice Digitalizada")]
-        public HttpPostedFileBase FileUploadSeguro { get; set; }
+        public string NomeArquivo { get; set; }
+
+        [Display(Name = "Apólice Digitalizada")]
+        public HttpPostedFileBase Arquivo { get; set; }
 
         [Required(ErrorMessage = "A Emissão é requerida.")]
         [Display(Name = "Data Emissão")]
@@ -141,5 +147,8 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public DateTime? Validade { get; set; }
 
         public bool Precadastro { get; set; }
+
+        [Display(Name = "Área de Manobra")]
+        public bool chkAreaManobra { get; set; } 
     }
 }

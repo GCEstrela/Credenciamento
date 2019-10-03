@@ -11,6 +11,7 @@ using IMOD.PreCredenciamentoWeb.Util;
 using IMOD.Application.Interfaces;
 using System.IO;
 using Correios.Net;
+using System.Windows.Forms;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
 {
@@ -441,8 +442,26 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                     return RedirectToAction("Index");
                 }
+                if (SessionUsuario.EmpresaLogada.Contratos != null) { ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos; }
+                ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
 
-                throw new Exception("Campos obrigatórios não forma preenchidos");
+                //carrega os cursos
+                var listCursos = objCursosService.Listar().ToList();
+                if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; }
+                ViewBag.CursosSelecionados = new List<Curso>();
+
+                PopularEstadosDropDownList();
+                ViewBag.Municipio = new List<Municipio>();
+                if (model.EstadoId > 0)
+                {
+                    var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, model.EstadoId).OrderBy(m => m.Nome);
+                    ViewBag.Municipio = lstMunicipio;
+                }
+
+                //PopularEstadosDropDownList();
+                PopularDadosDropDownList();
+                return View(model);
+                //throw new Exception("Campos obrigatórios não foram preenchidos");
             }
             catch (Exception ex)
             {
@@ -452,22 +471,59 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
         }
 
-        // GET: Colaborador/Delete/5
-        [Authorize]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, Colaborador model)
         {
-            // TODO: Add delete logic here
-            Colaborador colaborador = new Colaborador();
-            colaborador.ColaboradorId = id;
-            //var colaboradorMapeado = Mapper.Map<Colaborador>(colaborador);
-            objService.Remover(colaborador);
-            return View();
+
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+            if (id == null || (id <= 0)) { return RedirectToAction("../Login"); }
+
+            try
+            {
+                //if (id == null)
+                //    return HttpNotFound();
+                var idColaborador = id;
+
+                // Initializes the variables to pass to the MessageBox.Show method.
+                string message = "Confirma a Deleção desse registro?";
+                string caption = "Deleção de Colaborador";
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                DialogResult result;
+
+                // Displays the MessageBox.
+                result = MessageBox.Show(message, caption, buttons);
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    var colaboradorMapeado = Mapper.Map<Colaborador>(model);
+                    colaboradorMapeado.ColaboradorId = Convert.ToInt32(idColaborador);
+                    objService.Remover(colaboradorMapeado);
+
+                    return RedirectToAction("Index");
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
+
+        // GET: Colaborador/Delete/5
+        //[Authorize]
+        //public ActionResult Delete(int id)
+        //{
+        //    // TODO: Add delete logic here
+        //    Colaborador colaborador = new Colaborador();
+        //    colaborador.ColaboradorId = id;
+        //    //var colaboradorMapeado = Mapper.Map<Colaborador>(colaborador);
+        //    objService.Remover(colaborador);
+        //    return View();
+        //}
 
         // POST: Colaborador/Delete/5
         [HttpPost]
         [Authorize]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, System.Web.Mvc.FormCollection collection)
         {
             try
             {

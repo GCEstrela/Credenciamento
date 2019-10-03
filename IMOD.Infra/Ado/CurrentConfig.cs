@@ -38,9 +38,18 @@ namespace IMOD.Infra.Ado
         {
 
             string returnValue = null;
-            string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            //string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(path + "\\Conexao.xml");
+
+            //Conexao Apenas para Publicação
+            //xmlDoc.Load("C:\\inetpub\\wwwroot\\Credenciamento\\Conexao.xml");
+
+            //Conexao Rodando local
+            xmlDoc.Load("C:\\Windows\\Temp\\Conexao\\Conexao.xml");
+
+            //Conexao no Temp
+            //xmlDoc.Load(path + "\\Conexao.xml");
+
             XmlNode nodestring = xmlDoc.SelectSingleNode("StringConexao");
             //Exempla de ecriptação de senha//////////////////
             //var str_1 = nodestring.InnerXml.Split(';');

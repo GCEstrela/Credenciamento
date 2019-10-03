@@ -20,6 +20,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private readonly IMOD.Application.Interfaces.IEmpresaContratosService objContratosService = new IMOD.Application.Service.EmpresaContratoService();
         private readonly IMOD.Application.Interfaces.IVeiculoEmpresaService objVeiculoEmpresaService = new IMOD.Application.Service.VeiculoEmpresaService();
         private readonly IMOD.Application.Interfaces.IVeiculoAnexoService objVeiculoAnexoService = new IMOD.Application.Service.VeiculoAnexoService();
+        private readonly IMOD.Application.Interfaces.IVeiculoSeguroService objVeiculoSeguroService = new IMOD.Application.Service.VeiculoSeguroService();
         private readonly IMOD.Application.Interfaces.ITipoServicoService objServicosService = new IMOD.Application.Service.TipoServicoService();
         private readonly IMOD.Application.Interfaces.IMunicipioService objMunicipioSevice = new IMOD.Application.Service.MunicipioService();
         private const string SESS_CONTRATOS_SELECIONADOS = "ContratosSelecionados";
@@ -38,7 +39,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             //List<VeiculoViewModel> lstVeiculoMapeado = Mapper.Map<List<VeiculoViewModel>>(lstVeiculo);
             List<VeiculoViewModel> lstVeiculoMapeado = Mapper.Map<List<VeiculoViewModel>>(ObterVeiculossEmpresaLogada());
             ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
-            return View(lstVeiculoMapeado); 
+            return View(lstVeiculoMapeado);
 
         }
         private IList<Veiculo> ObterVeiculossEmpresaLogada()
@@ -46,7 +47,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             vinculos = objVeiculoEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.EmpresaId).ToList();
             //vinculos.ForEach(v => { if (v.VeiculoId != 0) { veiculos.AddRange(objService.Listar(null, null, null, null, null, v.VeiculoId)); } });
 
-            vinculos.ForEach(v => { veiculos.AddRange(objService.Listar(v.VeiculoId, null, null, null, null, null)); } );
+            vinculos.ForEach(v => { veiculos.AddRange(objService.Listar(v.VeiculoId, null, null, null, null, null)); });
             return veiculos.OrderBy(c => c.Descricao).ToList();
         }
         // GET: Veiculo/Details/5
@@ -72,6 +73,22 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
             }
 
+            //Carrega dados Seguro
+            //VeiculoSeguro veiculoSeguro = new VeiculoSeguro();
+            var veiculoSeguro = objVeiculoSeguroService.Listar(id);
+
+            foreach (var item in veiculoSeguro)
+            {
+                veiculoMapeado.NomeSeguradora = item.NomeSeguradora;
+                veiculoMapeado.NumeroApolice = Convert.ToInt32(item.NumeroApolice);
+                veiculoMapeado.Emissao = item.Emissao;
+                veiculoMapeado.ValorCobertura = Convert.ToDouble(item.ValorCobertura);
+                veiculoMapeado.Validade = item.Validade;
+                veiculoMapeado.NomeArquivo = item.NomeArquivo;
+            }
+
+            
+
             //Popula contratos selecionados
             ViewBag.ContratosSelecionados = new List<VeiculoEmpresaViewModel>();
             var listaVinculosVeiculo = Mapper.Map<List<VeiculoEmpresaViewModel>>(objVeiculoEmpresaService.Listar(veiculoEditado.EquipamentoVeiculoId));
@@ -88,11 +105,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             PopularDadosDropDownList();
 
-            //var objColaboradorAnexo = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId).FirstOrDefault();
-            //if (objColaboradorAnexo != null)
-            //{
-            //    colaboradorMapeado.NomeArquivoAnexo = objColaboradorAnexo.NomeArquivo;
-            //}
+            var objVeiculoAnexo = objVeiculoAnexoService.Listar(veiculoMapeado.EquipamentoVeiculoId).FirstOrDefault();
+            if (objVeiculoAnexo != null)
+            {
+                veiculoMapeado.NomeArquivoAnexo = objVeiculoAnexo.NomeArquivo;
+            }
 
             return View(veiculoMapeado);
         }
@@ -113,7 +130,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             //carrega contratos
             if (SessionUsuario.EmpresaLogada.Contratos != null) { ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos; }
             ViewBag.ContratosSelecionados = new List<VeiculoEmpresaViewModel>();
-            
+
 
             PopularEstadosDropDownList();
             ViewBag.Municipio = new List<Municipio>();
@@ -128,27 +145,42 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult Create(VeiculoViewModel model)
-        {  
+        {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
 
-            try 
+            try
             {
 
-                if (model.FileUpload != null)
+                if (model.FileUploadAnexo != null)
                 {
-                    if (model.FileUpload.ContentLength > 2048000)
+                    if (model.FileUploadAnexo.ContentLength > 2048000)
+                        ModelState.AddModelError("FileUploadAnexo", "Tamanho permitido de arquivo 2,00 MB");
+
+                    if (!Path.GetExtension(model.FileUploadAnexo.FileName).Equals(".pdf"))
+                        ModelState.AddModelError("FileUploadAnexo", "Permitida Somente Extensão  .pdf");
+                }
+                if (model.Arquivo != null)
+                {
+                    if (model.Arquivo.ContentLength > 2048000)
                         ModelState.AddModelError("FileUpload", "Tamanho permitido de arquivo 2,00 MB");
 
-                    if (!Path.GetExtension(model.FileUpload.FileName).Equals(".pdf"))
+                    if (!Path.GetExtension(model.Arquivo.FileName).Equals(".pdf"))
                         ModelState.AddModelError("FileUpload", "Permitida Somente Extensão  .pdf");
                 }
-
 
                 if (ModelState.IsValid)
                 {
                     var veiculoMapeado = Mapper.Map<Veiculo>(model);
+                    //var veiculoSeguroMapeado = Mapper.Map<VeiculoSeguro>(model);
+
                     veiculoMapeado.Precadastro = true;
                     objService.Criar(veiculoMapeado);
+                    //objVeiculoSeguroService.Criar(veiculoSeguroMapeado);
+
+                    if (model.Arquivo != null)
+                    {
+                        CriarVeiculoSeguro(model, veiculoMapeado.EquipamentoVeiculoId);
+                    }
 
                     //var veiculoEmpresa = Mapper.Map<VeiculoEmpresa>(model); 
                     // objVeiculoEmpresaService.Criar(veiculoEmpresa);
@@ -185,12 +217,12 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         }
                     }
 
-                    if (model.FileUpload != null)
+                    if (model.FileUploadAnexo != null)
                     {
                         CriarVeiculoAnexo(model, veiculoMapeado.EquipamentoVeiculoId);
                     }
-
-                    return RedirectToAction("Index", "Veiculo"); 
+                    
+                    return RedirectToAction("Index", "Veiculo");
                 }
 
                 // Se ocorrer um erro retorna para pagina
@@ -230,12 +262,12 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
         // GET: Veiculo/Edit/5
-        public ActionResult Edit(int ? id)
+        public ActionResult Edit(int? id)
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
             if (id == null || (id <= 0)) { return RedirectToAction("../Login"); }
 
-            var veiculoEditado = objService.Listar(id, null,null,null,null,null).FirstOrDefault();
+            var veiculoEditado = objService.Listar(id, null, null, null, null, null).FirstOrDefault();
             if (veiculoEditado == null)
                 return HttpNotFound();
 
@@ -255,23 +287,42 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             PopularEstadosDropDownList();
             ViewBag.Municipio = new List<Municipio>();
-            PopularDadosDropDownList(); 
+            var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, veiculoMapeado.EstadoId).OrderBy(m => m.Nome);
+            if (lstMunicipio != null) { ViewBag.Municipio = lstMunicipio; };
+
+            PopularDadosDropDownList();
             PopularContratoEditDropDownList(veiculoMapeado, SessionUsuario.EmpresaLogada.EmpresaId);
 
-            return View(veiculoMapeado); 
+            //var objVeiculoAnexo = objVeiculoAnexoService.Listar(veiculoMapeado.EquipamentoVeiculoId).FirstOrDefault();
+            //if (objVeiculoAnexoService != null)
+            //{
+            //    veiculoMapeado.NomeArquivoAnexo = objVeiculoAnexoService.NomeArquivo;
+            //}
+
+            return View(veiculoMapeado);
         }
 
         // POST: Veiculo/Edit/5
         [HttpPost]
         public ActionResult Edit(int? id, VeiculoViewModel model)
         {
-            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
-            if (id == null || (id <= 0)) { return RedirectToAction("../Login"); }
-
             try
             {
+                if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
                 if (id == null)
                     return HttpNotFound();
+
+                if (model.FileUploadAnexo != null)
+                {
+                    if (model.FileUploadAnexo.ContentLength > 2048000)
+                        ModelState.AddModelError("FileUploadAnexo", "Tamanho permitido de arquivo 2,00 MB");
+
+                    if (!Path.GetExtension(model.FileUploadAnexo.FileName).Equals(".pdf"))
+                        ModelState.AddModelError("FileUploadAnexo", "Permitida Somente Extensão  .pdf");
+                }
+
+
+                
                 var idVeiculo = id;
                 // TODO: Add update logic here
                 if (ModelState.IsValid)
@@ -283,10 +334,62 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     veiculoMapeado.EquipamentoVeiculoId = Convert.ToInt32(idVeiculo);
                     objService.Alterar(veiculoMapeado);
 
+                    if (Session[SESS_CONTRATOS_REMOVIDOS] != null)
+                    {
+                        foreach (var item in (List<int>)Session[SESS_CONTRATOS_REMOVIDOS])
+                        {
+                            var veiculoExclusao = objVeiculoEmpresaService.Listar(veiculoMapeado.EquipamentoVeiculoId, null, null, null, null, null, item).FirstOrDefault();
+                            if (veiculoExclusao != null)
+                            {
+                                objVeiculoEmpresaService.Remover(veiculoExclusao);
+                            }
+                        }
+                    }
+
+                    //inclui os contratos selecionados
+                    if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
+                    {
+                        foreach (var vinculo in (List<VeiculoEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS])
+                        {
+                            // Inclusão do vinculo                       
+                            var item = objVeiculoEmpresaService.Listar(veiculoMapeado.EquipamentoVeiculoId, null, null, null, null, null, vinculo.EmpresaContratoId).FirstOrDefault();
+                            if (item == null)
+                            {
+                                vinculo.VeiculoEmpresaId = veiculoMapeado.EquipamentoVeiculoId;
+                                vinculo.Ativo = true;
+                                vinculo.EmpresaId = SessionUsuario.EmpresaLogada.EmpresaId;
+                                var veiculoEmpresa = Mapper.Map<VeiculoEmpresa>(vinculo);
+                                objVeiculoEmpresaService.Criar(veiculoEmpresa);
+                                objVeiculoEmpresaService.CriarNumeroMatricula(veiculoEmpresa);
+                            }
+                        }
+                    }
+
+                    if (model.FileUploadAnexo != null)
+                    {
+                        ExcluirVeiculoAnexoAnterior(model);
+                        CriarVeiculoAnexo(model, veiculoMapeado.EquipamentoVeiculoId);
+                    }
+
                     return RedirectToAction("Index");
                 }
 
-                return RedirectToAction("Index");
+                // Se ocorrer um erro retorna para pagina
+                if (SessionUsuario.EmpresaLogada.Contratos != null) { ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos; }
+                ViewBag.ContratosSelecionados = new List<VeiculoEmpresaViewModel>();
+
+                PopularEstadosDropDownList();
+                ViewBag.Municipio = new List<Municipio>();
+                if (model.EstadoId > 0)
+                {
+                    var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, model.EstadoId).OrderBy(m => m.Nome);
+                    ViewBag.Municipio = lstMunicipio;
+                }
+
+                PopularDadosDropDownList();
+                return View(model);
+
+                //throw new Exception("Campos obrigatórios não foram preenchidos");
             }
             catch (Exception)
             {
@@ -295,13 +398,13 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
         // GET: Veiculo/Delete/5
-        public ActionResult Delete(int id, Veiculo model) 
-        { 
+        public ActionResult Delete(int id, Veiculo model)
+        {
 
-            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); } 
-            if (id == null || (id <= 0)) { return RedirectToAction("../Login"); } 
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+            if (id == null || (id <= 0)) { return RedirectToAction("../Login"); }
 
-            try 
+            try
             {
                 //if (id == null)
                 //    return HttpNotFound();
@@ -434,8 +537,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             ViewBag.TipoVeiculo = new SelectList(new object[]
                 {
                     new {Name = "VEICULO", Value = "1"},
-                    new {Name = "EQUIPAMENTO", Value = "2"} 
-                }, "Value", "Name"); 
+                    new {Name = "EQUIPAMENTO", Value = "2"}
+                }, "Value", "Name");
 
             var lstTipoServico = objAuxiliaresService.TipoServico.Listar();
             ViewBag.TipoServicos = lstTipoServico;
@@ -457,14 +560,14 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         private void PopularContratoEditDropDownList(VeiculoViewModel veiculo, int idEmpresa)
         {
-            if (idEmpresa <= 0) return; 
+            if (idEmpresa <= 0) return;
 
-            var contratoEmpresa = objContratosService.Listar(idEmpresa); 
+            var contratoEmpresa = objContratosService.Listar(idEmpresa);
             var resultEmpresasContratosVinculados = objVeiculoEmpresaService.Listar(null, null, null, null, null, idEmpresa);
 
             ViewBag.ContratoEmpresa = new MultiSelectList(contratoEmpresa, "EmpresaContratoId", "Descricao", resultEmpresasContratosVinculados.Select(m => m.EmpresaContratoId).ToArray());
         }
-        
+
         private void CriarVeiculoAnexo(VeiculoViewModel veiculo, int veiculoId = 0)
         {
             byte[] bufferArquivo;
@@ -473,28 +576,79 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             if (veiculo == null || veiculoId == 0) return;
 
-                if (veiculo.FileUpload.ContentLength <= 0 || veiculo.FileUpload.ContentLength > 2048000) return;
+            if (veiculo.FileUploadAnexo.ContentLength <= 0 || veiculo.FileUploadAnexo.ContentLength > 2048000) return;
 
-                NomeArquivo = Path.GetFileNameWithoutExtension(veiculo.FileUpload.FileName);
-                ExtensaoArquivo = Path.GetExtension(veiculo.FileUpload.FileName);
+            NomeArquivo = Path.GetFileNameWithoutExtension(veiculo.FileUploadAnexo.FileName);
+            ExtensaoArquivo = Path.GetExtension(veiculo.FileUploadAnexo.FileName);
 
-                if (!ExtensaoArquivo.Equals(".pdf")) return;
+            if (!ExtensaoArquivo.Equals(".pdf")) return;
 
-                var arquivoStream = veiculo.FileUpload.InputStream;
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    arquivoStream.CopyTo(ms);
-                    bufferArquivo = ms.ToArray();
-                }
+            var arquivoStream = veiculo.FileUploadAnexo.InputStream;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                arquivoStream.CopyTo(ms);
+                bufferArquivo = ms.ToArray();
+            }
 
-                var arquivoBase64 = Convert.ToBase64String(bufferArquivo);
+            var arquivoBase64 = Convert.ToBase64String(bufferArquivo);
 
-                VeiculoAnexo veiculoAnexo = new VeiculoAnexo();
-                veiculoAnexo.VeiculoId = veiculoId;
-                veiculoAnexo.Arquivo = arquivoBase64;
-                veiculoAnexo.NomeArquivo = NomeArquivo + ExtensaoArquivo;
-                veiculoAnexo.Descricao = NomeArquivo + ExtensaoArquivo;
-                objVeiculoAnexoService.Criar(veiculoAnexo);
+            VeiculoAnexo veiculoAnexo = new VeiculoAnexo();
+            veiculoAnexo.VeiculoId = veiculoId;
+            veiculoAnexo.Arquivo = arquivoBase64;
+            veiculoAnexo.NomeArquivo = NomeArquivo + ExtensaoArquivo;
+            veiculoAnexo.Descricao = NomeArquivo + ExtensaoArquivo;
+            objVeiculoAnexoService.Criar(veiculoAnexo);
+
+        }
+
+        private void ExcluirVeiculoAnexoAnterior(VeiculoViewModel veiculo)
+        {
+            if (!veiculo.Precadastro) return;
+            if (veiculo.FileUploadAnexo == null) return;
+            if (veiculo == null || veiculo.EquipamentoVeiculoId == 0) return;
+            if (veiculo.FileUploadAnexo.ContentLength <= 0 || veiculo.FileUploadAnexo.ContentLength > 2048000) return;
+
+            var objVeiculoAnexo = objVeiculoAnexoService.ListarComAnexo(veiculo.EquipamentoVeiculoId).FirstOrDefault();
+            if (objVeiculoAnexo == null) return;
+
+            objVeiculoAnexoService.Remover(objVeiculoAnexo);
+        }
+
+        private void CriarVeiculoSeguro(VeiculoViewModel veiculo, int veiculoId = 0)
+        {
+            byte[] bufferArquivo;
+            string NomeArquivo;
+            string ExtensaoArquivo;
+
+            if (veiculo == null || veiculoId == 0) return;
+
+            if (veiculo.Arquivo.ContentLength <= 0 || veiculo.Arquivo.ContentLength > 2048000) return;
+
+            NomeArquivo = Path.GetFileNameWithoutExtension(veiculo.Arquivo.FileName);
+            ExtensaoArquivo = Path.GetExtension(veiculo.Arquivo.FileName);
+
+            if (!ExtensaoArquivo.Equals(".pdf")) return;
+
+            var arquivoStream = veiculo.Arquivo.InputStream;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                arquivoStream.CopyTo(ms);
+                bufferArquivo = ms.ToArray();
+            }
+
+            var arquivoBase64 = Convert.ToBase64String(bufferArquivo);
+
+            VeiculoSeguro veiculoAnexo = new VeiculoSeguro();
+            veiculoAnexo.NomeSeguradora = veiculo.NomeSeguradora;
+            veiculoAnexo.NumeroApolice = veiculo.NumeroApolice.ToString();
+            veiculoAnexo.ValorCobertura = Convert.ToDecimal(veiculo.ValorCobertura);
+            veiculoAnexo.Emissao = veiculo.Emissao;
+            veiculoAnexo.Validade = veiculo.Validade;
+
+            veiculoAnexo.VeiculoId = veiculoId;
+            veiculoAnexo.Arquivo = arquivoBase64;
+            veiculoAnexo.NomeArquivo = NomeArquivo + ExtensaoArquivo;
+            objVeiculoSeguroService.Criar(veiculoAnexo);
 
         }
 

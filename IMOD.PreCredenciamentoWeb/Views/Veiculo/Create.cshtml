@@ -119,10 +119,10 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.FileUpload, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.FileUploadAnexo, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-6">
-                            <input type="file" name="FileUpload" id="FileUpload" accept=".pdf" />
-                            @Html.ValidationMessageFor(model => model.FileUpload, "", new { @class = "text-danger", id = "FileUpload" })
+                            <input type="file" name="FileUploadAnexo" id="FileUploadAnexo" accept=".pdf" />
+                            @Html.ValidationMessageFor(model => model.FileUploadAnexo, "", new { @class = "text-danger", id = "FileUpload" })
                         </div>
                     </div>
                 </div>
@@ -300,10 +300,10 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.FileUploadSeguro, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.Arquivo, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-6">
-                            <input type="file" name="FileUpload" id="FileUpload" accept=".pdf" />
-                            @Html.ValidationMessageFor(model => model.FileUploadSeguro, "", new { @class = "text-danger" })
+                            <input type="file" name="Arquivo" id="Arquivo" accept=".pdf" />
+                            @Html.ValidationMessageFor(model => model.Arquivo, "", new { @class = "text-danger" })
                         </div>
                     </div>
 

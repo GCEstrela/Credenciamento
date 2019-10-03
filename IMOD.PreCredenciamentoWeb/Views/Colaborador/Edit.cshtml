@@ -59,10 +59,10 @@
                     <a class="disabled" id="link7" data-toggle="tab" href="#curso" role="tab" aria-controls="curso"
                        aria-selected="false">Curso</a>
                 </li>
-                @*<li class="nav-item">
+                <li class="nav-item">
                     <a class="disabled" id="link8" data-toggle="tab" href="#aceite" role="tab" aria-controls="aceite"
                        aria-selected="false">Aceite</a>
-                </li>*@
+                </li>
             </ul>
 
             <div class="tab-content" id="myTabContent">
@@ -487,57 +487,39 @@
                     <fieldset>
                         <div class="form-group">
                             <div class="col-md-12">
-                                <textarea rows="20" cols="300" readonly>
-Texto de Termos de Aceite
-
+                                <textarea rows="7" cols="150" readonly>
+                                    
+Entendo que para seguir com o preenchimento das informações pessoais solicitadas nas próximas etapas, obtive das respectivas pessoas, a devida autorização prévia, mediante a assinatura do Termo de Consentimento anexo. Declaro, ainda, que as pessoas serão orientadas a entregar a via original do Termo de Consentimento para a &#013;&#010;Fraport Brasil. Entendo, reconheço e me comprometo a seguir com as autorizações prévias conforme acima indicado e que tal ato será praticado em atenção à Lei Geral &#013;&#010;de Proteção de Dados Pessoais - Lei nº13.709/2018.
+                                   
                                 </textarea>
                             </div>
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.NomeArquivoAnexoAceite, htmlAttributes: new { @class = "control-label col-md-2", id = "NomeArquivoAnexoAceite" })
-                                <div class="col-md-10">
-                                    <input type="file" name="FileUploadAceite" id="FileUploadAceite" accept=".pdf" />
+                                <div class="col-md-12 " style="padding-left: 30px; padding-top: 15px;">
+                                    <a href="~/Documentos/Modelo_Termo_Aceite.pdf" download="Modelo_Termo_Aceite">Clique aqui para baixar o termo de consentimento.</a>
+                                    @*<input type="file" name="Aceite" id="Aceite" accept=".pdf" />
+        @Html.ValidationMessageFor(model => model.Aceite, "", new { @class = "text-danger" })*@
                                 </div>
-                                <div class="row"></div>
-                                @if (Model.NomeArquivoAnexoAceite != null)
+                            </div>
+                            <div class="checkbox col-md-12" style="padding-left: 20px;">
+                                <div class="col-md-5">
+                                    <input type="checkbox" model="chkAceite" name="chkAceite" value="true"><b>Li e concordo com os termos de uso e política de privacidade</b><br />
+
+                                    @Html.ValidationMessageFor(model => model.chkAceite, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            @if (Model.NomeArquivoAnexoAceite != null)
                                 {
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-5">
 
                                         <span class="glyphicon glyphicon-download-alt"></span>
                                         @Html.ActionLink(Model.NomeArquivoAnexoAceite, "Download", new { id = Model.ColaboradorId })
                                     </div>
                                 }
-                            </div>
-                            @*<div class="form-group">
-                            <div class="col-md-12 " style="padding-left: 30px; padding-top: 15px;">
-                                <input type="file" name="Aceite" id="Aceite" accept=".pdf" />
-                                @Html.ValidationMessageFor(model => model.Aceite, "", new { @class = "text-danger" })
-                            </div>
-                        </div>*@
-                        <div class="form-group">
-                           <div class="checkbox col-md-12" style="padding-left: 20px;">
-                                <div class="col-md-4">
-                                    <input type="checkbox" checked model="chkAceite" name="chkAceite" value="true"><b>Aceito</b><br />
+                        </div>
 
-                                </div>
-                            </div>
-                                    @*@Html.LabelFor(model => model.Aceito, htmlAttributes: new { @class = "control-label col-md-2", id = "Aceito" })
-                <div class="col-md-1" style="padding-left:35px">
-                    <div class="checkbox">
-                        @Html.CheckBox(model => model.Aceito, htmlAttributes: new { @checked = "checked" })
-                        @Html.ValidationMessageFor(model => model.Aceito, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
-                                    @*<div class="col-md-4">
-                    <input type="checkbox" model="chkAceite" name="chkAceite" value="true"><b>Aceito</b><br />
-
-                    @Html.ValidationMessageFor(model => model.chkAceite, "", new { @class = "text-danger", id = "chkAceite" })
-                </div>*@
-                                </div>
-                            </div>
-
-</fieldset>
+                    </fieldset>
                 </div>
             </div>
             @Html.ValidationSummary(false, "Os campos a seguir são obrigatórios:", new { @class = "text-danger" })
@@ -587,7 +569,7 @@ Texto de Termos de Aceite
                         $("#ddlContrato").val('');
                         $("#chkBagagem").val(false);
                         $("#chkPonteEmbarque").attr('checked', false);
-                        $("#chkCcam").attr('checked', false); 
+                        $("#chkCcam").attr('checked', false);
                         $("#txtVigencia").val('');
                         $("#txtCargo").val('');
                         console.log(result);
@@ -694,145 +676,145 @@ Texto de Termos de Aceite
         };
     </script>
     @*<script>
-        $('[id^=link]').click(function () {
+            $('[id^=link]').click(function () {
 
-            //var isValid = ${ ViewData.ModelState.IsValid };
-            //var isValid = ${ViewData.ModelState.IsValid};
+                //var isValid = ${ ViewData.ModelState.IsValid };
+                //var isValid = ${ViewData.ModelState.IsValid};
 
-            var id = $(this).attr('id');
+                var id = $(this).attr('id');
 
-            var campoCpf = document.getElementById("Cpf").value;
-            var campoNome = document.getElementById("Nome").value;
-            var campoApelido = document.getElementById("Apelido").value;
+                var campoCpf = document.getElementById("Cpf").value;
+                var campoNome = document.getElementById("Nome").value;
+                var campoApelido = document.getElementById("Apelido").value;
 
-            var campoCep = document.getElementById("Cep").value;
-            var campoEndereco = document.getElementById("Endereco").value;
-            var campoBairro = document.getElementById("ddlBairro").value;
-            var campoNumero = document.getElementById("Numero").value;
-            var campoEstadoId = document.getElementById("ddlEstado").value;
-            var campoMunicipioId = document.getElementById("ddlMunicipio").value;
+                var campoCep = document.getElementById("Cep").value;
+                var campoEndereco = document.getElementById("Endereco").value;
+                var campoBairro = document.getElementById("ddlBairro").value;
+                var campoNumero = document.getElementById("Numero").value;
+                var campoEstadoId = document.getElementById("ddlEstado").value;
+                var campoMunicipioId = document.getElementById("ddlMunicipio").value;
 
-            var campoContatoEmergencia = document.getElementById("ContatoEmergencia").value;
-            var campoTelefoneEmergencia = document.getElementById("TelefoneEmergencia").value;
-            //var campoTelefone1 = document.getElementById("Telefone1").value;
-            //verifica se tem a classe disabled
-            var teste = $(this).hasClass('disabled');
-            if (teste) {
-                if (id == "link1") {
-                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "") {
-                    {
-                        $("#btnSalvar").submit()
-                        $(this).removeClass('disabled');
-                        return true;
+                var campoContatoEmergencia = document.getElementById("ContatoEmergencia").value;
+                var campoTelefoneEmergencia = document.getElementById("TelefoneEmergencia").value;
+                //var campoTelefone1 = document.getElementById("Telefone1").value;
+                //verifica se tem a classe disabled
+                var teste = $(this).hasClass('disabled');
+                if (teste) {
+                    if (id == "link1") {
+                        if (!campoNome == "" && !campoApelido == "" && !campoCpf == "") {
+                        {
+                            $("#btnSalvar").submit()
+                            $(this).removeClass('disabled');
+                            return true;
+                        }
+                        else {
+                            $("#btnSalvar").submit()
+                            $(this).addClass('disabled');
+                            return false;
+                        }
+                    }
+                    else if (id == "link2") {
+                        //$(tab1).addClass('disabled');
+                        //$(tab3).addClass('disabled');
+                        //$(tab4).addClass('disabled');
+                        if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                            $(this).removeClass('disabled');
+                            return true;
+                        }
+                        else {
+                            $("#btnSalvar").submit()
+                            $(this).addClass('disabled');
+                            return false;
+                        }
+                    }
+                    else if (id == "link3") {
+                        //$(tab1).addClass('disabled');
+                        //$(tab2).addClass('disabled');
+                        //$(tab4).addClass('disabled');
+                        if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "") {
+                            $(this).removeClass('disabled');
+                            return true;
+                        }
+                        else {
+                            $("#btnSalvar").submit()
+                            $(this).addClass('disabled');
+                            return false;
+                        }
+                    }
+                    else if (id == "link4") {
+                        //$(tab1).addClass('disabled');
+                        //$(tab2).addClass('disabled');
+                        //$(tab4).addClass('disabled');
+                        if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                            $(this).removeClass('disabled');
+                            return true;
+                        }
+                        else {
+                            $("#btnSalvar").submit()
+                            $(this).addClass('disabled');
+                            return false;
+                        }
+                    }
+                    else if (id == "link5") {
+                        //$(tab1).addClass('disabled');
+                        //$(tab2).addClass('disabled');
+                        //$(tab4).addClass('disabled');
+                        if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                            $(this).removeClass('disabled');
+                            return true;
+                        }
+                        else {
+                            $("#btnSalvar").submit()
+                            $(this).addClass('disabled');
+                            return false;
+                        }
+                    }
+                    else if (id == "link6") {
+                        //$(tab1).addClass('disabled');
+                        //$(tab2).addClass('disabled');
+                        //$(tab4).addClass('disabled');
+                        if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                            $(this).removeClass('disabled');
+                            return true;
+                        }
+                        else {
+                            $("#btnSalvar").submit()
+                            $(this).addClass('disabled');
+                            return false;
+                        }
+                    }
+                    else if (id == "link7") {
+                        //$(tab1).addClass('disabled');
+                        //$(tab2).addClass('disabled');
+                        //$(tab4).addClass('disabled');
+                        if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
+                            $(this).removeClass('disabled');
+                            return true;
+                        }
+                        else {
+                            $("#btnSalvar").submit()
+                            $(this).addClass('disabled');
+                            return false;
+                        }
                     }
                     else {
+
                         $("#btnSalvar").submit()
-                        $(this).addClass('disabled');
+                        //$(this).addClass('disabled');
                         return false;
                     }
+
                 }
-                else if (id == "link2") {
-                    //$(tab1).addClass('disabled');
-                    //$(tab3).addClass('disabled');
-                    //$(tab4).addClass('disabled');
-                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
-                        $(this).removeClass('disabled');
-                        return true;
-                    }
-                    else {
-                        $("#btnSalvar").submit()
-                        $(this).addClass('disabled');
-                        return false;
-                    }
-                }
-                else if (id == "link3") {
-                    //$(tab1).addClass('disabled');
-                    //$(tab2).addClass('disabled');
-                    //$(tab4).addClass('disabled');
-                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "") {
-                        $(this).removeClass('disabled');
-                        return true;
-                    }
-                    else {
-                        $("#btnSalvar").submit()
-                        $(this).addClass('disabled');
-                        return false;
-                    }
-                }
-                else if (id == "link4") {
-                    //$(tab1).addClass('disabled');
-                    //$(tab2).addClass('disabled');
-                    //$(tab4).addClass('disabled');
-                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
-                        $(this).removeClass('disabled');
-                        return true;
-                    }
-                    else {
-                        $("#btnSalvar").submit()
-                        $(this).addClass('disabled');
-                        return false;
-                    }
-                }
-                else if (id == "link5") {
-                    //$(tab1).addClass('disabled');
-                    //$(tab2).addClass('disabled');
-                    //$(tab4).addClass('disabled');
-                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
-                        $(this).removeClass('disabled');
-                        return true;
-                    }
-                    else {
-                        $("#btnSalvar").submit()
-                        $(this).addClass('disabled');
-                        return false;
-                    }
-                }
-                else if (id == "link6") {
-                    //$(tab1).addClass('disabled');
-                    //$(tab2).addClass('disabled');
-                    //$(tab4).addClass('disabled');
-                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
-                        $(this).removeClass('disabled');
-                        return true;
-                    }
-                    else {
-                        $("#btnSalvar").submit()
-                        $(this).addClass('disabled');
-                        return false;
-                    }
-                }
-                else if (id == "link7") {
-                    //$(tab1).addClass('disabled');
-                    //$(tab2).addClass('disabled');
-                    //$(tab4).addClass('disabled');
-                    if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
-                        $(this).removeClass('disabled');
-                        return true;
-                    }
-                    else {
-                        $("#btnSalvar").submit()
-                        $(this).addClass('disabled');
-                        return false;
-                    }
-                }
+                //se tiver não faz nada
                 else {
-
+                    ////adicionamos nele
+                    $(this).addClass('disabled');
                     $("#btnSalvar").submit()
                     //$(this).addClass('disabled');
                     return false;
                 }
-
-            }
-            //se tiver não faz nada
-            else {
-                ////adicionamos nele
-                $(this).addClass('disabled');
-                $("#btnSalvar").submit()
-                //$(this).addClass('disabled');
-                return false;
-            }
-        });
-    </script>*@
+            });
+        </script>*@
     <script>
         function BuscarMunicipio() {
             var id = $("#ddlEstado").val();
@@ -863,12 +845,12 @@ Texto de Termos de Aceite
                 type: "POST",
                 url: '@Url.Action("LocalizarCEP")',
                 data: { id: id },
-                success: function (result) {                    
+                success: function (result) {
                     $("#Endereco").val(this.Street);
-                    $("#ddlBairro").val(this.District);                    
+                    $("#ddlBairro").val(this.District);
                     $("#ddlEstado").val(this.State);
-                    $("#ddlMunicipio").val(this.City);                   
-                                       
+                    $("#ddlMunicipio").val(this.City);
+
                     console.log(result);
 
                 },
@@ -877,8 +859,8 @@ Texto de Termos de Aceite
                 }
             });
         };
-         
+
     </script>
-   
+
 
 }

@@ -360,21 +360,22 @@
                     <fieldset>
                         <div class="form-group">
                             <div class="col-md-12">
-                                <textarea rows="20" cols="300" readonly>
-Texto de Termos de Aceite
-
+                                <textarea rows="7" cols="150" readonly>
+                                    
+Entendo que para seguir com o preenchimento das informações pessoais solicitadas nas próximas etapas, obtive das respectivas pessoas, a devida autorização prévia, mediante a assinatura do Termo de Consentimento anexo. Declaro, ainda, que as pessoas serão orientadas a entregar a via original do Termo de Consentimento para a &#013;&#010;Fraport Brasil. Entendo, reconheço e me comprometo a seguir com as autorizações prévias conforme acima indicado e que tal ato será praticado em atenção à Lei Geral &#013;&#010;de Proteção de Dados Pessoais - Lei nº13.709/2018.
+                                   
                                 </textarea>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-md-12 " style="padding-left: 30px; padding-top: 15px;">
-                                    <input disabled type="file" name="Aceite" id="Aceite" accept=".pdf" />
-                                    @Html.ValidationMessageFor(model => model.Aceite, "", new { @class = "text-danger" })
+                                    <a href="~/Documentos/Modelo_Termo_Aceite.pdf" download="Modelo_Termo_Aceite">Clique aqui para baixar o termo de consentimento.</a>
+
                                 </div>
                             </div>
                             <div class="checkbox col-md-12" style="padding-left: 20px;">
-                                <div class="col-md-4">
-                                    <input disabled type="checkbox" model="chkAceite" name="chkAceite" value="true"><b>Aceito</b><br />
+                                <div class="col-md-5">
+                                    <input disabled type="checkbox" checked model="chkAceite" name="chkAceite" value="true"><b>Li e concordo com os termos de uso e política de privacidade</b><br />
 
                                     @Html.ValidationMessageFor(model => model.chkAceite, "", new { @class = "text-danger" })
                                 </div>
