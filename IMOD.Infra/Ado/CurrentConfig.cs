@@ -41,8 +41,11 @@ namespace IMOD.Infra.Ado
             //string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             XmlDocument xmlDoc = new XmlDocument();
 
-            //Conexao Apenas para Publicação
+            //Conexao Apenas para Publicação Pré Cadastro
             //xmlDoc.Load("C:\\inetpub\\wwwroot\\Credenciamento\\Conexao.xml");
+
+            //Conexao Apenas para Publicação ValidaCredencial QRcode
+            //xmlDoc.Load("C:\\inetpub\\wwwroot\\ValidaCredencial\\Conexao.xml");
 
             //Conexao Rodando local
             xmlDoc.Load("C:\\Windows\\Temp\\Conexao\\Conexao.xml");

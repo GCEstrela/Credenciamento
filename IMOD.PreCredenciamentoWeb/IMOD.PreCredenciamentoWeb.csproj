@@ -180,6 +180,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\nifty.css" />
     <Content Include="Content\wizard.css" />
     <Content Include="Content\datatables.css" />
     <Content Include="Content\datatables.min.css" />
@@ -220,6 +221,7 @@
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\dataTables.bootstrap.js" />
     <Content Include="Scripts\datatables.js" />
     <Content Include="Scripts\datatables.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -236,11 +238,13 @@
     <Content Include="Documentos\Modelo_Termo_Aceite.pdf" />
     <None Include="Properties\PublishProfiles\PreCadastro.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\dataTables.responsive.min.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\jquery.globalize\cultures\globalize.culture.af-ZA.js" />
     <Content Include="Scripts\jquery.globalize\cultures\globalize.culture.af.js" />
     <Content Include="Scripts\jquery.globalize\cultures\globalize.culture.am-ET.js" />
@@ -595,6 +599,8 @@
     <Content Include="Scripts\jquery.globalize\cultures\globalize.culture.zu.js" />
     <Content Include="Scripts\jquery.globalize\cultures\globalize.cultures.js" />
     <Content Include="Scripts\jquery.globalize\globalize.js" />
+    <Content Include="Scripts\jquery.maskedinput.js" />
+    <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />

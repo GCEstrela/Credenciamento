@@ -10,9 +10,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="~/Content/datatables.min.css" />"
-    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />"
+    @*<link rel="stylesheet" href="~/Content/bootstrap.min.css" />"*@
     <link rel="stylesheet" href="~/Content/bootstrap-datepicker.css" />"
     <link rel="stylesheet" href="~/Content/wizard.css" />"
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/nifty.css" rel="stylesheet">
+    <link href="~/Content/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="~/Content/responsive.dataTables.min.css" rel="stylesheet">
+
     <style>
         .ui-widget {
             font-family: "Lucida Grande", "Lucida Sans", Arial, sans-serif;
@@ -303,7 +309,7 @@
                 @*@if (Request.IsAuthenticated)
                     {}*@
                 <ul class="nav navbar-nav">
-                    <li style="width:350px">.</li>
+                    <li style="padding-right:410px">.</li>
                     <li><a href='~/Colaborador'><i class="fa fa-fw fa-users" style="font-size:30px;padding-top:0px;color:#566787;"></i> Colaboradores </a></li>
                     <li><a href='~/Veiculo'><i class="fa fa-fw fa-car" style="font-size:30px;padding-top:0px;color:#566787;"></i> Veiculos </a></li>
                     @*<li><a href='~/Equipamento'><i class="fa fa-fw fa-car" style="font-size:30px;padding-top:0px;color:#566787;"></i> Equipamentos </a></li>*@
@@ -335,6 +341,13 @@
     <script src="~/Scripts/bootstrap-datepicker-globalize.js"></script>
     <script src="~/Scripts/locales/bootstrap-datepicker.pt-BR.js"></script>
 
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/nifty.min.js"></script>
+    <script src="~/Scripts/jquery.dataTables.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap.js"></script>
+    <script src="~/Scripts/dataTables.responsive.min.js"></script>
+
     <script>
         $(document).ready(function () {
             $("#Cpf").mask("999.999.999-99");
@@ -351,7 +364,7 @@
                     "info": "Mostrando página _PAGE_ de _PAGES_",
                     "infoEmpty": "Nenhum registro disponível",
                     "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                    "search": ""
+                    "search": "Pesquisar:"
                 }
             });
 
