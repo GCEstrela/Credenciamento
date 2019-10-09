@@ -826,6 +826,40 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             return File(pastaTemp + NomeArquivoAnexo, contentType, nomeArquivoV + extensao);
         }
 
+
+        [HttpPost]
+        public ActionResult Capturar()
+        {
+            if (Request.InputStream.Length > 0)
+            {
+                using (StreamReader reader = new StreamReader(Request.InputStream))
+                {
+                    string hexString = Server.UrlEncode(reader.ReadToEnd());
+                    string nomeImagem = DateTime.Now.ToString("dd-MM-yy hh-mm-ss");
+                    string caminhoImagem = string.Format("~/Imagens/{0}.png", nomeImagem);
+                    System.IO.File.WriteAllBytes(Server.MapPath(caminhoImagem), ConvertHexToBytes(hexString));
+                    Session["ImagemCapturada"] = VirtualPathUtility.ToAbsolute(caminhoImagem);
+                }
+            }
+            return View();
+        }
+        [HttpPost]
+        public ContentResult GetCapturar()
+        {
+            string url = Session["ImagemCapturada"].ToString();
+            Session["ImagemCapturada"] = null;
+            return Content(url);
+        }
+        private static byte[] ConvertHexToBytes(string hex)
+        {
+            byte[] bytes = new byte[hex.Length / 2];
+            for (int i = 0; i < hex.Length; i += 2)
+            {
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            }
+            return bytes;
+        }
+
         #endregion
 
         #endregion

@@ -120,7 +120,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "Documento Anexo")]
         public string NomeArquivoAnexo { get; set; }
 
-        [Display(Name = "Documento Anexo")]
+        [Display(Name = "Anexo")]
         public HttpPostedFileBase FileUpload { get; set; }
 
         public HttpPostedFileBase Aceite { get; set; }

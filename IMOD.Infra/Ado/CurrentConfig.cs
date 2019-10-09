@@ -39,6 +39,7 @@ namespace IMOD.Infra.Ado
 
             string returnValue = null;
             //string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string path = @"C:\Projetos\IMOD\IMOD.Infra";
             XmlDocument xmlDoc = new XmlDocument();
 
             //Conexao Apenas para Publicação Pré Cadastro
@@ -48,10 +49,10 @@ namespace IMOD.Infra.Ado
             //xmlDoc.Load("C:\\inetpub\\wwwroot\\ValidaCredencial\\Conexao.xml");
 
             //Conexao Rodando local
-            xmlDoc.Load("C:\\Windows\\Temp\\Conexao\\Conexao.xml");
+            //xmlDoc.Load("C:\\Windows\\Temp\\Conexao\\Conexao.xml");
 
             //Conexao no Temp
-            //xmlDoc.Load(path + "\\Conexao.xml");
+            xmlDoc.Load(path + "\\Conexao.xml");
 
             XmlNode nodestring = xmlDoc.SelectSingleNode("StringConexao");
             //Exempla de ecriptação de senha//////////////////
