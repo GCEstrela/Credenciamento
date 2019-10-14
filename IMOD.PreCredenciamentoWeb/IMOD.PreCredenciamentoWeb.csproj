@@ -644,6 +644,7 @@
     <Content Include="Views\Empresa\Edit.cshtml" />
     <Content Include="Views\Colaborador\Details.cshtml" />
     <Content Include="Views\Veiculo\Details.cshtml" />
+    <Content Include="Views\Login\TrocaSenha.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
