@@ -10,263 +10,355 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="table-wrapper">
-    <div class="table-title">
-        <div class="row">
-            <div class="col-sm-8">
-                <h2>Cadastro de <b>Veículos</b></h2>
-            </div>
-            <div class="col-sm-4">
-                <a href="~/Veiculo/Index" class="submit btn btn-danger"><i class="fa fa-fw fa-sign-in"></i> <span>Voltar</span></a>
-            </div>
-        </div>
-    </div>
-    <fieldset class="form-horizontal">
+    <div class="table-wrapper">
+        <fieldset class="form-horizontal">
+            <div class="row">
+                <section>
+                    <div class="wizard">
+                        <div class="wizard-inner" style="text-align:center">
+                            <div class="connecting-line" style="width:45%"></div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item" style="width:250px" data-toggle="tab" href="#" role="tab">
+                                    &nbsp&nbsp
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" id="link1" data-toggle="tab" href="#home" role="tab" aria-controls="home" title="Identificação"
+                                       aria-selected="true">
+                                        <span class="round-tab">
+                                            <i class="fa fa-fw fa-car"></i>
+                                        </span>
+
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="disabled" id="link2" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" title="Especificações"
+                                       aria-selected="false">
+                                        <span class="round-tab">
+                                            <i class="glyphicon glyphicon-pencil"></i>
+                                        </span>
+
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="disabled" id="link3" data-toggle="tab" href="#vinculo" role="tab" aria-controls="vinculo" title="Vínculo"
+                                       aria-selected="false">
+                                        <span class="round-tab">
+                                            <i class=" glyphicon glyphicon-link"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="disabled" id="link4" data-toggle="tab" href="#seguros" role="tab" aria-controls="seguros" title="Seguro"
+                                       aria-selected="false">
+                                        <span class="round-tab">
+                                            <i class=" glyphicon glyphicon-lock"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li role="presentation" class="disabled" style="padding-left: 10px">
+                                    <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
+                                        <span class="round-tab">
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tab-content" id="myTabContent">
+                            <div class=" tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <br />
+                                <div class="form-group">
+
+                                    @Html.LabelFor(model => model.TipoEquipamentoVeiculoId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.DropDownListFor(model => model.Tipo, ((SelectList)ViewBag.TipoVeiculo).Select(option => new SelectListItem
+                                   {
+                                       Text = option.Text,
+                                       Value = option.Value.ToString(),
+                                       Selected = (Model != null) && (option.Text == Model.Tipo)
+                                   }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlTipo", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DisplayTextFor(model => model.Descricao)
+                                    </div>
 
 
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item active">
-                <a class="nav-link" id="link1" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-                   aria-selected="true">Identificação</a>
-            </li>
-            <li class="nav-item">
-                <a class="disabled" id="link2" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
-                   aria-selected="false">Especificações</a>
-            </li>
-            <li class="nav-item">
-                <a class="disabled" id="link3" data-toggle="tab" href="#vinculo" role="tab" aria-controls="vinculo"
-                   aria-selected="false">Vínculo</a>
-            </li>
-            <li class="nav-item">
-                <a class="disabled" id="link4" data-toggle="tab" href="#seguros" role="tab" aria-controls="seguros"
-                   aria-selected="false">Seguros</a>
-            </li>
-        </ul>
+                                </div>
 
-        <div class="tab-content" id="myTabContent">
-            <div class=" tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <br />
-                <div class="form-group">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PlacaIdentificador, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DisplayTextFor(model => model.PlacaIdentificador)
+                                    </div>
 
-                    @Html.LabelFor(model => model.TipoEquipamentoVeiculoId, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-2">
-                        @Html.DropDownListFor(model => model.Tipo, ((SelectList)ViewBag.TipoVeiculo).Select(option => new SelectListItem
-                   {
-                       Text = option.Text,
-                       Value = option.Value.ToString(),
-                       Selected = (Model != null) && (option.Text == Model.Tipo)
-                   }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlTipo", @disabled = "disabled" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DisplayTextFor(model => model.Descricao)
-                    </div>
+                                    @Html.LabelFor(model => model.SerieChassi, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DisplayTextFor(model => model.SerieChassi)
+                                    </div>
 
 
-                </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Frota, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DisplayTextFor(model => model.Frota)
+                                    </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.PlacaIdentificador, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-4">
-                        @Html.DisplayTextFor(model => model.PlacaIdentificador)
-                    </div>
+                                    @Html.LabelFor(model => model.Patrimonio, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DisplayTextFor(model => model.Patrimonio)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Marca, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DisplayTextFor(model => model.Marca)
+                                    </div>
+                                    @Html.LabelFor(model => model.Modelo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DisplayTextFor(model => model.Modelo)
+                                    </div>
+                                </div>
 
-                    @Html.LabelFor(model => model.SerieChassi, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-4">
-                        @Html.DisplayTextFor(model => model.SerieChassi)
-                    </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Licenciamento, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DisplayTextFor(model => model.Licenciamento)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.NomeArquivoAnexo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        @Html.DisplayTextFor(model => model.NomeArquivoAnexo)
+                                    </div>
+                                </div>
+                                <ul class="list-inline pull-right">
+                                    <li><a href="~/Veiculo/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
+                                    <li><button type="button" class="btn btn-primary next-step btn-icon"><span><strong>Avançar</strong></span> <i class="fa fa-arrow-right"></i> </button> </li>
+                                </ul>
+
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <br />
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Ano, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-1">
+                                        @Html.DisplayTextFor(model => model.Ano)
+                                    </div>
+
+                                    @Html.LabelFor(model => model.CombustivelId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-3">
+                                        @Html.DropDownListFor(model => model.CombustivelId, ((IEnumerable<IMOD.Domain.Entities.TipoCombustivel>)ViewBag.TipoCombustivel).Select(option => new SelectListItem
+                                   {
+                                       Text = option.Descricao,
+                                       Value = option.TipoCombustivelId.ToString(),
+                                       Selected = (Model != null) && (option.TipoCombustivelId == Model.CombustivelId)
+                                   }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlCombustivel", @disabled = "disabled" })
+                                    </div>
+
+                                    @Html.LabelFor(model => model.Cor, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.DisplayTextFor(model => model.Cor)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Altura, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.DisplayTextFor(model => model.Altura)
+                                    </div>
+
+                                    @Html.LabelFor(model => model.Comprimento, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.DisplayTextFor(model => model.Comprimento)
+                                    </div>
+
+                                    @Html.LabelFor(model => model.Largura, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.DisplayTextFor(model => model.Largura)
+
+                                    </div>
+                                </div>
+
+                                <div div class="form-group">
+                                    @Html.LabelFor(model => model.EstadoId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.EstadoId, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.Estados).Select(option => new SelectListItem
+                                   {
+                                       Text = option.Nome,
+                                       Value = option.EstadoId.ToString(),
+                                       Selected = (Model != null) && (option.EstadoId == Model.EstadoId)
+                                   }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlEstado", @disabled = "disabled" })
+                                    </div>
+                                </div>
+
+                                <div div class="form-group">
+                                    @Html.LabelFor(model => model.MunicipioId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.MunicipioId, ((IEnumerable<IMOD.Domain.Entities.Municipio>)ViewBag.Municipio).Select(option => new SelectListItem
+                                   {
+                                       Text = option.Nome,
+                                       Value = option.MunicipioId.ToString(),
+                                       Selected = (Model != null) && (option.MunicipioId == Model.MunicipioId)
+                                   }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlMunicipio", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                                <ul class="list-inline pull-right">
+                                    <li><a href="~/Veiculo/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
+                                    <li><button type="button" class="btn btn-default prev-step btn-icon"><i class="fa fa-arrow-left"></i> <span><strong>Voltar</strong></span></button></li>
+                                    <li><button type="button" class="btn btn-primary next-step btn-icon"><span><strong>Avançar</strong></span> <i class="fa fa-arrow-right"></i> </button> </li>
+                                </ul>
+
+                            </div>
+                            <div class="tab-pane fade" id="vinculo" role="tabpanel" aria-labelledby="vinculo-tab">
+                                <br />
+                                <div class="form-group  col-lg-12" style="padding-left: 60px">
+
+                                    <div>
+
+                                        @Html.Label("Área de Manobra?", htmlAttributes: new { @class = "control-label", @style = "padding-right: 24px" })
+                                        @Html.CheckBox("Área de Manobra?", htmlAttributes: new { id = "chkAreaManobra", @disabled = "disabled" })
+                                    </div>
+                                </div>
+
+                                <div div class="form-group">
+                                    <div>
+                                        @Html.LabelFor(model => model.ContratoEmpresaID, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-lg-3">
+                                            @Html.DropDownListFor(model => model.ContratoEmpresaID, ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.Contratos).Select(option => new SelectListItem
+                                       {
+                                           Text = option.Descricao,
+                                           Value = option.EmpresaContratoId.ToString(),
+                                           Selected = (Model != null) && (option.EmpresaContratoId.ToString() == Model.ContratoEmpresaID)
+                                       }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlContrato", @disabled = "disabled" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <fieldset>
+                                    <legend> Contratos Selecionados</legend>
+                                    <div class="row">
+                                        <div class="col-lg-2"><b>Matrícula</b></div>
+                                        <div class="col-lg-9"><b>Contrato</b></div>
+                                        <div class="col-lg-1"></div>
+                                    </div>
+                                    <div class="row" id="divContrato">
+                                        @foreach (var item in ((IEnumerable<IMOD.PreCredenciamentoWeb.Models.VeiculoEmpresaViewModel>)ViewBag.ContratosSelecionados))
+                                        {
+                                            <div class="col-lg-2">@item.Matricula</div>
+                                            <div class="col-lg-10 text-uppercase">@item.Descricao</div>
+                                            <br />
+                                        }
+                                    </div>
+                                </fieldset>
+                                <ul class="list-inline pull-right">
+                                    <li><a href="~/Veiculo/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
+                                    <li><button type="button" class="btn btn-default prev-step btn-icon"><i class="fa fa-arrow-left"></i> <span><strong>Voltar</strong></span></button></li>
+                                    <li><button type="button" class="btn btn-primary next-step btn-icon"><span><strong>Avançar</strong></span> <i class="fa fa-arrow-right"></i> </button> </li>
+                                </ul>
+                            </div>
+                            <div class=" tab-pane fade" id="seguros" role="tabpanel" aria-labelledby="seguro-tab">
+                                <br />
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.NomeSeguradora, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-5">
+                                        @Html.DisplayTextFor(model => model.NomeSeguradora)
+                                    </div>
+
+                                    @Html.LabelFor(model => model.NumeroApolice, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-3">
+                                        @Html.DisplayTextFor(model => model.NumeroApolice)
+                                    </div>
 
 
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Frota, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-4">
-                        @Html.DisplayTextFor(model => model.Frota)
-                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ValorCobertura, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.DisplayTextFor(model => model.ValorCobertura)
+                                    </div>
 
-                    @Html.LabelFor(model => model.Patrimonio, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-4">
-                        @Html.DisplayTextFor(model => model.Patrimonio)
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Marca, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-4">
-                        @Html.DisplayTextFor(model => model.Marca)
-                    </div>
-                    @Html.LabelFor(model => model.Modelo, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-4">
-                        @Html.DisplayTextFor(model => model.Modelo)
-                    </div>
-                </div>
+                                    @Html.LabelFor(model => model.Emissao, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.DisplayTextFor(model => model.Emissao)
+                                    </div>
+                                    @Html.LabelFor(model => model.Validade, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.DisplayTextFor(model => model.Validade)
+                                    </div>
+                                </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Licenciamento, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-4">
-                        @Html.DisplayTextFor(model => model.Licenciamento)
-                    </div>
-                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.NomeArquivo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        @Html.DisplayTextFor(model => model.NomeArquivo)
+                                    </div>
+                                </div>
+                                <ul class="list-inline pull-right">
+                                    <li><a href="~/Veiculo/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
+                                    <li><button type="button" class="btn btn-default prev-step btn-icon"><i class="fa fa-arrow-left"></i> <span><strong>Voltar</strong></span></button></li>
+                                </ul>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.NomeArquivoAnexo, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-6">
-                        @Html.DisplayTextFor(model => model.NomeArquivoAnexo)
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                <br />
-                
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Ano, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-1">
-                        @Html.DisplayTextFor(model => model.Ano)
-                    </div>
-
-                    @Html.LabelFor(model => model.CombustivelId, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-3">
-                        @Html.DropDownListFor(model => model.CombustivelId, ((IEnumerable<IMOD.Domain.Entities.TipoCombustivel>)ViewBag.TipoCombustivel).Select(option => new SelectListItem
-                   {
-                       Text = option.Descricao,
-                       Value = option.TipoCombustivelId.ToString(),
-                       Selected = (Model != null) && (option.TipoCombustivelId == Model.CombustivelId)
-                   }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlCombustivel", @disabled = "disabled" })
-                    </div>
-
-                    @Html.LabelFor(model => model.Cor, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-2">
-                        @Html.DisplayTextFor(model => model.Cor)
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Altura, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-2">
-                        @Html.DisplayTextFor(model => model.Altura)
-                    </div>
-
-                    @Html.LabelFor(model => model.Comprimento, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-2">
-                        @Html.DisplayTextFor(model => model.Comprimento)
-                    </div>
-
-                    @Html.LabelFor(model => model.Largura, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-2">
-                        @Html.DisplayTextFor(model => model.Largura)
-
-                    </div>
-                </div>
-
-                <div div class="form-group">
-                    @Html.LabelFor(model => model.EstadoId, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-4">
-                        @Html.DropDownListFor(model => model.EstadoId, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.Estados).Select(option => new SelectListItem
-                   {
-                       Text = option.Nome,
-                       Value = option.EstadoId.ToString(),
-                       Selected = (Model != null) && (option.EstadoId == Model.EstadoId)
-                   }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlEstado", @disabled = "disabled" })
-                    </div>
-                </div>
-
-                <div div class="form-group">
-                    @Html.LabelFor(model => model.MunicipioId, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-4">
-                        @Html.DropDownListFor(model => model.MunicipioId, ((IEnumerable<IMOD.Domain.Entities.Municipio>)ViewBag.Municipio).Select(option => new SelectListItem
-                   {
-                       Text = option.Nome,
-                       Value = option.MunicipioId.ToString(),
-                       Selected = (Model != null) && (option.MunicipioId == Model.MunicipioId)
-                   }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlMunicipio", @disabled = "disabled" })
-                    </div>
-                </div>
-
-            </div>
-            <div class="tab-pane fade" id="vinculo" role="tabpanel" aria-labelledby="vinculo-tab">
-                <br />
-                <div class="form-group  col-lg-12" style="padding-left: 60px">
-
-                    <div>
-
-                        @Html.Label("Área de Manobra?", htmlAttributes: new { @class = "control-label", @style = "padding-right: 24px" })
-                        @Html.CheckBox("Área de Manobra?", htmlAttributes: new { id = "chkAreaManobra", @disabled = "disabled" })
-                    </div>
-                </div>
-
-                <div div class="form-group">
-                    <div>
-                        @Html.LabelFor(model => model.ContratoEmpresaID, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-lg-3">
-                            @Html.DropDownListFor(model => model.ContratoEmpresaID, ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.Contratos).Select(option => new SelectListItem
-                       {
-                           Text = option.Descricao,
-                           Value = option.EmpresaContratoId.ToString(),
-                           Selected = (Model != null) && (option.EmpresaContratoId.ToString() == Model.ContratoEmpresaID)
-                       }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlContrato", @disabled = "disabled" })
+                            </div>
+                            <div class="tab-pane" role="tabpanel" id="complete">
+                                <h3>Complete</h3>
+                                <p>You have successfully completed all steps.</p>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
-                </div>
-                <br />
-                <fieldset>
-                    <legend> Contratos Selecionados</legend>
-                    <div class="row">
-                        <div class="col-lg-2"><b>Matrícula</b></div>
-                        <div class="col-lg-9"><b>Contrato</b></div>
-                        <div class="col-lg-1"></div>
-                    </div>
-                    <div class="row" id="divContrato">
-                        @foreach (var item in ((IEnumerable<IMOD.PreCredenciamentoWeb.Models.VeiculoEmpresaViewModel>)ViewBag.ContratosSelecionados))
-                        {
-                            <div class="col-lg-2">@item.Matricula</div>
-                            <div class="col-lg-10 text-uppercase">@item.Descricao</div>
-                            <br />
-                        }
-                    </div>
-                </fieldset>
+                </section>
             </div>
-            <div class=" tab-pane fade" id="seguros" role="tabpanel" aria-labelledby="seguro-tab">
-                <br />
-                <div class="form-group">
-                    @Html.LabelFor(model => model.NomeSeguradora, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-5">
-                        @Html.DisplayTextFor(model => model.NomeSeguradora)
-                    </div>
-
-                    @Html.LabelFor(model => model.NumeroApolice, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-3">
-                        @Html.DisplayTextFor(model => model.NumeroApolice)
-                    </div>
-
-
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.ValorCobertura, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-2">
-                        @Html.DisplayTextFor(model => model.ValorCobertura)
-                    </div>
-
-                    @Html.LabelFor(model => model.Emissao, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-2">
-                        @Html.DisplayTextFor(model => model.Emissao)
-                    </div>
-                    @Html.LabelFor(model => model.Validade, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-2">
-                        @Html.DisplayTextFor(model => model.Validade)
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.NomeArquivo, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-6">
-                        @Html.DisplayTextFor(model => model.NomeArquivo)
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </fieldset>
-</div>
+        </fieldset>
+    </div>
 }
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            //Initialize tooltips
+            $('.nav-tabs > li a[title]').tooltip();
+
+            //Wizard
+            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+
+                var $target = $(e.target);
+
+                if ($target.parent().hasClass('disabled')) {
+                    return false;
+                }
+            });
+
+            $(".next-step").click(function (e) {
+
+                var $active = $('.wizard .nav-tabs li.active');
+                $active.next().removeClass('disabled');
+                nextTab($active);
+
+            });
+            $(".prev-step").click(function (e) {
+
+                var $active = $('.wizard .nav-tabs li.active');
+                prevTab($active);
+
+            });
+        });
+
+        function nextTab(elem) {
+            $(elem).next().find('a[data-toggle="tab"]').click();
+        }
+        function prevTab(elem) {
+            $(elem).prev().find('a[data-toggle="tab"]').click();
+        }
+    </script>
+
+}
+
+
 
 

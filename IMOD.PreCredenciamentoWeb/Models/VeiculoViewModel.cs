@@ -149,6 +149,18 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public bool Precadastro { get; set; }
 
         [Display(Name = "Área de Manobra")]
-        public bool chkAreaManobra { get; set; } 
+        public bool chkAreaManobra { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var model = obj as VeiculoViewModel;
+            return model != null &&
+                   EquipamentoVeiculoId == model.EquipamentoVeiculoId;
+        }
+
+        public override int GetHashCode()
+        {
+            return -460737279 + EquipamentoVeiculoId.GetHashCode();
+        }
     }
 }

@@ -9,20 +9,6 @@
 @using (Html.BeginForm("Create", "Veiculo", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    @*<div class="table-wrapper">
-        <div class="table-title">
-            <div class="row">
-                <div class="col-sm-8">
-                    <h2>Cadastro de <b>Veiculos</b></h2>
-                </div>
-                <div class="col-sm-4">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> <span>Salvar Veiculo</span></button>
-                    <a href="~/Veiculo/Index" class="submit btn btn-danger"><i class="fa fa-fw fa-sign-in"></i> <span>Cancelar</span></a>
-                </div>
-            </div>
-        </div>
-        <fieldset class="form-horizontal">*@
-    @Html.AntiForgeryToken()
     <div class="table-wrapper">
         <fieldset class="form-horizontal">
 
@@ -290,7 +276,7 @@
                                 </div>
                                 <br />
                                 <fieldset>
-                                    <legend> Contratos Selecionados</legend>
+                                    <legend style="color:cadetblue"> Contratos Selecionados</legend>
                                     <div class="row">
                                         <div class="col-lg-2"><b>Matrícula</b></div>
                                         <div class="col-lg-9"><b>Contrato</b></div>

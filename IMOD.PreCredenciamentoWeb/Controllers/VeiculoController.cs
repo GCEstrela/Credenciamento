@@ -36,10 +36,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
             //var lstVeiculo = objService.Listar(null, null, string.Empty);
-            //List<VeiculoViewModel> lstVeiculoMapeado = Mapper.Map<List<VeiculoViewModel>>(lstVeiculo);
-            List<VeiculoViewModel> lstVeiculoMapeado = Mapper.Map<List<VeiculoViewModel>>(ObterVeiculossEmpresaLogada());
+            //List<VeiculoViewModel> lstVeiculoMapeado = Mapper.Map<List<VeiculoViewModel>>(lstVeiculo);            
+
+            List<VeiculoViewModel> lstVeiculoMapeado = Mapper.Map<List<VeiculoViewModel>>(ObterVeiculossEmpresaLogada()).Distinct().ToList();
             ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
-            return View(lstVeiculoMapeado);
+            return View(lstVeiculoMapeado.Distinct());
 
         }
         private IList<Veiculo> ObterVeiculossEmpresaLogada()
