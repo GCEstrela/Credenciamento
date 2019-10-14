@@ -155,6 +155,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             {
                 if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
 
+                if (model.FotoColaborador != null)
+                {
+                    OnSelecionaFoto_Click(model.FotoColaborador, model);
+                }
+
                 if (model.FileUpload != null)
                 {
                     if (model.FileUpload.ContentLength > 2048000)
@@ -646,6 +651,23 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         }
 
+
+        [Authorize]
+        public void OnSelecionaFoto_Click(HttpPostedFileBase file, ColaboradorViewModel model)
+        {
+                string pic = System.IO.Path.GetFileName(file.FileName);
+
+                // save the image path path to the database or you can send image 
+                // directly to database
+                // in-case if you want to store byte[] ie. for DB
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    file.InputStream.CopyTo(ms);
+                    byte[] array = ms.GetBuffer();
+
+                    model.Foto = Convert.ToBase64String(array);
+                }
+        }
 
         #region Métodos Internos
 
