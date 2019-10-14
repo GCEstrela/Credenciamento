@@ -29,6 +29,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "Nome Mãe")]
         public string NomeMae { get; set; }
         public string Nacionalidade { get; set; }
+        [Display(Name = "Foto do Colaborador")]
         public HttpPostedFileBase FotoColaborador { get; set; }
         public string Foto { get; set; }
         [Display(Name = "Estado Civil")]

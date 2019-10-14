@@ -145,7 +145,7 @@
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.FotoColaborador, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            @Html.LabelFor(model => model.FotoColaborador, htmlAttributes: new { @class = "control-label col-md-5" })
 
                                         </div>
                                         <div class="col-md-5" style="height:152px;  width:123px">
@@ -832,6 +832,7 @@
 
                 reader.onload = function (e) {
                     $('#FotoUpload').attr('src', e.target.result);
+                    alert(e.target.result);
                 }
 
                 reader.readAsDataURL(input.files[0]);

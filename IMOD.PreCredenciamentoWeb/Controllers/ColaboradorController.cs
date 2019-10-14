@@ -357,6 +357,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 if (id == null)
                     return HttpNotFound();
 
+                if (model.FotoColaborador != null)
+                {
+                    OnSelecionaFoto_Click(model.FotoColaborador, model);
+                }
+
                 if (model.FileUpload != null)
                 {
                     if (model.FileUpload.ContentLength > 2048000)
@@ -667,6 +672,22 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                     model.Foto = Convert.ToBase64String(array);
                 }
+        }
+
+        [Authorize]
+        public void BucarFoto(int colaborador, ColaboradorViewModel model)
+        {
+            try
+            {
+                if (model.FotoColaborador != null) return;
+                var listaFoto = objService.BuscarPelaChave(colaborador);
+
+                if (listaFoto != null)
+                    model.Foto = listaFoto.Foto;
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
         #region Métodos Internos
