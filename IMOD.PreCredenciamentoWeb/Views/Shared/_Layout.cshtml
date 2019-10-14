@@ -18,6 +18,7 @@
     <link href="~/Content/nifty.css" rel="stylesheet">
     <link href="~/Content/dataTables.bootstrap.css" rel="stylesheet">
     <link href="~/Content/responsive.dataTables.min.css" rel="stylesheet">
+    <link href="~/Content/bootstrapValidator.css" rel="stylesheet">
 
     <style>
         .ui-widget {
@@ -335,18 +336,22 @@
     @*@Scripts.Render("~/bundles/maskedinput")*@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/nifty.min.js"></script>
+
+    <script src="~/Scripts/bootstrapValidator.js"></script>
     <script src="~/Scripts/jquery.maskedinput.min.js"></script>
     <script src="~/Scripts/datatables.min.js"></script>
     <script src="~/Scripts/bootstrap-datepicker.js"></script>
     <script src="~/Scripts/bootstrap-datepicker-globalize.js"></script>
     <script src="~/Scripts/locales/bootstrap-datepicker.pt-BR.js"></script>
-
-    <script src="~/Scripts/jquery.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/nifty.min.js"></script>
     <script src="~/Scripts/jquery.dataTables.js"></script>
     <script src="~/Scripts/dataTables.bootstrap.js"></script>
     <script src="~/Scripts/dataTables.responsive.min.js"></script>
+
+
 
     <script>
         $(document).ready(function () {
