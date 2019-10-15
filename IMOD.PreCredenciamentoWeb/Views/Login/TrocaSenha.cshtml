@@ -1,0 +1,41 @@
+﻿@model IMOD.PreCredenciamentoWeb.Models.LoginViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="login-form" style="width:300px;
+height:50px;
+position:absolute;
+top:30%;
+left:42%;
+margin-top:-50px;
+margin-left:-50px;
+">
+    @using (Html.BeginForm("Alterar", "Login", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="avatar">
+            @*<img src=@imgSrc alt="Logo" width="160px" height="60px">*@
+            @*<img src="~/Images/FaportSoLogo.png" alt="Cadeado">*@
+            <i class="fa fa-fw fa-lock" style="font-size:60px;padding-top:0px;color:#fff;position:absolute;top:30%;left:50%;margin-top:-50px;margin-left:-50px"></i> 
+        </div>
+        <div><br /></div>
+        <h4 class="text-center"><span style="color:white">Troca senha</span></h4>
+        <div class="form-group">
+            @Html.PasswordFor(model => model.NovaSenha, new { @class = "form-control", placeholder = "Nova Senha" })
+            @Html.ValidationMessageFor(model => model.NovaSenha, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.PasswordFor(model => model.ConfimacaoSenha, new { @class = "form-control", placeholder = "Confirmação da Nova Senha" })
+            @Html.ValidationMessageFor(model => model.ConfimacaoSenha, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success btn-lg btn-block btn-icon">Alterar</button>
+        </div>
+        <div class="clearfix">
+            <label class="pull-left checkbox-inline"> Troca senha do pre-cadastramento web</label>
+        </div>
+    }
+</div>
+
+
