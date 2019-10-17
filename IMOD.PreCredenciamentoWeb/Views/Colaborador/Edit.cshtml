@@ -79,7 +79,7 @@
                                 <li role="presentation" class="disabled" style="padding-left: 10px">
                                     <a href="#aceite" data-toggle="tab" aria-controls="aceite" role="tab" title="Aceite">
                                         <span class="round-tab">
-                                            <i class="glyphicon glyphicon-thumbs-up"></i>
+                                            <i class="glyphicon glyphicon-ok"></i>
                                         </span>
                                     </a>
                                 </li>
@@ -557,7 +557,7 @@
                                         <ul class="list-inline pull-right" style="padding-top: 208px">
                                             <li><a href="~/Colaborador/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
                                             <li><button type="button" class="btn btn-default prev-step btn-icon"><i class="fa fa-arrow-left"></i> <span><strong>Voltar</strong></span></button></li>
-                                            <li><button type="button" class="btn btn-primary next-step btn-icon"><span><strong>Avançar</strong></span> <i class="fa fa-arrow-right"></i> </button> </li>
+                                            <li><button type="submit" class="btn btn-success " id="btnSalvar"><i class="fa fa-save"></i> <span>Salvar</span></button></li>
 
                                         </ul>
                                     </div>
@@ -576,15 +576,13 @@
                                             <div class="form-group">
                                                 <div class="col-md-12 " style="padding-left: 30px; padding-top: 15px;">
                                                     <a href="~/Documentos/Modelo_Termo_Aceite.pdf" download="Modelo_Termo_Aceite">Clique aqui para baixar o termo de consentimento.</a>
-                                                    @Html.ValidationMessageFor(model => model.Aceite, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                             <div class="checkbox col-md-12" style="padding-left: 40px;">
                                                 <div class="col-md-5">
 
-                                                    <input type="checkbox" model="chkAceite" name="chkAceite" checked="checked" disabled ><b>Li e concordo com os termos de uso e política de privacidade</b><br />
+                                                    <input type="checkbox" model="chkAceite" name="chkAceite" checked="checked" value="true"><b>Li e concordo com os termos de uso e política de privacidade</b><br />
 
-                                                    @Html.ValidationMessageFor(model => model.chkAceite, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                         </div>

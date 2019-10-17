@@ -304,7 +304,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             //obtém vinculos do colaborador
             ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
-
+            
+            colaboradorMapeado.chkAceite = true;
+            
             CarregaFotoColaborador(colaboradorMapeado);
 
             // carrega os contratos da empresa
@@ -683,9 +685,12 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [Authorize]
         public void CarregaFotoColaborador(ColaboradorViewModel model)
         {
-            var bytes = Convert.FromBase64String(model.Foto);
-            var base64 = Convert.ToBase64String(bytes);
-            ViewBag.FotoColaborador = String.Format("data:image/gif;base64,{0}", base64);
+            if (model.Foto != null)
+            {
+                var bytes = Convert.FromBase64String(model.Foto);
+                var base64 = Convert.ToBase64String(bytes);
+                ViewBag.FotoColaborador = String.Format("data:image/gif;base64,{0}", base64);
+            }
         }
 
 
