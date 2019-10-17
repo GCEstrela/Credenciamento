@@ -21,6 +21,28 @@ namespace IMOD.Domain.Entities
         public string Matricula { get; set; }
         public bool Ativo { get; set; }
         public bool AreaManobra { get; set; }
+
+
+        public override bool Equals(object obj)
+        {
+            var contrato = obj as VeiculoEmpresa;
+            return contrato != null &&
+                   EmpresaContratoId == contrato.EmpresaContratoId;
+        }
+
+        //public override int GetHashCode()
+        //{
+        //    return 1502971449 + EmpresaContratoId.GetHashCode();
+        //}
+
+        public VeiculoEmpresa(int empresaContratoId)
+        {
+            EmpresaContratoId = empresaContratoId;
+        }
+
+        public VeiculoEmpresa()
+        {
+        }
         #endregion
     }
 }

@@ -809,7 +809,10 @@ namespace IMOD.Application.Service
             throw new NotImplementedException();
         }
 
-
+        public CredencialView ObterCursosColaboradorView(int colaboradorCredencialId)
+        {
+            return _repositorio.ObterCursosColaboradorView(colaboradorCredencialId);
+        }
 
         #endregion
     }

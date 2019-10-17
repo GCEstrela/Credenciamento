@@ -9,94 +9,96 @@
 <div class="col-md-12">
     <br />
     <div class="table-wrapper">
-        <div class="table-title">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h2>Gerenciar <b>Colaborador</b></h2>
+        @*<div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Gerenciar <b>Colaborador</b></h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="~/Colaborador/Create" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add Novo Colaborador</span></a>
+                        <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
+                    </div>
                 </div>
-                <div class="col-sm-6">
-                    <a href="~/Colaborador/Create" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add Novo Colaborador</span></a>
-                    @*<a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>*@
-                </div>
-            </div>
-        </div>
+            </div>*@
         <br />
-        <table class="table table-hover table-responsive table-dark" id="tbColaborador">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Cpf)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Nome)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Apelido)
-                    </th>
-                    @*<th>
-            @Html.DisplayNameFor(model => model.Foto)
-        </th>*@
-                    @*<th>
-            @Html.DisplayNameFor(model => model.TelefoneFixo)
-        </th>*@
-                    <th>
-                        @Html.DisplayNameFor(model => model.TelefoneCelular)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Email)
-                    </th>
+        @*<table class="table table-hover table-responsive table-dark" id="tbColaborador">*@
+        <div class="panel-body">
+            <table id="tbColaborador" class="table table-hover table-striped table-dark " cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th style="width:90px;"><a href="~/Colaborador/Create"><i class="success btn-icon fa fa-plus-circle" style="color: #92c755; font-size: 22px; text-align:center"></i></a></th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Cpf)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nome)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Apelido)
+                        </th>
+                        @*<th>
+                                @Html.DisplayNameFor(model => model.Foto)
+                            </th>*@
+                        @*<th>
+                                @Html.DisplayNameFor(model => model.TelefoneFixo)
+                            </th>*@
+                        <th>
+                            @Html.DisplayNameFor(model => model.TelefoneCelular)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </th>
 
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                <tr>
-                    <td class="col-lg-1">
-                        <a href='@Url.Action("Details", "Colaborador", new { id = item.ColaboradorId })'>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="col-lg-1" style="text-align:center;">
+                                <a href='@Url.Action("Details", "Colaborador", new { id = item.ColaboradorId })'>
 
-                            <span class="glyphicon glyphicon-search"></span>
-                        </a>
-                        @if (item.Precadastro)
-                        {
-                            <a href='@Url.Action("Edit", "Colaborador", new { id = item.ColaboradorId })'>
-                                @*<img src="~/images/edit.png" />*@
-                                <span class="glyphicon glyphicon-edit"></span>
-                            </a>
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </a>
+                                @if (item.Precadastro)
+                                {
+                                    <a href='@Url.Action("Edit", "Colaborador", new { id = item.ColaboradorId })'>
+                                        @*<img src="~/images/edit.png" />*@
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </a>
 
-                            <a href='@Url.Action("Delete", "Colaborador", new { id = item.ColaboradorId })'>
-                                @*<img src="~/images/remove.png" />*@
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </a>
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cpf)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nome)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Apelido)
-                    </td>
-                    @*<td>
-            @Html.DisplayFor(modelItem => item.Foto)
-        </td>*@
-                    @*<td>
-            @Html.DisplayFor(modelItem => item.TelefoneFixo)
-        </td>*@
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TelefoneCelular)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
+                                    <a href='@Url.Action("Delete", "Colaborador", new { id = item.ColaboradorId })'>
+                                        @*<img src="~/images/remove.png" />*@
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </a>
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cpf)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nome)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Apelido)
+                            </td>
+                            @*<td>
+                                    @Html.DisplayFor(modelItem => item.Foto)
+                                </td>*@
+                            @*<td>
+                                    @Html.DisplayFor(modelItem => item.TelefoneFixo)
+                                </td>*@
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TelefoneCelular)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
 
-                </tr>
-                }
-            </tbody>
-        </table>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
- 

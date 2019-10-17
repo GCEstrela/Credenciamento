@@ -11,6 +11,7 @@ using IMOD.PreCredenciamentoWeb.Util;
 using IMOD.Application.Interfaces;
 using System.IO;
 using Correios.Net;
+using System.Windows.Forms;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
 {
@@ -76,13 +77,13 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             //obtém vinculos do colaborador
             ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
 
-            // carrega os contratosd da empresa
+            // carrega os contratos da empresa
             if (SessionUsuario.EmpresaLogada.Contratos != null)
             {
                 ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
             }
 
-            //Popula contratos secelionados
+            //Popula contratos selecionados
             ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
             var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(objColaboradorEmpresaService.Listar(colaboradorEditado.ColaboradorId));
             ViewBag.ContratosSelecionados = listaVinculosColaborador;
@@ -136,12 +137,12 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             //carrega os cursos
             var listCursos = objCursosService.Listar().ToList();
-            if (listCursos != null && listCursos.Any()){ViewBag.Cursos = listCursos;}
+            if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; }
             ViewBag.CursosSelecionados = new List<Curso>();
 
             PopularEstadosDropDownList();
             ViewBag.Municipio = new List<Municipio>();
-            PopularDadosDropDownList();                        
+            PopularDadosDropDownList();
             return View();
         }
 
@@ -153,6 +154,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             try
             {
                 if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+
+                if (model.FotoColaborador != null)
+                {
+                    OnSelecionaFoto_Click(model.FotoColaborador, model);
+                }
 
                 if (model.FileUpload != null)
                 {
@@ -167,6 +173,12 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 {
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
                     colaboradorMapeado.Precadastro = true;
+
+                    if (colaboradorMapeado.Estrangeiro)
+                    {
+                        colaboradorMapeado.Cpf = "000.000.000-00";
+                    }
+
                     objService.Criar(colaboradorMapeado);
 
                     // excluir os contratos removidos da lista
@@ -221,7 +233,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         foreach (var curso in (List<Curso>)Session[SESS_CURSOS_SELECIONADOS])
                         {
                             var colaboradorCurso = objColaboradorCursosService.Listar(colaboradorMapeado.ColaboradorId, curso.CursoId, null, null, null, null, null).FirstOrDefault();
-                            if (colaboradorCurso == null)                        
+                            if (colaboradorCurso == null)
                             {
                                 colaboradorCurso = new ColaboradorCurso();
                                 colaboradorCurso.ColaboradorId = colaboradorMapeado.ColaboradorId;
@@ -233,7 +245,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     }
 
 
-                    CriarColaboradorAnexo(model, colaboradorMapeado.ColaboradorId); 
+                    CriarColaboradorAnexo(model, colaboradorMapeado.ColaboradorId);
+                    CriarColaboradorAceite(model, colaboradorMapeado.ColaboradorId);
 
                     return RedirectToAction("Index", "Colaborador");
                 }
@@ -271,7 +284,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Edit(int? id)
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
-            
+
             //Remove itens da sessão
             Session.Remove(SESS_CONTRATOS_SELECIONADOS);
             Session.Remove(SESS_CONTRATOS_REMOVIDOS);
@@ -312,8 +325,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             PopularDadosDropDownList();
 
             //Preenche combo com todos os cursos
-            var listCursos = objCursosService.Listar().OrderBy(c=> c.Descricao);
-            if (listCursos != null && listCursos.Any()){ViewBag.Cursos = listCursos;};
+            var listCursos = objCursosService.Listar().OrderBy(c => c.Descricao);
+            if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; };
 
             //Popula cussos selecionados do colaborador
             var cursosColaborador = objColaboradorCursosService.Listar(colaboradorEditado.ColaboradorId);
@@ -330,7 +343,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 colaboradorMapeado.NomeArquivoAnexo = objColaboradorAnexo.NomeArquivo;
             }
 
-            return View(colaboradorMapeado); 
+            return View(colaboradorMapeado);
         }
 
         // POST: Colaborador/Edit/5
@@ -339,10 +352,15 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Edit(int? id, ColaboradorViewModel model)
         {
             try
-            {               
+            {
                 if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
                 if (id == null)
-                    return HttpNotFound(); 
+                    return HttpNotFound();
+
+                if (model.FotoColaborador != null)
+                {
+                    OnSelecionaFoto_Click(model.FotoColaborador, model);
+                }
 
                 if (model.FileUpload != null)
                 {
@@ -428,14 +446,32 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                     if (model.FileUpload != null)
                     {
-                        ExcluirColaboradorAnexoAnterior(model); 
-                        CriarColaboradorAnexo(model, colaboradorMapeado.ColaboradorId); 
+                        ExcluirColaboradorAnexoAnterior(model);
+                        CriarColaboradorAnexo(model, colaboradorMapeado.ColaboradorId);
                     }
 
-                    return RedirectToAction("Index"); 
+                    return RedirectToAction("Index");
+                }
+                if (SessionUsuario.EmpresaLogada.Contratos != null) { ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos; }
+                ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
+
+                //carrega os cursos
+                var listCursos = objCursosService.Listar().ToList();
+                if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; }
+                ViewBag.CursosSelecionados = new List<Curso>();
+
+                PopularEstadosDropDownList();
+                ViewBag.Municipio = new List<Municipio>();
+                if (model.EstadoId > 0)
+                {
+                    var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, model.EstadoId).OrderBy(m => m.Nome);
+                    ViewBag.Municipio = lstMunicipio;
                 }
 
-                throw new Exception("Campos obrigatórios não forma preenchidos");
+                //PopularEstadosDropDownList();
+                PopularDadosDropDownList();
+                return View(model);
+                //throw new Exception("Campos obrigatórios não foram preenchidos");
             }
             catch (Exception ex)
             {
@@ -445,22 +481,59 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
         }
 
-        // GET: Colaborador/Delete/5
-        [Authorize]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, Colaborador model)
         {
-            // TODO: Add delete logic here
-            Colaborador colaborador = new Colaborador();
-            colaborador.ColaboradorId = id;
-            //var colaboradorMapeado = Mapper.Map<Colaborador>(colaborador);
-            objService.Remover(colaborador);
-            return View();
+
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+            if (id == null || (id <= 0)) { return RedirectToAction("../Login"); }
+
+            try
+            {
+                //if (id == null)
+                //    return HttpNotFound();
+                var idColaborador = id;
+
+                // Initializes the variables to pass to the MessageBox.Show method.
+                string message = "Confirma a Deleção desse registro?";
+                string caption = "Deleção de Colaborador";
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                DialogResult result;
+
+                // Displays the MessageBox.
+                result = MessageBox.Show(message, caption, buttons);
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    var colaboradorMapeado = Mapper.Map<Colaborador>(model);
+                    colaboradorMapeado.ColaboradorId = Convert.ToInt32(idColaborador);
+                    objService.Remover(colaboradorMapeado);
+
+                    return RedirectToAction("Index");
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
+
+        // GET: Colaborador/Delete/5
+        //[Authorize]
+        //public ActionResult Delete(int id)
+        //{
+        //    // TODO: Add delete logic here
+        //    Colaborador colaborador = new Colaborador();
+        //    colaborador.ColaboradorId = id;
+        //    //var colaboradorMapeado = Mapper.Map<Colaborador>(colaborador);
+        //    objService.Remover(colaborador);
+        //    return View();
+        //}
 
         // POST: Colaborador/Delete/5
         [HttpPost]
         [Authorize]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, System.Web.Mvc.FormCollection collection)
         {
             try
             {
@@ -490,10 +563,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             vinculo.Cargo = cargo;
             if (!string.IsNullOrEmpty(validade))
                 vinculo.Validade = DateTime.Parse(validade);
-            vinculo.ManuseioBagagem = bagagem; 
+            vinculo.ManuseioBagagem = bagagem;
             vinculo.Matricula = " - ";
-            vinculo.OperadorPonteEmbarque = operadorPonteEmbarque;  
-            vinculo.FlagCcam = flagCcam;  
+            vinculo.OperadorPonteEmbarque = operadorPonteEmbarque;
+            vinculo.FlagCcam = flagCcam;
             vinculoList.Add(vinculo);
             Session.Add(SESS_CONTRATOS_SELECIONADOS, vinculoList);
 
@@ -517,7 +590,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         {
             if (Session[SESS_CURSOS_SELECIONADOS] == null) Session[SESS_CURSOS_SELECIONADOS] = new List<Curso>();
             var item = objCursosService.Listar(id).FirstOrDefault();
-            ((List<Curso>)Session[SESS_CURSOS_SELECIONADOS]).Add(item);             
+            ((List<Curso>)Session[SESS_CURSOS_SELECIONADOS]).Add(item);
             return Json((List<Curso>)Session[SESS_CURSOS_SELECIONADOS], JsonRequestBehavior.AllowGet);
         }
 
@@ -536,7 +609,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public JsonResult BuscarMunicipios(int id)
         {
             var listMunicipio = objMunicipioSevice.Listar(null, null, id);
-        
+
             return Json(listMunicipio, JsonRequestBehavior.AllowGet);
         }
 
@@ -580,47 +653,80 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                 throw ex;
             }
-         
+
         }
 
+
+        [Authorize]
+        public void OnSelecionaFoto_Click(HttpPostedFileBase file, ColaboradorViewModel model)
+        {
+                string pic = System.IO.Path.GetFileName(file.FileName);
+
+                // save the image path path to the database or you can send image 
+                // directly to database
+                // in-case if you want to store byte[] ie. for DB
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    file.InputStream.CopyTo(ms);
+                    byte[] array = ms.GetBuffer();
+
+                    model.Foto = Convert.ToBase64String(array);
+                }
+        }
+
+        [Authorize]
+        public void BucarFoto(int colaborador, ColaboradorViewModel model)
+        {
+            try
+            {
+                if (model.FotoColaborador != null) return;
+                var listaFoto = objService.BuscarPelaChave(colaborador);
+
+                if (listaFoto != null)
+                    model.Foto = listaFoto.Foto;
+            }
+            catch (Exception ex)
+            {
+            }
+        }
 
         #region Métodos Internos
 
         #region Popular e Carregar Componentes
 
         private void PopularEstadosDropDownList()
-            {
-                var lstEstado = objAuxiliaresService.EstadoService.Listar();
+        {
+            var lstEstado = objAuxiliaresService.EstadoService.Listar();
 
-                ViewBag.Estados = lstEstado;
-                ViewBag.UfRg = lstEstado;
-                ViewBag.UfCnh = lstEstado;
+            ViewBag.Estados = lstEstado;
+            ViewBag.UfRg = lstEstado;
+            ViewBag.UfCnh = lstEstado;
+        }
+
+        private void PopularMunicipiosDropDownList(String idEstado)
+        {
+            if (!string.IsNullOrEmpty(idEstado))
+            {
+                var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, idEstado).OrderBy(m => m.Nome);
+                ViewBag.Municipio = lstMunicipio;
             }
+        }
 
-            private void PopularMunicipiosDropDownList(String idEstado)
-            {
-                if (!string.IsNullOrEmpty(idEstado))
+        private void PopularDadosDropDownList()
+        {
+
+            ViewBag.CategoriaCnh = new SelectList(new object[]
                 {
-                    var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, idEstado).OrderBy(m => m.Nome);
-                    ViewBag.Municipio = lstMunicipio;
-                }
-            }
-
-            private void PopularDadosDropDownList()
-            {
-
-                ViewBag.CategoriaCnh = new SelectList(new object[]
-                    {
                         new {Name = "A", Value = "A"},
                         new {Name = "B", Value = "B"},
                         new {Name = "AB", Value = "AB"},
                         new {Name = "C", Value = "C"},
                         new {Name = "D", Value = "D"},
                         new {Name = "E", Value = "E"}
-                    }, "Value", "Name");
+                }, "Value", "Name");
 
-                ViewBag.OrgaoEmissorRG = new SelectList(new object[]
-                    {
+            ViewBag.OrgaoEmissorRG = new SelectList(new object[]
+                {
                                     new {Name = "SSP", Value = "SSP"},
                                     new {Name = "SJS", Value = "SJS"},
                                     new {Name = "SESP", Value = "SESP"},
@@ -632,106 +738,170 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                                     new {Name = "EST", Value = "EST"},
                                     new {Name = "OAB", Value = "OAB"},
                                     new {Name = "CRM", Value = "CRM"}
-                                    }, "Value", "Name");
+                                }, "Value", "Name");
 
-                var contrato = objColaboradorEmpresaService.Listar(null, null, null, 12);
+            var contrato = objColaboradorEmpresaService.Listar(null, null, null, 12);
 
-            }
+        }
 
-            private void PopularContratoCreateDropDownList(int idEmpresa)
-            {
-                if (idEmpresa <= 0) return;
+        private void PopularContratoCreateDropDownList(int idEmpresa)
+        {
+            if (idEmpresa <= 0) return;
 
-                var contratoEmpresa = objContratosService.Listar(idEmpresa);
-                ViewBag.ContratoEmpresa = new MultiSelectList(contratoEmpresa, "EmpresaContratoId", "Descricao");
-            }
+            var contratoEmpresa = objContratosService.Listar(idEmpresa);
+            ViewBag.ContratoEmpresa = new MultiSelectList(contratoEmpresa, "EmpresaContratoId", "Descricao");
+        }
 
-            private void PopularCursos(int idEmpresa)
-            {
-                if (idEmpresa <= 0) return;
+        private void PopularCursos(int idEmpresa)
+        {
+            if (idEmpresa <= 0) return;
 
-                var cursos = objCursosService.Listar();
-                ViewBag.Cursos = new MultiSelectList(cursos, "CursoId", "Descricao");
-            }
-        
+            var cursos = objCursosService.Listar();
+            ViewBag.Cursos = new MultiSelectList(cursos, "CursoId", "Descricao");
+        }
+
         #endregion
 
+        private void CriarColaboradorAceite(ColaboradorViewModel colaborador, int colaboradorId = 0)
+        {
+            byte[] bufferArquivo;
+            string NomeArquivo;
+            string ExtensaoArquivo;
 
+            if (colaborador.Aceite == null) return;
+            if (!colaborador.chkAceite) return;
+            if (colaborador == null || colaboradorId == 0) return;
+            if (colaborador.Aceite.ContentLength <= 0 || colaborador.Aceite.ContentLength > 2048000) return;
+
+            NomeArquivo = Path.GetFileNameWithoutExtension(colaborador.Aceite.FileName);
+            ExtensaoArquivo = Path.GetExtension(colaborador.Aceite.FileName);
+
+            if (!ExtensaoArquivo.Equals(".pdf")) return;
+
+            var arquivoStream = colaborador.Aceite.InputStream;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                arquivoStream.CopyTo(ms);
+                bufferArquivo = ms.ToArray();
+            }
+
+            var arquivoBase64 = Convert.ToBase64String(bufferArquivo);
+
+            ColaboradorAnexo colaboradorAnexo = new ColaboradorAnexo();
+            colaboradorAnexo.ColaboradorId = colaboradorId;
+            colaboradorAnexo.Arquivo = arquivoBase64;
+            colaboradorAnexo.NomeArquivo = NomeArquivo + ExtensaoArquivo;
+            colaboradorAnexo.Descricao = NomeArquivo + ExtensaoArquivo;
+            objColaboradorAnexoService.Criar(colaboradorAnexo);
+
+        }
         #region Colaborador Anexo
 
-            private void CriarColaboradorAnexo(ColaboradorViewModel colaborador, int colaboradorId = 0)
+        private void CriarColaboradorAnexo(ColaboradorViewModel colaborador, int colaboradorId = 0)
+        {
+            byte[] bufferArquivo;
+            string NomeArquivo;
+            string ExtensaoArquivo;
+
+            if (colaborador.FileUpload == null) return;
+            if (colaborador == null || colaboradorId == 0) return;
+            if (colaborador.FileUpload.ContentLength <= 0 || colaborador.FileUpload.ContentLength > 2048000) return;
+
+            NomeArquivo = Path.GetFileNameWithoutExtension(colaborador.FileUpload.FileName);
+            ExtensaoArquivo = Path.GetExtension(colaborador.FileUpload.FileName);
+
+            if (!ExtensaoArquivo.Equals(".pdf")) return;
+
+            var arquivoStream = colaborador.FileUpload.InputStream;
+            using (MemoryStream ms = new MemoryStream())
             {
-                byte[] bufferArquivo;
-                string NomeArquivo;
-                string ExtensaoArquivo;
+                arquivoStream.CopyTo(ms);
+                bufferArquivo = ms.ToArray();
+            }
 
-                if (!colaborador.Precadastro) return; 
+            var arquivoBase64 = Convert.ToBase64String(bufferArquivo);
 
-                if (colaborador.FileUpload == null) return;
-                if (colaborador == null || colaboradorId == 0) return;
-                if (colaborador.FileUpload.ContentLength <= 0 || colaborador.FileUpload.ContentLength > 2048000) return;
+            ColaboradorAnexo colaboradorAnexo = new ColaboradorAnexo();
+            colaboradorAnexo.ColaboradorId = colaboradorId;
+            colaboradorAnexo.Arquivo = arquivoBase64;
+            colaboradorAnexo.NomeArquivo = NomeArquivo + ExtensaoArquivo;
+            colaboradorAnexo.Descricao = NomeArquivo + ExtensaoArquivo;
+            objColaboradorAnexoService.Criar(colaboradorAnexo);
 
-                NomeArquivo = Path.GetFileNameWithoutExtension(colaborador.FileUpload.FileName);
-                ExtensaoArquivo = Path.GetExtension(colaborador.FileUpload.FileName);
+        }
 
-                if (!ExtensaoArquivo.Equals(".pdf")) return; 
+        private void ExcluirColaboradorAnexoAnterior(ColaboradorViewModel colaborador)
+        {
+            if (!colaborador.Precadastro) return;
+            if (colaborador.FileUpload == null) return;
+            if (colaborador == null || colaborador.ColaboradorId == 0) return;
+            if (colaborador.FileUpload.ContentLength <= 0 || colaborador.FileUpload.ContentLength > 2048000) return;
 
-                var arquivoStream = colaborador.FileUpload.InputStream; 
-                using (MemoryStream ms = new MemoryStream())
+            var objColaboradoAnexo = objColaboradorAnexoService.ListarComAnexo(colaborador.ColaboradorId).FirstOrDefault();
+            if (objColaboradoAnexo == null) return;
+
+            objColaboradorAnexoService.Remover(objColaboradoAnexo);
+        }
+
+        public FileResult Download(string id)
+        {
+            string contentType = "";
+            string NomeArquivoAnexo = "";
+            string extensao = "";
+            string nomeArquivoV = "";
+            string pastaTemp = Path.GetTempPath();
+
+            //if (string.IsNullOrEmpty(id));
+
+            int colaboradorId = Convert.ToInt32(id);
+
+            var objColaboradorAnexo = objColaboradorAnexoService.ListarComAnexo(colaboradorId).FirstOrDefault();
+            NomeArquivoAnexo = objColaboradorAnexo.NomeArquivo;
+            extensao = Path.GetExtension(NomeArquivoAnexo);
+            nomeArquivoV = Path.GetFileNameWithoutExtension(NomeArquivoAnexo);
+
+            var arrayArquivo = Convert.FromBase64String(objColaboradorAnexo.Arquivo);
+            System.IO.File.WriteAllBytes(pastaTemp + NomeArquivoAnexo, arrayArquivo);
+
+            if (extensao.Equals(".pdf"))
+                contentType = "application/pdf";
+
+            return File(pastaTemp + NomeArquivoAnexo, contentType, nomeArquivoV + extensao);
+        }
+
+
+        [HttpPost]
+        public ActionResult Capturar()
+        {
+            if (Request.InputStream.Length > 0)
+            {
+                using (StreamReader reader = new StreamReader(Request.InputStream))
                 {
-                    arquivoStream.CopyTo(ms);
-                    bufferArquivo = ms.ToArray();
+                    string hexString = Server.UrlEncode(reader.ReadToEnd());
+                    string nomeImagem = DateTime.Now.ToString("dd-MM-yy hh-mm-ss");
+                    string caminhoImagem = string.Format("~/Imagens/{0}.png", nomeImagem);
+                    System.IO.File.WriteAllBytes(Server.MapPath(caminhoImagem), ConvertHexToBytes(hexString));
+                    Session["ImagemCapturada"] = VirtualPathUtility.ToAbsolute(caminhoImagem);
                 }
-
-                var arquivoBase64 = Convert.ToBase64String(bufferArquivo);
-
-                ColaboradorAnexo colaboradorAnexo = new ColaboradorAnexo();
-                colaboradorAnexo.ColaboradorId = colaboradorId;
-                colaboradorAnexo.Arquivo = arquivoBase64;
-                colaboradorAnexo.NomeArquivo = NomeArquivo + ExtensaoArquivo;
-                colaboradorAnexo.Descricao = NomeArquivo + ExtensaoArquivo;
-                objColaboradorAnexoService.Criar(colaboradorAnexo); 
-
             }
-
-            private void ExcluirColaboradorAnexoAnterior(ColaboradorViewModel colaborador)
+            return View();
+        }
+        [HttpPost]
+        public ContentResult GetCapturar()
+        {
+            string url = Session["ImagemCapturada"].ToString();
+            Session["ImagemCapturada"] = null;
+            return Content(url);
+        }
+        private static byte[] ConvertHexToBytes(string hex)
+        {
+            byte[] bytes = new byte[hex.Length / 2];
+            for (int i = 0; i < hex.Length; i += 2)
             {
-                if (!colaborador.Precadastro) return;
-                if (colaborador.FileUpload == null) return;
-                if (colaborador == null || colaborador.ColaboradorId == 0) return; 
-                if (colaborador.FileUpload.ContentLength <= 0 || colaborador.FileUpload.ContentLength > 2048000) return;
-
-                var objColaboradoAnexo = objColaboradorAnexoService.ListarComAnexo(colaborador.ColaboradorId).FirstOrDefault();
-                if (objColaboradoAnexo == null) return;
-
-                objColaboradorAnexoService.Remover(objColaboradoAnexo);
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
             }
-
-            public FileResult Download(string id)
-            {
-                string contentType = "";
-                string NomeArquivoAnexo = "";
-                string extensao = "";
-                string nomeArquivoV = ""; 
-                string pastaTemp = Path.GetTempPath();
-
-                //if (string.IsNullOrEmpty(id));
-
-                int colaboradorId = Convert.ToInt32(id);
-
-                var objColaboradorAnexo = objColaboradorAnexoService.ListarComAnexo(colaboradorId).FirstOrDefault();
-                NomeArquivoAnexo = objColaboradorAnexo.NomeArquivo; 
-                extensao = Path.GetExtension(NomeArquivoAnexo); 
-                nomeArquivoV = Path.GetFileNameWithoutExtension(NomeArquivoAnexo); 
-
-                var arrayArquivo = Convert.FromBase64String(objColaboradorAnexo.Arquivo); 
-                System.IO.File.WriteAllBytes(pastaTemp + NomeArquivoAnexo, arrayArquivo); 
-
-                if (extensao.Equals(".pdf"))
-                    contentType = "application/pdf"; 
-
-                return File(pastaTemp + NomeArquivoAnexo, contentType, nomeArquivoV + extensao);
-            }
+            return bytes;
+        }
 
         #endregion
 
