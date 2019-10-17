@@ -476,7 +476,7 @@
                                             <div class="col-lg-7">
                                                 @*//href="@Url.Action("AdicionarContrato")"*@
                                                 <a title="Vincular Contrato" id="btContrato" href="#">
-                                                    <i class="material-icons">&#xE147;</i>
+                                                    <i class="success btn-icon fa fa-plus-circle" style="color: #92c755; font-size: 25px; text-align:center"></i>
                                                 </a>
                                             </div>
                                         </div>
@@ -503,8 +503,8 @@
                                                 <div class="col-lg-2">@(item.OperadorPonteEmbarque ? "Sim" : "Não")</div>
                                                 <div class="col-lg-1">@(item.FlagCcam ? "Sim" : "Não") </div>
                                                 <div class="col-lg-1">
-                                                    <a title="Vincular Contrato" id=@item.EmpresaContratoId href="#" class="btnRemover" onclick="RemoverContrato(this)">
-                                                        <i class="material-icons danger">&#xE15C;</i>
+                                                    <a title="Remover Contrato" id=@item.EmpresaContratoId href="#" class="btnRemover" onclick="RemoverContrato(this)">
+                                                        <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
                                                     </a>
                                                 </div>
                                                 <br />
@@ -532,7 +532,7 @@
                                         <div class="col-lg-4">
                                             @*//href="@Url.Action("AdicionarContrato")"*@
                                             <a title="Incluir Curso" id="btCurso" href="#">
-                                                <i class="material-icons">&#xE147;</i>
+                                                <i class="success btn-icon fa fa-plus-circle" style="color: #92c755; font-size: 25px; text-align:center"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -547,7 +547,7 @@
                                                 <div class="col-lg-7">@item.Descricao</div>
                                                 <div class="col-lg-4">
                                                     <a title="Remover Curso" id=@item.CursoId href="#" class="btnRemoverCurso" onclick="RemoverCurso(this)">
-                                                        <i class="material-icons danger">&#xE15C;</i>
+                                                        <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
                                                     </a>
                                                 </div>
 
@@ -659,7 +659,7 @@
                             html += '<div class="col-lg-2">' + (item.ManuseioBagagem == true ? 'Sim' : 'Não') + '</div>';
                             html += '<div class="col-lg-2">' + (item.OperadorPonteEmbarque == true ? 'Sim' : 'Não') + '</div>';
                             html += '<div class="col-lg-1">' + (item.FlagCcam == true ? 'Sim' : 'Não')  + '</div>';
-                            html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+                            html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
                         });
                         $('#divContrato').html('');
                         $('#divContrato').append(html);
@@ -716,7 +716,7 @@
                         $.each(result, function (key, item) {
                             html += '<div class="col-lg-1">' + item.CursoId + '</div>';
                             html += '<div class="col-lg-7">' + item.Descricao + '</div>';
-                            html += '<div class="col-lg-4"><a class="btnRemover" title="Remover Contrato" id=' + item.CursoId + ' onclick="RemoverCurso(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+                            html += '<div class="col-lg-4"><a class="btnRemover" title="Remover Curso" id=' + item.CursoId + ' onclick="RemoverCurso(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
                         });
                         $('#divCurso').html('');
                         $('#divCurso').append(html);
@@ -762,7 +762,7 @@
                            html += '<div class="col-lg-2">' + (item.ManuseioBagagem == true ? 'Sim' : 'Não') + '</div>';
                            html += '<div class="col-lg-2">' + (item.OperadorPonteEmbarque == true ? 'Sim' : 'Não') + '</div>';
                            html += '<div class="col-lg-1">' + (item.FlagCcam == true ? 'Sim' : 'Não') + '</div>';
-                           html += '<div class="col-lg-1"><a class="btnRemoverContrato" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+                           html += '<div class="col-lg-1"><a class="btnRemoverContrato" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
 
                        });
                        $('#divContrato').html('');
@@ -832,7 +832,7 @@
 
                 reader.onload = function (e) {
                     $('#FotoUpload').attr('src', e.target.result);
-                    alert(e.target.result);
+                    
                 }
 
                 reader.readAsDataURL(input.files[0]);

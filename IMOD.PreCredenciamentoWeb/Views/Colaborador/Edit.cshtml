@@ -11,17 +11,7 @@
     @Html.AntiForgeryToken()
 
     <div class="table-wrapper">
-        <div class="table-title">
-            <div class="row">
-                <div class="col-sm-8">
-                    <h2>Cadastro de <b>Colaboradores</b></h2>
-                </div>
-                <div class="col-sm-4">
-                    <button type="submit" class="btn btn-success" id="btnSalvar"><i class="fa fa-save"></i> <span>Salvar Colaborador</span></button>
-                    <a href="~/Colaborador/Index" class="submit btn btn-danger"><i class="fa fa-fw fa-sign-in"></i> <span>Cancelar</span></a>
-                </div>
-            </div>
-        </div>
+        
         <fieldset class="form-horizontal">
             @Html.Hidden("ColaboradorId", @Model.ColaboradorId)
             @Html.Hidden("ContratoEmpresaID", @Model.ContratoEmpresaID)
@@ -31,9 +21,11 @@
                 <section>
                     <div class="wizard">
                         <div class="wizard-inner">
-                            <div class="connecting-line"></div>
+                            <div class="connecting-line" style="width:75%"></div>
                             <ul class="nav nav-tabs" role="tablist">
-
+                                <li class="nav-item" style="width:65px" data-toggle="tab" href="#" role="tab">
+                                    &nbsp&nbsp
+                                </li>
                                 <li role="presentation" class="active" style="padding-left: 10px">
                                     <a href="#home" data-toggle="tab" aria-controls="home" role="tab" title="Identificação">
                                         <span class="round-tab">
@@ -87,17 +79,11 @@
                                 <li role="presentation" class="disabled" style="padding-left: 10px">
                                     <a href="#aceite" data-toggle="tab" aria-controls="aceite" role="tab" title="Aceite">
                                         <span class="round-tab">
-                                            <i class="glyphicon glyphicon-thumbs-up"></i>
-                                        </span>
-                                    </a>
-                                </li>
-                                <li role="presentation" class="disabled" style="padding-left: 10px">
-                                    <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
-                                        <span class="round-tab">
                                             <i class="glyphicon glyphicon-ok"></i>
                                         </span>
                                     </a>
                                 </li>
+
                             </ul>
                         </div>
                         <form role="form">
@@ -162,7 +148,7 @@
 
                                         </div>
                                         <div class="col-md-5" style="height:152px;  width:123px">
-                                            <img class="resize" id="FotoUpload" src="#" alt="Imagem" style="padding-bottom: 15px" />
+                                            <img class="resize" id="FotoUpload" src="@ViewBag.FotoColaborador" alt="Imagem" style="padding-bottom: 15px" />
                                             @*<button id="btFoto">Selecione uma foto</button>*@
                                             <input type="file" name="FotoColaborador" accept="image/*" id="FotoColaborador" />
                                         </div>
@@ -489,7 +475,7 @@
                                             <div class="col-lg-7">
                                                 @*//href="@Url.Action("AdicionarContrato")"*@
                                                 <a title="Vincular Contrato" id="btContrato" href="#">
-                                                    <i class="material-icons">&#xE147;</i>
+                                                    <i class="success btn-icon fa fa-plus-circle" style="color: #92c755; font-size: 25px; text-align:center"></i>
                                                 </a>
                                             </div>
                                         </div>
@@ -517,7 +503,7 @@
                                                 <div class="col-lg-1">@(item.FlagCcam ? "Sim" : "Não") </div>
                                                 <div class="col-lg-1">
                                                     <a title="Vincular Contrato" id=@item.EmpresaContratoId href="#" class="btnRemover" onclick="RemoverContrato(this)">
-                                                        <i class="material-icons danger">&#xE15C;</i>
+                                                        <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
                                                     </a>
                                                 </div>
                                                 <br />
@@ -545,7 +531,7 @@
                                         <div class="col-lg-4">
                                             @*//href="@Url.Action("AdicionarContrato")"*@
                                             <a title="Incluir Curso" id="btCurso" href="#">
-                                                <i class="material-icons">&#xE147;</i>
+                                                <i class="success btn-icon fa fa-plus-circle" style="color: #92c755; font-size: 25px; text-align:center"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -560,7 +546,7 @@
                                                 <div class="col-lg-7">@item.Descricao</div>
                                                 <div class="col-lg-4">
                                                     <a title="Remover Curso" id=@item.CursoId href="#" class="btnRemoverCurso" onclick="RemoverCurso(this)">
-                                                        <i class="material-icons danger">&#xE15C;</i>
+                                                        <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
                                                     </a>
                                                 </div>
 
@@ -571,7 +557,7 @@
                                         <ul class="list-inline pull-right" style="padding-top: 208px">
                                             <li><a href="~/Colaborador/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
                                             <li><button type="button" class="btn btn-default prev-step btn-icon"><i class="fa fa-arrow-left"></i> <span><strong>Voltar</strong></span></button></li>
-                                            <li><button type="button" class="btn btn-primary next-step btn-icon"><span><strong>Avançar</strong></span> <i class="fa fa-arrow-right"></i> </button> </li>
+                                            <li><button type="submit" class="btn btn-success " id="btnSalvar"><i class="fa fa-save"></i> <span>Salvar</span></button></li>
 
                                         </ul>
                                     </div>
@@ -590,15 +576,13 @@
                                             <div class="form-group">
                                                 <div class="col-md-12 " style="padding-left: 30px; padding-top: 15px;">
                                                     <a href="~/Documentos/Modelo_Termo_Aceite.pdf" download="Modelo_Termo_Aceite">Clique aqui para baixar o termo de consentimento.</a>
-                                                    @Html.ValidationMessageFor(model => model.Aceite, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                             <div class="checkbox col-md-12" style="padding-left: 40px;">
                                                 <div class="col-md-5">
 
-                                                    <input type="checkbox" model="chkAceite" name="chkAceite" value="true"><b>Li e concordo com os termos de uso e política de privacidade</b><br />
+                                                    <input type="checkbox" model="chkAceite" name="chkAceite" checked="checked" value="true"><b>Li e concordo com os termos de uso e política de privacidade</b><br />
 
-                                                    @Html.ValidationMessageFor(model => model.chkAceite, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                         </div>
@@ -613,10 +597,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="tab-pane" role="tabpanel" id="complete">
-                                    <h3>Complete</h3>
-                                    <p>You have successfully completed all steps.</p>
-                                </div>
+                                
                                 <div class="clearfix"></div>
                             </div>
                         </form>
@@ -666,7 +647,7 @@
                             html += '<div class="col-lg-2">' + (item.ManuseioBagagem == true ? 'Sim' : 'Não') + '</div>';
                             html += '<div class="col-lg-2">' + (item.OperadorPonteEmbarque == true ? 'Sim' : 'Não') + '</div>';
                             html += '<div class="col-lg-1">' + (item.FlagCcam == true ? 'Sim' : 'Não') + '</div>';
-                            html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+                            html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
                         });
                         $('#divContrato').html('');
                         $('#divContrato').append(html);

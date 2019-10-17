@@ -12,6 +12,7 @@ using IMOD.Application.Interfaces;
 using System.IO;
 using Correios.Net;
 using System.Windows.Forms;
+using System.Net.Http;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
 {
@@ -76,6 +77,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             //obtém vinculos do colaborador
             ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
+
+            CarregaFotoColaborador(colaboradorMapeado);
 
             // carrega os contratos da empresa
             if (SessionUsuario.EmpresaLogada.Contratos != null)
@@ -301,8 +304,12 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             //obtém vinculos do colaborador
             ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
+            
+            colaboradorMapeado.chkAceite = true;
+            
+            CarregaFotoColaborador(colaboradorMapeado);
 
-            // carrega os contratosd da empresa
+            // carrega os contratos da empresa
             if (SessionUsuario.EmpresaLogada.Contratos != null)
             {
                 ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
@@ -371,6 +378,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         ModelState.AddModelError("FileUpload", "Permitida Somente Extensão  .pdf");
                 }
 
+                model.chkAceite = true;
                 // TODO: Add update logic here
                 if (ModelState.IsValid)
                 {
@@ -660,22 +668,34 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [Authorize]
         public void OnSelecionaFoto_Click(HttpPostedFileBase file, ColaboradorViewModel model)
         {
-                string pic = System.IO.Path.GetFileName(file.FileName);
+            string pic = System.IO.Path.GetFileName(file.FileName);
 
-                // save the image path path to the database or you can send image 
-                // directly to database
-                // in-case if you want to store byte[] ie. for DB
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    file.InputStream.CopyTo(ms);
-                    byte[] array = ms.GetBuffer();
+            // save the image path path to the database or you can send image 
+            // directly to database
+            // in-case if you want to store byte[] ie. for DB
+            using (MemoryStream ms = new MemoryStream())
+            {
+                file.InputStream.CopyTo(ms);
+                byte[] array = ms.GetBuffer();
 
-                    model.Foto = Convert.ToBase64String(array);
-                }
+                model.Foto = Convert.ToBase64String(array);
+            }
         }
 
         [Authorize]
-        public void BucarFoto(int colaborador, ColaboradorViewModel model)
+        public void CarregaFotoColaborador(ColaboradorViewModel model)
+        {
+            if (model.Foto != null)
+            {
+                var bytes = Convert.FromBase64String(model.Foto);
+                var base64 = Convert.ToBase64String(bytes);
+                ViewBag.FotoColaborador = String.Format("data:image/gif;base64,{0}", base64);
+            }
+        }
+
+
+        [Authorize]
+        public void BuscarFoto(int colaborador, ColaboradorViewModel model)
         {
             try
             {
