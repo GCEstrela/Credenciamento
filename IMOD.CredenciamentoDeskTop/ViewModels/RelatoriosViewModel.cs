@@ -265,7 +265,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
 
                 var list1 = _empresaService.Listar(idEmpresa, nome, apelido, cnpj);
-                var list2 = Mapper.Map<List<EmpresaView>>(list1.OrderByDescending(a => a.EmpresaId));
+                var list2 = Mapper.Map<List<EmpresaView>>(list1.OrderBy(a => a.EmpresaId));
 
                 var observer = new ObservableCollection<EmpresaView>();
                 list2.ForEach(n =>
