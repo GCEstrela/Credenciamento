@@ -38,9 +38,9 @@ namespace IMOD.Infra.Ado
         {
 
             string returnValue = null;
-            //string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             //string path = @"C:\Projetos\IMOD\IMOD.Infra";
-            string path = @"C:\Users\renatomaximo\Desktop\Credenciamento\IMOD.Infra";
+            //string path = @"C:\Users\renatomaximo\Desktop\Credenciamento\IMOD.Infra";
             XmlDocument xmlDoc = new XmlDocument();
 
             //Conexao Apenas para Publicação Pré Cadastro

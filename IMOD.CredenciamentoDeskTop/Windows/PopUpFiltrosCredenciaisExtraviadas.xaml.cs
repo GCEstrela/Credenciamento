@@ -41,8 +41,12 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             string dataFim = dp_dataFinal.Text; 
 
             bool flaTodasDevolucaoEntregue = (bool)RbtnTodasDevolucaoEntregue.IsChecked.Value;
-            bool flaSimNaoDevolucaoEntregue = (bool)RbtnSimDevolucaoEntregue.IsChecked.Value ? true : (bool)RbtnNaoDevolucaoEntregue.IsChecked.Value ? false : true;
-            
+
+            bool flaSimNaoDevolucaoEntregue = (bool)RbtnSimDevolucaoEntregue.IsChecked.Value;
+           
+
+            //(bool)RbtnNaoDevolucaoEntregue.IsChecked.Value ?
+
             var checkTipo = (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value ? false : true);
 
             if (lstMotivoCredencial.SelectedItems.Count > 0 )
