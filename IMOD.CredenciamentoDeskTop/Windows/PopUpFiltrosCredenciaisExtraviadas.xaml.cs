@@ -35,23 +35,27 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
 
-         IEnumerable<object> motivoCredencialSelecionados = new List<object>(); 
+            IEnumerable<object> motivoCredencialSelecionados = new List<object>();
 
-            string dataIni = dp_dataInicial.Text; 
-            string dataFim = dp_dataFinal.Text; 
+            string dataIni = dp_dataInicial.Text;
+            string dataFim = dp_dataFinal.Text;
 
             bool flaTodasDevolucaoEntregue = (bool)RbtnTodasDevolucaoEntregue.IsChecked.Value;
-            bool flaSimNaoDevolucaoEntregue = (bool)RbtnSimDevolucaoEntregue.IsChecked.Value ? true : (bool)RbtnNaoDevolucaoEntregue.IsChecked.Value ? false : true;
-            
+
+            bool flaSimNaoDevolucaoEntregue = (bool)RbtnSimDevolucaoEntregue.IsChecked.Value;
+
+
+            //(bool)RbtnNaoDevolucaoEntregue.IsChecked.Value ?
+
             var checkTipo = (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value ? false : true);
 
-            if (lstMotivoCredencial.SelectedItems.Count > 0 )
+            if (lstMotivoCredencial.SelectedItems.Count > 0)
             {
                 motivoCredencialSelecionados = (IEnumerable<object>)lstMotivoCredencial.SelectedItems;
 
                 var teste = lstMotivoCredencial.SelectedItems;
             }
-           
+
             ((RelatoriosViewModel)DataContext).OnRelatorioCredenciaisExtraviadasFiltroCommand(checkTipo,
                                                                                             (IEnumerable<object>)motivoCredencialSelecionados, dataIni, dataFim,
                                                                                                                         flaTodasDevolucaoEntregue, flaSimNaoDevolucaoEntregue);
