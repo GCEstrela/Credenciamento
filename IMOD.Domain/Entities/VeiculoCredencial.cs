@@ -43,6 +43,9 @@ namespace IMOD.Domain.Entities
         public string Email { get; set; }
         public string IdentificacaoDescricao { get; set; }
         public string Lacre { get; set; }
+        public int CredencialMotivoIDAnterior { get; set; }
+        public string CredencialMotivoIDAnteriorDescricao { get; set; }
+
         #endregion
     }
 }

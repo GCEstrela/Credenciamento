@@ -81,7 +81,8 @@ namespace IMOD.Domain.EntitiesCustom
         public int emissaoValidade { get; set; }
         public string Portao { get; set; }
         #endregion
-
+        public int CredencialMotivoIDAnterior { get; set; }
+        public string CredencialMotivoIDAnteriorDescricao { get; set; }
 
     }
 
