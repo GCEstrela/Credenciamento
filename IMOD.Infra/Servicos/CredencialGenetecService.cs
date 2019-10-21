@@ -240,24 +240,27 @@ namespace IMOD.Infra.Servicos
                     case "HID Corporate 1000 48 Bits":
                         credencial.Format = new WiegandCorporate1000CredentialFormat(entity.FacilityCode, Convert.ToInt32(entity.NumeroCredencial));
                         break;
-                    default: //Format do tipo CSN
+                    case "CSN":
+                        credencial.Format = new WiegandCsn32CredentialFormat(long.Parse(entity.NumeroCredencial.ToString()));
+                        break;
+                    default:
 
-                        var sysConfig = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
-                        CustomCredentialFormat mifareCsn;
-                        if (sysConfig != null)
+                        //var sysConfig = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+                        //CustomCredentialFormat mifareCsn;
+                        //if (sysConfig != null)
 
-                            foreach (var cardFormat in sysConfig.CredentialFormats)
+                        //    foreach (var cardFormat in sysConfig.CredentialFormats)
 
-                                if (cardFormat.Name == "CSN")
-                                {
-                                    mifareCsn = cardFormat as CustomCredentialFormat;
-                                    if (mifareCsn != null)
-                                    {
-                                        credencial.Format = new WiegandCsn32CredentialFormat(long.Parse(entity.NumeroCredencial.ToString()));
-                                    }
+                        //        if (cardFormat.Name == "CSN" || cardFormat.Name == "CSN (32 bits)")
+                        //        {
+                        //            mifareCsn = cardFormat as CustomCredentialFormat;
+                        //            if (mifareCsn != null)
+                        //            {
+                        //                credencial.Format = new WiegandCsn32CredentialFormat(long.Parse(entity.NumeroCredencial.ToString()));
+                        //            }
 
-                                    break;
-                                }
+                        //            break;
+                        //        }
 
                         break;
                 }
