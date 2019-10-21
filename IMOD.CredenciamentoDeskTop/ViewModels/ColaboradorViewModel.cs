@@ -401,17 +401,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity.Foto != null) return;
-                var listaFoto = _service.BuscarPelaChave(colaborador);
 
-                if (listaFoto != null)
-                    Entity.Foto = listaFoto.Foto;
+                var listaFoto = _service.BuscarPelaChave(colaborador);
+                //if (Utils.IsBase64(listaFoto.ToString()))
+                //{
+                    if (listaFoto != null)
+                        Entity.Foto = listaFoto.Foto;
+                //}
+
             }
             catch (Exception ex)
             {
+                Entity.Foto = null;
                 Utils.TraceException(ex);
                 WpfHelp.PopupBox(ex);
             }
         }
+       
         public void ListarDadosAuxiliares()
         {
             try
