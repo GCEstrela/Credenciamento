@@ -265,7 +265,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
 
                 var list1 = _empresaService.Listar(idEmpresa, nome, apelido, cnpj);
-                var list2 = Mapper.Map<List<EmpresaView>>(list1.OrderByDescending(a => a.EmpresaId));
+                var list2 = Mapper.Map<List<EmpresaView>>(list1.OrderBy(a => a.Nome));
 
                 var observer = new ObservableCollection<EmpresaView>();
                 list2.ForEach(n =>
@@ -1045,25 +1045,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 colaboradorCredencial.Impressa = true;
                 List<int> statusListMotivoExtravio = new List<int>() { 9, 10, 18 };
 
+                colaboradorCredencial.flaTodasDevolucaoEntregaBO = flaTodasDevolucaoEntregaBO;
                 if (!flaTodasDevolucaoEntregaBO)
                 {
                     colaboradorCredencial.DevolucaoEntregaBo = flaSimNaoDevolucaoEntregaBO;
                 }
-                else
-                {
-                    colaboradorCredencial.flaTodasDevolucaoEntregaBO = flaTodasDevolucaoEntregaBO;
-                }
 
                 if (!string.IsNullOrEmpty(dataIni))
                 {
-                    colaboradorCredencial.Validade = DateTime.Parse(dataIni);
-                    colaboradorCredencial.ValidadeFim = DateTime.Parse(dataIni).AddDays(180);
+                    colaboradorCredencial.DataStatus = DateTime.Parse(dataIni);
+                    colaboradorCredencial.DataStatusFim = DateTime.Parse(dataIni).AddDays(180);
                     mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
                 }
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    colaboradorCredencial.ValidadeFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
+                    colaboradorCredencial.DataStatusFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
                     if (!string.IsNullOrEmpty(dataIni))
                     {
                         mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
@@ -1078,12 +1075,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
                 mensagemComplementoTipo = tipo ? " permanentes " : " temporárias ";
 
+
+
                 if (credencialMotivoSelecionados.Count() > 0)
                 {
+                    statusListMotivoExtravio = new List<int>();
                     foreach (CredencialMotivoView credencialMotivo in credencialMotivoSelecionados)
                     {
                         mensagemComplementoMotivoCredencial += credencialMotivo.Descricao + ",";
                         codigoMotivoSelecionados += Convert.ToString(credencialMotivo.CredencialMotivoId) + ",";
+                        statusListMotivoExtravio.Add(credencialMotivo.CredencialMotivoId);
+
                     }
                     mensagemComplementoMotivoCredencial = " (" + mensagemComplementoMotivoCredencial.Substring(0, mensagemComplementoMotivoCredencial.Length - 1) + " ) ";
                     codigoMotivoSelecionados = codigoMotivoSelecionados.Substring(0, codigoMotivoSelecionados.Length - 1);
@@ -1095,14 +1097,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
 
 
-                if (credencialMotivoSelecionados.Count() > 0)
-                {
-                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialExtraviadasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2 && codigoMotivoSelecionados.Contains(n.CredencialMotivoId.ToString()));
-                }
-                else
-                {
-                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialExtraviadasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2 && statusListMotivoExtravio.Contains(n.CredencialMotivoId));
-                }
+                resultLista = objColaboradorCredencial.ListarColaboradorCredencialExtraviadasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2 && statusListMotivoExtravio.Contains(n.CredencialMotivoId));
 
                 var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(resultLista.OrderByDescending(n => n.ColaboradorCredencialId).ToList());
 
