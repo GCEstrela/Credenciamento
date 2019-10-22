@@ -36,6 +36,7 @@ namespace IMOD.Infra.Servicos.Entities
         public string IdentificadorLayoutCrachaGuid { get; set; }
         public int FacilityCode { get; set; }
         public  Image Foto { get; set; }
+        public bool  grupoAlterado { get; set; }
         /// <summary>
         /// Numero do cartão da credencial
         /// </summary>

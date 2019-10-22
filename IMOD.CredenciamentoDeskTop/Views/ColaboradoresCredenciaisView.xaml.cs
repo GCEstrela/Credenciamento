@@ -465,7 +465,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-               
+                _viewModel.Entity.grupoAlterado = true;
                 popup = new PopUpGrupos();
                 if (cardholderGuids.Count != 0)
                 {

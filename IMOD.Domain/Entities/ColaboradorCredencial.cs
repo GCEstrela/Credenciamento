@@ -58,6 +58,7 @@ namespace IMOD.Domain.Entities
         public string RNE { get; set; }
         public string Usuario { get; set; }
         public List<Guid> listadeGrupos { get; set; }
+        public bool grupoAlterado { get; set; }
         #endregion
     }
 }

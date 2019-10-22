@@ -829,6 +829,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                Entity.grupoAlterado = false;
                 PrepararCancelar();
                 HabilitarOpcoesCredencial = true;
                 verificarcredencialAtiva = true;
@@ -896,11 +897,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-
+                
                 if (Entity == null) return;     //IdentificacaoDescricao = null
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 //Alterado por Maximo em 28/06/2019
                 //ObterValidadeAlteracao();
+
                 Entity.Ativa = Constantes.Constantes.ATIVO.Equals(Entity.CredencialStatusId);
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
@@ -984,6 +986,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         n1.CardHolderGuid = entity.CardHolderGuid;
                         n1.CredencialGuid = entity.CredencialGuid;
                         n1.listadeGrupos = Entity.listadeGrupos;
+
                         _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
                     }
                     else
@@ -1269,6 +1272,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //Listar Colaboradores Ativos
             //OnAtualizarDadosContratosAtivos();
 
+
+
+
+            Entity.grupoAlterado = false;
             verificarcredencialAtiva = true;
             if (Entity == null)
             {

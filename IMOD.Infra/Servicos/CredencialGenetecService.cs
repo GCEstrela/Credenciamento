@@ -309,14 +309,19 @@ namespace IMOD.Infra.Servicos
                         cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                 }
 
-                cardholder.Groups.Clear();
-                if (entity.listadeGrupos != null)
+                if(entity.grupoAlterado)
                 {
+                    cardholder.Groups.Clear();
+                }
+                
+                if (entity.listadeGrupos != null && entity.listadeGrupos.Count > 0)
+                {                    
                     foreach (Guid cardholderGuid in entity.listadeGrupos)
                     {
                         cardholder.Groups.Add(cardholderGuid);
                     }
                 }
+
                 if (cardholder.Credentials.Count == 0)
                 {
                     cardholder.State = CardholderState.Inactive;
@@ -1149,6 +1154,24 @@ namespace IMOD.Infra.Servicos
             }
             return false;
         }
+        //public  List<CardholderGroup> ObterGruposCardHolder(string cardHolder)
+        //{
+        //    try
+        //    {
+        //        Guid cardguid = new Guid(cardHolder);
+        //        Cardholder cardholder = _sdk.GetEntity(cardguid) as Cardholder;
+        //        return cardholder.Groups;
+
+
+
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+
         #endregion
     }
 }
