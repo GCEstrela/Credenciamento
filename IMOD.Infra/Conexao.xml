@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<StringConexao>
-    Data Source=GCTEC04;Initial Catalog=D_iModCredenciamento;User ID=imod;Password=imod;Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True
+<StringConexao>   
   <InstanciaSQL>GCTEC04</InstanciaSQL>
   <Banco>D_iModCredenciamento</Banco>
   <UsuarioDB>imod</UsuarioDB>

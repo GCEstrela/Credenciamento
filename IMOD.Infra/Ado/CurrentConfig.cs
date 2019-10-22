@@ -68,37 +68,12 @@ namespace IMOD.Infra.Ado
 
             XmlNode complemento = nodestring.SelectSingleNode("Complemento");
             returnValue = "Data Source=" + instancia.InnerXml + ";Initial Catalog="+ banco.InnerXml + ";User ID="+ usuario.InnerXml + ";Password="+ senhaDecryptada + ";"+ complemento.InnerXml;
-            
-            //Exempla de ecriptação de senha//////////////////
-            //var str_1 = nodestring.InnerXml.Split(';');
-            //var str_2 = str_1[3].Split('=');
-            //string senha = Decrypt(str_2[1]+"=");
-            /////////////////////////////////////////////////
-            //returnValue = nodestring.InnerXml;
-            
+                      
 
             return returnValue;
 
         }
-        //public static string Decrypt(string cipher)
-        //{
-        //    //c4RRamq1Ico =
-        //    //using (var md5 = new MD5CryptoServiceProvider())
-        //    //{
-        //    //    using (var tdes = new TripleDESCryptoServiceProvider())
-        //    //    {
-        //    //        tdes.Key = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(key));
-        //    //        tdes.Mode = CipherMode.ECB;
-        //    //        //tdes.Padding = PaddingMode.PKCS7;
-
-        //    //        using (var transform = tdes.CreateDecryptor())
-        //    //        {
-        //    //            byte[] Buffer = Convert.FromBase64String(cipher.Trim());
-        //    //            return ASCIIEncoding.ASCII.GetString(tdes.CreateDecryptor().TransformFinalBlock(Buffer, 0, Buffer.Length));
-        //    //        }
-        //    //    }
-        //    //}
-        //}
+       
         #endregion
     }
 }
