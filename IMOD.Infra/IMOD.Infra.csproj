@@ -35,6 +35,10 @@
       <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EstrelaEncryparDecrypitar, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\IMOD.CredenciamentoDeskTop\Dlls\EstrelaEncryparDecrypitar.dll</HintPath>
+    </Reference>
     <Reference Include="Genetec.Sdk">
       <HintPath>..\IMOD.CredenciamentoDeskTop\Dlls\Genetec.Sdk.dll</HintPath>
     </Reference>
