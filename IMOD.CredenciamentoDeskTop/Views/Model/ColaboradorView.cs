@@ -22,7 +22,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
     {
 
         #region  Propriedades
-
+        public int IdColaboradorSICOA { get; set; }
         public int ColaboradorId { get; set; }
         [Required(ErrorMessage = "O Nome é requerido.")]
         public string Nome { get; set; }
@@ -37,6 +37,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         //[Required(ErrorMessage = "O CPF é requerido.")]
         [RequiredIf("Estrangeiro", false, ErrorMessage = "O CPF é requerido.")]
         public string Cpf { get; set; }
+        [RequiredIf("Estrangeiro", false, ErrorMessage = "O RG é requerido.")]
         public string Rg { get; set; }
         public DateTime? RgEmissao { get; set; }
         public string RgOrgLocal { get; set; }
@@ -106,7 +107,22 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool Receitafederal { get; set; }
         public bool Segurancatrabalho { get; set; }
         public bool Precadastro { get; set; }
-        public string CpfMascara { get { return (Cpf.Length > 11 & Cpf.Contains(".")) || (String.IsNullOrEmpty(Cpf?.Trim())) ? Cpf : Convert.ToUInt64(Cpf).ToString(@"000\.000\.000\-00"); } }
+        public string CpfMascara
+        {
+            get
+            {
+                try
+                {
+                    return (Cpf.Length > 11 & Cpf.Contains(".")) || (String.IsNullOrEmpty(Cpf?.Trim())) ? Cpf : Convert.ToUInt64(Cpf).ToString(@"000\.000\.000\-00");
+                }
+                catch (Exception ex)
+                {
+                    return Cpf;
+                    //throw ex;
+                }
+            }
+        }
+        
 
 
         #endregion

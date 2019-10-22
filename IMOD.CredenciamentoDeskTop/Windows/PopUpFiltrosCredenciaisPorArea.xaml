@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
         mc:Ignorable="d"
-        Title="Procurar Empresa" Height="258.225" Width="409.935" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
+        Title="Procurar Empresa" Height="450" Width="409.935" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FF171717" Offset="0.984"/>
@@ -24,7 +24,7 @@
             <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Cracha.png" Width="24" Height="139" VerticalAlignment="Top"/>
             <Label Content="Filtrar Por Área de Acesso - Módulo de Credenciamento" Foreground="White"/>
         </StackPanel>
-        <StackPanel Margin="0,-30" HorizontalAlignment="Right" Width="38" >
+        <StackPanel Margin="0,-30,0,0" HorizontalAlignment="Right" Width="38" >
             <Button FontWeight="Bold" Height="18" BorderBrush="Black" BorderThickness="1,0,1,1" Click="Button_Click" Margin="-2,0,0,0" HorizontalAlignment="Left" Width="40">
                 <Button.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -56,6 +56,19 @@
                         <RadioButton x:Name="autorizacoes_rb" VerticalAlignment="Center" Content="Autorizações (ATIV)" Margin="10,0,295,0" GroupName="Cred_rb" />
                     </StackPanel>
 
+                </StackPanel>
+            </GroupBox>
+            <GroupBox x:Name="InformacoesTipo_gb" Header="Filtrar por Tipo" Margin="10,0" Height="75" Foreground="#FFD0D0D0">
+                <StackPanel x:Name="StpInformacoes"  Orientation="Horizontal" VerticalAlignment="Stretch"  HorizontalAlignment="Left" >
+                    <RadioButton x:Name="RbtnPermanente" Content=" Permanentes" TextBlock.TextAlignment="Left" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True"/>
+                    <RadioButton x:Name="RbtnTemporario" Content=" Temporárias" Margin="30,0" TextBlock.TextAlignment="Left" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="151"/>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox x:Name="GpbStatus" Header="Filtrar Status"  Margin="10,10"  Foreground="#FFD0D0D0" Height="70"> 
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+                    <RadioButton  x:Name="RbtnTodosStatus" Content="Todas" GroupName="GpnStatus" Width="60" ></RadioButton>
+                    <RadioButton  x:Name="RbtnStatusAtiva" Content="Ativa" IsChecked="True" GroupName="GpnStatus" Width="60" ></RadioButton> 
+                    <RadioButton  x:Name="RbtnStatusInativa" Content="Inativa" GroupName="GpnStatus" Width="60" ></RadioButton> 
                 </StackPanel>
             </GroupBox>
             <Button x:Name="button" Content="Filtrar" Click="button_ClickFiltrar" Height="33"   Margin="122,20" />

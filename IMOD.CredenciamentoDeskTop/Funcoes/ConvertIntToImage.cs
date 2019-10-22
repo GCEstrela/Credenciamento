@@ -25,12 +25,12 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
             }
             else if ((int)value == 15)
             {
-                BitmapImage imagem = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/yellow_alerta.png"));
+                BitmapImage imagem = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/laranja_alerta.png"));
                 return imagem;
             }
             else if ((int)value == 30)
             {
-                BitmapImage imagem = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/green_alerta.png"));
+                BitmapImage imagem = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/yellow_alerta.png"));
                 return imagem;
             }
             else

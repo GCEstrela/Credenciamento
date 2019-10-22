@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
         mc:Ignorable="d"
-        Title="Procurar Empresa" Height="407.164" Width="444.628" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
+        Title="Procurar Empresa" Height="565" Width="444.628" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FF171717" Offset="0.984"/>
@@ -39,20 +39,21 @@
             </Button>
         </StackPanel>
         <StackPanel Grid.Column="0" Margin="0,0,0,10">
-            <GroupBox x:Name="Informacoes_gb" Header="Filtrar por Tipo" Height="170" Width="410" Foreground="#FFD0D0D0">
-                <ListBox x:Name="lstMotivoCredencial"
+            <GroupBox x:Name="Informacoes_gb" Header="Filtro por Justificativa via adicional " Height="170" Width="410" Foreground="#FFD0D0D0">
+                <ListBox x:Name="lstMotivoCredencial" SelectionMode="Multiple"
                         ItemsSource="{Binding MotivosCredenciais}"
                         SelectedValue="{Binding MotivosCredenciais}"
                         SelectedValuePath="CredencialMotivoId">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <RadioButton
+                            <CheckBox
                                 IsChecked="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}"
                                 Content="{Binding Descricao}" />
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </GroupBox>
+
             <GroupBox x:Name="data_gb" Header="Filtrar por período" Margin="10,10" Height="100" Foreground="#FFD0D0D0">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch"  HorizontalAlignment="Left" Margin="0,5,-2,4" Height="48" Width="403">
                     <Label Content="Data Inicial:" Height="28" Width="83" Margin="0,10,5,10" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
@@ -61,6 +62,19 @@
                     <!--<TextBox CharacterCasing="Upper"  x:Name="Dataini_tb"   MaxLength="50" Text="Data Inicial"  IsEnabled="True"  Height="24"  Width="100" Margin="0,12"/>-->
                     <Label Content="Data Final :" Height="28" Width="100" Margin="0,10,5,10" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                     <DatePicker Margin="-10,3,0,0" Height="28" HorizontalAlignment="Left" x:Name="dp_dataFinal" Width="100" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox x:Name="InformacoesTipo_gb" Header="Filtrar por Tipo" Margin="10,0" Height="75" Foreground="#FFD0D0D0">
+                <StackPanel x:Name="Informacoes_sp"  Orientation="Horizontal" VerticalAlignment="Stretch"  HorizontalAlignment="Left" >
+                    <RadioButton x:Name="RbtnPermanente" Content=" Permanentes" TextBlock.TextAlignment="Left" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True"/>
+                    <RadioButton x:Name="RbtnTemporario" Margin="30,0" Content=" Temporárias" TextBlock.TextAlignment="Left" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="151"/>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox x:Name="GpbStatus" Header="Filtrar Status"  Margin="10,10"  Foreground="#FFD0D0D0" Height="70">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+                    <RadioButton  x:Name="RbtnTodosStatus" Content="Todas" GroupName="GpnStatus" Width="60" ></RadioButton>
+                    <RadioButton  x:Name="RbtnStatusAtiva" Content="Ativa" IsChecked="True" GroupName="GpnStatus" Width="60" ></RadioButton>
+                    <RadioButton  x:Name="RbtnStatusInativa" Content="Inativa" GroupName="GpnStatus" Width="60" ></RadioButton>
                 </StackPanel>
             </GroupBox>
             <Button x:Name="button" Content="Filtrar" Click="button_ClickFiltrar" Height="33" HorizontalAlignment="Center" Width="100" Margin="166,20,167,20" />

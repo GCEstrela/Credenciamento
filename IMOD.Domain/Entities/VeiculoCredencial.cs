@@ -31,6 +31,7 @@ namespace IMOD.Domain.Entities
         public string CredencialGuid { get; set; }
         public int? VeiculoPrivilegio1Id { get; set; }
         public int? VeiculoPrivilegio2Id { get; set; }
+        public string Portao { get; set; }
         public bool Ativa { get; set; }
         public string Colete { get; set; }
         public int? CredencialMotivoId { get; set; }
@@ -38,8 +39,10 @@ namespace IMOD.Domain.Entities
         public bool Impressa { get; set; }
 
         public DateTime? DataStatus { get; set; } 
-        public int DevolucaoEntregaBoId { get; set; }
-
+        public bool DevolucaoEntregaBo { get; set; }
+        public string Email { get; set; }
+        public string IdentificacaoDescricao { get; set; }
+        public string Lacre { get; set; }
         #endregion
     }
 }

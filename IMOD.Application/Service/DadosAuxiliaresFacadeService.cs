@@ -206,6 +206,12 @@ namespace IMOD.Application.Service
             get { return new ColaboradorCursosService(); }
         }
 
+        public IEquipamentoVeiculoTipoServicoService EquipamentoVeiculoTipoServicoService
+        {
+            get { return new EquipamentoVeiculoTipoServicoService(); }
+        }
+        
+
         #endregion
     }
 }

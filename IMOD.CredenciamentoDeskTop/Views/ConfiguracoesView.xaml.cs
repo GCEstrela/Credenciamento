@@ -1,10 +1,14 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using IMOD.Application.Interfaces;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 using IMOD.CrossCutting;
+using Microsoft.Win32;
 
 namespace IMOD.CredenciamentoDeskTop.Views
 {
@@ -22,6 +26,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             InitializeComponent();
             _viewModel = new ConfiguracoesViewModel();
             DataContext = _viewModel;
+           
         }
         #endregion
 
@@ -148,6 +153,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             BuscarCracha_bt.IsEnabled = true;
             btnSalvarCracha.IsEnabled = true;
             btnCancelarCracha.IsEnabled = true;
+            btnAdicionarCracha.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnAdicionarLayoutCrachaCommand();
         }
 
@@ -155,6 +161,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             btnAdicionarCracha.IsEnabled = true;
             btnSalvarCracha.IsEnabled = false;
+            BuscarCracha_bt.IsEnabled = false;            
+            btnCancelarCracha.IsEnabled = false;
+
             BuscarRelatorioGerencial_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarLayoutCrachaCommand();
         }
@@ -168,8 +177,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void btnCancelarCracha_Click(object sender, RoutedEventArgs e)
         {
-            btnSalvarCracha.IsEnabled = false;
             btnAdicionarCracha.IsEnabled = true;
+            btnSalvarCracha.IsEnabled = false;
+            BuscarCracha_bt.IsEnabled = false;
+            btnCancelarCracha.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).CarregaColecaoLayoutsCrachas();
         }
 
@@ -622,9 +633,154 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void BtnSalvarConfiguracoesSistema_Click(object sender, RoutedEventArgs e)
         {
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+
             btnAdicionarTipoAtividade.IsEnabled = true;
             btnSalvarTipoAtividade.IsEnabled = false;
+            if (Senha_tb.Password.Length > 0)
+            {
+                _viewModel.Entity.EmailSenha = this.Senha_tb.Password;
+            }
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_ConfiguracoesSistema();
+
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+            MessageBox.Show("Alteração realizada com sucesso!","Credenciamento",MessageBoxButton.OK);
+        }
+
+        
+
+        private void Colaborador_bt_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+
+                IColaboradorService _serviceColaborador = new Application.Service.ColaboradorService();
+
+                var forderDialog = new System.Windows.Forms.FolderBrowserDialog();
+                var result = forderDialog.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(@forderDialog.SelectedPath);
+                    System.IO.FileInfo[] rgFiles = di.GetFiles("*.jpg");
+
+                    foreach (System.IO.FileInfo fi in rgFiles)
+                    {
+                        var id = fi.Name.Split('.');
+                        var path = fi.FullName;
+                        var tamBytes = new System.IO.FileInfo(path).Length;
+                        var tam = decimal.Divide(tamBytes, 1024);
+                        var arq = new ArquivoInfo
+                        {
+                            Nome = fi.FullName
+                        };
+
+
+                        arq.ArrayBytes = File.ReadAllBytes(path);
+                        arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
+                        arq.ArrayBytes = File.ReadAllBytes(path);
+                        arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
+
+                        try
+                        {
+
+                            if (arq != null)
+                            {
+                                var n2 = _serviceColaborador.Listar(null, null, null, null, id[0]).FirstOrDefault();
+                                if (n2 != null)
+                                {
+                                    n2.Foto = arq.FormatoBase64;
+                                    _serviceColaborador.Alterar(n2);
+                                }
+
+                            }
+
+                        }
+
+                        catch (Exception ex)
+                        {
+                            //System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                            throw ex;
+                        }
+                    }
+                    
+                    System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                    MessageBox.Show("Importação concluida!", "Credenciamento", MessageBoxButton.OK);
+                }
+
+                
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        private void Emprasa_bt_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+
+                IEmpresaService _serviceEmpresa= new Application.Service.EmpresaService();
+
+                var forderDialog = new System.Windows.Forms.FolderBrowserDialog();
+                var result = forderDialog.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(@forderDialog.SelectedPath);
+                    System.IO.FileInfo[] rgFiles = di.GetFiles("*.jpg");
+
+                    foreach (System.IO.FileInfo fi in rgFiles)
+                    {
+                        var id = fi.Name.Split('.');
+                        var path = fi.FullName;
+                        var tamBytes = new System.IO.FileInfo(path).Length;
+                        var tam = decimal.Divide(tamBytes, 1024);
+                        var arq = new ArquivoInfo
+                        {
+                            Nome = fi.FullName
+                        };
+
+
+                        arq.ArrayBytes = File.ReadAllBytes(path);
+                        arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
+                        arq.ArrayBytes = File.ReadAllBytes(path);
+                        arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
+
+                        try
+                        {
+
+                            if (arq != null)
+                            {
+                                var n2 = _serviceEmpresa.Listar(null, null, null, null, null, null, null, id[0]).FirstOrDefault();
+                                if (n2 != null)
+                                {
+                                    n2.Logo = arq.FormatoBase64;
+                                    _serviceEmpresa.Alterar(n2);
+                                }
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            //System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                            throw ex;
+                        }
+                    }
+
+                    System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                    MessageBox.Show("Importação concluida!", "Credenciamento", MessageBoxButton.OK);
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

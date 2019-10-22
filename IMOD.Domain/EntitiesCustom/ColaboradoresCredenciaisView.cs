@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using IMOD.Domain.EntitiesCustom.Funcoes;
 
@@ -34,7 +35,7 @@ namespace IMOD.Domain.EntitiesCustom
         //private string _colete;
         //public string Colete { get { return _colete = ColaboradorId > 0 ? EmpresaSigla.Trim().ToString() + Convert.ToString(ColaboradorId) : _colete; } set { _colete = value; } }
         public string Colete { get; set; }
-        [Range(1, int.MaxValue, ErrorMessage = "A motivação é requerida.")]
+        [Range(1, int.MaxValue, ErrorMessage = "O tipo é requerido.")]
         public int CredencialMotivoId { get; set; }
         public bool Impressa { get; set; }
         public bool Ativa { get; set; }
@@ -71,7 +72,6 @@ namespace IMOD.Domain.EntitiesCustom
         /// True, possue pendencia impeditiva
         /// </summary>
         public bool PendenciaImpeditiva { get; set; }
-
         public string CredencialMotivoDescricao { get; set; }
         public DateTime? DataImpressao { get; set; }
         public decimal Valor { get; set; }
@@ -80,15 +80,33 @@ namespace IMOD.Domain.EntitiesCustom
         public string Identificacao { get; set; }
         public int AreaAcessoId { get; set; }
         public string IdentificacaoDescricao { get; set; }
-
         public DateTime? DataStatus { get; set; }
-        public int DevolucaoEntregaBoId { get; set; }        
         public string NumeroColete { get; set; }
         public bool Policiafederal { get; set; }
         public bool Receitafederal { get; set; }
         public bool Segurancatrabalho { get; set; }
         public string Email { get; set; }
         public string Obs { get; set; }
-
+        public bool DevolucaoEntregaBo { get; set; }
+        public bool Regras { get; set; }
+        public string GrupoPadrao { get; set; }
+        public int? CredencialVia { get; set; }        
+        [RequiredIf("MotivoObrigatorio", true, ErrorMessage = "Informe o motivo da Via Adicional.")]
+        public int? CredencialmotivoViaAdicionalID { get; set; }
+        public int? CredencialmotivoIDanterior { get; set; }       
+        public string CredencialmotivoViaAdicionalDescricao{ get; set; } 
+        public string CredencialmotivoIdAnteriorDescricao { get; set; }
+        public bool Estrangeiro { get; set; }
+        public string RNE { get; set; }
+        public string Usuario { get; set; }
+        public List<Guid> listadeGrupos { get; set; }
+        public bool MotivoObrigatorio
+        {
+            get
+            {
+                return (CredencialMotivoId == 2 && CredencialmotivoViaAdicionalID == null);
+            }
+        }
+        public bool  grupoAlterado { get; set; }
     }
 }

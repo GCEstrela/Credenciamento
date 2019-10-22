@@ -14,6 +14,7 @@ namespace IMOD.Domain.Entities
         public int EmpresaId { get; set; }
         public int? LayoutCrachaId { get; set; }
         public string Nome { get; set; }
+        public string Modelo { get; set; }
 
         #endregion
     }

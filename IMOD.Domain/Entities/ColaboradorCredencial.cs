@@ -7,6 +7,7 @@
 #region
 
 using System;
+using System.Collections.Generic;
 
 #endregion
 
@@ -37,7 +38,6 @@ namespace IMOD.Domain.Entities
         public bool Ativa { get; set; }
         public DateTime? Baixa { get; set; }
         public DateTime? DataStatus { get; set; }
-        public int DevolucaoEntregaBoId { get; set; }
         public int ColaboradorId { get; set; }
         public string ColaboradorNome { get; set; }
         public bool Policiafederal { get; set; }
@@ -47,6 +47,18 @@ namespace IMOD.Domain.Entities
         public string Identificacao2 { get; set; }
         public string Email { get; set; }
         public string Obs { get; set; }
+        public bool DevolucaoEntregaBo { get; set; }
+        public bool Regras { get; set; }
+        public int? CredencialVia { get; set; }
+        public int? CredencialmotivoViaAdicionalID { get; set; }
+        public int? CredencialmotivoIDanterior { get; set; }
+        public string CredencialmotivoViaAdicionalDescricao { get; set; }
+        public string CredencialmotivoIdAnteriorDescricao { get; set; }
+        public bool Estrangeiro { get; set; }
+        public string RNE { get; set; }
+        public string Usuario { get; set; }
+        public List<Guid> listadeGrupos { get; set; }
+        public bool grupoAlterado { get; set; }
         #endregion
     }
 }

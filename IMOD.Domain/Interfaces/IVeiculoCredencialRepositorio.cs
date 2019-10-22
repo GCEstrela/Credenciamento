@@ -112,18 +112,32 @@ namespace IMOD.Domain.Interfaces
         List<VeiculosCredenciaisView> ListarVeiculoCredencialInvalidasView(FiltroReportVeiculoCredencial entity);
 
         /// <summary>
-        ///    Listar veiculos credenciais - impressoes 
+        ///    Listar veiculos credenciais - impressões 
         /// </summary>
         /// <param name="entity">entity</param>
         /// <returns></returns>
         List<VeiculosCredenciaisView> ListarVeiculoCredencialImpressoesView(FiltroReportVeiculoCredencial entity);
 
-        /// <summary> 
-        ///    Listar veiculos credenciais - permanentes ativos por área
+        /// <summary>
+        ///    Listar veiculos credenciais - permanentes por área
         /// </summary> 
         /// <param name="entity">entity</param>
         /// <returns></returns>
         List<VeiculosCredenciaisView> ListarVeiculoCredencialPermanentePorAreaView(FiltroReportVeiculoCredencial entity);
+
+        /// <summary>
+        ///    Listar Veiculos / credenciais Destruídas
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<VeiculosCredenciaisView> ListarVeiculoCredencialDestruidasView(FiltroReportVeiculoCredencial entity);
+
+        /// <summary>
+        ///    Listar Veiculos / credenciais Extraviadas
+        /// </summary>
+        /// <param name="entity">entity</param>
+        /// <returns></returns>
+        List<VeiculosCredenciaisView> ListarVeiculoCredencialExtraviadasView(FiltroReportVeiculoCredencial entity);
 
         #endregion
     }

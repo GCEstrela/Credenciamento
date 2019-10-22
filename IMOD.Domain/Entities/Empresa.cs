@@ -11,7 +11,8 @@ namespace IMOD.Domain.Entities
     public class Empresa
     {
         #region  Propriedades
-
+        
+        public int IdEmpresaSICOA { get; set; }
         public int EmpresaId { get; set; }
         [Required(ErrorMessage = "A Razão Social é requerida.")]
         public string Nome { get; set; }

@@ -208,7 +208,7 @@ namespace IMOD.Application.Service
             //Criar um pendenci impeditiva ao constatar o motivo da credencial
             var pendImp = CredencialMotivo.BuscarPelaChave (entity.CredencialMotivoId);
             if (pendImp == null) throw new InvalidOperationException ("Não foi possível obter a entidade credencial motivo");
-            var impeditivo = pendImp.Impeditivo & entity.DevolucaoEntregaBoId == 0;
+            var impeditivo = pendImp.Impeditivo & !entity.DevolucaoEntregaBo;
             if (!impeditivo) return;
             //Criar uma pendencia impeditiva,caso sua natureza seja impeditiva
 
@@ -235,6 +235,30 @@ namespace IMOD.Application.Service
         /// <param name="entity"></param>
         public void Alterar(VeiculoCredencial entity)
         {
+
+            CredencialMotivo motivo = new CredencialMotivo();
+            if (entity.CredencialMotivoId > 0)
+            {
+                motivo = CredencialMotivo.BuscarPelaChave((int)entity.CredencialMotivoId); 
+
+                if (entity.CredencialStatusId == 1) 
+                {
+                    entity.Baixa = (DateTime?)null;
+                }
+                else if (entity.CredencialStatusId == 2 && (!entity.DevolucaoEntregaBo) && motivo.Impeditivo)
+                {
+                    entity.Baixa = (DateTime?)null;
+                }
+                else if (entity.CredencialStatusId == 2 && !motivo.Impeditivo)
+                {
+                    entity.Baixa = DateTime.Today.Date;
+                }
+                else if (entity.CredencialStatusId == 2 && (entity.DevolucaoEntregaBo) && motivo.Impeditivo)
+                {
+                    entity.Baixa = DateTime.Today.Date;
+                }
+            }
+
             ObterStatusCredencial (entity);
             _repositorio.Alterar (entity);
         }
@@ -298,14 +322,27 @@ namespace IMOD.Application.Service
             entity.DataStatus = entity.Ativa != entity2.Ativa ? DateTime.Today.Date : entity2.DataStatus;
             entity.Ativa = entity2.Ativa; //Atulizar dados para serem exibidas na tela
 
-           if( (!entity2.Ativa && (entity2.DevolucaoEntregaBoId != 0)) ||
-                (!entity2.Ativa && (entity2.CredencialMotivoId == 11 || entity2.CredencialMotivoId == 12)))
+            CredencialMotivo motivo = new CredencialMotivo(); 
+            if (entity.CredencialMotivoId > 0) 
             {
-                entity.Baixa = DateTime.Today.Date;
-            }
-            else
-            {
-                entity.Baixa = (DateTime?)null;
+                motivo = CredencialMotivo.BuscarPelaChave((int)entity.CredencialMotivoId);
+
+                if (entity.CredencialStatusId == 1) 
+                {
+                    entity.Baixa = (DateTime?)null;
+                }
+                else if (entity.CredencialStatusId == 2 && (!entity.DevolucaoEntregaBo) && motivo.Impeditivo)
+                {
+                    entity.Baixa = (DateTime?)null;
+                }
+                else if (entity.CredencialStatusId == 2 && !motivo.Impeditivo)
+                {
+                    entity.Baixa = DateTime.Today.Date;
+                }
+                else if (entity.CredencialStatusId == 2 && (entity.DevolucaoEntregaBo) && motivo.Impeditivo)
+                {
+                    entity.Baixa = DateTime.Today.Date;
+                }
             }
 
             //Alterar dados no sub-sistema de credenciamento
@@ -436,6 +473,15 @@ namespace IMOD.Application.Service
             return _repositorio.ListarVeiculoCredencialPermanentePorAreaView(entity);
         }
 
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialDestruidasView(FiltroReportVeiculoCredencial entity)
+        {
+            return _repositorio.ListarVeiculoCredencialDestruidasView(entity);
+        }
+
+        public List<VeiculosCredenciaisView> ListarVeiculoCredencialExtraviadasView(FiltroReportVeiculoCredencial entity)
+        {
+            return _repositorio.ListarVeiculoCredencialExtraviadasView(entity);
+        }
 
         #endregion
     }

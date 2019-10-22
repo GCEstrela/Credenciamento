@@ -32,7 +32,16 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<CredencialStatus> Listar(params object[] objects)
         {
-            return _repositorio.Listar(objects);
+            try
+            {
+                return _repositorio.Listar(objects);
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+            
         }
         /// <summary>
         ///     Alterar CredencialStatus

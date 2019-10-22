@@ -75,6 +75,11 @@ namespace IMOD.Application.Service
             return _repositorio.Listar(objects);
         }
 
+        public ICollection<VeiculoAnexo> ListarComAnexo(params object[] objects)
+        {
+            return _repositorio.ListarComAnexo(objects);
+        }
+
         /// <summary>
         ///     Alterar registro
         /// </summary>

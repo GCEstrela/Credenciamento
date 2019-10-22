@@ -14,6 +14,8 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Descricao { get; set; }
         public string CodigoStatus { get; set; }
         public bool Impeditivo { get; set; }
+        public int CredencialStatusID { get; set; }
+        public bool ViaAdicional { get; set; }
 
         #endregion
     }

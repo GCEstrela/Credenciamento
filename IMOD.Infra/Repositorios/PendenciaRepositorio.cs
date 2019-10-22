@@ -31,7 +31,14 @@ namespace IMOD.Infra.Repositorios
 
         public PendenciaRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton (TipoDataBase.SqlServer, _connection);
+            try
+            {
+                _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion
@@ -44,33 +51,34 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Criar(Pendencia entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.InsertText ("Pendencias", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.InsertText("Pendencias", conn))
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("PendenciaID", entity.PendenciaId, true)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("CodPendencia", entity.CodPendencia, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Descricao", entity.Descricao, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("DataLimite", entity.DataLimite, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Impeditivo", entity.Impeditivo, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("ColaboradorID", entity.ColaboradorId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("EmpresaID", entity.EmpresaId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("VeiculoID", entity.VeiculoId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("PendenciaSistema", entity.PendenciaSistema, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamInsert ("Ativo", true, false)));
 
-                        var key = Convert.ToInt32 (cmd.ExecuteScalar());
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("PendenciaID", entity.PendenciaId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CodPendencia", entity.CodPendencia, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataLimite", entity.DataLimite, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Impeditivo", entity.Impeditivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorID", entity.ColaboradorId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("VeiculoID", entity.VeiculoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("PendenciaSistema", entity.PendenciaSistema, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Ativo", true, false)));
+
+                        var key = Convert.ToInt32(cmd.ExecuteScalar());
 
                         entity.PendenciaId = key;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException (ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -81,25 +89,26 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public Pendencia BuscarPelaChave(int id)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText ("Pendencias", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("Pendencias", conn))
+
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamSelect ("PendenciaId", DbType.Int32, id).Igual()));
+
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("PendenciaId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<Pendencia>();
 
                         return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException (ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -110,28 +119,31 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<Pendencia> Listar(params object[] objects)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText ("Pendencias", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("Pendencias", conn))
                     {
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Descricao", DbType.String, objects, 0).Like()));
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("DataLimite", DbType.Date, objects, 1).Like()));
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("Impeditivo", DbType.Boolean, objects, 2).Igual()));
+
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 0).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataLimite", DbType.Date, objects, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impeditivo", DbType.Boolean, objects, 2).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, objects, 3).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, objects, 4).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CodPendencia", DbType.Int32, objects, 5).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Pendencia>();
 
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException (ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -141,55 +153,60 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Alterar(Pendencia entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.UpdateText ("Pendencias", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.UpdateText("Pendencias", conn))
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("PendenciaID", entity.PendenciaId, true)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("CodPendencia", entity.CodPendencia, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Descricao", entity.Descricao, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("DataLimite", entity.DataLimite, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Impeditivo", entity.Impeditivo, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("ColaboradorID", entity.ColaboradorId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("EmpresaID", entity.EmpresaId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("VeiculoID", entity.VeiculoId, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("PendenciaSistema", entity.PendenciaSistema, false)));
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamUpdate ("Ativo", entity.Ativo, false)));
+
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("PendenciaID", entity.PendenciaId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CodPendencia", entity.CodPendencia, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataLimite", entity.DataLimite, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Impeditivo", entity.Impeditivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorID", entity.ColaboradorId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VeiculoID", entity.VeiculoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("PendenciaSistema", entity.PendenciaSistema, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Ativo", entity.Ativo, false)));
 
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException (ex);
-                        throw;
+
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
-
-        /// <summary>
+        //pendencia.EmpresaId = motivo.EmpresaId;
+        //        pendencia.ColaboradorId = motivo.ColaboradorId;
+        //        pendencia.PendenciaId = motivo.PendenciaId;
+        ///// <summary>
         ///     Deletar registro
         /// </summary>
         /// <param name="entity"></param>
         public void Remover(Pendencia entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.DeleteText ("Pendencias", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.DeleteText("Pendencias", conn))
                     {
-                        cmd.Parameters.Add (_dataBase.CreateParameter (new ParamDelete ("PendenciaId", entity.PendenciaId).Igual()));
+
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("PendenciaId", entity.PendenciaId).Igual()));
 
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException (ex);
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -199,8 +216,15 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Desativar(Pendencia entity)
         {
-            entity.Ativo = false;
-            Alterar (entity);
+            try
+            {
+                entity.Ativo = false;
+                Alterar(entity);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -210,28 +234,28 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<Pendencia> ListarPorEmpresa(int empresaId)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText ("PendenciasView", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("PendenciasView", conn))
+
                     {
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("EmpresaID", DbType.Int32, empresaId).Igual()));
+
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, empresaId).Igual()));
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Pendencia>();
 
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException (ex);
-                        throw;
+
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
-
         /// <summary>
         ///     Listar Pendencia por Colaborador
         /// </summary>
@@ -239,25 +263,25 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<Pendencia> ListarPorColaborador(int colaboradorId)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText ("PendenciasView", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("PendenciasView", conn))
                     {
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("ColaboradorID", DbType.Int32, colaboradorId).Igual()));
+
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, colaboradorId).Igual()));
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Pendencia>();
 
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException (ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -268,25 +292,26 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<Pendencia> ListarPorVeiculo(int veiculoId)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText ("Pendencias", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("Pendencias", conn))
+
                     {
-                        cmd.CreateParameterSelect (_dataBase.CreateParameter (new ParamSelect ("VeiculoID", DbType.Int32, veiculoId).Igual()));
+
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoID", DbType.Int32, veiculoId).Igual()));
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Pendencia>();
 
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException (ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -296,10 +321,17 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void CriarPendenciaSistema(Pendencia entity)
         {
-            entity.PendenciaSistema = true;
-                    if(string.IsNullOrWhiteSpace (entity.Descricao))
+            try
+            {
+                entity.PendenciaSistema = true;
+                if (string.IsNullOrWhiteSpace(entity.Descricao))
                     entity.Descricao = "Pendência de cadastro inicial";
-            Criar (entity);
+                Criar(entity);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -308,8 +340,15 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void AlterarPendenciaSistema(Pendencia entity)
         {
-            entity.PendenciaSistema = true;
-            Alterar (entity);
+            try
+            {
+                entity.PendenciaSistema = true;
+                Alterar(entity);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion

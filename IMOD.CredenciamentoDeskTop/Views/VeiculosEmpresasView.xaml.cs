@@ -29,6 +29,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             if (_viewModel.Empresa == null) return;
             _viewModel.ListarContratos(_viewModel.Empresa);
+            chk_areaManobra.IsChecked = _viewModel.Entity.AreaManobra;
             cmbContrato.Items.Refresh();
         }
 
@@ -42,8 +43,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
             //if (entity == null) return;
             _viewModel.AtualizarDados(entity, viewModelParent);
         }
-         
+
 
         #endregion
+
+        private void ListaSegnatarios_lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //if (_viewModel.Empresa == null) return;
+            //chk_areaManobra.IsChecked = _viewModel.Entity.AreaManobra;
+        }
     }
 }

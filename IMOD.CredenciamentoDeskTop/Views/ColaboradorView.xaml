@@ -180,11 +180,11 @@
 
         <StackPanel Orientation="Horizontal" Margin="0,5,-249,5">
             <Label Content="Pesquisar:" Height="28" Width="65" Foreground="#FFD0D0D0" Margin="1,0,0,0" />
-            <ComboBox Width="150" IsEnabled="{Binding Comportamento.IsEnableCriar}"
+            <ComboBox x:Name="pesquisa_cb" Width="150" IsEnabled="{Binding Comportamento.IsEnableCriar}"
                       ItemsSource="{Binding ListaPesquisa }"
                       DisplayMemberPath="Value"
                       SelectedValue="Key"
-                      SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center" />
+                      SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center" SelectionChanged="Pesquisa_cb_SelectionChanged" />
             <TextBox Name="txtPesquisa" Width="200" Margin="10,0,0,0" IsEnabled="{Binding Comportamento.IsEnableCriar}"
                      Text="{Binding NomePesquisa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                 <TextBox.InputBindings>
@@ -372,25 +372,25 @@
                                 </StackPanel>
 
                             </StackPanel>
-                            <StackPanel VerticalAlignment="Top" Margin="50,6,20,0" Height="149" Width="101">
-                                <Border CornerRadius="3" BorderThickness="1" Width="100" Height="100"
+                            <StackPanel VerticalAlignment="Top" Margin="40,0,10,0" Height="149" Width="100" HorizontalAlignment="Center">
+                                <Border CornerRadius="1" BorderThickness="2" Width="95" Height="110"
                                         HorizontalAlignment="Left" BorderBrush="#FF686868">
-                                    <Image x:Name="Logo_im" Stretch="Uniform"
+                                    <Image x:Name="Logo_im"
                                            Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
-                                           Margin="3" >
+                                           Margin="2" >
                                         <Image.ToolTip>
                                             <Image x:Name="Logo_im1" Stretch="Uniform" 
                                                 Source="{Binding Entity.Foto, Converter={StaticResource ImageConverter}, Mode=TwoWay, UpdateSourceTrigger=Explicit}"/>
                                         </Image.ToolTip>
                                     </Image>
                                 </Border>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                    <Button x:Name="SelecionarLogo_bt" FontStretch="Condensed"  HorizontalAlignment="Center" Margin="1,5,0,0" Height="35" Width="44" Click="OnSelecionaFoto_Click">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Height="39">
+                                    <Button x:Name="SelecionarLogo_bt" FontStretch="Condensed"  HorizontalAlignment="Center" Margin="2,5,0,0" Height="35" Width="40" Click="OnSelecionaFoto_Click">
                                         <StackPanel>
                                             <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico" Height="26" Width="28"/>
                                         </StackPanel>
                                     </Button>
-                                    <Button x:Name="WbeCam_bt" Height="35" Width="44" Margin="10,5,0,0" VerticalAlignment="Center" Click="WbeCam_bt_Click">
+                                    <Button x:Name="WbeCam_bt" Height="35" Width="40" Margin="10,5,0,0" VerticalAlignment="Center" Click="WbeCam_bt_Click">
                                         <StackPanel>
                                             <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/WebCam.ico" Height="26" Width="28"/>
                                         </StackPanel>
@@ -420,17 +420,17 @@
                                        HorizontalContentAlignment="Right" />
                                 <TextBox CharacterCasing="Upper" x:Name="Numero_tb" MaxLength="4"
                                          Text="{Binding Entity.Numero,  UpdateSourceTrigger=PropertyChanged}"
-                                         IsEnabled="True" Height="24" Width="50"   />
+                                         IsEnabled="True" Height="24" Width="50"/>
                                 <Label Content="CEP:" Height="28" Width="90" Foreground="#FFD0D0D0"
-                                       HorizontalContentAlignment="Right" />
-                                <TextBox CharacterCasing="Upper" x:Name="Cep_tb" MaxLength="12"
+                                       HorizontalContentAlignment="Right"/>
+                                <TextBox CharacterCasing="Upper" x:Name="Cep_tb" MaxLength="9"
                                          PreviewTextInput="NumberOnly"
                                          Text="{Binding Entity.Cep,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FormatCep}}"
-                                         IsEnabled="True" Height="24" Width="98"   />
+                                         IsEnabled="True" Height="24" Width="98"/>
                                 <Label Content="Complemento:" Height="28" Width="89" Margin="0,0,5,0"
                                        Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                 <TextBox CharacterCasing="Upper" x:Name="Complemento_tb" MaxLength="50"
-                                         Text="{Binding Entity.Complemento,   UpdateSourceTrigger=PropertyChanged}"
+                                         Text="{Binding Entity.Complemento, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="123" RenderTransformOrigin="0.5,0.5" />
 
                             </StackPanel>
@@ -439,7 +439,7 @@
                                        HorizontalContentAlignment="Right" />
                                 <TextBox CharacterCasing="Upper" x:Name="Bairro_tb" MaxLength="50"
                                          Text="{Binding Entity.Bairro,   UpdateSourceTrigger=PropertyChanged}"
-                                         IsEnabled="True" Height="23" Width="152"   />
+                                         IsEnabled="True" Height="23" Width="152" />
                                 <Label Content="UF:" Height="28" Width="30" Margin="1" Foreground="#FFD0D0D0" />
                                 <ComboBox x:Name="cmbEstado" Height="25"
                                           ItemsSource="{Binding Estados}" DisplayMemberPath="Uf"
@@ -448,7 +448,7 @@
                                           SelectedIndex="0"
                                           IsEditable="true" 
                                           SelectedItem="{Binding Estado}"
-                                          Width="53"   />
+                                          Width="53"/>
 
                                 <Label Content="Cidade:" Height="28" Width="50" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                 <ComboBox x:Name="Cidade_cb" Height="25"
@@ -456,7 +456,7 @@
                                           SelectedValue="{Binding Entity.MunicipioId,  UpdateSourceTrigger=PropertyChanged}"
                                           SelectedValuePath="MunicipioId"
                                           IsEditable="true" 
-                                          SelectedIndex="0" Width="167"   />
+                                          SelectedIndex="0" Width="167"/>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -638,8 +638,7 @@
                                     Text="{Binding Entity.DataNascimento, StringFormat=\{0:dd/MM/yyyy\}}"
                                     LostFocus="OnFormatDateNascimento_LostFocus"
                                     PreviewTextInput="NumberOnly"
-                                    MaxLength="10"
-                                     
+                                    MaxLength="10"                                     
                                     Height="24" Width="109" />
 
                                 <!--<DatePicker x:Name="DataNascimento_tb" Width="120" Height="24"
@@ -692,7 +691,7 @@
                                          Height="24" Width="110" />
                                 <Label Content="Emissor:" Height="26" Width="59" Foreground="#FFD0D0D0"
                                        HorizontalContentAlignment="Right" />
-                                <ComboBox x:Name="CNHEmissor_cb" IsEditable="false" 
+                                <ComboBox x:Name="CNHEmissor_cb" IsEditable="True"
                                           Text="{Binding Entity.CnhEmissor,
                                            UpdateSourceTrigger=PropertyChanged}"
                                           HorizontalContentAlignment="Center" IsEnabled="true" Width="85" Height="25" SelectedIndex="0">

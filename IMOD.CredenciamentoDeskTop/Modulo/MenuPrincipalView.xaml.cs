@@ -7,6 +7,7 @@
 #region
 
 using System;
+using System.Data.SqlClient;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +16,8 @@ using Genetec.Sdk.Workspace;
 using IMOD.Application.Service;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels;
+using IMOD.CrossCutting;
+using IMOD.Domain.EntitiesCustom;
 
 #endregion
 
@@ -34,9 +37,19 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
 
         public MenuPrincipalView()
         {
-            InitializeComponent(); 
-            txtVersao.Text = VersaoSoftware;
-            _viewSingleton = new ViewSingleton();
+            try
+            {
+                InitializeComponent();
+                txtVersao.Text = VersaoSoftware;
+                _viewSingleton = new ViewSingleton();
+                //var tt = UsuarioLogado.Nome;
+            }
+            catch (Exception ex)
+            {
+               // WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
+            }
+
         }
         /// <summary>
         ///     Versao do Sistema
@@ -64,10 +77,15 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         public void Initialize(Workspace wrk)
         {
             if (wrk == null)
-                throw new ArgumentNullException (nameof (wrk));
+                throw new ArgumentNullException(nameof(wrk));
             Workspace = wrk;
 
             DataContext = null; //Iniciar sem conteudo na tela do frame
+            if (!UsuarioLogado.Adm)
+            {
+                this.ConfiguracoesBt.IsEnabled = false;
+                return;
+            }
         }
 
         /// <summary>
@@ -82,8 +100,8 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 Button btn = e.Source as Button;
                 btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
 
-                this.ColaboradoresBt.Background = Brushes.Transparent; 
-                this.VeiculosBt.Background = Brushes.Transparent; 
+                this.ColaboradoresBt.Background = Brushes.Transparent;
+                this.VeiculosBt.Background = Brushes.Transparent;
                 this.EquipamentosBt.Background = Brushes.Transparent;
                 this.ConfiguracoesBt.Background = Brushes.Transparent;
                 this.RelatoriosBt.Background = Brushes.Transparent;
@@ -95,9 +113,9 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             {
                 WpfHelp.MboxError(ex);
             }
-           
+
         }
-         
+
         /// <summary>
         ///     Obter view Colaborador
         /// </summary>
@@ -123,7 +141,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             {
                 WpfHelp.MboxError(ex);
             }
-           
+
         }
 
         /// <summary>
@@ -151,7 +169,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             {
                 WpfHelp.MboxError(ex);
             }
-           
+
         }
 
         /// <summary>
@@ -164,6 +182,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
 
             try
             {
+
                 Button btn = e.Source as Button;
                 btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
 
@@ -180,7 +199,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             {
                 WpfHelp.MboxError(ex);
             }
-            
+
         }
 
         /// <summary>
@@ -208,7 +227,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             {
                 WpfHelp.MboxError(ex);
             }
-            
+
         }
 
         /// <summary>
@@ -237,7 +256,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             {
                 WpfHelp.MboxError(ex);
             }
-            
+
         }
 
         /// <summary>
@@ -248,7 +267,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         private void OnEquipamento_Click(object sender, RoutedEventArgs e)
         {
             try
-            { 
+            {
                 Button btn = e.Source as Button;
                 btn.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF007ACC");
 
@@ -258,10 +277,10 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 this.ConfiguracoesBt.Background = Brushes.Transparent;
                 this.RelatoriosBt.Background = Brushes.Transparent;
                 this.TermosBt.Background = Brushes.Transparent;
-                
 
-                DataContext = _viewSingleton.EquipamentosView; 
-            } 
+
+                DataContext = _viewSingleton.EquipamentosView;
+            }
             catch (Exception ex)
             {
                 WpfHelp.MboxError(ex);
@@ -271,19 +290,50 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
 
         private void OnFrm_Loaded(object sender, RoutedEventArgs e)
         {
-            //Autor:Valnei Filho
-            //Data:12/03/2019
-            //Wrk:Ao fechar a janela, as coleções (observable) devem ser limpas para possibilitar uma nova pesquisa
-            //Limpar dados dos observables principais de suas respectivas views
+            try
+            {
+                //Autor:Valnei Filho
+                //Data:12/03/2019
+                //Wrk:Ao fechar a janela, as coleções (observable) devem ser limpas para possibilitar uma nova pesquisa
+                //Limpar dados dos observables principais de suas respectivas views
+                
+                var x1 = (ColaboradorViewModel)_viewSingleton.ColaboradorView.DataContext;
+                x1.EntityObserver.Clear();
+                var x2 = (EmpresaViewModel)_viewSingleton.EmpresaView.DataContext;
+                x2.EntityObserver.Clear();
+                var x3 = (VeiculoViewModel)_viewSingleton.VeiculoView.DataContext;
+                x3.EntityObserver.Clear();
+            }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox("Erro ao conectar com a base de dados SQL. O sistema estará inoperante até que a conexão seja normalizada novamente. Por favor, entre em contato com o administrador do banco!",1);
+                this.EmpresasBt.IsEnabled = false;
+                this.ColaboradoresBt.IsEnabled = false;
+                this.VeiculosBt.IsEnabled = false;
+                this.EquipamentosBt.IsEnabled = false;
+                this.ConfiguracoesBt.IsEnabled = false;
+                this.RelatoriosBt.IsEnabled = false;
+                this.TermosBt.IsEnabled = false;
+               
+            }
+            catch (Exception ex)
+            {
+               
+                WpfHelp.PopupBox(ex);
+                
+                //throw ex;
+            }
 
-            var x1 = (ColaboradorViewModel)_viewSingleton.ColaboradorView.DataContext;
-            x1.EntityObserver.Clear();
-            var x2 = (EmpresaViewModel)_viewSingleton.EmpresaView.DataContext;
-            x2.EntityObserver.Clear();
-            var x3 = (VeiculoViewModel)_viewSingleton.VeiculoView.DataContext;
-            x3.EntityObserver.Clear();
 
             //======================================================================= 
+        }
+
+        //private IAsyncResult m_loggingOnResult;
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            //Workspace.Sdk.EndLogOn(m_loggingOnResult);
+            //_viewSingleton = null;
+            //Workspace = null;
         }
     }
 }

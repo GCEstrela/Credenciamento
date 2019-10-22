@@ -58,6 +58,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         [RequiredIf("Terceirizada", true, ErrorMessage = "Nome da terceirizada é requerida.")]
         public string TerceirizadaNome { get; set; }
         public int PraVencer { get; set; }
+        public string Usuario { get; set; }
         #endregion
     }
 }

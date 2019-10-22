@@ -31,6 +31,11 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public bool ManuseioBagagem { get; set; }
         public bool OperadorPonteEmbarque { get; set; }
         public bool FlagCcam { get; set; }
+        public bool Motorista { get; set; }
+        public bool FlagAuditoria { get; set; }
+        public DateTime? DataInicio { get; set; }
+        public DateTime? DataFim { get; set; }
+        public string Usuario { get; set; }
         #endregion
 
         public override bool Equals(object obj)

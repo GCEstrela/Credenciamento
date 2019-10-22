@@ -60,6 +60,7 @@ namespace IMOD.Domain.EntitiesCustom
         public string RgOrgLocal { get; set; }
         public string RgOrgUf { get; set; }
         public string Matricula { get; set; }
+
         public string Identificacao1 { get; set; }
         public string Identificacao2 { get; set; }
         public bool IsencaoCobranca { get; set; }
@@ -74,9 +75,19 @@ namespace IMOD.Domain.EntitiesCustom
         public int AreaAcessoId { get; set; }
 
         public DateTime? DataStatus { get; set; }
-        public int DevolucaoEntregaBoId { get; set; }
         public bool Impeditivo { get; set; }
-        
+        public DateTime? DataStatusFim { get; set; }
+        public bool DevolucaoEntregaBo { get; set; }
+        public bool? flaDevolucaoEntregaBO { get; set; }
+        public bool flaTodasDevolucaoEntregaBO { get; set; }
+        public int TipoRel { get; set; }
+
+        public bool flaTodasAtivosInativos { get; set; }
+        public int emissaoValidade { get; set; }
+        public int CredencialVia { get; set; }
+        public int CredencialMotivoViaAdicionalId{ get; set; }
+        public int CredencialMotivoIdAnterior{ get; set; }
+
     }
 
 

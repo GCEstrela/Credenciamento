@@ -33,6 +33,7 @@ namespace IMOD.Domain.Entities
         public int TipoEquipamentoId { get; set; }
         public int StatusId { get; set; }
         public int TipoAcessoId { get; set; }
+        public bool AreaManobra { get; set; }
 
         #endregion
     }

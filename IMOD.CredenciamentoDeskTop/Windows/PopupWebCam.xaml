@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:iModSCCredenciamento.Windows"
         mc:Ignorable="d"
-        Title="Captura Foto" Height="460.852" Width="617.795" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True" Loaded="Window_Loaded">
+        Title="Captura Foto" Height="460.852" Width="800" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True" Loaded="Window_Loaded">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FF171717" Offset="0.984"/>
@@ -42,28 +42,44 @@
         <StackPanel Margin="10,20,10,0">
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" >
-                <Border  Grid.Column="1" Grid.Row="1" BorderThickness="1" CornerRadius="3" Height="320" Width="240" Margin="10">
+                <Border  Grid.Column="1" Grid.Row="1" BorderThickness="1" CornerRadius="3" Height="320" Width="350" Margin="10">
                     <Border.BorderBrush>
                         <RadialGradientBrush>
                             <GradientStop Color="Black" Offset="0.047"/>
                             <GradientStop Color="#FF646464" Offset="1"/>
                         </RadialGradientBrush>
                     </Border.BorderBrush>
-                    <Image x:Name="imgVideo" Stretch="Fill"   />
+                    <!--<Image x:Name="imgVideo" Stretch="Fill" Width="190" Height="224"   />-->
+                    <Grid x:Name="RootGrid" MouseLeftButtonDown="RootGrid_OnMouseLeftButtonDown">
+                        <Canvas x:Name="CanvasPanel"
+                    Grid.Column="1" >
+                            <Border Height="{Binding ElementName=CanvasPanel, Path=ActualHeight}" Width="{Binding ElementName=CanvasPanel, Path=ActualWidth}">
+                                <Border.BorderBrush>
+                                    <RadialGradientBrush>
+                                        <GradientStop Offset="0.047"/>
+                                        <GradientStop Offset="1"/>
+                                    </RadialGradientBrush>
+                                </Border.BorderBrush>
+                                <Image x:Name = "imgVideo"        Stretch="UniformToFill" Margin="30,28"/>
+                            </Border>
+
+                        </Canvas>
+                    </Grid>
                 </Border>
-                <Border  Grid.Column="3" Grid.Row="1" BorderThickness="1" CornerRadius="3" Height="320" Width="240" Margin="10">
+                <Border  Grid.Column="3" Grid.Row="1" BorderThickness="1" CornerRadius="3" Height="320" Width="350" Margin="10">
                     <Border.BorderBrush>
                         <RadialGradientBrush>
                             <GradientStop Color="Black" Offset="0.047"/>
                             <GradientStop Color="#FF646464" Offset="1"/>
                         </RadialGradientBrush>
                     </Border.BorderBrush>
-                    <Image x:Name="imgCapture" Stretch="Fill" />
+                    <Image x:Name="imgCapture" Stretch="UniformToFill"/>
+
                 </Border>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="47,0,44,0">
-                <Button x:Name="Captura_bt" Content="Capturar" HorizontalAlignment="Center"   Height="30" Width="100" Click="Capturar_bt_Click" Margin="70,10,80,10"   />
-                <Button x:Name="Aceitar_bt" Content="Aceitar" HorizontalAlignment="Center"   Height="30" Width="100" Click="Aceitar_bt_Click" Margin="80,10,70,10"   />
+                <Button x:Name="Captura_bt" Content="Capturar" HorizontalAlignment="Center"   Height="30" Width="100" Click="Capturar_bt_Click" Margin="100,10,80,10"   />
+                <Button x:Name="Aceitar_bt" Content="Aceitar" HorizontalAlignment="Center"   Height="30" Width="100" Click="Aceitar_bt_Click" Margin="193,10,70,10"   />
 
             </StackPanel>
         </StackPanel>

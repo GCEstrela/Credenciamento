@@ -22,7 +22,8 @@ namespace IMOD.Domain.Interfaces
         /// <param name="o">Arrays de Parametros</param>
         /// <returns></returns>
         ICollection<VeiculoEmpresaView> ListarContratoView(params object[] o);
-         
+
+        void CriarNumeroMatricula(VeiculoEmpresa entity);
 
     }
 }

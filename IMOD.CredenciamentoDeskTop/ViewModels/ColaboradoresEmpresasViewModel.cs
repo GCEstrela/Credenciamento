@@ -45,7 +45,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private ConfiguraSistema _configuraSistema;
 
         #region  Propriedades
-
+        private int _colaboradorid;
         public List<EmpresaContrato> Contratos { get; private set; }
         public List<Empresa> Empresas { get; private set; }
         public Empresa Empresa { get; set; } 
@@ -84,15 +84,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public ColaboradoresEmpresasViewModel()
         {
-            ListarDadosAuxiliares();
-           
-            Comportamento = new ComportamentoBasico(false, true, true, false, false);
-            EntityObserver =new ObservableCollection<ColaboradorEmpresaView>();
-            Comportamento.SalvarAdicao += OnSalvarAdicao;
-            Comportamento.SalvarEdicao += OnSalvarEdicao;
-            Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
-            base.PropertyChanged += OnEntityChanged;
+            try
+            {
+                ListarDadosAuxiliares();
+
+                Comportamento = new ComportamentoBasico(false, true, true, false, false);
+                EntityObserver = new ObservableCollection<ColaboradorEmpresaView>();
+                Comportamento.SalvarAdicao += OnSalvarAdicao;
+                Comportamento.SalvarEdicao += OnSalvarEdicao;
+                Comportamento.Remover += OnRemover;
+                Comportamento.Cancelar += OnCancelar;
+                base.PropertyChanged += OnEntityChanged;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #region  Metodos
@@ -101,12 +108,34 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 var anexo = _service.BuscarPelaChave(ColaboradorEmpresaId);
-                Entity.Anexo = anexo.Anexo;
+                if(anexo.Anexo!=null)
+                    Entity.Anexo = anexo.Anexo;
             }
             catch (Exception ex)
             {
                 Utils.TraceException(ex);
                 WpfHelp.PopupBox(ex);
+            }
+        }
+        public bool ExisteColaboradoContratoAtivo(int _colaborador)
+        {
+            try
+            {
+                //Verificar se existe numero de contrato
+                var n1 = _service.Listar(_colaborador, Entity.Ativo, null, null, null, null, Entity.EmpresaContratoId);
+                if (n1!= null && n1.Count() > 0)
+                {
+                    WpfHelp.Mbox("Colaborador já esta vinculado à este contrato. Operação cancelada.");
+                    //System.Windows.MessageBox.Show("Colaborador já esta vinculado à este contrato. Operação cancelada.");
+                    Comportamento.PrepareCancelar();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
             }
         }
         /// <summary>
@@ -146,18 +175,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (empresa == null) return;
 
-            var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId).ToList();
             Contratos.Clear();
+            var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId).OrderBy(n => n.Descricao).ToList();
+            //Contratos.AddRange(lstContratos);
             //Manipular concatenaçção de conrato
             lstContratos.ForEach(n =>
             {
-                //if (Convert.ToInt32(n.NumeroContrato) > 0)
-                //{
                 n.Descricao = $"{n.Descricao} - {n.NumeroContrato}";
                 Contratos.Add(n);
-                //}
 
             });
+            
         }
 
         /// <summary>
@@ -215,6 +243,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity == null) return;
                 if (Validar()) return;
+                if (ExisteColaboradoContratoAtivo(_colaboradorid)) return;
 
                 var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
                 n1.ColaboradorId = _colaboradorView.ColaboradorId;
@@ -222,7 +251,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     n1.EmpresaContratoId = Contratos[0].EmpresaContratoId;
                 }
-
+                n1.DataFim = DateTime.Today.Date;
+                n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
                 _service.Criar(n1);
 
                 #region Verificar se pode gerar CardHolder
@@ -269,6 +299,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
            
             Entity = new ColaboradorEmpresaView();
             Entity.Ativo = true;
+            Entity.DataInicio = DateTime.Today.Date;
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
             _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false);
@@ -286,11 +317,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity == null) return;
                 if (Validar()) return;
+
+                BuscarAnexo(Entity.ColaboradorEmpresaId);
+
                 var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
                 //Gerar matricula
                 if (n1.Matricula == null)
                     _service.CriarNumeroMatricula(n1);
 
+                n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
                 _service.Alterar(n1);
                 Entity.Matricula = n1.Matricula;
 
@@ -359,6 +394,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void PrepareSalvar()
         {
             if (Validar()) return;
+           
             Comportamento.PrepareSalvar();
         }
 
@@ -396,13 +432,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             EntityObserver.Clear();
             if (entity == null) return;
-                //throw new ArgumentNullException(nameof(entity));
-             
+            //throw new ArgumentNullException(nameof(entity));
+            _colaboradorid = entity.ColaboradorId;
 
-            _colaboradorView = entity;
+           _colaboradorView = entity;
             //Obter dados
             var list1 = _service.Listar(entity.ColaboradorId);
             var list2 = Mapper.Map<List<ColaboradorEmpresaView>>(list1.OrderByDescending(n => n.ColaboradorEmpresaId));
+            
             EntityObserver = new ObservableCollection<ColaboradorEmpresaView>();
             list2.ForEach(n => { EntityObserver.Add(n); });
             ListarDadosEmpresaContratos();
@@ -447,6 +484,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             if (Entity == null) return true;
             Entity.Validate();
+           
 
             if (!_configuraSistema.Contrato && Entity.EmpresaContratoId <= 0)
             {

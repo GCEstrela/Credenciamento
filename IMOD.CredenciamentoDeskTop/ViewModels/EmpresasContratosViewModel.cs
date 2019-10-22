@@ -33,7 +33,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaContratosService _service = new EmpresaContratoService();
         private EmpresaView _empresaView;
-
+        private readonly IColaboradorEmpresaService _colaboradorEmpresaservice = new ColaboradorEmpresaService();
         private readonly IEmpresaContratosService _serviceContratos = new EmpresaContratoService();
         private ConfiguraSistema _configuraSistema;
 
@@ -50,7 +50,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private EmpresaViewModel _viewModelParent;
 
         #region  Propriedades
-
+        public string ExcluirVisivel { get; set; }
         /// <summary>
         ///     Lista de municipios
         /// </summary>
@@ -109,6 +109,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public EmpresasContratosViewModel()
         {
+            if (!Domain.EntitiesCustom.UsuarioLogado.Adm)
+            {
+                ExcluirVisivel = "Collapsed";
+            }
+            else
+            {
+                ExcluirVisivel = "Visible";
+            }
             ListarDadosAuxiliares();
             ItensDePesquisaConfigura();
             Comportamento = new ComportamentoBasico (false, true, true, false, false);
@@ -222,7 +230,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _viewModelParent = viewModelParent;
             //Obter dados
             var list1 = _service.Listar (entity.EmpresaId, null, null, null, null, null, null, null, 1);
-            var list2 = Mapper.Map<List<EmpresaContratoView>> (list1.OrderByDescending (n => n.EmpresaContratoId));
+            //var list2 = Mapper.Map<List<EmpresaContratoView>> (list1.OrderByDescending (n => n.EmpresaContratoId));
+            var list2 = Mapper.Map<List<EmpresaContratoView>>(list1.OrderBy(n => n.Validade));
             EntityObserver = new ObservableCollection<EmpresaContratoView>();
             list2.ForEach (n => { EntityObserver.Add (n); });
         }
@@ -262,6 +271,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<EmpresaContrato> (Entity);
                 n1.EmpresaId = _empresaView.EmpresaId;
+                n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
                 _service.Criar(n1);
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<EmpresaContratoView> (n1);
@@ -305,6 +315,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Validar()) return;
 
                 var n1 = Mapper.Map<EmpresaContrato> (Entity);
+                n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
                 _service.Alterar (n1);
                 IsEnableLstView = true;
                 _viewModelParent.HabilitaControleTabControls (true, true, true, true, true);
@@ -353,10 +364,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
 
-                var n1 = Mapper.Map<EmpresaContrato> (Entity);
-                _service.Remover (n1);
-                //Retirar empresa da coleção
-                EntityObserver.Remove (Entity);
+                var verificarColaborador = _colaboradorEmpresaservice.Listar(null, null, null, null, null, null, Entity.EmpresaContratoId);
+                if (verificarColaborador.Count == 0)
+                {
+                    var podeCobrarResult = WpfHelp.MboxDialogYesNo("Confirma DELEÇÃO desse contrato?",true);
+                    if (podeCobrarResult == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        var n1 = Mapper.Map<EmpresaContrato>(Entity);
+                        _service.Remover(n1);
+                        //Retirar empresa da coleção
+                        EntityObserver.Remove(Entity);
+                    }                       
+                }
+                else
+                {
+                    WpfHelp.PopupBox("Contrato não pode ser DELETADO, existem " + verificarColaborador.Count + " colaboradores vinculados. Ação cancelada.", 1);
+                }
                 _viewModelParent.HabilitaControleTabControls (true, true, true, true, true);
             }
             catch (Exception ex)
@@ -457,9 +480,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             //Verificar dados antes de salvar uma alteraçao
             if (!_prepareAlterarCommandAcionado) return false;
-            var n2 = _service.BuscarPelaChave (Entity.EmpresaContratoId);
-            return string.Compare (n2.NumeroContrato,
-                       numContrato, StringComparison.Ordinal) != 0;
+            //var n2 = _service.BuscarPelaChave (Entity.EmpresaContratoId);
+            var n2 = _service.Listar(null,Entity.NumeroContrato).FirstOrDefault();
+            if (n2 != null)
+            {
+                return string.Compare(n2.NumeroContrato,
+                                       numContrato, StringComparison.Ordinal) != 0;
+            }
+            return false;
         }
 
         #endregion

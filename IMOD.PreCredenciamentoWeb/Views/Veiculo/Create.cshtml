@@ -5,394 +5,528 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>Colaborador</h3>
+<h3>Veículo</h3>
 @using (Html.BeginForm("Create", "Veiculo", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="table-wrapper">
-        <div class="table-title">
+        <fieldset class="form-horizontal">
+
             <div class="row">
-                <div class="col-sm-8">
-                    <h2>Cadastro de <b>Veiculos</b></h2>
-                </div>
-                <div class="col-sm-4">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> <span>Salvar Veiculo</span></button>
-                    <a href="Index" class="submit btn btn-danger"><i class="fa fa-fw fa-sign-in"></i> <span>Cancelar</span></a>
-                </div>
+                <section>
+                    <div class="wizard">
+                        <div class="wizard-inner" style="text-align:center">
+                            <div class="connecting-line" style="width:45%"></div>
+                            <ul class="nav nav-tabs" role="tablist" >
+                                <li class="nav-item" style="width:250px" data-toggle="tab" href="#" role="tab">
+                                    &nbsp&nbsp
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" id="link1" data-toggle="tab" href="#home" role="tab" aria-controls="home" title="Identificação"
+                                       aria-selected="true">
+                                        <span class="round-tab">
+                                            <i class="fa fa-fw fa-car"></i>
+                                        </span>
+
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="disabled" id="link2" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" title="Especificações"
+                                       aria-selected="false">
+                                        <span class="round-tab">
+                                            <i class="glyphicon glyphicon-pencil"></i>
+                                        </span>
+
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="disabled" id="link3" data-toggle="tab" href="#vinculo" role="tab" aria-controls="vinculo" title="Vínculo"
+                                       aria-selected="false">
+                                        <span class="round-tab">
+                                            <i class=" glyphicon glyphicon-link"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="disabled" id="link4" data-toggle="tab" href="#seguros" role="tab" aria-controls="seguros" title="Seguro"
+                                       aria-selected="false">
+                                        <span class="round-tab">
+                                            <i class=" glyphicon glyphicon-lock"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li role="presentation" class="disabled" style="padding-left: 10px">
+                                    <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
+                                        <span class="round-tab">
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tab-content" id="myTabContent">
+                            <div class=" tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <br />
+                                <div class="form-group">
+
+                                    @Html.LabelFor(model => model.TipoEquipamentoVeiculoId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.DropDownListFor(model => model.Tipo, ((SelectList)ViewBag.TipoVeiculo).Select(option => new SelectListItem
+                                   {
+                                       Text = option.Text,
+                                       Value = option.Value.ToString(),
+                                       Selected = (Model != null) && (option.Text == Model.Tipo)
+                                   }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlTipo" })
+                                        @Html.ValidationMessageFor(model => model.Tipo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Descricao, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Descricao" } })
+                                        @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
+                                    </div>
+
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PlacaIdentificador, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => model.PlacaIdentificador, "Placa/Identificador", new { htmlAttributes = new { @class = "form-control text-uppercase", id = "PlacaIdentificador" } })
+                                        @Html.ValidationMessageFor(model => model.PlacaIdentificador, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    @Html.LabelFor(model => model.SerieChassi, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => model.SerieChassi, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "SerieChassi" } })
+                                        @Html.ValidationMessageFor(model => model.SerieChassi, "", new { @class = "text-danger" })
+                                    </div>
+
+
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Frota, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => model.Frota, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                        @Html.ValidationMessageFor(model => model.Frota, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    @Html.LabelFor(model => model.Patrimonio, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => model.Patrimonio, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                        @Html.ValidationMessageFor(model => model.Patrimonio, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Marca, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => model.Marca, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Marca" } })
+                                        @Html.ValidationMessageFor(model => model.Marca, "", new { @class = "text-danger" })
+                                    </div>
+                                    @Html.LabelFor(model => model.Modelo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => model.Modelo, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Modelo" } })
+                                        @Html.ValidationMessageFor(model => model.Modelo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Licenciamento, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => model.Licenciamento, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                        @Html.ValidationMessageFor(model => model.Licenciamento, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.FileUploadAnexo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        <input type="file" name="FileUploadAnexo" id="FileUploadAnexo" accept=".pdf" />
+                                        @Html.ValidationMessageFor(model => model.FileUploadAnexo, "", new { @class = "text-danger", id = "FileUpload" })
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="col-lg-12">
+                                    <ul class="list-inline pull-right">
+                                        <li><a href="~/Veiculo/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
+                                        <li><button type="button" class="btn btn-primary next-step btn-icon"><span><strong>Avançar</strong></span> <i class="fa fa-arrow-right"></i> </button> </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="profile" role="tabpanel">
+                                <br />
+                                                    @*<div class="form-group">
+                                    @Html.LabelFor(model => model.idTipoServicoVinculados, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        @Html.EditorFor(model => model.idTipoServicoVinculados, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                        @Html.ValidationMessageFor(model => model.idTipoServicoVinculados, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>*@
+
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Ano, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-1">
+                                        @Html.EditorFor(model => model.Ano, new { htmlAttributes = new { @class = "form-control text-uppercase", maxLength = "4", id = "Ano" } })
+                                        @Html.ValidationMessageFor(model => model.Ano, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    @Html.LabelFor(model => model.CombustivelId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-3">
+                                        @Html.DropDownListFor(model => model.CombustivelId, ((IEnumerable<IMOD.Domain.Entities.TipoCombustivel>)ViewBag.TipoCombustivel).Select(option => new SelectListItem
+                                   {
+                                       Text = option.Descricao,
+                                       Value = option.TipoCombustivelId.ToString(),
+                                       Selected = (Model != null) && (option.TipoCombustivelId == Model.CombustivelId)
+                                   }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlCombustivel" })
+                                        @Html.ValidationMessageFor(model => model.CombustivelId, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    @Html.LabelFor(model => model.Cor, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.EditorFor(model => model.Cor, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                        @Html.ValidationMessageFor(model => model.Cor, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Altura, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.EditorFor(model => model.Altura, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                        @Html.ValidationMessageFor(model => model.Altura, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    @Html.LabelFor(model => model.Comprimento, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.EditorFor(model => model.Comprimento, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                        @Html.ValidationMessageFor(model => model.Comprimento, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    @Html.LabelFor(model => model.Largura, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.EditorFor(model => model.Largura, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                        @Html.ValidationMessageFor(model => model.Largura, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div div class="form-group">
+                                    @Html.LabelFor(model => model.EstadoId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.EstadoId, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.Estados).Select(option => new SelectListItem
+                                   {
+                                       Text = option.Nome,
+                                       Value = option.EstadoId.ToString(),
+                                       Selected = (Model != null) && (option.EstadoId == Model.EstadoId)
+                                   }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlEstado" })
+                                        @Html.ValidationMessageFor(model => model.EstadoId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div div class="form-group">
+                                    @Html.LabelFor(model => model.MunicipioId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.MunicipioId, ((IEnumerable<IMOD.Domain.Entities.Municipio>)ViewBag.Municipio).Select(option => new SelectListItem
+                                   {
+                                       Text = option.Nome,
+                                       Value = option.MunicipioId.ToString(),
+                                       Selected = (Model != null) && (option.MunicipioId == Model.MunicipioId)
+                                   }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlMunicipio" })
+                                        @Html.ValidationMessageFor(model => model.MunicipioId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <ul class="list-inline pull-right">
+                                    <li><a href="~/Veiculo/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
+                                    <li><button type="button" class="btn btn-default prev-step btn-icon"><i class="fa fa-arrow-left"></i> <span><strong>Voltar</strong></span></button></li>
+                                    <li><button type="button" class="btn btn-primary next-step btn-icon"><span><strong>Avançar</strong></span> <i class="fa fa-arrow-right"></i> </button> </li>
+                                </ul>
+
+                            </div>
+                            <div class="tab-pane" id="vinculo" role="tabpanel">
+                                <br />
+                                <div class="form-group  col-lg-12" style="padding-left: 60px">
+
+                                    <div>
+
+                                        @Html.Label("Área de Manobra?", htmlAttributes: new { @class = "control-label", @style = "padding-right: 24px" })
+                                        @Html.CheckBox("Área de Manobra?", htmlAttributes: new { id = "chkAreaManobra" })
+                                    </div>
+                                </div>
+
+                                <div div class="form-group">
+                                    <div>
+                                        @Html.LabelFor(model => model.ContratoEmpresaID, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-lg-3">
+                                            @Html.DropDownListFor(model => model.ContratoEmpresaID, ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.Contratos).Select(option => new SelectListItem
+                                       {
+                                           Text = option.Descricao,
+                                           Value = option.EmpresaContratoId.ToString(),
+                                           Selected = (Model != null) && (option.EmpresaContratoId.ToString() == Model.ContratoEmpresaID)
+                                       }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlContrato" })
+                                            @Html.ValidationMessageFor(model => model.ContratoEmpresaID, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-lg-7">
+                                            @*//href="@Url.Action("AdicionarContrato")"*@
+                                            <a title="Vincular Contrato" id="btContrato" href="#">
+                                                <i class="material-icons">&#xE147;</i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <fieldset>
+                                    <legend style="color:cadetblue"> Contratos Selecionados</legend>
+                                    <div class="row">
+                                        <div class="col-lg-2"><b>Matrícula</b></div>
+                                        <div class="col-lg-9"><b>Contrato</b></div>
+                                        <div class="col-lg-1"></div>
+                                    </div>
+                                    <div class="row" id="divContrato">
+                                        @foreach (var item in ((IEnumerable<IMOD.PreCredenciamentoWeb.Models.VeiculoEmpresaViewModel>)ViewBag.ContratosSelecionados))
+                                        {
+                                            <div class="col-lg-2">@item.Matricula</div>
+                                            <div class="col-lg-9 text-uppercase">@item.Descricao</div>
+                                            <div class="col-lg-1">
+                                                <a title="Vincular Contrato" id=@item.EmpresaContratoId href="#" class="btnRemover" onclick="RemoverContrato(this)">
+                                                    <i class="material-icons danger">&#xE15C;</i>
+                                                </a>
+                                            </div>
+                                            <br />
+                                        }
+                                    </div>
+                                </fieldset>
+                                <ul class="list-inline pull-right">
+                                    <li><a href="~/Veiculo/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
+                                    <li><button type="button" class="btn btn-default prev-step btn-icon"><i class="fa fa-arrow-left"></i> <span><strong>Voltar</strong></span></button></li>
+                                    <li><button type="button" class="btn btn-primary next-step btn-icon"><span><strong>Avançar</strong></span> <i class="fa fa-arrow-right"></i> </button> </li>
+                                </ul>
+                            </div>
+                            <div class=" tab-pane fade" id="seguros" role="tabpanel" aria-labelledby="seguro-tab">
+                                <br />
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.NomeSeguradora, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-5">
+                                        @Html.EditorFor(model => model.NomeSeguradora, "Seguradora", new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                        @Html.ValidationMessageFor(model => model.NomeSeguradora, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    @Html.LabelFor(model => model.NumeroApolice, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-3">
+                                        @Html.EditorFor(model => model.NumeroApolice, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                        @Html.ValidationMessageFor(model => model.NumeroApolice, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ValorCobertura, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.EditorFor(model => model.ValorCobertura, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                        @Html.ValidationMessageFor(model => model.ValorCobertura, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    @Html.LabelFor(model => model.Emissao, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.EditorFor(model => model.Emissao, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                        @Html.ValidationMessageFor(model => model.Emissao, "", new { @class = "text-danger" })
+                                    </div>
+                                    @Html.LabelFor(model => model.Validade, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.EditorFor(model => model.Validade, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                        @Html.ValidationMessageFor(model => model.Validade, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Arquivo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        <input type="file" name="Arquivo" id="Arquivo" accept=".pdf" />
+                                        @Html.ValidationMessageFor(model => model.Arquivo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <ul class="list-inline pull-right">
+
+                                    <li><a href="~/Veiculo/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
+                                    <li><button type="button" class="btn btn-default prev-step btn-icon"><i class="fa fa-arrow-left"></i> <span><strong>Voltar</strong></span></button></li>
+                                    <li><button type="submit" class="btn btn-success" id="btnSalvar"><i class="fa fa-save"></i> <span>Salvar Colaborador</span></button></li>
+                                </ul>
+                            </div>
+                            <div class="tab-pane" role="tabpanel" id="complete">
+                                <h3>Complete</h3>
+                                <p>You have successfully completed all steps.</p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    </div>
+                </section>
             </div>
-        </div>
-        <div class="form-horizontal">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item active">
-                    <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-                       aria-selected="true">Identificação</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
-                       aria-selected="false">Especificações</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
-                       aria-selected="false">Caraterísticas</a>
-                </li>                
-            </ul>
-
-            <div class="tab-content" id="myTabContent">
-                <div class=" tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <br />
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                                @Html.EditorFor(model => model.Descricao, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.PlacaIdentificador, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            @Html.EditorFor(model => model.PlacaIdentificador, "Placa/Identificador", new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.PlacaIdentificador, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.SerieChassi, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            @Html.EditorFor(model => model.SerieChassi, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.SerieChassi, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Frota, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            @Html.EditorFor(model => model.Frota, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.Frota, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Patrimonio, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            @Html.EditorFor(model => model.Patrimonio, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.Patrimonio, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Marca, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            @Html.EditorFor(model => model.Marca, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.Marca, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Modelo, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            @Html.EditorFor(model => model.Modelo, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.Modelo, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.FileUpload, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            <input type="file" name="FileUpload" id="FileUpload" accept=".pdf" />
-                            @Html.ValidationMessageFor(model => model.FileUpload, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <br />
-                    @*<div class="form-group">
-                        @Html.LabelFor(model => model.idTipoServicoVinculados, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            @Html.EditorFor(model => model.idTipoServicoVinculados, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.idTipoServicoVinculados, "", new { @class = "text-danger" })
-                        </div>
-                    </div>*@
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Ano, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            @Html.EditorFor(model => model.Ano, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.Ano, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.CombustivelId, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            @Html.EditorFor(model => model.CombustivelId, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.CombustivelId, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Altura, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            @Html.EditorFor(model => model.Altura, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.Altura, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Comprimento, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            @Html.EditorFor(model => model.Comprimento, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.Comprimento, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Largura, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            @Html.EditorFor(model => model.Largura, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.Largura, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Cor, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            @Html.EditorFor(model => model.Cor, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.Cor, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div div class="form-group">
-                        @Html.LabelFor(model => model.EstadoId, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            @Html.DropDownListFor(model => model.EstadoId, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.Estados).Select(option => new SelectListItem
-                       {
-                           Text = option.Nome,
-                           Value = option.EstadoId.ToString(),
-                           Selected = (Model != null) && (option.EstadoId == Model.EstadoId)
-                       }), "Selecione", new { @class = "form-control text-uppercase" })
-                            @Html.ValidationMessageFor(model => model.EstadoId, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.MunicipioId, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            @Html.EditorFor(model => model.MunicipioId, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.MunicipioId, "", new { @class = "text-danger" })
-                        </div>
-                    </div> 
-         
-                </div>
-                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                    <br />
-                    <fieldset>
-                        @*<div class="form-group">
-                            @Html.LabelFor(model => model., htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.TelefoneFixo, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                @Html.ValidationMessageFor(model => model.TelefoneFixo, "", new { @class = "text-danger" })
-                            </div>
-                        </div>*@
-
-                        @*<div class="form-group">
-                            @Html.LabelFor(model => model.TelefoneCelular, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.TelefoneCelular, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                @Html.ValidationMessageFor(model => model.TelefoneCelular, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.ContatoEmergencia, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.ContatoEmergencia, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                @Html.ValidationMessageFor(model => model.ContatoEmergencia, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.TelefoneEmergencia, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.TelefoneEmergencia, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                @Html.ValidationMessageFor(model => model.TelefoneEmergencia, "", new { @class = "text-danger" })
-                            </div>
-                        </div>*@
-                    </fieldset>
-                </div>
-                @*<div class="tab-pane fade" id="registro" role="tabpanel" aria-labelledby="registro-tab">
-                    <br />
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Rg, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Rg, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.Rg, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.RgEmissao, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.RgEmissao, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.RgEmissao, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.RgOrgLocal, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.CnhCategoria, ((IEnumerable<SelectListItem>)ViewBag.OrgaoEmissorRG).Select(option => new SelectListItem
-                       {
-                           Text = option.Text,
-                           Value = option.Text,
-                           Selected = (Model != null) && (option.Text == Model.RgOrgLocal)
-                       }), "Selecione", new { @class = "form-control text-uppercase" })
-
-                            @Html.ValidationMessageFor(model => model.RgOrgLocal, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.RgOrgUf, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.RgOrgUf, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.UfRg).Select(option => new SelectListItem
-                       {
-                           Text = option.Uf,
-                           Value = option.Uf,
-                           Selected = (Model != null) && (option.Uf == Model.RgOrgUf)
-                       }), "Selecione", new { @class = "form-control text-uppercase" })
-                            @Html.ValidationMessageFor(model => model.RgOrgUf, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Rne, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Rne, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.Rne, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Passaporte, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Passaporte, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.Passaporte, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.PassaporteValidade, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.PassaporteValidade, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.PassaporteValidade, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Nacionalidade, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Nacionalidade, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.Nacionalidade, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.EstadoCivil, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.EstadoCivil, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.EstadoCivil, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>*@
-                @*<div class="tab-pane fade" id="cnh" role="tabpanel" aria-labelledby="cnh-tab">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Motorista, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            <div class="checkbox">
-                                @Html.EditorFor(model => model.Motorista)
-                                @Html.ValidationMessageFor(model => model.Motorista, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.CnhCategoria, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-
-                            @Html.DropDownListFor(model => model.CnhCategoria, ((IEnumerable<SelectListItem>)ViewBag.CategoriaCnh).Select(option => new SelectListItem
-                       {
-                           Text = option.Text,
-                           Value = option.Value,
-                           Selected = (Model != null) && (option.Value == Model.CnhCategoria)
-                       }), "Selecione", new { @class = "form-control text-uppercase" })
-
-                            @Html.ValidationMessageFor(model => model.CnhCategoria, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Cnh, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Cnh, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                            @Html.ValidationMessageFor(model => model.Cnh, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.CnhValidade, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.CnhValidade, new { htmlAttributes = new { @class = "form-control text-uppercase " } })
-                            @Html.ValidationMessageFor(model => model.CnhValidade, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Cnhuf, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.Cnhuf, ((IEnumerable<IMOD.Domain.Entities.Estados>)ViewBag.UfRg).Select(option => new SelectListItem
-                       {
-                           Text = option.Uf,
-                           Value = option.Uf,
-                           Selected = (Model != null) && (option.Uf == Model.Cnhuf)
-                       }), "Selecione", new { @class = "form-control text-uppercase" })
-                            @Html.ValidationMessageFor(model => model.Cnhuf, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>*@
-                @*<div class="tab-pane fade" id="vinculo" role="tabpanel" aria-labelledby="vinculo-tab">
-                    <br />
-                    <div div class="form-group">                        
-                            @Html.LabelFor(model => model.ContratoEmpresaID, htmlAttributes: new { @class = "control-label col-md-2" })                        
-                        <div class="col-lg-4">
-                            @Html.DropDownListFor(model => model.ContratoEmpresaID, ((IEnumerable<IMOD.Domain.Entities.EmpresaContrato>)ViewBag.Contratos).Select(option => new SelectListItem
-                       {
-                           Text = option.Descricao,
-                           Value = option.EmpresaContratoId.ToString(),
-                           Selected = (Model != null) && (option.EmpresaContratoId.ToString() == Model.ContratoEmpresaID)
-                       }), "Selecione", new { @class = "form-control text-uppercase" })
-                            @Html.ValidationMessageFor(model => model.EstadoId, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-lg-6">
-                            <a href="@Url.Action("AdicionarContrato")" title="Vincular Contrato">
-                                <i class="material-icons">&#xE147;</i>
-                            </a>
-                        </div>
-                    </div>
-
-                </div>*@
-            </div>
-        </div>
-
-
+        </fieldset>
     </div>
 }
-@*@section Scripts {
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
     <script>
         $(document).ready(function () {
-            $("#telefone").inputmask("mask", { "mask": "(99) 9999-99999" });
-            $("#cpf").inputmask("mask", { "mask": "999.999.999-99" }, { reverse: true });
-            $("#cep").inputmask("mask", { "mask": "99999-999" });
-            $("#nascimento").inputmask("mask", { "mask": "99/99/9999" });
-            $("#preco").inputmask("mask", { "mask": "999.999,99" }, { reverse: true });
-            $("#valor").inputmask("mask", { "mask": "#.##9,99" }, { reverse: true });
-            $("#ip").inputmask("mask", { "mask": "999.999.999.999" });
-        });
+            //Initialize tooltips
+            $('.nav-tabs > li a[title]').tooltip();
+
+            //Wizard
+            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+
+                var $target = $(e.target);
+
+                if ($target.parent().hasClass('disabled')) {
+                    return false;
+                }
+            });
+
+            $(".next-step").click(function (e) {
+
+                var $active = $('.wizard .nav-tabs li.active');
+                $active.next().removeClass('disabled');
+                nextTab($active);
+
+            });
+            $(".prev-step").click(function (e) {
+
+                var $active = $('.wizard .nav-tabs li.active');
+                prevTab($active);
+
+            });
+
+            //evento do botão incluir contrato
+            $("#btContrato").click(function () {
+                var id = $("#ddlContrato").val();
+                var areaManobra = $('#chkAreaManobra').is(':checked');
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AdicionarContrato")',
+                    data: {
+                        id: id,
+                        flagAreaManobra: areaManobra
+                    },
+                    success: function (result) {
+                        var html = '';
+                        $.each(result, function (key, item) {
+                            html += '<div class="col-lg-2">' + item.Matricula + '</div>';
+                            html += '<div class="col-lg-9">' + item.Descricao  + '</div>';
+                            html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+                        });
+                        $('#divContrato').html('');
+                        $('#divContrato').append(html);
+                        $("#ddlContrato").val('');
+                        $("#chkAreaManobra").attr('checked', false);
+                        console.log(result);
+
+                    },
+                    error: function (result) {
+                        Alert(result);
+                    }
+                });
+                });
+            });
+
+    //evento do botão incluir serviço
+    $("#btServico").click(function () {
+    var id = $("#ddlServico").val();
+    $.ajax({
+    type: "POST",
+    url: '@Url.Action("AdicionarServico")',
+    data: {
+    id: id
+    },
+    success: function (result) {
+    var html = '';
+    $.each(result, function (key, item) {
+        html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Serviço" id=' + item.TipoServicoId + ' onclick="RemoverServico(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+        html += '<div class="col-lg-2 text-uppercase">' + item.Descricao + '</div>';
+
+    });
+    $('#divServico').html('');
+    $('#divServico').append(html);
+    $("#divServico").val('');
+    },
+    error: function (result) {
+    Alert(result);
+    }
+    });
+    });
+
+         function RemoverContrato(it)
+            {
+             var id = it.id;
+               $.ajax({
+                   type: "POST",
+                   url: '@Url.Action("RemoverContrato")',
+                   data: { id: id },
+                   success: function (result) {
+                       var html = '';
+                       $.each(result, function (key, item) {
+                           html += '<div class="col-lg-2">' + item.Matricula + '</div>';
+                           html += '<div class="col-lg-2 text-uppercase">' + item.Descricao + '</div>';
+                           html += '<div class="col-lg-1"><a class="btnRemoverContrato" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+
+                       });
+                       $('#divContrato').html('');
+                       $('#divContrato').append(html);
+                       console.log(result);
+                   },
+                   error: function (result) {
+
+                   }
+                 });
+        };
     </script>
-    }*@
+
+    
+    <script>
+
+            $("#ddlEstado").change(function () {
+                BuscarMunicipio();
+            });
+
+        function BuscarMunicipio() {
+            var id = $("#ddlEstado").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("BuscarMunicipios")',
+                data: { id: id },
+                success: function (result) {
+                    var html = '<option value="">SELECIONE</option>';
+                    $.each(result, function (key, item) {
+                        html += '<option value=' + this.MunicipioId + '>' + this.Nome + '</option>';
+                    });
+
+                    $('#ddlMunicipio').html(html);
+                    console.log(result);
+
+                },
+                error: function (result) {
+                    Alert(result);
+                }
+            });
+        }
+
+        function nextTab(elem) {
+            $(elem).next().find('a[data-toggle="tab"]').click();
+        }
+        function prevTab(elem) {
+            $(elem).prev().find('a[data-toggle="tab"]').click();
+        }
+
+    </script>
+    @*<script>
+            $(document).ready(function () {
+                $("#telefone").inputmask("mask", { "mask": "(99) 9999-99999" });
+                $("#cpf").inputmask("mask", { "mask": "999.999.999-99" }, { reverse: true });
+                $("#cep").inputmask("mask", { "mask": "99999-999" });
+                $("#nascimento").inputmask("mask", { "mask": "99/99/9999" });
+                $("#preco").inputmask("mask", { "mask": "999.999,99" }, { reverse: true });
+                $("#valor").inputmask("mask", { "mask": "#.##9,99" }, { reverse: true });
+                $("#ip").inputmask("mask", { "mask": "999.999.999.999" });
+            });
+        </script>*@
+}
+
+

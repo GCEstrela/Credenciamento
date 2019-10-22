@@ -65,9 +65,9 @@
                                  Text="{Binding Entity.EmpresaContratoId, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="False" Height="24" Width="50" Visibility="Collapsed" />
                         <Label Content="Nº do Contrato:" Height="28" Width="103" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
-                        <TextBox x:Name="NumeroContrato_tb" MaxLength="13" CharacterCasing="Upper"
+                        <TextBox x:Name="NumeroContrato_tb" MaxLength="50" CharacterCasing="Upper"
                                  Text="{Binding Entity.NumeroContrato,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                 IsEnabled="True" Height="24" Width="65" 
+                                 IsEnabled="True" Height="24" Width="130" 
                                  />
                         <CheckBox x:Name="Terceira_cb" IsChecked="{Binding Entity.Terceirizada}" FlowDirection="RightToLeft" VerticalAlignment="Center"
                                   Height="17" Width="90" Margin="1"
@@ -129,10 +129,13 @@
                             Height="24"  Width="80" />
                         
                         <Label Content="Vence em:" Height="26" Width="64" Margin="7,0,0,0"
-                               Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                               Foreground="#FFD0D0D0" 
+                               Visibility="Collapsed"
+                               HorizontalContentAlignment="Right"/>
                         <TextBox 
                             Name="txtDias"
                             IsEnabled="False"
+                             Visibility="Collapsed"
                             Text="{Binding Entity.PraVencer, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                             LostFocus="OnFormatData_LostFocus"
                             PreviewTextInput="NumberOnly"
@@ -293,7 +296,7 @@
                       ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                       SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       SelectedIndex="{Binding SelectListViewIndex}"
-                      Width="1054"  Height="175" VerticalAlignment="Top">
+                      Width="1054"  Height="175" VerticalAlignment="Top" SelectionChanged="ListaContratos_lv_SelectionChanged">
 
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
@@ -314,7 +317,7 @@
                 <!--<Button x:Name="btnPesquisar" Content="Pesquisar" ToolTip="Pesquisar"  Height="30" Width="148"  Click="Pesquisar_bt_Click" Margin="0,0,0,7" />-->
                 <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" />
                 <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"    IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"    Width="25" Margin="0,0,0,7" />
-                <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"   IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7" Visibility="Collapsed" />
+                <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"   IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7" Visibility="{Binding ExcluirVisivel}" />
                 <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar"  IsEnabled="{Binding Comportamento.isEnableCancelar}"    Command="{Binding PrepareCancelarCommand}"   Width="25" Margin="0,0,0,7" />
                 <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar"    IsEnabled="{Binding Comportamento.isEnableSalvar}"      Command="{Binding PrepareSalvarCommand}"     Width="25" Margin="0,0,0,7" />
 

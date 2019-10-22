@@ -28,11 +28,18 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         public ColaboradoresEmpresasView()
         {
-            InitializeComponent();
-            _viewModel = new ColaboradoresEmpresasViewModel();
-            DataContext = _viewModel;
+            try
+            {
+                InitializeComponent();
+                _viewModel = new ColaboradoresEmpresasViewModel();
+                DataContext = _viewModel;
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
+            }
         }
-
         #region  Metodos
 
         private void Frm_Loaded(object sender, RoutedEventArgs e)
@@ -44,6 +51,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             if (_viewModel.Empresa == null) return;
             _viewModel.ListarContratos(_viewModel.Empresa);
+            _viewModel.BuscarAnexo(_viewModel.Entity.ColaboradorEmpresaId);
             cmbContrato.Items.Refresh();
         }
 
@@ -51,10 +59,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
         ///     Atualizar dados
         /// </summary>
         /// <param name="entity"></param>
-        public void AtualizarDados(Model.ColaboradorView entity,ColaboradorViewModel viewModelParent)
+        public void AtualizarDados(Model.ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
             //if (entity == null) return;
-            _viewModel.AtualizarDados(entity,viewModelParent);
+            _viewModel.AtualizarDados(entity, viewModelParent);
             //if (!_viewModel.IsEnableComboContrato)
             //{
             //    ListaSegnatarios_lv.Columns[2].Visible = false;
@@ -116,8 +124,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var str = txtDtValidade.Text;
-                if (string.IsNullOrWhiteSpace(str)) return;
+                if (string.IsNullOrWhiteSpace(str))
+                {
+                    _viewModel.Entity.Validade = null;
+                    return;
+                }
                 txtDtValidade.Text = str.FormatarData();
+
             }
             catch (Exception)
             {
@@ -127,5 +140,47 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         #endregion
 
+        private void TxtDtInicio_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.Entity == null) return;
+            try
+            {
+                var str = txtDtInicio.Text;
+                if (string.IsNullOrWhiteSpace(str)) return;
+                txtDtInicio.Text = str.FormatarData();
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro("Data Inicio", "Data inválida");
+            }
+        }
+
+        private void TxtDtFim_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.Entity == null) return;
+            try
+            {
+                var str = txtDtFim.Text;
+                if (string.IsNullOrWhiteSpace(str)) return;
+                txtDtFim.Text = str.FormatarData();
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro("Data Fim", "Data inválida");
+            }
+        }
+
+        private void ChkAtivo_Checked(object sender, RoutedEventArgs e)
+        {
+            txtDtInicio.Text = DateTime.Today.Date.ToShortDateString();
+            txtDtFim.Text = "";
+        }
+
+        private void ChkAtivo_Unchecked(object sender, RoutedEventArgs e)
+        {
+            //txtDtInicio.Text = "";
+            //_viewModel.Entity.DataFim= DateTime.Today.Date;
+            txtDtFim.Text = DateTime.Today.Date.ToShortDateString();
+        }
     }
 }

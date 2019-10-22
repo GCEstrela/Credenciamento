@@ -31,7 +31,14 @@ namespace IMOD.Infra.Repositorios
 
         public EmpresaContratoRepositorio()
         {
-            _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
+            try
+            {
+                _dataBase = _dataWorkerFactory.ObterDataBaseSingleton(TipoDataBase.SqlServer, _connection);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion
@@ -44,12 +51,13 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Criar(EmpresaContrato entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.InsertText("EmpresasContratos", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.InsertText("EmpresasContratos", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaContratoID", entity.EmpresaContratoId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NumeroContrato", entity.NumeroContrato, false)));
@@ -80,18 +88,19 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ArquivoBlob", DbType.Binary, entity.ArquivoBlob, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TerceirizadaNome", entity.TerceirizadaNome, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("PraVencer", entity.PraVencer, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Usuario", entity.Usuario, false)));
 
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
                         entity.EmpresaContratoId = key;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -102,25 +111,28 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public EmpresaContrato BuscarPelaChave(int id)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("EmpresasContratos", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("EmpresasContratos", conn))
+
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaContratoId", DbType.Int32, id).Igual()));
+
+
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<EmpresaContrato>();
 
                         return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -131,13 +143,14 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<EmpresaContrato> Listar(params object[] objects)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("EmpresasContratosView", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("EmpresasContratosView", conn))
+
                     {
+
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, objects, 0).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroContrato", DbType.String, objects, 1).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Descricao", DbType.String, objects, 2).Like()));
@@ -146,19 +159,19 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Contratante", DbType.String, objects, 5).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCobrancaID", DbType.Int32, objects, 6).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmailResp", DbType.String, objects, 7).Like()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroContrato", DbType.String, objects, 8).MaiorIgual()));
+                        //cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroContrato", DbType.String, objects, 8).MaiorIgual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<EmpresaContrato>();
 
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -168,12 +181,13 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Alterar(EmpresaContrato entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.UpdateText("EmpresasContratos", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.UpdateText("EmpresasContratos", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaContratoID", entity.EmpresaContratoId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NumeroContrato", entity.NumeroContrato, false)));
@@ -204,15 +218,16 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ArquivoBlob", DbType.Binary, entity.ArquivoBlob, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TerceirizadaNome", entity.TerceirizadaNome, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("PraVencer", entity.PraVencer, false)));
-                        
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Usuario", entity.Usuario, false)));
+
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -222,21 +237,23 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Remover(EmpresaContrato entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.DeleteText("EmpresasContratos", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.DeleteText("EmpresasContratos", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("EmpresaContratoId", entity.EmpresaContratoId).Igual()));
 
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -247,7 +264,14 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<EmpresaContrato> ListarPorNumeroContrato(string numContrato)
         {
-            return Listar(null, numContrato, null, null, null, null, null, null);
+            try
+            {
+                return Listar(null, numContrato, null, null, null, null, null, null);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -257,25 +281,26 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public EmpresaContrato BuscarContrato(string numContrato)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("EmpresasContratos", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("EmpresasContratos", conn))
+
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("NumeroContrato", numContrato).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<EmpresaContrato>();
 
                         return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -286,7 +311,14 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<EmpresaContrato> ListarPorDescricao(string desc)
         {
-            return Listar(null,null, $"%{desc}%", null, null, null, null, null);
+            try
+            {
+                return Listar(null, null, $"%{desc}%", null, null, null, null, null);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
 
@@ -297,7 +329,14 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<EmpresaContrato> ListarPorEmpresa(int empresaId)
         {
-            return Listar(empresaId, null, null, null, null, null, null, null);
+            try
+            {
+                return Listar(empresaId, null, null, null, null, null, null, null);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion

@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using IMOD.CredenciamentoDeskTop.Enums;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
@@ -60,22 +61,24 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             //EmpresaVinculo_cb.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
             cmbEmpresaVinculo.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
+            cmbCredencialStatus.SelectionChanged += OnAlterarStatus_SelectonChanged;
+            TipoCredencial_cb.SelectionChanged += TipoCredencial_cb_SelectionChanged;
         }
         private void OnAlterarStatus_SelectonChanged(object sender, SelectionChangedEventArgs e)
         {
 
             btnImprimirCredencial.IsEnabled = _viewModel.HabilitaImpressao;
 
-            if (StatusCredencial_cb.SelectedItem != null && cmbMotivacao.SelectedItem != null)
-            {
-                var statusId = ((CredencialStatus)StatusCredencial_cb.SelectedItem).CredencialStatusId;
-                var motivoId = ((CredencialMotivo)cmbMotivacao.SelectedItem).CredencialMotivoId;
+            
 
-                _viewModel.HabilitaCheckDevolucao(statusId, motivoId);
-                chkDevolucaoMotivo.IsChecked = _viewModel.IsCheckDevolucao; 
-                chkDevolucaoMotivo.Visibility = _viewModel.VisibilityCheckDevolucao; 
-                chkDevolucaoMotivo.Content = _viewModel.TextCheckDevolucao; 
+            if (cmbCredencialStatus.SelectedItem != null &&
+            (((CredencialStatus)cmbCredencialStatus.SelectedItem).CredencialStatusId == 1))
+            {
+                chkDevolucaoMotivo.IsChecked = false;
+                chkDevolucaoMotivo.Content = String.Empty;
+                chkDevolucaoMotivo.Visibility = Visibility.Hidden;
             }
+
         }
 
 
@@ -100,21 +103,49 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel.Entity.SetMessageErro("Validade", "Data inválida");
             }
         }
-
+        private void TipoCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_viewModel.Entity == null) return;
+            if (_viewModel.VeiculoEmpresa == null) return;
+            _viewModel.ListarCracha(_viewModel.VeiculoEmpresa.EmpresaId.Value, _viewModel.Entity.TipoCredencialId);
+        }
         #endregion
 
         private void CmbMotivacao_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
-            if (StatusCredencial_cb.SelectedItem != null && cmbMotivacao.SelectedItem != null)
-            {
-                var statusId = ((CredencialStatus)StatusCredencial_cb.SelectedItem).CredencialStatusId;
-                var motivoId = ((CredencialMotivo)cmbMotivacao.SelectedItem).CredencialMotivoId;
 
-                _viewModel.HabilitaCheckDevolucao(statusId, motivoId);
-                chkDevolucaoMotivo.IsChecked = _viewModel.IsCheckDevolucao;
-                chkDevolucaoMotivo.Visibility = _viewModel.VisibilityCheckDevolucao;
-                chkDevolucaoMotivo.Content = _viewModel.TextCheckDevolucao;
+            if (cmbCredencialStatus.SelectedItem != null && cmbMotivacao.SelectedItem != null)
+            {
+                if (((CredencialStatus)cmbCredencialStatus.SelectedItem).CredencialStatusId == 2
+                                      && ((CredencialMotivo)cmbMotivacao.SelectedItem).CredencialMotivoId > 0)
+                {
+                    switch (((CredencialMotivo)cmbMotivacao.SelectedItem).CredencialMotivoId)
+                    {
+                        case 6:
+                        case 8:
+                        case 15:
+                            chkDevolucaoMotivo.Content = DevoluçãoCredencial.Devolucao.Descricao();
+                            chkDevolucaoMotivo.Visibility = Visibility.Visible;
+                            break;
+                        case 9:
+                        case 10:
+                        case 18:
+                            chkDevolucaoMotivo.Content = DevoluçãoCredencial.EntregaBO.Descricao();
+                            chkDevolucaoMotivo.Visibility = Visibility.Visible;
+                            break;
+                        default:
+                            chkDevolucaoMotivo.IsChecked = false;
+                            chkDevolucaoMotivo.Content = String.Empty;
+                            chkDevolucaoMotivo.Visibility = Visibility.Hidden;
+                            break;
+                    }
+                }
+                else
+                {
+                    chkDevolucaoMotivo.IsChecked = false;
+                    chkDevolucaoMotivo.Content = String.Empty;
+                    chkDevolucaoMotivo.Visibility = Visibility.Hidden;
+                }
             }
         }
     }

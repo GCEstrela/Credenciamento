@@ -4,6 +4,8 @@
 // Date:  11 - 22 - 2018
 // ***********************************************************************
 
+using System;
+
 namespace IMOD.Domain.Entities
 {
     public class Veiculo
@@ -41,6 +43,9 @@ namespace IMOD.Domain.Entities
         public bool Pendente33 { get; set; }
         public bool Pendente34 { get; set; }
         public bool Precadastro { get; set; }
+        public string Categoria { get; set; }
+        public DateTime? DataLicenciameno { get; set; }
+        public DateTime? DataVistoria { get; set; }
         #endregion
     }
 }

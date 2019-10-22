@@ -39,8 +39,16 @@ namespace IMOD.CredenciamentoDeskTop.Views
         /// <param name="entity"></param>
         public void AtualizarDados(Model.EmpresaView entity,EmpresaViewModel viewModelParent)
         {
-            //if (entity == null) return;
-            _viewModel.AtualizarDados(entity, viewModelParent);
+            try
+            {
+                //if (entity == null) return;
+                _viewModel.AtualizarDados(entity, viewModelParent);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
 
         /// <summary>
@@ -95,6 +103,20 @@ namespace IMOD.CredenciamentoDeskTop.Views
             var cpf = _viewModel.Entity.Cpf.FormatarCpf();
             txtCpf.Text = cpf;
 
+        }
+
+        private void ListaSignatarios_lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (_viewModel.Entity == null) return;
+                _viewModel.BuscarAnexo(_viewModel.Entity.EmpresaSignatarioId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

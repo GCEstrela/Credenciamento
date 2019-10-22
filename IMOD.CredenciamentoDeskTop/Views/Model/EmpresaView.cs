@@ -13,7 +13,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
     public class EmpresaView:ValidacaoModel ,ICloneable
     {
         #region  Propriedades
-
+        public int IdEmpresaSICOA { get; set; }
         public int EmpresaId { get; set; }
         [Required(ErrorMessage = "A Razão Social é requerida.")]
         public string Nome { get; set; }
@@ -59,13 +59,27 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool Pendente16 { get; set; }
         public bool Pendente17 { get; set; }
         //[Required(ErrorMessage = "A Gigla é requerida.")]
-        public string Sigla { get; set; }       
+        public string Sigla { get; set; }
+        public string Senha { get; set; }
         public int TotalPermanente { get; set; }
         public int TotalTemporaria { get; set; }
         public int? PraVencer { get; set; }
         public string PraVencerTooltip { get { return "Vencimento de Contrato em.: " + PraVencer.ToString(); } }
 
-        public string CnpjMascara { get { return (Cnpj.Length > 14 & Cnpj.Contains(".")) || (String.IsNullOrEmpty(Cnpj?.Trim())) ? Cnpj : Convert.ToUInt64(Cnpj).ToString(@"00\.000\.000\/0000\-00"); } }
+        public string CnpjMascara
+        {            
+            get
+            {
+                try
+                {
+                    return (Cnpj.Length > 14 & Cnpj.Contains(".")) || (String.IsNullOrEmpty(Cnpj?.Trim())) ? Cnpj : Convert.ToUInt64(Cnpj).ToString(@"00\.000\.000\/0000\-00");
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+        }
 
         #endregion 
 

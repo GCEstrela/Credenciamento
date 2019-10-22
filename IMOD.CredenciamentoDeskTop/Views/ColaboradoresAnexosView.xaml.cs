@@ -26,9 +26,17 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         public ColaboradoresAnexosView()
         {
-            InitializeComponent();
-            _viewModel = new ColaboradoresAnexosViewModel();
-            DataContext = _viewModel;
+            try
+            {
+                InitializeComponent();
+                _viewModel = new ColaboradoresAnexosViewModel();
+                DataContext = _viewModel;
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.Message);
+                Utils.TraceException(ex);
+            }
         }
 
         #region  Metodos
@@ -88,6 +96,19 @@ namespace IMOD.CredenciamentoDeskTop.Views
         }
 
         #endregion
- 
+
+        private void ListaAnexos_lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (_viewModel.Entity == null) return;
+                _viewModel.BuscarAnexo(_viewModel.Entity.ColaboradorAnexoId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

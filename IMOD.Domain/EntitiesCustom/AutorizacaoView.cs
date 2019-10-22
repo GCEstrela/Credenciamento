@@ -15,9 +15,16 @@ namespace IMOD.Domain.EntitiesCustom
         public string Identificacao1 { get; set; }
         public string Identificacao2 { get; set; }
         public string Categoria { get; set; }
-        public string Frota { get; set; } 
+        public string Frota { get; set; }
         public bool Ativa { get; set; }
         public string Foto { get; set; }
         public string Descricao { get; set; }
+        public string Lacre { get; set; }
+        public string SerieChassi { get; set; } 
+        public string TipoServico { get; set; }
+        public bool AreaManobra { get; set; }
+        public string Registro { get; set; }
+        public string Portao { get; set; }
+
     }
 }

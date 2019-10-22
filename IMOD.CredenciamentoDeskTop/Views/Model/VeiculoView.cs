@@ -3,6 +3,7 @@
 // Crafted by: Grupo Estrela by Genetec
 // Date:  12 - 13 - 2018
 // ***********************************************************************
+using System;
 using System.ComponentModel.DataAnnotations;
 using IMOD.CredenciamentoDeskTop.Funcoes;
 
@@ -58,6 +59,11 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool Pendente34 { get; set; }
         public string DescricaoAlias { get { return Descricao; } }
         public bool Precadastro { get; set; }
+        public string Categoria { get; set; }
+        //[Required(ErrorMessage = "A Data do Licenciamento é Obrigatória.")]
+        public DateTime? DataLicenciameno { get; set; }
+        //[Required(ErrorMessage = "A Data da Vistoria é Obrigatória.")]
+        public DateTime? DataVistoria { get; set; }
         #endregion
     }
 }

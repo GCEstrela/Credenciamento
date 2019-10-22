@@ -239,5 +239,54 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 //WpfHelp.Mbox(ex.ToString());
             }
         }
+
+        private void TxtDataLicenciamento_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.Entity == null) return;
+            try
+            {
+                var str = txtDataLicenciamento.Text;
+                if (string.IsNullOrWhiteSpace(str)) return;
+                txtDataLicenciamento.Text = str.FormatarData();
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro("Data-Licenciamento", "Data inválida");
+            }
+
+        }
+
+        private void TxtDataVistoria_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.Entity == null) return;
+            try
+            {
+                var str = txtDataVistoria.Text;
+                if (string.IsNullOrWhiteSpace(str)) return;
+                txtDataVistoria.Text = str.FormatarData();
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro("Data-Vistoria", "Data inválida");
+            }
+
+        }
+
+        private void Pesquisa_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                txtPesquisa.Focus();
+                var num = _viewModel.PesquisarPor;
+                if (num.Key == 5)
+                {
+                    _viewModel.Pesquisar();
+                }
+            }
+            catch (Exception)
+            {
+                // throw;
+            }
+        }
     }
 }

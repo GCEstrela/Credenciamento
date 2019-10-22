@@ -46,7 +46,9 @@ namespace IMOD.Domain.Entities
         public bool ContratoBasico { get; set; }
         public string TerceirizadaNome { get; set; }
         public int PraVencer { get; set; }
-
+        public DateTime? DataInicio { get; set; }
+        public DateTime? DataFim { get; set; }
+        public string Usuario { get; set; }
         public override bool Equals(object obj)
         {
             var contrato = obj as EmpresaContrato;

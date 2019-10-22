@@ -34,6 +34,20 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             string dataFim = Datafim_tb.Text;
             bool check;
             string empresa;
+            bool? flaAtivoInativo;
+
+            var checkTipo = (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value ? false : true);
+            var checkEmissao = RbtnEmissao.IsChecked.Value ? true : false;
+            var checkValidade = RbtnValidade.IsChecked.Value ? true : false;
+
+            if (RbtnTodasAtivosInativos != null && RbtnTodasAtivosInativos.IsChecked.Value)
+            {
+                flaAtivoInativo = null;
+            }
+            else
+            {
+                flaAtivoInativo = (bool)RbtnAtivos.IsChecked.Value ? true : (bool)RbtnInativos.IsChecked.Value ? false : true;
+            }
 
             if (EmpresaRazaoSocial_cb.SelectedItem == null)
             {
@@ -41,18 +55,18 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             }
             else
             {
-                empresa = ((IMOD.CredenciamentoDeskTop.Views.Model.EmpresaView)EmpresaRazaoSocial_cb.SelectedItem).EmpresaId.ToString();
+                empresa =((IMOD.CredenciamentoDeskTop.Views.Model.EmpresaView)EmpresaRazaoSocial_cb.SelectedItem).EmpresaId.ToString();
             }
 
             if (credenciais_rb.IsChecked.Value)
             {
                 check = true;
-                ((RelatoriosViewModel)DataContext).OnRelatorioFiltroCredencialPorEmpresaCommand(empresa, check, dataIni, dataFim);
+                ((RelatoriosViewModel)DataContext).OnRelatorioFiltroCredencialPorEmpresaCommand(checkTipo, empresa, check, dataIni, dataFim, checkEmissao, checkValidade, flaAtivoInativo);
             } 
             else
             {
                 check = false; 
-                ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesPorEmpresaCommand(empresa, check, dataIni, dataFim);
+                ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesPorEmpresaCommand(checkTipo, empresa, check, dataIni, dataFim, checkEmissao, checkValidade, flaAtivoInativo);
             } 
 
 

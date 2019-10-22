@@ -7,7 +7,7 @@
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
              d:DataContext="{d:DesignInstance viewModels:RelatoriosViewModel , IsDesignTimeCreatable=True}"
              mc:Ignorable="d"
-             MaxWidth="1300" Width="1270" Height="825">
+             MaxWidth="1300" Width="1270" Height="825" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <Style x:Key="MenuStyle" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#FF252526" />
@@ -101,7 +101,7 @@
                 <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto"   >
                     <Grid >
                         <StackPanel Grid.Row="0">
-                            <GroupBox    x:Name="RelatoriosGerenciais_gb" Header="Relatórios Gerenciais" Margin="0,20,0,0" Height="247"  >
+                            <GroupBox    x:Name="RelatoriosGerenciais_gb" Header="Relatórios Gerenciais" Margin="0,20,0,0" Height="312"  >
                                 <StackPanel>
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,30,0,20" >
@@ -186,7 +186,21 @@
                                                 <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom"  Content="Relatório de Cred./Aut. por Empresa" Foreground="White" Width="230" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                             </StackPanel>
                                         </Button>
-                                        
+
+                                        <Button x:Name="BotaoCredenciaisDestruidas_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                        Click="BotaoCredenciaisDestruidasClick"  >
+                                            <StackPanel Orientation="Horizontal" Width="260">
+                                                <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom"  Content="Relatório de Credenciais Destruídas" Foreground="White" Width="230" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </Button>
+                                        <Button x:Name="BotaoAutorizacoesDestruidas_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                        Click="BotaoAutorizacoesDestruidasClick"  >
+                                            <StackPanel Orientation="Horizontal" Width="260">
+                                                <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom"  Content="Relatório de Autorizações Destruídas" Foreground="White" Width="230" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </Button>
                                         <!--<Button x:Name="BotaoRelatorioViasAdicionaisCredenciais_bst"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
                                                         IsEnabled="False"  >
                                             <StackPanel Orientation="Horizontal"  Width="260">
@@ -202,7 +216,25 @@
                                             </StackPanel>
                                         </Button>-->
                                     </StackPanel>
-
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,0,0,0" >
+                                        <Button x:Name="BotaoCredenciaisExtraviadas_bt"  Style="{StaticResource MenuStyle}" Margin="5,20,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                        Click="BotaoCredenciaisExtraviadasClick"  >
+                                            <StackPanel Orientation="Horizontal" Width="260">
+                                                <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom"  Content="Relatório de Credenciais Extraviadas" Foreground="White" Width="230" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,0,0,0" >
+                                        <Button x:Name="BtnAtutorizacaoExtraviadas"  Style="{StaticResource MenuStyle}" Margin="330,-50,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                        Click="BotaoAutorizacaoExtraviadasClick">
+                                            <StackPanel Orientation="Horizontal" Width="260">
+                                                <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom"  Content="Relatório de Autorizações Extraviadas" Foreground="White" Width="230" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                    
                                 </StackPanel>
 
                             </GroupBox>

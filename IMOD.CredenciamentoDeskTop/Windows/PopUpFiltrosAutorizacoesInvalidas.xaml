@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
         mc:Ignorable="d"
-        Title="Procurar Empresa" Height="485.944" Width="444.628" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
+        Title="Procurar Empresa" Height="564.986" Width="444.628" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FF171717" Offset="0.984"/>
@@ -40,13 +40,13 @@
         </StackPanel>
         <StackPanel Grid.Column="0" Margin="0,0,0,0" Grid.ColumnSpan="2">
             <GroupBox x:Name="invalidas_gb" Header="Filtro de Credenciais Inválidas" Height="170" Width="410" Foreground="#FFD0D0D0">
-                <ListBox x:Name="lstMotivoCredencial"
+                <ListBox x:Name="lstMotivoCredencial" SelectionMode="Multiple"
                         ItemsSource="{Binding MotivosCredenciais}"
                         SelectedValue="{Binding MotivosCredenciais}"
                         SelectedValuePath="CredencialMotivoId">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <RadioButton
+                            <CheckBox
                                 IsChecked="{Binding IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}"
                                 Content="{Binding Descricao}" />
                         </DataTemplate>
@@ -54,17 +54,28 @@
                 </ListBox>
             </GroupBox>
 
-            <GroupBox x:Name="periodo_gb" Header="Filtrar por Período (Data de Emissão)" Height="131" Foreground="#FFD0D0D0">
-
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch"  HorizontalAlignment="Left" Margin="0,5" Height="48" Width="433">
-                    <Label Content="Data Inicial:" Height="28" Width="100" Margin="0,10,5,10" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                    <DatePicker Margin="-10,3,0,0" Height="28" HorizontalAlignment="Left" Name="dp_dataInicial" Width="100" />
+            <GroupBox x:Name="periodo_gb" Header="Filtrar por Período (Data de Alteração)" Height="80"  Margin="10,10"  Foreground="#FFD0D0D0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch"  Height="48">
+                    <Label Content="Data Inicial:" Height="28" Width="80"  HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                    <DatePicker  Height="28" HorizontalAlignment="Left" Name="dp_dataInicial" Width="100" />
                     <!--<TextBox CharacterCasing="Upper"  x:Name="Dataini_tb"   MaxLength="50" Text="Data Inicial"  IsEnabled="True"  Height="24"  Width="100" Margin="0,12"/>-->
-                    <Label Content="Data Final :" Height="28" Width="100" Margin="0,10,5,10" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                    <DatePicker Margin="-10,3,0,0" Height="28" HorizontalAlignment="Left" Name="dp_dataFinal" Width="100" />
+                    <Label Content="Data Final :" Height="28" Width="80" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                    <DatePicker  Height="28" HorizontalAlignment="Left" Name="dp_dataFinal" Width="100" />
                     <!--<TextBox CharacterCasing="Upper"  x:Name="Datafim_tb"   MaxLength="50" Text="Data Final"  IsEnabled="True"  Height="24"  Width="100" />-->
                 </StackPanel>
-
+            </GroupBox>
+            <GroupBox x:Name="Informacoes_gb" Header="Filtrar por Tipo" Margin="12,10,10,10" Height="75" Foreground="#FFD0D0D0">
+                <StackPanel x:Name="Informacoes_sp"  Orientation="Horizontal" VerticalAlignment="Stretch"  HorizontalAlignment="Left">
+                    <RadioButton x:Name="RbtnPermanente" Content=" Permanentes" TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True"/>
+                    <RadioButton x:Name="RbtnTemporario" Margin="30,0"  Content=" Temporárias" TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="151"/>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox x:Name="Devolvidas" Header="Filtrar Devolução"  Margin="10,10"  Foreground="#FFD0D0D0" Height="70">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+                    <RadioButton  x:Name="RbtnTodasDevolucaoEntregue" Content="Todas" IsChecked="True" GroupName="GpnDevolvidas" Width="60"></RadioButton>
+                    <RadioButton  x:Name="RbtnSimDevolucaoEntregue" Content="Sim" GroupName="GpnDevolvidas" Width="60"></RadioButton>
+                    <RadioButton  x:Name="RbtnNaoDevolucaoEntregue" Content="Não" GroupName="GpnDevolvidas" Width="60"></RadioButton>
+                </StackPanel>
             </GroupBox>
 
             <Button x:Name="button" Content="Filtrar" Click="button_ClickFiltrar" Height="33" HorizontalAlignment="Center" Width="100" Margin="166,20,167,20" />

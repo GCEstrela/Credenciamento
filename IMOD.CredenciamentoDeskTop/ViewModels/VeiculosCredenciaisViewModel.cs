@@ -79,6 +79,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     e condição de pendencia impeditiva
         /// </summary>
         public bool HabilitaImpressao { get; set; }
+        public string ExcluirVisivel { get; set; }
         /// <summary>
         ///     Seleciona indice da listview
         /// </summary>
@@ -112,11 +113,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public VeiculosCredenciaisView Entity { get; set; }
         public ObservableCollection<VeiculosCredenciaisView> EntityObserver { get; set; }
 
-        public bool IsCheckDevolucao { get; set; }
-        public Visibility VisibilityCheckDevolucao { get; set; }
-        public string TextCheckDevolucao { get; set; } = String.Empty;
-        private DevoluçãoCredencial devolucaoCredencial;
-
         /// <summary>
         ///     Habilita listView
         /// </summary>
@@ -126,6 +122,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public VeiculosCredenciaisViewModel()
         {
+            if (!UsuarioLogado.Adm)
+            {
+                ExcluirVisivel = "Collapsed";
+            }
+            else
+            {
+                ExcluirVisivel = "Visible";
+            }
             //ItensDePesquisaConfigura();
             ListarDadosAuxiliares();
             Comportamento = new ComportamentoBasico(false, true, false, false, false);
@@ -208,7 +212,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             var lst8 = _auxiliaresService.CredencialMotivoService.Listar();
             _credencialMotivo.AddRange(lst8.OrderBy(n => n.Descricao));
         }
+        /// <summary>
+        /// </summary>
+        /// <param name="empresaId"></param>
+        public void ListarCracha(int empresaId, int codigoTipoValidade)
+        {
+            try
+            {
+                EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
+                var service = new EmpresaLayoutCrachaService();
+                var list1 = service.ListarLayoutCrachaView(empresaId, null, null, null, 2, codigoTipoValidade);
+                var list2 = Mapper.Map<List<EmpresaLayoutCracha>>(list1);
+                EmpresaLayoutCracha = list2;
 
+                //_todosContratosEmpresas.ForEach(n => { ColaboradoresEmpresas.Add(n); });
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
         public void CarregaColecaoLayoutsCrachas(int empresaId,int tipoCracha)
         {
             try
@@ -260,7 +283,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Comportamento.IsEnableEditar = Entity != null;
                 Comportamento.isEnableRemover = Entity != null;
                 AtualizarMensagem(Entity);
-                ExibirCheckDevolucao(Entity);
             }
         }
 
@@ -360,8 +382,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 if (Validar()) return;
 
-                Entity.DevolucaoEntregaBoId = IsCheckDevolucao ? (int)devolucaoCredencial : 0;
-
                 var n1 = Mapper.Map<VeiculoCredencial> (Entity);
 
                 n1.CredencialMotivoId = Entity.CredencialMotivoId;
@@ -370,8 +390,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.LayoutCrachaId = Entity.LayoutCrachaId;
                 n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
                 n1.TipoCredencialId = Entity.TipoCredencialId;
-                n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
-                n1.Validade = Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
+                n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
                 if (n1.Validade <= DateTime.Now)
                 {
                     WpfHelp.Mbox("Data de Validade da Autorização é inferior à data atual.", MessageBoxIcon.Information);
@@ -437,45 +456,76 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
         private void AtualizarMensagem(VeiculosCredenciaisView entity)
         {
-            MensagemAlerta = string.Empty;
-            if (entity == null) return;
-            if (entity.VeiculoCredencialId <=0) return;
-
-            #region Habilitar botão de impressao e mensagem ao usuario
-
-            var pendenciaImpeditivaEmpresa = serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
-            var pendenciaImpeditivaVeiculo = serviceEmpresa.Pendencia.ListarPorVeiculo(entity.VeiculoId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
-
-            HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaVeiculo.Count <= 0);
-            //Verificar se a empresa esta impedida
-            var n1 = _service.BuscarCredencialPelaChave(entity.VeiculoCredencialId);
-            var mensagem1 = !n1.Ativa ? "Autorização Inativa" : string.Empty;
-            var mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
-            var mensagem3 = n1.Impressa ? "Autorização já foi impressa" : string.Empty;
-            var mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Autorização vencida." : string.Empty;
-            //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras
-            //if (n1.Impressa) return;
-
-            if (!string.IsNullOrEmpty(mensagem1 + mensagem2 + mensagem3 + mensagem4))
+            try
             {
-                MensagemAlerta = $"A autorização não poderá ser impressa pelo seguinte motivo: ";
-                if (!string.IsNullOrEmpty(mensagem1))
+                MensagemAlerta = string.Empty;
+                if (entity == null) return;
+                if (entity.VeiculoCredencialId <= 0) return;
+
+                #region Habilitar botão de impressao e mensagem ao usuario
+
+                var pendenciaImpeditivaEmpresa = serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
+                var pendenciaImpeditivaVeiculo = serviceEmpresa.Pendencia.ListarPorVeiculo(entity.VeiculoId).Where(n => n.Impeditivo == true && n.Ativo == true).ToList();
+
+                HabilitaImpressao = entity.Ativa & !entity.PendenciaImpeditiva & !entity.Impressa && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaVeiculo.Count <= 0);
+                //if (!UsuarioLogado.Adm)   //Esta alteração esta sendo feita para permitir que o Usuario ADM posso continuar com a data alterada
+                //{
+                //    HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.VeiculoCredencialId > 0) && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaVeiculo.Count <= 0);
+                //}
+                //else
+                //{
+                //    HabilitaImpressao = entity.Ativa && !entity.PendenciaImpeditiva && !entity.Impressa && (entity.VeiculoCredencialId > 0) && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaVeiculo.Count <= 0);
+                //}
+                //Verificar se a empresa esta impedida
+                var mensagem1 = "";
+                var mensagem2 = "";
+                var mensagem3 = "";
+                var mensagem4 = "";
+                var n1 = _service.BuscarCredencialPelaChave(entity.VeiculoCredencialId);
+                if (n1 != null)
                 {
-                    MensagemAlerta += mensagem1;
+                    HabilitaImpressao = n1.Ativa & !n1.PendenciaImpeditiva & !n1.Impressa && entity.Validade >= DateTime.Now.Date && (pendenciaImpeditivaEmpresa.Count <= 0) && (pendenciaImpeditivaVeiculo.Count <= 0);
+                    mensagem1 = !n1.Ativa ? "Autorização Inativa" : string.Empty;
+                    mensagem2 = n1.PendenciaImpeditiva ? "Pendência Impeditiva (consultar dados da empresa na aba Geral)" : string.Empty;
+                    mensagem3 = n1.Impressa ? "Autorização já foi impressa" : string.Empty;
+                    mensagem4 = (entity.Validade < DateTime.Now.Date) ? "Autorização vencida." : string.Empty;
+                    //Exibir mensagem de impressao de credencial, esta tem prioridade sobre as demais regras
+                    //if (n1.Impressa) return;
+                    Entity.DevolucaoEntregaBo = n1.DevolucaoEntregaBo;
+                    Entity.DataStatus = n1.DataStatus;
+                    Entity.Impressa = n1.Impressa;
+                    Entity.Emissao = n1.Emissao;
                 }
-                else if (!string.IsNullOrEmpty(mensagem2))
+
+
+                if (!string.IsNullOrEmpty(mensagem1 + mensagem2 + mensagem3 + mensagem4))
                 {
-                    MensagemAlerta += mensagem2;
+                    MensagemAlerta = $"A autorização não poderá ser impressa pelo seguinte motivo: ";
+                    if (!string.IsNullOrEmpty(mensagem1))
+                    {
+                        MensagemAlerta += mensagem1;
+                    }
+                    else if (!string.IsNullOrEmpty(mensagem2))
+                    {
+                        MensagemAlerta += mensagem2;
+                    }
+                    else if (!string.IsNullOrEmpty(mensagem3))
+                    {
+                        MensagemAlerta += mensagem3;
+                    }
+                    else if (!string.IsNullOrEmpty(mensagem4))
+                    {
+                        MensagemAlerta += mensagem4;
+                    }
                 }
-                else if (!string.IsNullOrEmpty(mensagem3))
-                {
-                    MensagemAlerta += mensagem3;
-                }
-                else if (!string.IsNullOrEmpty(mensagem4))
-                {
-                    MensagemAlerta += mensagem4;
-                }
+                CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
             }
+            catch (Exception)
+            {
+
+                //throw;
+            }
+            
             //================================================================================
             #endregion
 
@@ -493,10 +543,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 if (Validar()) return;
 
-                Entity.DevolucaoEntregaBoId = IsCheckDevolucao ? (int)devolucaoCredencial : 0;
-
                 var n1 = Mapper.Map<VeiculoCredencial> (Entity);
-                n1.DevolucaoEntregaBoId = IsCheckDevolucao ? Entity.DevolucaoEntregaBoId : 0;
+                
                 //Alterar o status do titular do cartão
                 _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine), Entity, n1);
                 //===================================================
@@ -612,15 +660,33 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (layoutCracha == null) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
                 if (string.IsNullOrWhiteSpace (layoutCracha.LayoutRpt)) throw new InvalidOperationException ("Não é possível imprimir uma credencial sem ter sido definida um layout do crachá.");
 
-                Cursor.Current = Cursors.WaitCursor; 
+                Cursor.Current = Cursors.WaitCursor;
+
+                var tipoEquipamentoService = _auxiliaresService.EquipamentoVeiculoTipoServicoService.ListarEquipamentoVeiculoTipoServicoView(Entity.VeiculoId).ToList();
+
+                string _servicoAutorizacao = ""; 
+
+                foreach (IMOD.Domain.EntitiesCustom.EquipamentoVeiculoTipoServicoView element in tipoEquipamentoService)
+                {
+                    if (_servicoAutorizacao == "")
+                    {
+                        _servicoAutorizacao = !String.IsNullOrEmpty(element.Descricao) ? " - " + element.Descricao?.ToString() : "";
+                    }
+                    else
+                    {
+                        _servicoAutorizacao = _servicoAutorizacao + Environment.NewLine + " - " + element.Descricao.ToString();
+                    }
+                }
 
                 var arrayBytes = WpfHelp.ConverterBase64 (layoutCracha.LayoutRpt, "Layout de Autorização");
                 var relatorio = WpfHelp.ShowRelatorioCrystalReport (arrayBytes, layoutCracha.Nome);
                 var lst = new List<Views.Model.AutorizacaoView>();
                 var credencialView = _service.ObterCredencialView (Entity.VeiculoCredencialId);
-                
+
+                credencialView.TipoServico = _servicoAutorizacao;
                 var AutorizacaoMapeada = Mapper.Map<Views.Model.AutorizacaoView>(credencialView);
-                lst.Add (AutorizacaoMapeada);
+                AutorizacaoMapeada.Emissao = DateTime.Now;
+                lst.Add (AutorizacaoMapeada); 
 
                 relatorio.SetDataSource (lst);
 
@@ -667,67 +733,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
 
             return Entity.HasErrors;
-        }
-
-
-        public void HabilitaCheckDevolucao(int credencialStatus = 0, int credencialMotivoId = 0)
-        {
-            if (credencialStatus == 2 && credencialMotivoId > 0)
-            {
-                switch (credencialMotivoId)
-                {
-                    case 6:
-                    case 8:
-                    case 15:
-
-                        IsCheckDevolucao = IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
-                        TextCheckDevolucao = DevoluçãoCredencial.Devolucao.Descricao();
-                        devolucaoCredencial = DevoluçãoCredencial.Devolucao;
-                        VisibilityCheckDevolucao = Visibility.Visible;
-                        break;
-                    case 9:
-                    case 10:
-                        IsCheckDevolucao = IsCheckDevolucao = Entity != null & Entity.DevolucaoEntregaBoId > 0 ? true : IsCheckDevolucao;
-                        TextCheckDevolucao = DevoluçãoCredencial.EntregaBO.Descricao();
-                        devolucaoCredencial = DevoluçãoCredencial.EntregaBO;
-                        VisibilityCheckDevolucao = Visibility.Visible;
-                        break;
-                    default:
-                        IsCheckDevolucao = false;
-                        TextCheckDevolucao = String.Empty;
-                        VisibilityCheckDevolucao = Visibility.Hidden;
-                        devolucaoCredencial = 0;
-                        break;
-                }
-            }
-            else
-            {
-                IsCheckDevolucao = false;
-                TextCheckDevolucao = String.Empty;
-                VisibilityCheckDevolucao = Visibility.Hidden;
-            }
-        }
-
-        private void ExibirCheckDevolucao(VeiculosCredenciaisView entity)
-        {
-            if (entity != null)
-            {
-                IsCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ? false : (entity.DevolucaoEntregaBoId > 0 ? true : false);
-
-                VisibilityCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ?
-                    Visibility.Hidden : (entity.DevolucaoEntregaBoId > 0 ? Visibility.Visible : Visibility.Hidden);
-
-                TextCheckDevolucao = entity.DevolucaoEntregaBoId == 0 ? String.Empty :
-                        (entity.DevolucaoEntregaBoId == 1 ? DevoluçãoCredencial.Devolucao.Descricao() : DevoluçãoCredencial.EntregaBO.Descricao());
-
-                devolucaoCredencial = (DevoluçãoCredencial)entity.DevolucaoEntregaBoId;
-            }
-            else
-            {
-                IsCheckDevolucao = false;
-                TextCheckDevolucao = String.Empty;
-                VisibilityCheckDevolucao = Visibility.Hidden;
-            }
         }
 
         #endregion

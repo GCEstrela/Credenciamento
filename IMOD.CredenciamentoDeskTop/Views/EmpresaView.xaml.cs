@@ -7,6 +7,7 @@
 #region
 
 using System;
+using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,11 +26,11 @@ namespace IMOD.CredenciamentoDeskTop.Views
 {
     public partial class EmpresaView : UserControl
     {
-        
+
         private readonly EmpresaViewModel _viewModel;
         public EmpresaView()
         {
-            InitializeComponent();            
+            InitializeComponent();
             _viewModel = new EmpresaViewModel();
             DataContext = _viewModel;
         }
@@ -45,38 +46,63 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void OnSelecionaMunicipio_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_viewModel.Estado == null) return;
-            _viewModel.ListarMunicipios(_viewModel.Estado.Uf);
+            try
+            {
+                if (_viewModel.Estado == null) return;
+                _viewModel.ListarMunicipios(_viewModel.Estado.Uf);
+            }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message,1);
+            }
         }
 
         private void OnListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //fake1.IsChecked = false;
-            if (_viewModel.Entity == null) return;
-            //Atualizar dados ao selecionar uma linha da listview
-            _viewModel.AtualizarDadosPendencias();
-            _viewModel.AtualizarDadosTiposAtividades();
-            _viewModel.AtualizarDadosTipoCrachas();
-            if (_viewModel.Entity!=null)
-                _viewModel.bucarLogo(_viewModel.Entity.EmpresaId);
+            try
+            {
+                //fake1.IsChecked = false;
+                if (_viewModel.Entity == null) return;
+                //Atualizar dados ao selecionar uma linha da listview
+                _viewModel.AtualizarDadosPendencias();
+                _viewModel.AtualizarDadosTiposAtividades();
+                _viewModel.AtualizarDadosTipoCrachas();
+                if (_viewModel.Entity != null)
+                    _viewModel.bucarLogo(_viewModel.Entity.EmpresaId);
 
-            if (_viewModel.Entity != null)
-                _viewModel.Entity.Cnpj = _viewModel.Entity.Cnpj.FormatarCnpj();
-            //Popular User Controls
-            //////////////////////////////////////////////////////////////
-            RepresentanteUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            EmpresaContratosUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            //////////////////////////////////////////////////////////////
-            _viewModel.CarregarQuantidadeTipoCredencial();
-            //////////////////////////////////////////////////////////////
-            if (_viewModel.Entity.Cnpj== "00.000.000/0000-00")
-            {
-                fake1.IsChecked = true;
+                if (_viewModel.Entity != null)
+                    _viewModel.Entity.Cnpj = _viewModel.Entity.Cnpj.FormatarCnpj();
+                //Popular User Controls
+                //////////////////////////////////////////////////////////////
+                RepresentanteUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                EmpresaContratosUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                //////////////////////////////////////////////////////////////
+                _viewModel.CarregarQuantidadeTipoCredencial();
+                //////////////////////////////////////////////////////////////
+                if (_viewModel.Entity.Cnpj == "00.000.000/0000-00")
+                {
+                    fake1.IsChecked = true;
+                }
+                else
+                {
+                    fake1.IsChecked = false;
+                }
             }
-            else
+            catch (SqlException ex)
             {
-                fake1.IsChecked = false;
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+                _viewModel.EntityObserver.Clear();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message, 1);
             }
         }
 
@@ -87,11 +113,23 @@ namespace IMOD.CredenciamentoDeskTop.Views
         /// <param name="e"></param>
         private void OnRemoverTipoAtividade_Click(object sender, RoutedEventArgs e)
         {
-            if (lstBoxTipoAtividade.SelectedItem == null) return;
-            var item = lstBoxTipoAtividade.SelectedItem;
-            if (item == null) return;
-            var idx = lstBoxTipoAtividade.Items.IndexOf(item);
-            _viewModel.TiposAtividades.RemoveAt(idx); 
+            try
+            {
+                if (lstBoxTipoAtividade.SelectedItem == null) return;
+                var item = lstBoxTipoAtividade.SelectedItem;
+                if (item == null) return;
+                var idx = lstBoxTipoAtividade.Items.IndexOf(item);
+                _viewModel.TiposAtividades.RemoveAt(idx);
+            }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message,1);
+            }
         }
 
         /// <summary>
@@ -101,22 +139,33 @@ namespace IMOD.CredenciamentoDeskTop.Views
         /// <param name="e"></param>
         private void OnAdicionarTipoAtividade_Click(object sender, RoutedEventArgs e)
         {
-            if (_viewModel.TipoAtividade == null) return;
-            var n1 = new EmpresaTipoAtividadeView
+            try
             {
-                TipoAtividadeId = _viewModel.TipoAtividade.TipoAtividadeId,
-                Descricao = _viewModel.TipoAtividade.Descricao
-            };
-            foreach (var listBoxItem in lstBoxTipoAtividade.Items)
-            {
-                if (((EmpresaTipoAtividadeView)listBoxItem).Descricao == n1.Descricao)
+                if (_viewModel.TipoAtividade == null) return;
+                var n1 = new EmpresaTipoAtividadeView
                 {
-                    return;
+                    TipoAtividadeId = _viewModel.TipoAtividade.TipoAtividadeId,
+                    Descricao = _viewModel.TipoAtividade.Descricao
+                };
+                foreach (var listBoxItem in lstBoxTipoAtividade.Items)
+                {
+                    if (((EmpresaTipoAtividadeView)listBoxItem).Descricao == n1.Descricao)
+                    {
+                        return;
+                    }
                 }
+                _viewModel.TiposAtividades.Add(n1);
+                _viewModel.TipoAtividade = null;
             }
-            _viewModel.TiposAtividades.Add(n1);
-            _viewModel.TipoAtividade = null;
-
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message,1);
+            }
         }
 
         /// <summary>
@@ -126,22 +175,34 @@ namespace IMOD.CredenciamentoDeskTop.Views
         /// <param name="e"></param>
         private void OnAdicionarTipoCracha_Click(object sender, RoutedEventArgs e)
         {
-            if (_viewModel.TipoCracha == null) return;
-            var n1 = new IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaView
+            try
             {
-                LayoutCrachaId = _viewModel.TipoCracha.LayoutCrachaId,
-                Nome = _viewModel.TipoCracha.Nome
-            };
-            foreach (var listBoxItem in lstBoxLayoutCracha.Items)
-            {
-                
-                if (((IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaView)listBoxItem).Nome == n1.Nome)
+                if (_viewModel.TipoCracha == null) return;
+                var n1 = new IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaView
                 {
-                    return;
+                    LayoutCrachaId = _viewModel.TipoCracha.LayoutCrachaId,
+                    Modelo = _viewModel.TipoCracha.Modelo
+                };
+                foreach (var listBoxItem in lstBoxLayoutCracha.Items)
+                {
+
+                    if (((IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaView)listBoxItem).Modelo == n1.Modelo)
+                    {
+                        return;
+                    }
                 }
+                _viewModel.TiposLayoutCracha.Add(n1);
+                _viewModel.TipoCracha = null;
             }
-            _viewModel.TiposLayoutCracha.Add(n1);
-            _viewModel.TipoCracha = null;
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message,1);
+            }
         }
 
         /// <summary>
@@ -153,7 +214,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             if (lstBoxLayoutCracha.SelectedItem == null) return;
             var idx = lstBoxLayoutCracha.Items.IndexOf(lstBoxLayoutCracha.SelectedItem);
-            _viewModel.TiposLayoutCracha.RemoveAt(idx); 
+            _viewModel.TiposLayoutCracha.RemoveAt(idx);
         }
 
         #endregion
@@ -170,9 +231,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 frm.ShowDialog();
                 _viewModel.AtualizarDadosPendencias();
             }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex.Message,1);
             }
         }
 
@@ -202,8 +268,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
             e.Handled = regex.IsMatch(e.Text);
         }
 
-
-
         private void OnSelecionaFoto_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -216,17 +280,20 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 binding?.UpdateTarget();
 
             }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
             catch (Exception ex)
             {
-                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex.Message,1);
             }
         }
 
-
-
         #endregion
 
-        
+
 
 
         private void TxtCnpj_LostFocus(object sender, RoutedEventArgs e)
@@ -244,30 +311,40 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
                 txtCnpj.Text = cnpj;
             }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
             catch (Exception)
             {
                 _viewModel.Entity.SetMessageErro("Cnpj", "CNPJ inválido");
             }
-             
+
         }
 
         private void Sigla_tb_LostFocus(object sender, RoutedEventArgs e)
         {
             if (_viewModel.Entity == null) return;
-                try
-                {
-                    var sigla = _viewModel.Entity.Sigla;
-                    if (_viewModel.ExisteSigla())
-                        _viewModel.Entity.SetMessageErro("Sigla", "Sigla já existe");
+            try
+            {
+                var sigla = _viewModel.Entity.Sigla;
+                if (_viewModel.ExisteSigla())
+                    _viewModel.Entity.SetMessageErro("Sigla", "Sigla já existe");
 
-                    Sigla_tb.Text = sigla;
-                }
-                catch (Exception)
-                {
-                    _viewModel.Entity.SetMessageErro("Cnpj", "CNPJ inválido");
-                }
+                Sigla_tb.Text = sigla;
+            }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro("Cnpj", "CNPJ inválido");
+            }
         }
-        
+
         private void LstView_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -280,7 +357,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                         currentIndex -= Sum;
                     if (e.Key.ToString() != "Up")
                     {
-                        if (currentIndex == lstView.Items.Count-1) return;
+                        if (currentIndex == lstView.Items.Count - 1) return;
                         ((ListViewItem)(lstView.ItemContainerGenerator.ContainerFromIndex(currentIndex + 1))).Focus();
                     }
                     else
@@ -290,7 +367,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                     }
                 }
 
-                
+
             }
             catch (Exception ex)
             {
@@ -332,6 +409,28 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void BtnEditar_Click(object sender, RoutedEventArgs e)
         {
             //fake1.IsChecked = false;
+        }
+
+        private void Pesquisa_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                txtPesquisa.Focus();
+                var num = _viewModel.PesquisarPor;
+                if (num.Key == 5)
+                {
+                    _viewModel.Pesquisar();
+                }
+            }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message,1);
+            }
         }
     }
 }

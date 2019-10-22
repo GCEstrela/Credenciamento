@@ -20,6 +20,7 @@ using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.CredenciamentoDeskTop.Enums;
+using IMOD.Infra.Servicos;
 
 #endregion
 
@@ -1079,37 +1080,40 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void OnAdicionarLayoutCrachaCommand()
         {
-            try
-            {
-                foreach (var x in LayoutsCrachas)
-                {
-                    _layoutsCrachasTemp.Add (x);
-                }
+            //try
+            //{
+            //    foreach (var x in LayoutsCrachas)
+            //    {
+            //        _layoutsCrachasTemp.Add (x);
+            //    }
 
-                _layoutCrachaSelectedIndex = LayoutCrachaSelectedIndex;
-                LayoutsCrachas.Clear();
+            //    _layoutCrachaSelectedIndex = LayoutCrachaSelectedIndex;
+            //    LayoutsCrachas.Clear();
 
-                LayoutCrachaTemp = new LayoutCrachaView();
-                LayoutsCrachas.Add (LayoutCrachaTemp);
+            //    LayoutCrachaTemp = new LayoutCrachaView();
+            //    LayoutsCrachas.Add (LayoutCrachaTemp);
 
-                LayoutCrachaSelectedIndex = 0;
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException (ex);
-            }
+            //    LayoutCrachaSelectedIndex = 0;
+            //}
+            //catch (Exception ex)
+            //{
+            //    Utils.TraceException (ex);
+            //}
         }
 
         public void OnSalvarLayoutCrachaCommand()
         {
             try
             {
+
                 //Atualiza arquivo Byte[] (.rpt)
                 LayoutCrachaSelecionado.LayoutRpt = LayoutCrachaTemp.LayoutRpt;
                 //LayoutCrachaSelecionado.TipoCracha = TipoLayoutCracha.
 
+                if (LayoutCrachaSelecionado.TipoCracha <= 0) return;
+
                 var entity = LayoutCrachaSelecionado;
-                var entityConv = Mapper.Map<LayoutCracha> (entity);
+                var entityConv = Mapper.Map<LayoutCracha> (entity); 
 
                 if (LayoutCrachaSelecionado.LayoutCrachaId != 0)
                 {
@@ -2141,10 +2145,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+               
                 var service = new ConfiguraSistemaService();
                 var list1 = service.Listar().ToList().FirstOrDefault();
                 var list2 = Mapper.Map<ConfiguraSistemaView>(list1);
                 Entity = list2;
+                
+
+                var serviceSC = new CredencialGenetecService(Main.Engine);
+                var grupos = serviceSC.RetornarGrupos();
+                grupos.ForEach(n => { Entity.Grupos.Add(n.Name); });
+                this.Entity.GrupoPadrao = list2.GrupoPadrao.Trim();
             }
             catch (Exception ex)
             {

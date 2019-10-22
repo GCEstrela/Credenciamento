@@ -40,6 +40,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private ConfiguraSistema _configuraSistema;
 
         #region  Propriedades
+        private int _veiculoid;
         public List<EmpresaContrato> Contratos { get; private set; }
         public List<Empresa> Empresas { get; private set; }
         public Empresa Empresa { get; set; }
@@ -178,6 +179,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity == null) return;
                 if (Validar()) return;
+                if (ExisteColaboradoContratoAtivo(_veiculoid)) return;
 
                 var n1 = Mapper.Map<VeiculoEmpresa> (Entity);
                 n1.VeiculoId = _veiculoView.EquipamentoVeiculoId;
@@ -304,6 +306,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             EntityObserver.Clear();
             if (entity == null) return; // throw new ArgumentNullException (nameof (entity));
+
+            _veiculoid = entity.EquipamentoVeiculoId;
             _veiculoView = entity;
             _viewModelParent = viewModelParent;
             //Obter dados
@@ -313,7 +317,27 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             list2.ForEach (n => { EntityObserver.Add (n); });
              
         }
-
+        public bool ExisteColaboradoContratoAtivo(int _veiculo)
+        {
+            try
+            {
+                //Verificar se existe numero de contrato
+                var n1 = _service.Listar(_veiculo, Entity.Ativo, null, null, null, null, Entity.EmpresaContratoId);
+                if (n1 != null && n1.Count() > 0)
+                {
+                    WpfHelp.Mbox("Veículo já esta vinculado à este contrato. Operação cancelada.");
+                    //System.Windows.MessageBox.Show("Colaborador já esta vinculado à este contrato. Operação cancelada.");
+                    Comportamento.PrepareCancelar();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+        }
         #endregion
 
         #region Propriedade Commands

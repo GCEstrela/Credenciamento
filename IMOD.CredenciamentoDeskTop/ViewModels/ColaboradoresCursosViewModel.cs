@@ -71,14 +71,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public ColaboradoresCursosViewModel()
         {
-            //ListarDadosAuxiliares();
-            Comportamento = new ComportamentoBasico(false, true, false, false, false);
-            EntityObserver = new ObservableCollection<ColaboradorCursoView>();
-            Comportamento.SalvarAdicao += OnSalvarAdicao;
-            Comportamento.SalvarEdicao += OnSalvarEdicao;
-            Comportamento.Remover += OnRemover;
-            Comportamento.Cancelar += OnCancelar;
-            base.PropertyChanged += OnEntityChanged;
+            try
+            {
+                ListarDadosAuxiliares();
+                Comportamento = new ComportamentoBasico(false, true, false, false, false);
+                EntityObserver = new ObservableCollection<ColaboradorCursoView>();
+                Comportamento.SalvarAdicao += OnSalvarAdicao;
+                Comportamento.SalvarEdicao += OnSalvarEdicao;
+                Comportamento.Remover += OnRemover;
+                Comportamento.Cancelar += OnCancelar;
+                base.PropertyChanged += OnEntityChanged;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion
@@ -213,6 +220,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 if (Validar()) return;
 
+                BuscarAnexo(Entity.ColaboradorCursoId);
+
                 var n1 = Mapper.Map<ColaboradorCurso> (Entity);
                 _service.Alterar (n1);
                 var n2 = EntityObserver.FirstOrDefault(n => n.ColaboradorCursoId == n1.ColaboradorCursoId);
@@ -285,6 +294,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox("Selecione um item da lista", 1);
                 return;
             }
+            //if (Cursos != null)
+            //    Cursos.Clear();
+
+            //ListarDadosAuxiliares();
+            CollectionViewSource.GetDefaultView(Cursos).Refresh();
+
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
             _viewModelParent.HabilitaControleTabControls(false, false, false, true, false, false);

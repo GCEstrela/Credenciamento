@@ -48,7 +48,7 @@ namespace IMOD.CredenciamentoDeskTop
 
         public static readonly Guid ImodCredencialGuid = new Guid ("{2ACE4CD0-7E9C-FAFA-B8A6-24FD71D6DD59}");
 
-        public static IEngine Engine;
+        public static Engine Engine;
 
         #endregion
 
@@ -56,7 +56,7 @@ namespace IMOD.CredenciamentoDeskTop
 
         public override void Load()
         {
-            Engine = Workspace.Sdk;            
+            Engine = (Engine)Workspace.Sdk;            
 
             SubscribeToSdkEvents (Engine);
             SubscribeToWorkspaceEvents();

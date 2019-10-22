@@ -46,11 +46,11 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Criar(Empresa entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.InsertText("Empresas", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.InsertText("Empresas", conn))
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaID", entity.EmpresaId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Nome", entity.Nome, false)));
@@ -93,20 +93,20 @@ namespace IMOD.Infra.Repositorios
 
                         entity.EmpresaId = key;
                     }
-                    catch (SqlException ex)
-                    {
-                        if (ex.Number == 2601)
-                            throw new InvalidOperationException("CNPJ já existente.");
-                        throw;
-                    }
-
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
-                    }
                 }
             }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2601)
+                    throw new InvalidOperationException("CNPJ já existente.");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -116,12 +116,12 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public Empresa BuscarPelaChave(int id)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("Empresas", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("Empresas", conn))
+
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaId", DbType.Int32, id).Igual()));
                         var reader = cmd.ExecuteReader();
@@ -129,24 +129,24 @@ namespace IMOD.Infra.Repositorios
 
                         return d1.FirstOrDefault();
                     }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
-                    }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
 
 
         public ICollection<Empresa> ListarEmpresasPendentes(params object[] objects)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("Empresas", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("Empresas", conn))
                     {
 
                         var empresasPendencias = ListarPendencias();
@@ -157,16 +157,16 @@ namespace IMOD.Infra.Repositorios
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Empresa>();
-                        
+
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
 
@@ -177,13 +177,14 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<Empresa> Listar(params object[] objects)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("Empresas", conn))
-
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("Empresas", conn))
+
                     {
+
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, objects, 0).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Apelido", DbType.String, objects, 1).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cnpj", DbType.String, objects, 2).Like()));
@@ -193,18 +194,21 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Senha", DbType.String, objects, 5).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, objects, 6).Igual()));
 
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("IdEmpresaSICOA", DbType.Int32, objects, 7).Igual()));
+
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Empresa>();
 
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -213,12 +217,13 @@ namespace IMOD.Infra.Repositorios
         /// <param name="entity"></param>
         public void Alterar(Empresa entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.UpdateText("Empresas", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.UpdateText("Empresas", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaID", entity.EmpresaId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Nome", entity.Nome, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Apelido", entity.Apelido, false)));
@@ -254,23 +259,25 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente16", entity.Pendente16, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Pendente17", entity.Pendente17, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("PraVencer", entity.PraVencer, false)));
-                        
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Senha", entity.Senha, false)));
 
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (SqlException ex)
-                    {
-                        if (ex.Number == 2601)
-                            throw new InvalidOperationException("CNPJ já existente.");
-                        throw;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2601)
+                    throw new InvalidOperationException("CNPJ já existente.");
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -279,22 +286,22 @@ namespace IMOD.Infra.Repositorios
         /// <param name="objects"></param>
         public void Remover(Empresa entity)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.DeleteText("Empresas", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.DeleteText("Empresas", conn))
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("EmpresaId", entity.EmpresaId).Igual()));
-
                         cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         /// <summary>
@@ -304,27 +311,28 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public Empresa BuscarEmpresaPorCnpj(string cnpj)
         {
-            if (string.IsNullOrWhiteSpace(cnpj)) return null;
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("Empresas", conn))
-
+                if (string.IsNullOrWhiteSpace(cnpj)) return null;
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("Empresas", conn))
                     {
+
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Cnpj", DbType.String, cnpj.RetirarCaracteresEspeciais()).Igual()));
                         var reader = cmd.ExecuteReader();
                         var d1 = reader.MapToList<Empresa>();
 
                         return d1.FirstOrDefault();
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
         /// <summary>
         /// Buscar empresa por Sigla
@@ -333,14 +341,15 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public Empresa BuscarEmpresaPorSigla(string sigla)
         {
-            if (string.IsNullOrWhiteSpace(sigla)) return null;
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("Empresas", conn))
-
+                if (string.IsNullOrWhiteSpace(sigla)) return null;
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("Empresas", conn))
+
                     {
+
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, EmpresaId).Igual()));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Sigla", DbType.String, sigla).Igual()));
 
@@ -349,13 +358,14 @@ namespace IMOD.Infra.Repositorios
 
                         return d1.FirstOrDefault();
                     }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
-                    }
+
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
 
@@ -369,47 +379,51 @@ namespace IMOD.Infra.Repositorios
         /// <returns></returns>
         public ICollection<EmpresaPendenciaView> ListarPendencias(int empresaId = 0)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("EmpresaPendenciasView", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("EmpresaPendenciasView", conn))
                     {
+
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaId", DbType.Int32, empresaId).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<EmpresaPendenciaView>();
                         return d1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
         public ICollection<EmpresaTipoCredencialView> ListarTipoCredenciaisEmpresa(int empresaId = 0)
         {
-            using (var conn = _dataBase.CreateOpenConnection())
+            try
             {
-                using (var cmd = _dataBase.SelectText("EmpresaCredenciaisView", conn))
+                using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    try
+                    using (var cmd = _dataBase.SelectText("EmpresaCredenciaisView", conn))
                     {
+
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaId", DbType.Int32, empresaId).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var objResult = reader.MapToList<EmpresaTipoCredencialView>();
                         return objResult;
-                    }
-                    catch (Exception ex)
-                    {
-                        Utils.TraceException(ex);
-                        throw;
+
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         //public Empresa BuscarEmpresaPorSigla(string sigla)

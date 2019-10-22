@@ -6,6 +6,7 @@
 
 #region
 
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.ViewModels;
@@ -23,8 +24,9 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         {
             InitializeComponent(); 
             DataContext = new RelatoriosViewModel(); 
-            MouseDown += Window_MouseDown; 
-            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciais(1); 
+            MouseDown += Window_MouseDown;
+            List<int> status = new List<int> { 2, 3 }; 
+            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciaisListaSelecionada(status); 
         } 
 
         #region  Metodos
@@ -40,7 +42,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
              
-            int tipo = 0;
+            int motivoTipo = 0;
             IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView motivoCredencialSelecionado = null; 
             string dataIni = dp_dataInicial.Text;
             string dataFim = dp_dataFinal.Text;
@@ -48,10 +50,10 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             if (lstMotivoCredencial.SelectedItem != null) 
             {
                 motivoCredencialSelecionado = (IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem;
-                tipo = ((IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem).CredencialMotivoId;
+                motivoTipo = ((IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem).CredencialMotivoId;
             }
 
-            ((RelatoriosViewModel) DataContext).OnFiltroAutorizacaoViasAdicionaisCommand (tipo, dataIni, dataFim);
+            ((RelatoriosViewModel) DataContext).OnFiltroAutorizacaoViasAdicionaisCommand (motivoTipo, dataIni, dataFim);
 
             Close();
         }

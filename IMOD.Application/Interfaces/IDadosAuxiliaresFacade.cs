@@ -142,8 +142,15 @@ namespace IMOD.Application.Interfaces
         /// </summary>
         IConfiguraSistemaService ConfiguraSistemaService { get; }
 
-
+        /// <summary>
+        ///     Colaborador Curso 
+        /// </summary>
         IColaboradorCursoService ColaboradorCursoService { get; }
+
+        /// <summary>
+        ///     Tipos Serviços Veículo / Equipamento
+        /// </summary>
+        IEquipamentoVeiculoTipoServicoService EquipamentoVeiculoTipoServicoService { get; }
 
         #endregion
     }

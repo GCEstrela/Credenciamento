@@ -4,6 +4,9 @@
 // Date:  12 - 03 - 2019
 // ***********************************************************************
 
+using System.Collections.Generic;
+using System.Data;
+
 namespace IMOD.Domain.Entities
 {
     public class ConfiguraSistema
@@ -29,7 +32,10 @@ namespace IMOD.Domain.Entities
         public int arquivoTamanho { get; set; }
         public string TelefoneEmergencia { get; set; }
         public string NomeAeroporto { get; set; }
-
+        public List<string> Grupos { get; set; }
+        public string GrupoPadrao { get; set; }
+        public string UrlSistemaPreCadastro { get; set; }
+        public bool AssociarGrupos { get; set; }
         #endregion
     }
 }

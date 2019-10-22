@@ -12,22 +12,26 @@ namespace IMOD.CredenciamentoDeskTop.Views
     /// </summary>
     public partial class RelatoriosView : UserControl
     {
-        private PopUpFiltrosAutorizacoesViasAdicionais popupfiltrosautorizacoesviasadicionais;
-        private PopUpFiltrosCredenciaisViasAdicionais popupfiltroscredenciaisviasadicionais;
-        private PopupFiltrosTermos PopupFiltrosTermos;
-        private PopUpFiltrosImpressoes popupfiltrosimpressoes;
-        private PopUpFiltrosCredenciaisPorArea popupfiltroscredenciaisporarea;
-        private PopUpFiltrosCredenciaisPorEmpresa popupfiltroscredenciaisporempresa;
-        private PopUpFiltrosCredenciaisInvalidas popupfiltroscredenciaisinvalidas;
-        private PopUpFiltrosAutorizacoesInvalidas popupfiltrosautorizacoesinvalidas;
+        private PopUpFiltrosAutorizacoesViasAdicionais popupFiltrosAutorizacoesViasAdicionais;
+        private PopUpFiltrosCredenciaisViasAdicionais popupFiltrosCredenciaisViasAdicionais;
+        private PopupFiltrosTermos popupFiltrosTermos;
+        private PopUpFiltrosImpressoes popupFiltrosImpressoes;
+        private PopUpFiltrosCredenciaisPorArea popupFiltrosCredenciaisPorArea;
+        private PopUpFiltrosCredenciaisPorEmpresa popupFiltrosCredenciaisPorEmpresa;
+        private PopUpFiltrosCredenciaisInvalidas popupFiltrosCredenciaisInvalidas;
+        private PopUpFiltrosAutorizacoesInvalidas popupFiltrosAutorizacoesInvalidas;
         private PopUpFiltrosCredenciais popupFiltrosCredenciais;
         private PopUpFiltrosAutorizacoes PopUpFiltrosAutorizacoes;
+        private PopUpFiltrosCredenciaisDestruidas popupFiltrosCredenciaisDestruidas;
+        private PopUpFiltrosAutorizacoesDestruidas popupFiltrosAutorizacoesDestruidas;
+        private PopUpFiltrosCredenciaisExtraviadas popupFiltrosCredenciaisExtraviadas;
+        private PopUpFiltrosAutorizacoesExtraviadas popupFiltrosAutorizacaoExtraviadas;
 
         public RelatoriosView()
         {
             InitializeComponent();
             DataContext = new RelatoriosViewModel();
-            ((RelatoriosViewModel)DataContext).CarregaColecaoRelatorios();
+            //((RelatoriosViewModel)DataContext).CarregaColecaoRelatorios();
         }
 
         #region Comando dos Botoes
@@ -70,8 +74,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
             try
             {
-                popupfiltroscredenciaisporempresa = new PopUpFiltrosCredenciaisPorEmpresa();
-                popupfiltroscredenciaisporempresa.ShowDialog();
+                popupFiltrosCredenciaisPorEmpresa = new PopUpFiltrosCredenciaisPorEmpresa();
+                popupFiltrosCredenciaisPorEmpresa.ShowDialog();
             }
             catch (Exception ex)
             { 
@@ -86,8 +90,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                popupfiltroscredenciaisporarea = new PopUpFiltrosCredenciaisPorArea();
-                popupfiltroscredenciaisporarea.ShowDialog();
+                popupFiltrosCredenciaisPorArea = new PopUpFiltrosCredenciaisPorArea();
+                popupFiltrosCredenciaisPorArea.ShowDialog();
             }
             catch (Exception ex)
             { 
@@ -100,8 +104,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                popupfiltroscredenciaisinvalidas = new PopUpFiltrosCredenciaisInvalidas();
-                popupfiltroscredenciaisinvalidas.ShowDialog();
+                popupFiltrosCredenciaisInvalidas = new PopUpFiltrosCredenciaisInvalidas();
+                popupFiltrosCredenciaisInvalidas.ShowDialog();
             }
             catch (Exception ex)
             { 
@@ -114,8 +118,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                popupfiltrosautorizacoesinvalidas = new PopUpFiltrosAutorizacoesInvalidas();
-                popupfiltrosautorizacoesinvalidas.ShowDialog();
+                popupFiltrosAutorizacoesInvalidas = new PopUpFiltrosAutorizacoesInvalidas();
+                popupFiltrosAutorizacoesInvalidas.ShowDialog();
             }
             catch (Exception ex)
             { 
@@ -129,8 +133,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
 
-                popupfiltrosimpressoes = new PopUpFiltrosImpressoes();
-                popupfiltrosimpressoes.ShowDialog();
+                popupFiltrosImpressoes = new PopUpFiltrosImpressoes();
+                popupFiltrosImpressoes.ShowDialog();
             }
             catch (Exception ex)
             { 
@@ -144,8 +148,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
 
-                popupfiltrosimpressoes = new PopUpFiltrosImpressoes();
-                popupfiltrosimpressoes.ShowDialog();
+                popupFiltrosImpressoes = new PopUpFiltrosImpressoes();
+                popupFiltrosImpressoes.ShowDialog();
             }
             catch (Exception ex)
             { 
@@ -159,8 +163,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                popupfiltroscredenciaisviasadicionais = new PopUpFiltrosCredenciaisViasAdicionais();
-                popupfiltroscredenciaisviasadicionais.ShowDialog();
+                popupFiltrosCredenciaisViasAdicionais = new PopUpFiltrosCredenciaisViasAdicionais();
+                popupFiltrosCredenciaisViasAdicionais.ShowDialog();
             }
             catch (Exception ex)
             { 
@@ -173,8 +177,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                popupfiltrosautorizacoesviasadicionais = new PopUpFiltrosAutorizacoesViasAdicionais();
-                popupfiltrosautorizacoesviasadicionais.ShowDialog();
+                popupFiltrosAutorizacoesViasAdicionais = new PopUpFiltrosAutorizacoesViasAdicionais();
+                popupFiltrosAutorizacoesViasAdicionais.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -183,7 +187,75 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
+        private void BotaoCredenciaisDestruidasClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                popupFiltrosCredenciaisDestruidas = new PopUpFiltrosCredenciaisDestruidas();
+                popupFiltrosCredenciaisDestruidas.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
+
+        private void BotaoAutorizacoesDestruidasClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                popupFiltrosAutorizacoesDestruidas = new PopUpFiltrosAutorizacoesDestruidas();
+                popupFiltrosAutorizacoesDestruidas.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
+
+        private void BotaoCredenciaisExtraviadasClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                popupFiltrosCredenciaisExtraviadas = new PopUpFiltrosCredenciaisExtraviadas();
+                popupFiltrosCredenciaisExtraviadas.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
+
+        private void BotaoAutorizacaoExtraviadasClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                popupFiltrosAutorizacaoExtraviadas = new PopUpFiltrosAutorizacoesExtraviadas();
+                popupFiltrosAutorizacaoExtraviadas.ShowDialog();
+            }
+            catch (Exception ex) 
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
+
         #endregion
 
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ((RelatoriosViewModel)DataContext).CarregaColecaoRelatorios();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

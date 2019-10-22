@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 
@@ -14,7 +15,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             InitializeComponent();
             DataContext = new RelatoriosViewModel();
             MouseDown += Window_MouseDown;
-            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciais(1);
+            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciaisViaAdicional(true);
         }
 
 
@@ -30,16 +31,30 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         {
             int tipo = 0;
             IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView motivoCredencialSelecionado = null;
-            string dataIni = dp_dataInicial.Text; 
-            string dataFim = dp_dataFinal.Text; 
+            string dataIni = dp_dataInicial.Text;  
+            string dataFim = dp_dataFinal.Text;
+            bool? flaAtivoInativo;
+            IEnumerable<object> motivoCredencialSelecionados = new List<object>();
 
-            if (lstMotivoCredencial.SelectedItem != null)
+            if (RbtnTodosStatus != null && RbtnTodosStatus.IsChecked.Value)
             {
-                motivoCredencialSelecionado = (IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem;
-                tipo = ((IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem).CredencialMotivoId;
+                flaAtivoInativo = null;
+            }
+            else
+            {
+                flaAtivoInativo = (bool)RbtnStatusAtiva.IsChecked.Value ? true : (bool)RbtnStatusInativa.IsChecked.Value ? false : true;
             }
 
-            ((RelatoriosViewModel)DataContext).OnFiltroCredencialViasAdicionaisCommand(tipo, dataIni, dataFim);
+            var checkTipo = (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value ? false : true);
+
+            if (lstMotivoCredencial.SelectedItems.Count > 0)
+            {
+                motivoCredencialSelecionados = (IEnumerable<object>)lstMotivoCredencial.SelectedItems;
+
+                var teste = lstMotivoCredencial.SelectedItems;
+            }
+
+            ((RelatoriosViewModel)DataContext).OnFiltroCredencialViasAdicionaisCommand(checkTipo, motivoCredencialSelecionados, dataIni, dataFim, flaAtivoInativo);
 
             Close();
         }

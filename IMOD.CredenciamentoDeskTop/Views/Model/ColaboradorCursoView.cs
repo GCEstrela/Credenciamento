@@ -23,14 +23,15 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         [Range(1, int.MaxValue, ErrorMessage = "O Curso é requerido.")]
         public int CursoId { get; set; }
         public string CursoNome { get; set; }
-        [Required(ErrorMessage = "O Nome do arquivo é requerido.")]
+        //[Required(ErrorMessage = "O Nome do arquivo é requerido.")]
         public string NomeArquivo { get; set; } 
         public string Arquivo { get; set; }
-        [Range(typeof(DateTime), "1/1/1880", "1/1/2200", ErrorMessage = "Data inválida")]
+        //[Range(typeof(DateTime), "1/1/1880", "1/1/2200", ErrorMessage = "Data inválida")]
+        [RequiredIf("Controlado", true, ErrorMessage = "Data é obrigatória para os curssos controlados.")]
         public DateTime? Validade { get; set; }
         [Required(ErrorMessage = "Se Controlado é requerido.")]
         public bool Controlado { get; set; }
-
+        public bool Cracha { get; set; }
         #endregion
     }
 }

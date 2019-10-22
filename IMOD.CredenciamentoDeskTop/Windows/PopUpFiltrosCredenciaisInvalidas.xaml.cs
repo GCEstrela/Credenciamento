@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 
@@ -32,18 +33,27 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
-            int status = 0;
-            IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView motivoCredencialSelecionado = null;
-            string dataIni = dp_dataInicial.Text;
-            string dataFim = dp_dataFinal.Text;
 
-            if (lstMotivoCredencial.SelectedItem != null)
+         IEnumerable<object> motivoCredencialSelecionados = new List<object>(); 
+
+            string dataIni = dp_dataInicial.Text; 
+            string dataFim = dp_dataFinal.Text; 
+
+            bool flaTodasDevolucaoEntregue = (bool)RbtnTodasDevolucaoEntregue.IsChecked.Value;
+            bool flaSimNaoDevolucaoEntregue = (bool)RbtnSimDevolucaoEntregue.IsChecked.Value ? true : (bool)RbtnNaoDevolucaoEntregue.IsChecked.Value ? false : true;
+            
+            var checkTipo = (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value ? false : true);
+
+            if (lstMotivoCredencial.SelectedItems.Count > 0 )
             {
-                motivoCredencialSelecionado = (IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem;
-                status = ((IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem).CredencialMotivoId;
-            }
+                motivoCredencialSelecionados = (IEnumerable<object>)lstMotivoCredencial.SelectedItems;
 
-            ((RelatoriosViewModel)DataContext).OnRelatorioCredenciaisInvalidasFiltroCommand(status, motivoCredencialSelecionado, dataIni, dataFim);
+                var teste = lstMotivoCredencial.SelectedItems;
+            }
+           
+            ((RelatoriosViewModel)DataContext).OnRelatorioCredenciaisInvalidasFiltroCommand(checkTipo,
+                                                                                            (IEnumerable<object>)motivoCredencialSelecionados, dataIni, dataFim,
+                                                                                                                        flaTodasDevolucaoEntregue, flaSimNaoDevolucaoEntregue);
 
             Close();
         }
