@@ -912,7 +912,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity.Usuario= UsuarioLogado.Nome;
 
 
-                if (Entity.ColaboradorPrivilegio1Id != 0 && Entity.ColaboradorPrivilegio1Id != 41)
+                if (Entity.ColaboradorPrivilegio1Id != 0)
                 {
                     var areaAcesso1 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio1Id).FirstOrDefault();
                     Entity.Identificacao1 = areaAcesso1.Identificacao;
@@ -923,7 +923,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     n1.Identificacao1 = null;
                 }
 
-                if (Entity.ColaboradorPrivilegio2Id != 0 && Entity.ColaboradorPrivilegio2Id != 41)
+                if (Entity.ColaboradorPrivilegio2Id != 0)
                 {
                     var areaAcesso2 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio2Id).FirstOrDefault();
                     Entity.Identificacao2 = areaAcesso2.Identificacao;
