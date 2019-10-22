@@ -829,12 +829,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                Entity.grupoAlterado = false;
+               
                 PrepararCancelar();
                 HabilitarOpcoesCredencial = true;
                 verificarcredencialAtiva = true;
-                Entity = new ColaboradoresCredenciaisView();                
-
+                Entity = new ColaboradoresCredenciaisView();
+                Entity.grupoAlterado = false;
                 //if (!HabilitaCriar(_colaboradorView.ColaboradorId)) throw new InvalidOperationException("Não é possivel criar credencial, pois existe uma credencial ativa para o colaborador no contrato.");
 
                 Entity.NumeroColete = "";
@@ -1275,14 +1275,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
 
 
-            Entity.grupoAlterado = false;
+           
             verificarcredencialAtiva = true;
             if (Entity == null)
             {
                 WpfHelp.PopupBox("Selecione um item da lista", 1);
                 return;
             }
-
+            Entity.grupoAlterado = false;
             Comportamento.PrepareAlterar();
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
