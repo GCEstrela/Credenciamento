@@ -18,8 +18,10 @@
         <Image x:Key="imgSave" Source="../Resources/save.png" />
         <Image x:Key="imgCancel" Source="../Resources/undo.png" />
         <Image x:Key="imgImport" Source="../Resources/Ok.ico" />
-        <Image x:Key="imgAprovado" Source="../Resources/aprovadop.png" />
+        <!--<Image x:Key="imgAprovado" Source="../Resources/aprovadop.png" />
         <Image x:Key="imgReporvado" Source="../Resources/reprovado.png" />
+        <Image x:Key="teste" Source="../Resources/Colaboradores.png" />-->
+        
         <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
@@ -244,14 +246,22 @@
         <!--<Label Content="{Binding Entity.Nome }" Grid.Column="0" Grid.Row="2" FontSize="14" Foreground="#FF007ACC" Margin="0,1,-94,2" />-->
         <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="3" Orientation="Horizontal"
                     HorizontalAlignment="Right" Margin="0,2,-262,0" IsEnabled="{Binding HabilitaCommandPincipal}">
-            <Button x:Name="btnImportar" Content="{StaticResource imgAprovado}" ToolTip="Aprovar Pré-Cadastro"
+            <Button x:Name="btnImportar" ToolTip="Aprovar Pré-Cadastro"
                     Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}"
                     IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareIportarCommand}"
-                    Width="25" Margin="0,0,5,0" Cursor="Hand" />
-            <Button x:Name="btnReprovar" Content="{StaticResource imgReporvado}" ToolTip="Reprovar Pré-Cadastro"
+                    Width="25" Margin="0,0,5,0" Cursor="Hand">
+                <StackPanel>
+                    <Image Source="../Resources/aprovado.png" />
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnReprovar" ToolTip="Reprovar Pré-Cadastro"
                     Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}"
                     IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareReprovaCommand}"
-                    Width="25" Margin="0,0,5,0" />
+                    Width="25" Margin="0,0,5,0" Cursor="Hand">
+                <StackPanel>
+                    <Image Source="../Resources/reprovado.png" /> 
+                </StackPanel>
+            </Button>
 
             <Button x:Name="btnAdicionar" Content="{StaticResource imgAdd}" ToolTip="Adicionar"
                     Visibility="{Binding IsEnablePreCadastroCredenciamento,  Converter={StaticResource VisibleControl}}"
