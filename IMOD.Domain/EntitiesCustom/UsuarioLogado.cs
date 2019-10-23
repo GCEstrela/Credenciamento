@@ -14,6 +14,8 @@ namespace IMOD.Domain.EntitiesCustom
         public static string Email { get; set; }
         public static string Identificador { get; set; }
         public static bool Adm { get; set; }
+        public static string sdiLicenca { get; set; }
+        public static bool LicencaValida { get; set; }
         #endregion
     }
 }

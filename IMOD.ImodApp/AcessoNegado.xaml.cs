@@ -13,12 +13,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace IMOD.CredenciamentoDeskTop.Modulo
+namespace IMOD.ImodApp
 {
     /// <summary>
     /// Interação lógica para AcessoNegado.xam
     /// </summary>
-    public partial class AcessoNegado : UserControl
+    public partial class AcessoNegado : Page
     {
         public AcessoNegado()
         {
