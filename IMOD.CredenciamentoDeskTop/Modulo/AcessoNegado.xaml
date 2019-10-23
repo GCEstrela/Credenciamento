@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Label Content="Acesso Negado" FontSize="100"  Foreground="Orange" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Margin="10,0" Width="780"></Label>
+        <Label Name="BlueCircle" Content="Acesso Negado" FontSize="50"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Margin="10,0" Width="780"></Label>
+        <Label Content="Verifique junto ao fornecedor do Credenciamento uma licença válida para o System ID do seu Security Center" FontSize="15"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Margin="0,150,0,0" Width="780"></Label>
     </Grid>
 </UserControl>

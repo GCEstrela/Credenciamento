@@ -37,7 +37,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             if (UsuarioLogado.sdiLicenca != LicencaDecryptada)
             {
                 UsuarioLogado.LicencaValida = false;
-                WpfHelp.PopupBox("A Licença do credenciamento não é válida para este Security Center!", 1);
+                //WpfHelp.PopupBox("A Licença do credenciamento não é válida para este Security Center!", 1);
                 this.View = new AcessoNegado();
                 return;
             }
