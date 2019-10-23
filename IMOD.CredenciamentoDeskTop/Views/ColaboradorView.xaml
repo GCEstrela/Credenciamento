@@ -248,7 +248,7 @@
                     HorizontalAlignment="Right" Margin="0,2,-262,0" IsEnabled="{Binding HabilitaCommandPincipal}">
             <Button x:Name="btnImportar" ToolTip="Aprovar Pré-Cadastro"
                     Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}"
-                    IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareIportarCommand}"
+                    IsEnabled="{Binding Comportamento.IsEnableEditar}" Command="{Binding PrepareIportarCommand}"
                     Width="25" Margin="0,0,5,0" Cursor="Hand">
                 <StackPanel>
                     <Image Source="../Resources/aprovado.png" />
@@ -256,7 +256,7 @@
             </Button>
             <Button x:Name="btnReprovar" ToolTip="Reprovar Pré-Cadastro"
                     Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}"
-                    IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareReprovaCommand}"
+                    IsEnabled="{Binding Comportamento.IsEnableEditar}" Command="{Binding PrepareReprovaCommand}"
                     Width="25" Margin="0,0,5,0" Cursor="Hand">
                 <StackPanel>
                     <Image Source="../Resources/reprovado.png" /> 
