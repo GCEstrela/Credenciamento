@@ -107,6 +107,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool Receitafederal { get; set; }
         public bool Segurancatrabalho { get; set; }
         public bool Precadastro { get; set; }
+        public string Observacao { get; set; }
         public string CpfMascara
         {
             get

@@ -593,6 +593,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Pré-Cadastro
         /// </summary>
         public ICommand PrepareIportarCommand => new CommandBase(PrepareImportar, true);
+        public ICommand PrepareReprovaCommand => new CommandBase(PrepareReprovar, true);
         private void PrepareImportar()
         {
             try
@@ -638,6 +639,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox(ex);
             }
         }
+
+        private void PrepareReprovar()
+        {
+            if (Entity == null) return;
+            if (string.IsNullOrEmpty(Entity.Observacao))
+            {
+                WpfHelp.PopupBox("Informe no campo observação o motivo da reprovação",1);
+            }
+            else
+            {
+                var n1 = Mapper.Map<Colaborador>(Entity);
+                _service.Alterar(n1);
+            }
+        }
+
         /// <summary>
         ///     Novo
         /// </summary>

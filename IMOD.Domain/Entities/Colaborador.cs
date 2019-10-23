@@ -66,7 +66,8 @@ namespace IMOD.Domain.Entities
         public bool Receitafederal { get; set; }
         public bool Segurancatrabalho { get; set; }
         public bool Precadastro { get; set; }
-       
+        public string Observacao { get; set; }
+
         #endregion
     }
 }

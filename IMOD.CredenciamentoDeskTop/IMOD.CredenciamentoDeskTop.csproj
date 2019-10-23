@@ -1080,8 +1080,12 @@
     <Content Include="Dlls\tchg.dll" />
     <Resource Include="Resources\laranja_alerta.png" />
     <Resource Include="Resources\PendenciaImpeditiva.ico" />
+    <Content Include="Resources\aprovado.png" />
+    <Content Include="Resources\aprovadop.png" />
+    <Content Include="Resources\FaportSoLogo.png" />
     <Content Include="Resources\passweb.png" />
     <Content Include="Resources\PendenciaImpeditiva.jpg" />
+    <Content Include="Resources\reprovado.png" />
     <Content Include="Resources\senhaweb.png" />
     <Content Include="Resources\vermelho_02.jpg" />
     <Resource Include="Resources\yellow_alerta.png" />
