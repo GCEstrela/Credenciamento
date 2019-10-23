@@ -15,6 +15,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,24 +55,27 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Dlls\CSharpControls.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="EstrelaEncryparDecrypitar, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dlls\EstrelaEncryparDecrypitar.dll</HintPath>
+    </Reference>
     <Reference Include="Genetec.Sdk, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Genetec Security Center 5.7 SDK\Genetec.Sdk.dll</HintPath>
+      <HintPath>Dlls\Genetec.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="Genetec.Sdk.Controls, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Genetec Security Center 5.7 SDK\Genetec.Sdk.Controls.dll</HintPath>
+      <HintPath>Dlls\Genetec.Sdk.Controls.dll</HintPath>
     </Reference>
-    <Reference Include="Genetec.Sdk.Maps">
-      <HintPath>C:\Program Files (x86)\Genetec Security Center 5.7 SDK\Genetec.Sdk.Maps.dll</HintPath>
+    <Reference Include="Genetec.Sdk.Maps, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dlls\Genetec.Sdk.Maps.dll</HintPath>
     </Reference>
     <Reference Include="Genetec.Sdk.Workspace, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Genetec Security Center 5.7 SDK\Genetec.Sdk.Workspace.dll</HintPath>
+      <HintPath>Dlls\Genetec.Sdk.Workspace.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Expression.Encoder, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
-      <HintPath>..\packages\Microsoft.Expression.Encoder.4.0.4276.3\lib\net45\Microsoft.Expression.Encoder.dll</HintPath>
-    </Reference>
+    <Reference Include="Microsoft.Expression.Encoder, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86" />
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -444,6 +448,9 @@
     <Compile Include="Helpers\WpfHelp.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Mapeamento\AutoMapperConfig.cs" />
+    <Compile Include="Modulo\AcessoNegado.xaml.cs">
+      <DependentUpon>AcessoNegado.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Relatorio\RelatorioAutorizacaoEmitidaPorArea_8.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -849,6 +856,10 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Modulo\AcessoNegado.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Modulo\MenuPrincipalView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
