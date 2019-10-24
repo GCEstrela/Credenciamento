@@ -107,6 +107,6 @@ namespace IMOD.Domain.EntitiesCustom
                 return (CredencialMotivoId == 2 && CredencialmotivoViaAdicionalID == null);
             }
         }
-
+        public bool  grupoAlterado { get; set; }
     }
 }

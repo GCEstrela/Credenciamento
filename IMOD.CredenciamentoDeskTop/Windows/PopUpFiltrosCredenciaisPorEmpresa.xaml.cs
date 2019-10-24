@@ -55,7 +55,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             }
             else
             {
-                empresa = ((IMOD.CredenciamentoDeskTop.Views.Model.EmpresaView)EmpresaRazaoSocial_cb.SelectedItem).EmpresaId.ToString();
+                empresa =((IMOD.CredenciamentoDeskTop.Views.Model.EmpresaView)EmpresaRazaoSocial_cb.SelectedItem).EmpresaId.ToString();
             }
 
             if (credenciais_rb.IsChecked.Value)

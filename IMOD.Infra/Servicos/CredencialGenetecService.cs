@@ -240,24 +240,27 @@ namespace IMOD.Infra.Servicos
                     case "HID Corporate 1000 48 Bits":
                         credencial.Format = new WiegandCorporate1000CredentialFormat(entity.FacilityCode, Convert.ToInt32(entity.NumeroCredencial));
                         break;
-                    default: //Format do tipo CSN
+                    case "CSN":
+                        credencial.Format = new WiegandCsn32CredentialFormat(long.Parse(entity.NumeroCredencial.ToString()));
+                        break;
+                    default:
 
-                        var sysConfig = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
-                        CustomCredentialFormat mifareCsn;
-                        if (sysConfig != null)
+                        //var sysConfig = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+                        //CustomCredentialFormat mifareCsn;
+                        //if (sysConfig != null)
 
-                            foreach (var cardFormat in sysConfig.CredentialFormats)
+                        //    foreach (var cardFormat in sysConfig.CredentialFormats)
 
-                                if (cardFormat.Name == "CSN")
-                                {
-                                    mifareCsn = cardFormat as CustomCredentialFormat;
-                                    if (mifareCsn != null)
-                                    {
-                                        credencial.Format = new WiegandCsn32CredentialFormat(long.Parse(entity.NumeroCredencial.ToString()));
-                                    }
+                        //        if (cardFormat.Name == "CSN" || cardFormat.Name == "CSN (32 bits)")
+                        //        {
+                        //            mifareCsn = cardFormat as CustomCredentialFormat;
+                        //            if (mifareCsn != null)
+                        //            {
+                        //                credencial.Format = new WiegandCsn32CredentialFormat(long.Parse(entity.NumeroCredencial.ToString()));
+                        //            }
 
-                                    break;
-                                }
+                        //            break;
+                        //        }
 
                         break;
                 }
@@ -306,14 +309,19 @@ namespace IMOD.Infra.Servicos
                         cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                 }
 
-                cardholder.Groups.Clear();
-                if (entity.listadeGrupos != null)
+                if(entity.grupoAlterado)
                 {
+                    cardholder.Groups.Clear();
+                }
+                
+                if (entity.listadeGrupos != null && entity.listadeGrupos.Count > 0)
+                {                    
                     foreach (Guid cardholderGuid in entity.listadeGrupos)
                     {
                         cardholder.Groups.Add(cardholderGuid);
                     }
                 }
+
                 if (cardholder.Credentials.Count == 0)
                 {
                     cardholder.State = CardholderState.Inactive;
@@ -1146,6 +1154,24 @@ namespace IMOD.Infra.Servicos
             }
             return false;
         }
+        //public  List<CardholderGroup> ObterGruposCardHolder(string cardHolder)
+        //{
+        //    try
+        //    {
+        //        Guid cardguid = new Guid(cardHolder);
+        //        Cardholder cardholder = _sdk.GetEntity(cardguid) as Cardholder;
+        //        return cardholder.Groups;
+
+
+
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+
         #endregion
     }
 }

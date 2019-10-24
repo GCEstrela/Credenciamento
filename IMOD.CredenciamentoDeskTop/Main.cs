@@ -175,8 +175,9 @@ namespace IMOD.CredenciamentoDeskTop
             if (usuario == null) return;
             UsuarioLogado.Nome = usuario.Name;
             UsuarioLogado.Email = usuario.EmailAddress;
-            UsuarioLogado.Adm = usuario.IsAdministrator;    
-            
+            UsuarioLogado.Adm = usuario.IsAdministrator;
+            SystemConfiguration _systemConfiguration = (SystemConfiguration)Engine.GetEntity(SdkGuids.SystemConfiguration);
+            UsuarioLogado.sdiLicenca = _systemConfiguration.License.SystemId;
             //===================================================================
         }
 

@@ -829,11 +829,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+               
                 PrepararCancelar();
                 HabilitarOpcoesCredencial = true;
                 verificarcredencialAtiva = true;
-                Entity = new ColaboradoresCredenciaisView();                
-
+                Entity = new ColaboradoresCredenciaisView();
+                Entity.grupoAlterado = false;
                 //if (!HabilitaCriar(_colaboradorView.ColaboradorId)) throw new InvalidOperationException("Não é possivel criar credencial, pois existe uma credencial ativa para o colaborador no contrato.");
 
                 Entity.NumeroColete = "";
@@ -896,11 +897,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-
+                
                 if (Entity == null) return;     //IdentificacaoDescricao = null
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 //Alterado por Maximo em 28/06/2019
                 //ObterValidadeAlteracao();
+
                 Entity.Ativa = Constantes.Constantes.ATIVO.Equals(Entity.CredencialStatusId);
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
@@ -910,7 +912,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity.Usuario= UsuarioLogado.Nome;
 
 
-                if (Entity.ColaboradorPrivilegio1Id != 0 && Entity.ColaboradorPrivilegio1Id != 41)
+                if (Entity.ColaboradorPrivilegio1Id != 0)
                 {
                     var areaAcesso1 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio1Id).FirstOrDefault();
                     Entity.Identificacao1 = areaAcesso1.Identificacao;
@@ -921,7 +923,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     n1.Identificacao1 = null;
                 }
 
-                if (Entity.ColaboradorPrivilegio2Id != 0 && Entity.ColaboradorPrivilegio2Id != 41)
+                if (Entity.ColaboradorPrivilegio2Id != 0)
                 {
                     var areaAcesso2 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio2Id).FirstOrDefault();
                     Entity.Identificacao2 = areaAcesso2.Identificacao;
@@ -984,6 +986,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         n1.CardHolderGuid = entity.CardHolderGuid;
                         n1.CredencialGuid = entity.CredencialGuid;
                         n1.listadeGrupos = Entity.listadeGrupos;
+
                         _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
                     }
                     else
@@ -1269,13 +1272,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //Listar Colaboradores Ativos
             //OnAtualizarDadosContratosAtivos();
 
+
+
+
+           
             verificarcredencialAtiva = true;
             if (Entity == null)
             {
                 WpfHelp.PopupBox("Selecione um item da lista", 1);
                 return;
             }
-
+            Entity.grupoAlterado = false;
             Comportamento.PrepareAlterar();
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;

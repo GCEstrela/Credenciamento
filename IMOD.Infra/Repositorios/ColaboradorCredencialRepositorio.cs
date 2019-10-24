@@ -1124,13 +1124,13 @@ namespace IMOD.Infra.Repositorios
                                 cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impressa", DbType.Boolean, entity.Impressa).Igual()));
                             }
                             //Busca faixa de data
-                            if (entity.Validade != null || entity.ValidadeFim != null)
+                            if (entity.DataStatus != null || entity.DataStatusFim != null)
                             {
-                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.DateTime, entity.Validade).MaiorIgual()));
-                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ValidadeFim", DbType.DateTime, entity.ValidadeFim).MenorIgual()));
+                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataStatus", DbType.DateTime, entity.DataStatus).MaiorIgual()));
+                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataStatusFim", DbType.DateTime, entity.DataStatusFim).MenorIgual()));
                             }
 
-                            if (!entity.Impeditivo && entity.flaTodasDevolucaoEntregaBO != null)
+                            if (!entity.Impeditivo && !entity.flaTodasDevolucaoEntregaBO)
                             {
                                 cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DevolucaoEntregaBO", DbType.Boolean, entity.DevolucaoEntregaBo).Igual()));
                             }

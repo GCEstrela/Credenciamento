@@ -18,6 +18,10 @@
         <Image x:Key="imgSave" Source="../Resources/save.png" />
         <Image x:Key="imgCancel" Source="../Resources/undo.png" />
         <Image x:Key="imgImport" Source="../Resources/Ok.ico" />
+        <!--<Image x:Key="imgAprovado" Source="../Resources/aprovadop.png" />
+        <Image x:Key="imgReporvado" Source="../Resources/reprovado.png" />
+        <Image x:Key="teste" Source="../Resources/Colaboradores.png" />-->
+        
         <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
@@ -192,9 +196,10 @@
                 </TextBox.InputBindings>
             </TextBox>
             <!--<CheckBox x:Name="precadastro" Content="Pré-Cadastro" Margin="10,5,0,0" VerticalAlignment="Top"  Width="98" Foreground="#FFD0D0D0" Checked="Precadastro_Checked" Unchecked="Precadastro_Unchecked"/>-->
-            <RadioButton x:Name="rd_cadastro" Content="Cadastro" Margin="625,5,0,0" IsChecked="True" Foreground="#FFD0D0D0" VerticalAlignment="Top" Width="95" Checked="Rd_cadastro_Checked" Cursor="Hand"/>
-            <RadioButton x:Name="rd_precadastro" Content="Pré-Cadastro" Margin="5,5,0,0" Foreground="Orange"  VerticalAlignment="Top" Width="95" Checked="Rd_precadastro_Checked" Cursor="Hand"/>
-            
+            <RadioButton x:Name="rd_cadastro" Content="Cadastro" Margin="600,5,0,0" IsChecked="True" Foreground="#FFD0D0D0" VerticalAlignment="Top" Width="95" Checked="Rd_cadastro_Checked" Cursor="Hand"/>
+            <RadioButton x:Name="rd_precadastro" Content="Pré-Cadastro" Margin="0,5,0,0" Foreground="Orange"  VerticalAlignment="Top" Width="95" Checked="Rd_precadastro_Checked" Cursor="Hand"/>
+            <Image Source="../Resources/aviso.png" ToolTip="{Binding Path=msgPreCadastro}" Visibility="{Binding existePreCadastro,  Converter={StaticResource VisibleControl}}" />
+
         </StackPanel>
 
 
@@ -206,7 +211,7 @@
                       SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Margin="0,0,5,0" Width="1258" PreviewKeyDown="LstView_PreviewKeyDown">
                 <ListView.View>
-                    
+
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
                         <!--<GridViewColumn >
                             <GridViewColumn.CellTemplate>
@@ -242,10 +247,23 @@
         <!--<Label Content="{Binding Entity.Nome }" Grid.Column="0" Grid.Row="2" FontSize="14" Foreground="#FF007ACC" Margin="0,1,-94,2" />-->
         <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="3" Orientation="Horizontal"
                     HorizontalAlignment="Right" Margin="0,2,-262,0" IsEnabled="{Binding HabilitaCommandPincipal}">
-            <Button x:Name="btnImportar" Content="{StaticResource imgImport}" ToolTip="Importar Pré-Cadastro"
+            <Button x:Name="btnImportar" ToolTip="Aprovar Pré-Cadastro"
                     Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}"
-                    IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareIportarCommand}"
-                    Width="25" Margin="0,0,5,0" />
+                    IsEnabled="{Binding Comportamento.IsEnableEditar}" Command="{Binding PrepareIportarCommand}"
+                    Width="25" Margin="0,0,5,0" Cursor="Hand">
+                <StackPanel>
+                    <Image Source="../Resources/aprovado.png" />
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnReprovar" ToolTip="Reprovar Pré-Cadastro"
+                    Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}"
+                    IsEnabled="{Binding Comportamento.IsEnableEditar}" Command="{Binding PrepareReprovaCommand}"
+                    Width="25" Margin="0,0,5,0" Cursor="Hand">
+                <StackPanel>
+                    <Image Source="../Resources/reprovado.png" /> 
+                </StackPanel>
+            </Button>
+
             <Button x:Name="btnAdicionar" Content="{StaticResource imgAdd}" ToolTip="Adicionar"
                     Visibility="{Binding IsEnablePreCadastroCredenciamento,  Converter={StaticResource VisibleControl}}"
                     IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"
@@ -397,7 +415,7 @@
                                     </Button>
                                 </StackPanel>
 
-                                
+
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -460,17 +478,16 @@
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
-                    <!--<GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Brown" Visibility="Collapsed"
-                              Grid.Column="0" Header="Autorizações" Margin="0,315,0,0" Height="130" VerticalAlignment="Top"
-                              Grid.ColumnSpan="2">
+                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Brown" 
+                              Grid.Column="0" Header="Observação da Reprovação" Margin="0,315,0,0" Height="117" VerticalAlignment="Top"
+                              Grid.ColumnSpan="2" Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}">
                         <StackPanel Margin="60,5,0,0" >
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                <CheckBox Name="PF_chek" Content="Policia Federal" Margin="43,0,0,0"    IsChecked="{Binding Entity.Policiafederal, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"></CheckBox>
-                                <CheckBox Name="P2F" Content="Refeita Federal" Margin="30,0,0,0"        IsChecked="{Binding Entity.Receitafederal, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"></CheckBox>
-                                <CheckBox Name="P3F" Content="Segurança do Trabalho" Margin="30,0,0,0"  IsChecked="{Binding Entity.Segurancatrabalho, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"></CheckBox>
+                                <TextBox MinLines="5"  x:Name="obs_tb" Text="{Binding Entity.Observacao,  UpdateSourceTrigger=PropertyChanged}" 
+                                         Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}" Width="497" Height="56"></TextBox>
                             </StackPanel>
                         </StackPanel>
-                    </GroupBox>-->
+                    </GroupBox>
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Crimson"
                               x:Name="Contato1_gb" Header="Contatos " VerticalAlignment="Top" Margin="486,0,-610,0"
                               Height="192" Grid.Column="1">

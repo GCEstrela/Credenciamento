@@ -36,6 +36,7 @@ namespace IMOD.Infra.Servicos.Entities
         public string IdentificadorLayoutCrachaGuid { get; set; }
         public int FacilityCode { get; set; }
         public  Image Foto { get; set; }
+        public bool  grupoAlterado { get; set; }
         /// <summary>
         /// Numero do cartão da credencial
         /// </summary>
@@ -95,6 +96,17 @@ namespace IMOD.Infra.Servicos.Entities
             get { return _empresa.Truncate (30); }
             set { _empresa = value; }
         }
+        public string Identificacao1
+        {
+            get { return _identificacao1; }
+            set { _identificacao1 = value; }
+        }
+        public string Identificacao2
+        {
+            get { return _identificacao2; }
+            set { _identificacao2 = value; }
+        }
+
         /// <summary>
         /// Data de validade da crendencial
         /// </summary>
@@ -103,8 +115,6 @@ namespace IMOD.Infra.Servicos.Entities
         /// Formato da credencial
         /// </summary>
         public string FormatoCredencial { get; set; }
-        public string Identificacao1 { get; set; }
-        public string Identificacao2 { get; set; }
         public int TecnologiaCredencialId { get; set; }
         public int FormatoCredencialId { get; set; }
         public int Fc { get; set; }
