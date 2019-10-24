@@ -118,6 +118,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "Contrato Empresa")]
         public string ContratoEmpresaID { get; set; }
         public bool Precadastro { get; set; }
+        [Display(Name = "Observação")]
         public string Observacao { get; set; }
 
         [Display(Name = "Documento Anexo")]
@@ -136,8 +137,23 @@ namespace IMOD.PreCredenciamentoWeb.Models
 
         [Display(Name = "Documento Aceite")]
         public HttpPostedFileBase FileUploadAceite { get; set; }
+        [Display(Name = "Status")]
+        public string Status 
+        {
+            get
+            {
+                if (Precadastro)
+                {
+                    return (string.IsNullOrEmpty(Observacao)) ? "Aguardando Aprovação": "Reprovado" ;
+                }
+                else
+                {
+                    return "Aprovado";
+                }
+            }
+        }
 
-        
+
         #endregion
     }
 }

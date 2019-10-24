@@ -19,7 +19,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
     [Authorize]
     public class ColaboradorController : Controller
     {
-        // GET: Colaborador
+        #region Propriedades
         private readonly IColaboradorService objService = new IMOD.Application.Service.ColaboradorService();
         private readonly IDadosAuxiliaresFacade objAuxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaContratosService objContratosService = new EmpresaContratoService();
@@ -32,18 +32,14 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private const string SESS_CONTRATOS_REMOVIDOS = "ContratosRemovidos";
         private const string SESS_CURSOS_SELECIONADOS = "CursosSelecionados";
         private const string SESS_CURSOS_REMOVIDOS = "CursosRemovidos";
-
-
-
-
         private List<Colaborador> colaboradores = new List<Colaborador>();
         private List<ColaboradorEmpresa> vinculos = new List<ColaboradorEmpresa>();
+        #endregion
 
         [Authorize]
         public ActionResult Index()
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
-
             List<ColaboradorViewModel> lstColaboradorMapeado = Mapper.Map<List<ColaboradorViewModel>>(ObterColaboradoresEmpresaLogada().OrderBy(e => e.Nome));
             return View(lstColaboradorMapeado);
         }
@@ -384,6 +380,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 {
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
                     colaboradorMapeado.Precadastro = true;
+                    colaboradorMapeado.Observacao = null;
                     objService.Alterar(colaboradorMapeado);
 
                     // excluir os contratos removidos da lista

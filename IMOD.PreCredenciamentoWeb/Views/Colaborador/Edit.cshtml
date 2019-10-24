@@ -11,7 +11,7 @@
     @Html.AntiForgeryToken()
 
     <div class="table-wrapper">
-        
+
         <fieldset class="form-horizontal">
             @Html.Hidden("ColaboradorId", @Model.ColaboradorId)
             @Html.Hidden("ContratoEmpresaID", @Model.ContratoEmpresaID)
@@ -141,14 +141,34 @@
                                                 @Html.ValidationMessageFor(model => model.FileUpload, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
+                                        @{
+                                            if (!string.IsNullOrEmpty(Model.Observacao))
+                                            {
+                                                <br />
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Observacao, htmlAttributes: new { @class = "control-label col-md-2", style = "color:#ffBC00" })
+                                                    <div class="col-lg-8">
+                                                        @Html.EditorFor(model => model.Observacao, new { htmlAttributes = new { @class = "form-control text-uppercase", style = "color:#ffBC00" } })
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
                                     </div>
+                                    @{
+                                        var imgSrc = "../images/userAdd.png";
+                                        if (!string.IsNullOrEmpty(Model.Foto))
+                                        {
+                                            imgSrc = String.Format("data:image/gif;base64,{0}", Model.Foto);
+                                        }
+                                    }
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.FotoColaborador, htmlAttributes: new { @class = "control-label col-md-5" })
 
                                         </div>
+
                                         <div class="col-md-5" style="height:152px;  width:123px">
-                                            <img class="resize" id="FotoUpload" src="@ViewBag.FotoColaborador" alt="Imagem" style="padding-bottom: 15px" />
+                                            <img class="resize" id="FotoUpload" src="@imgSrc" alt="Imagem" style="padding-bottom: 15px" />
                                             @*<button id="btFoto">Selecione uma foto</button>*@
                                             <input type="file" name="FotoColaborador" accept="image/*" id="FotoColaborador" />
                                         </div>
@@ -597,7 +617,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                
+
                                 <div class="clearfix"></div>
                             </div>
                         </form>
@@ -810,146 +830,7 @@
             readURL(this);
         });
     </script>
-    @*<script>
-            $('[id^=link]').click(function () {
 
-                //var isValid = ${ ViewData.ModelState.IsValid };
-                //var isValid = ${ViewData.ModelState.IsValid};
-
-                var id = $(this).attr('id');
-
-                var campoCpf = document.getElementById("Cpf").value;
-                var campoNome = document.getElementById("Nome").value;
-                var campoApelido = document.getElementById("Apelido").value;
-
-                var campoCep = document.getElementById("Cep").value;
-                var campoEndereco = document.getElementById("Endereco").value;
-                var campoBairro = document.getElementById("ddlBairro").value;
-                var campoNumero = document.getElementById("Numero").value;
-                var campoEstadoId = document.getElementById("ddlEstado").value;
-                var campoMunicipioId = document.getElementById("ddlMunicipio").value;
-
-                var campoContatoEmergencia = document.getElementById("ContatoEmergencia").value;
-                var campoTelefoneEmergencia = document.getElementById("TelefoneEmergencia").value;
-                //var campoTelefone1 = document.getElementById("Telefone1").value;
-                //verifica se tem a classe disabled
-                var teste = $(this).hasClass('disabled');
-                if (teste) {
-                    if (id == "link1") {
-                        if (!campoNome == "" && !campoApelido == "" && !campoCpf == "") {
-                        {
-                            $("#btnSalvar").submit()
-                            $(this).removeClass('disabled');
-                            return true;
-                        }
-                        else {
-                            $("#btnSalvar").submit()
-                            $(this).addClass('disabled');
-                            return false;
-                        }
-                    }
-                    else if (id == "link2") {
-                        //$(tab1).addClass('disabled');
-                        //$(tab3).addClass('disabled');
-                        //$(tab4).addClass('disabled');
-                        if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
-                            $(this).removeClass('disabled');
-                            return true;
-                        }
-                        else {
-                            $("#btnSalvar").submit()
-                            $(this).addClass('disabled');
-                            return false;
-                        }
-                    }
-                    else if (id == "link3") {
-                        //$(tab1).addClass('disabled');
-                        //$(tab2).addClass('disabled');
-                        //$(tab4).addClass('disabled');
-                        if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "") {
-                            $(this).removeClass('disabled');
-                            return true;
-                        }
-                        else {
-                            $("#btnSalvar").submit()
-                            $(this).addClass('disabled');
-                            return false;
-                        }
-                    }
-                    else if (id == "link4") {
-                        //$(tab1).addClass('disabled');
-                        //$(tab2).addClass('disabled');
-                        //$(tab4).addClass('disabled');
-                        if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
-                            $(this).removeClass('disabled');
-                            return true;
-                        }
-                        else {
-                            $("#btnSalvar").submit()
-                            $(this).addClass('disabled');
-                            return false;
-                        }
-                    }
-                    else if (id == "link5") {
-                        //$(tab1).addClass('disabled');
-                        //$(tab2).addClass('disabled');
-                        //$(tab4).addClass('disabled');
-                        if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
-                            $(this).removeClass('disabled');
-                            return true;
-                        }
-                        else {
-                            $("#btnSalvar").submit()
-                            $(this).addClass('disabled');
-                            return false;
-                        }
-                    }
-                    else if (id == "link6") {
-                        //$(tab1).addClass('disabled');
-                        //$(tab2).addClass('disabled');
-                        //$(tab4).addClass('disabled');
-                        if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
-                            $(this).removeClass('disabled');
-                            return true;
-                        }
-                        else {
-                            $("#btnSalvar").submit()
-                            $(this).addClass('disabled');
-                            return false;
-                        }
-                    }
-                    else if (id == "link7") {
-                        //$(tab1).addClass('disabled');
-                        //$(tab2).addClass('disabled');
-                        //$(tab4).addClass('disabled');
-                        if (!campoNome == "" && !campoApelido == "" && !campoCpf == "" && !campoCep == "" && !campoEndereco == "" && !campoBairro == "" && !campoNumero == "" && !campoEstadoId == "" && !campoMunicipioId == "" && !campoContatoEmergencia == "" && !campoTelefoneEmergencia == "") {
-                            $(this).removeClass('disabled');
-                            return true;
-                        }
-                        else {
-                            $("#btnSalvar").submit()
-                            $(this).addClass('disabled');
-                            return false;
-                        }
-                    }
-                    else {
-
-                        $("#btnSalvar").submit()
-                        //$(this).addClass('disabled');
-                        return false;
-                    }
-
-                }
-                //se tiver não faz nada
-                else {
-                    ////adicionamos nele
-                    $(this).addClass('disabled');
-                    $("#btnSalvar").submit()
-                    //$(this).addClass('disabled');
-                    return false;
-                }
-            });
-        </script>*@
     <script>
         function BuscarMunicipio() {
             var id = $("#ddlEstado").val();

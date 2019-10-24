@@ -215,6 +215,7 @@
     <Content Include="Images\Trator.png" />
     <Content Include="Images\undo.png" />
     <Content Include="Images\upload.png" />
+    <Content Include="Images\userAdd.png" />
     <Content Include="Images\Veiculo.png" />
     <Content Include="libman.json" />
     <Content Include="Scripts\bootstrap-datepicker-globalize.js" />

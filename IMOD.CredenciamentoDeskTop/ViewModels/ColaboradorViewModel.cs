@@ -40,7 +40,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IColaboradorCredencialService _serviceColaboradorCredencial = new ColaboradorCredencialService();
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
         private ConfiguraSistema _configuraSistema;
+        private bool isReprovacao = false;
 
+        #region  Propriedades
         /// <summary>
         ///     True, Comando de alteração acionado
         /// </summary>
@@ -53,7 +55,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool IsEnablePreCadastro { get; set; } = false;
         public bool IsEnablePreCadastroCredenciamento { get; set; } = true;
         public string IsEnablePreCadastroColor { get; set; } = "#FFD0D0D0";
-        #region  Propriedades
         /// <summary>
         ///     Pendência serviços
         /// </summary>
@@ -395,6 +396,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 IsEnableLstView = true;
+                VerificaPreCadastroAprovacao();                
             }
             catch (Exception ex)
             {
@@ -530,6 +532,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return true;
+                if (isReprovacao) return false;
                 if (Entity.Cpf != null & Entity.Cpf != "")
                 {
                     Entity.Validate();
@@ -557,6 +560,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        private void VerificaPreCadastroAprovacao()
+        {
+            var l1 = _service.Listar(null, $"%{string.Empty}%", null, true);
+            existePreCadastro = false;
+            if (l1 != null && l1.Count > 0)
+            {
+                existePreCadastro = true;
+                msgPreCadastro = string.Format("Existem {0} pré-cadastros pendentes de aprovação", l1.Count());
             }
         }
 
@@ -601,68 +615,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public ICommand PrepareIportarCommand => new CommandBase(PrepareImportar, true);
         public ICommand PrepareReprovaCommand => new CommandBase(PrepareReprovar, true);
-        private void PrepareImportar()
-        {
-            try
-            {
-                if (Entity == null) return;
-
-                if (Validar()) return;
-
-                var n1 = Mapper.Map<Colaborador>(Entity);
-
-                n1.Pendente21 = true;
-                n1.Pendente22 = true;
-                n1.Pendente23 = true;
-                n1.Pendente24 = true;
-                n1.Pendente25 = true;
-                #region Criar Pendências
-
-                var pendencia = new Pendencia();
-                pendencia.ColaboradorId = Entity.ColaboradorId;
-                //--------------------------
-                pendencia.CodPendencia = 22;
-                pendencia.Impeditivo = true;
-                Pendencia.CriarPendenciaSistema(pendencia);
-
-                //--------------------------
-                pendencia.CodPendencia = 23;
-                pendencia.Impeditivo = true;
-                Pendencia.CriarPendenciaSistema(pendencia);
-                //--------------------------
-                pendencia.CodPendencia = 24;
-                pendencia.Impeditivo = true;
-                Pendencia.CriarPendenciaSistema(pendencia);
-                #endregion
-
-                n1.Precadastro = false;
-                n1.Observacao = null;
-                _service.Alterar(n1);
-                EntityObserver.RemoveAt(SelectListViewIndex);
-                HabilitaControle(true, true);
-                VerificaPreCadastroAprovacao();
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-                WpfHelp.PopupBox(ex);
-            }
-        }
-
-        private void PrepareReprovar()
-        {
-            if (Entity == null) return;
-            if (string.IsNullOrEmpty(Entity.Observacao))
-            {
-                WpfHelp.PopupBox("Informe no campo observação o motivo da reprovação",1);
-            }
-            else
-            {
-                var n1 = Mapper.Map<Colaborador>(Entity);
-                _service.Alterar(n1);
-            }
-        }
-
         /// <summary>
         ///     Novo
         /// </summary>
@@ -810,9 +762,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n1 = Mapper.Map<Colaborador>(Entity);
                 _service.Alterar(n1);
                 HabilitaControle(true, true);
+                isReprovacao = false;
             }
             catch (Exception ex)
             {
+                isReprovacao = false;
                 Utils.TraceException(ex);
                 WpfHelp.PopupBox(ex);
             }
@@ -885,15 +839,68 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        private void VerificaPreCadastroAprovacao()
+        private void PrepareImportar()
         {
-            var l1 = _service.Listar(null, $"%{string.Empty}%", null, true);
-            existePreCadastro = false;
-            if (l1 != null && l1.Count > 0)
+            try
             {
-                existePreCadastro = true;
-                msgPreCadastro = string.Format("Existem {0} pré-cadastros pendentes de aprovação", l1.Count());
-            }            
+                if (Entity == null) return;
+                isReprovacao = false;
+                if (Validar()) return;
+                var n1 = Mapper.Map<Colaborador>(Entity);
+
+                n1.Precadastro = false;
+                n1.Observacao = null;
+
+                #region Criar Pendências
+                //n1.Pendente21 = true;
+                //n1.Pendente22 = true;
+                //n1.Pendente23 = true;
+                //n1.Pendente24 = true;
+                //n1.Pendente25 = true;
+
+                //var pendencia = new Pendencia();
+                //pendencia.ColaboradorId = Entity.ColaboradorId;
+                ////--------------------------
+                //pendencia.CodPendencia = 22;
+                //pendencia.Impeditivo = true;
+                //Pendencia.CriarPendenciaSistema(pendencia);
+
+                ////--------------------------
+                //pendencia.CodPendencia = 23;
+                //pendencia.Impeditivo = true;
+                //Pendencia.CriarPendenciaSistema(pendencia);
+                ////--------------------------
+                //pendencia.CodPendencia = 24;
+                //pendencia.Impeditivo = true;
+                //Pendencia.CriarPendenciaSistema(pendencia);
+                #endregion
+
+                _service.Alterar(n1);
+                EntityObserver.RemoveAt(SelectListViewIndex);
+                HabilitaControle(true, true);
+                VerificaPreCadastroAprovacao();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                WpfHelp.PopupBox(ex);
+            }
+        }
+
+        private void PrepareReprovar()
+        {
+            if (Entity == null) return;
+            isReprovacao = true;
+            if (string.IsNullOrEmpty(Entity.Observacao))
+            {
+                WpfHelp.PopupBox("Informe no campo observação o motivo da reprovação", 1);
+                PrepareAlterar();
+            }
+            else
+            {
+                var n1 = Mapper.Map<Colaborador>(Entity);
+                _service.Alterar(n1);
+            }
         }
         #endregion
     }

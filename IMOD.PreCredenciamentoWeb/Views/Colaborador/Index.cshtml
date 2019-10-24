@@ -36,9 +36,9 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Apelido)
                         </th>
-                        @*<th>
-                                @Html.DisplayNameFor(model => model.Foto)
-                            </th>*@
+                        <th>
+                            @Html.DisplayNameFor(model => model.Foto)
+                        </th>
                         @*<th>
                                 @Html.DisplayNameFor(model => model.TelefoneFixo)
                             </th>*@
@@ -47,6 +47,9 @@
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Status)
                         </th>
 
                     </tr>
@@ -77,14 +80,22 @@
                                 @Html.DisplayFor(modelItem => item.Cpf)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Nome)
+                                @Html.DisplayFor(modelItem => item.Nome).ToString().ToUpper()
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Apelido)
+                                @Html.DisplayFor(modelItem => item.Apelido).ToString().ToUpper()
                             </td>
-                            @*<td>
-                                    @Html.DisplayFor(modelItem => item.Foto)
-                                </td>*@
+                            <td>
+                                @{
+                                    var imgSrc = "../images/userAdd.png";
+                                    if (!string.IsNullOrEmpty(item.Foto))
+                                    {
+                                        imgSrc = String.Format("data:image/gif;base64,{0}", item.Foto);
+                                    }
+                                }
+
+                                <img class="resize" id="FotoUpload"  src="@imgSrc" alt="Imagem" style="width: 35px" />
+                            </td>
                             @*<td>
                                     @Html.DisplayFor(modelItem => item.TelefoneFixo)
                                 </td>*@
@@ -93,6 +104,9 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
                             </td>
 
                         </tr>
