@@ -164,6 +164,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public List<Municipio> _municipios { get; set; }
 
+        public bool existePreCadastro { get; set; }
+
+        public string msgPreCadastro { get; set; }
+
+
         #endregion
 
         public ColaboradorViewModel()
@@ -173,8 +178,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 ItensDePesquisaConfigura();
                 ListarDadosAuxiliares();
+
                 Comportamento = new ComportamentoBasico(false, true, true, false, false);
                 EntityObserver = new ObservableCollection<ColaboradorView>();
+                VerificaPreCadastroAprovacao();
                 Comportamento.SalvarAdicao += OnSalvarAdicao;
                 Comportamento.SalvarEdicao += OnSalvarEdicao;
                 Comportamento.Remover += OnRemover;
@@ -629,9 +636,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 #endregion
 
                 n1.Precadastro = false;
+                n1.Observacao = null;
                 _service.Alterar(n1);
                 EntityObserver.RemoveAt(SelectListViewIndex);
                 HabilitaControle(true, true);
+                VerificaPreCadastroAprovacao();
             }
             catch (Exception ex)
             {
@@ -848,6 +857,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 }
                 HabilitaControle(true, true);
+                VerificaPreCadastroAprovacao();
             }
             catch (Exception ex)
             {
@@ -873,6 +883,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 throw ex;
             }
+        }
+
+        private void VerificaPreCadastroAprovacao()
+        {
+            var l1 = _service.Listar(null, $"%{string.Empty}%", null, true);
+            existePreCadastro = false;
+            if (l1 != null && l1.Count > 0)
+            {
+                existePreCadastro = true;
+                msgPreCadastro = string.Format("Existem {0} pré-cadastros pendentes de aprovação", l1.Count());
+            }            
         }
         #endregion
     }

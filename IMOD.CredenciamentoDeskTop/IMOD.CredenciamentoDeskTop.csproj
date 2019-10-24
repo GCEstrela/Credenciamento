@@ -1097,6 +1097,7 @@
     <Resource Include="Resources\aprovadop.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\aviso.png" />
     <Content Include="Resources\FaportSoLogo.png" />
     <Content Include="Resources\passweb.png" />
     <Content Include="Resources\PendenciaImpeditiva.jpg" />
