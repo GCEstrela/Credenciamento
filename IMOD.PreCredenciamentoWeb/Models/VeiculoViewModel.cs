@@ -92,8 +92,9 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string NomeArquivoAnexo { get; set; }
 
         [Display(Name = "Documento Anexo")] 
-        public HttpPostedFileBase FileUploadAnexo { get; set; }
-
+        public string ArquivoAnexo { get; set; }
+        
+        public HttpPostedFileBase FileAnexo { get; set; }
         public string Licenciamento { get; set; }
 
         [Display(Name = "Veículo")]
@@ -121,7 +122,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
 
         [Required(ErrorMessage = "O Número da Apólice é requerido.")]
         [Display(Name = "Número da Apólice")]
-        public int NumeroApolice { get; set; }
+        public string NumeroApolice { get; set; }
 
         [Required(ErrorMessage = "O Valor Da Cobertura é requerido.")]
         [Display(Name = "Valor da Cobertura")]
@@ -133,8 +134,8 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string NomeArquivo { get; set; }
 
         [Display(Name = "Apólice Digitalizada")]
-        public HttpPostedFileBase Arquivo { get; set; }
-
+        public string Arquivo { get; set; }
+        public HttpPostedFileBase File { get; set; }
         [Required(ErrorMessage = "A Emissão é requerida.")]
         [Display(Name = "Data Emissão")]
         [DataType(DataType.Date)]
@@ -147,6 +148,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public DateTime? Validade { get; set; }
 
         public bool Precadastro { get; set; }
+        public string Observacao { get; set; }
 
         [Display(Name = "Área de Manobra")]
         public bool chkAreaManobra { get; set; }
@@ -161,6 +163,21 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public override int GetHashCode()
         {
             return -460737279 + EquipamentoVeiculoId.GetHashCode();
+        }
+        [Display(Name = "Status")]
+        public string Status
+        {
+            get
+            {
+                if (Precadastro)
+                {
+                    return (string.IsNullOrEmpty(Observacao)) ? "Aguardando Aprovação" : "Reprovado";
+                }
+                else
+                {
+                    return "Aprovado";
+                }
+            }
         }
     }
 }

@@ -145,7 +145,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.NomeArquivo, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    <input type="file" name="NomeArquivo" id="NomeArquivo" accept=".pdf" />
+                                    <input type="file" name="File" id="File" accept=".pdf" />
                                 </div>
                             </div>
                             <br />
@@ -155,6 +155,18 @@
                                     <li><button type="button" class="btn btn-primary next-step btn-icon"><span><strong>Avançar</strong></span> <i class="fa fa-arrow-right"></i> </button> </li>
                                 </ul>
                             </div>
+                            @{
+                                if (!string.IsNullOrEmpty(Model.Observacao))
+                                {
+                                    <br />
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Observacao, htmlAttributes: new { @class = "control-label col-md-2", style = "color:#ffBC00" })
+                                        <div class="col-lg-8">
+                                            @Html.EditorFor(model => model.Observacao, new { htmlAttributes = new { @class = "form-control text-uppercase", style = "color:#ffBC00" } })
+                                        </div>
+                                    </div>
+                                }
+                            }
                         </div>
                         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                             <br />
@@ -338,14 +350,14 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.NomeArquivoAnexo, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    <input type="file" name="NomeArquivoAnexo" id="NomeArquivoAnexo" accept=".pdf" />
+                                    <input type="file" name="FileAnexo" id="FileAnexo" accept=".pdf" />
                                 </div>
                             </div>
 
                             <ul class="list-inline pull-right">
                                 <li><a href="~/Veiculo/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
                                 <li><button type="button" class="btn btn-default prev-step btn-icon"><i class="fa fa-arrow-left"></i> <span><strong>Voltar</strong></span></button></li>
-                                <li><button type="submit" class="btn btn-success" id="btnSalvar"><i class="fa fa-save"></i> <span>Salvar Colaborador</span></button></li>
+                                <li><button type="submit" class="btn btn-success" id="btnSalvar"><i class="fa fa-save"></i> <span>Salvar</span></button></li>
                             </ul>
                             @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                         </div>

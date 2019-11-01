@@ -8,7 +8,7 @@
 <br />
 <div class="col-md-12">
     <br />
-    <div class="table-wrapper">        
+    <div class="table-wrapper">
         <br />
         <table class="table table-hover table-responsive table-dark" id="tbColaborador">
             <thead>
@@ -24,19 +24,22 @@
                         @Html.DisplayNameFor(model => model.Descricao)
                     </th>
                     @*<th>
-                        @Html.DisplayNameFor(model => model.Patrimonio)
-                    </th>*@
+                            @Html.DisplayNameFor(model => model.Patrimonio)
+                        </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.Marca)
                     </th>
                     @*<th>
-                        @Html.DisplayNameFor(model => model.Modelo)
-                    </th>*@
+                            @Html.DisplayNameFor(model => model.Modelo)
+                        </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.Cor)
                     </th>
                     <th width="50*">
                         @Html.DisplayNameFor(model => model.Ano)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
                     </th>
 
                 </tr>
@@ -44,52 +47,54 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr>
-                    
-                    <td class="col-lg-1">
-                        <a href='@Url.Action("Details", "Veiculo", new { id = item.EquipamentoVeiculoId })'>
+                    <tr>
 
-                            <span class="glyphicon glyphicon-search"></span>
-                        </a>
-                        @if (item.Precadastro)
-                        {
-                            <a href='@Url.Action("Edit", "Veiculo", new { id = item.EquipamentoVeiculoId })'>
-                                @*<img src="~/images/edit.png" />*@
-                                <span class="glyphicon glyphicon-edit"></span>
+                        <td class="col-lg-1">
+                            <a href='@Url.Action("Details", "Veiculo", new { id = item.EquipamentoVeiculoId })'>
+
+                                <span class="glyphicon glyphicon-search"></span>
                             </a>
+                            @if (item.Precadastro)
+                            {
+                                <a href='@Url.Action("Edit", "Veiculo", new { id = item.EquipamentoVeiculoId })'>
+                                    @*<img src="~/images/edit.png" />*@
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </a>
 
-                            <a href='@Url.Action("Delete", "Veiculo", new { id = item.EquipamentoVeiculoId })'>
-                                @*<img src="~/images/remove.png" />*@
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </a>
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PlacaIdentificador)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SerieChassi)
-                    </td>
-                    <td width="400*">
-                        @Html.DisplayFor(modelItem => item.Descricao)
-                    </td>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.Patrimonio)
-                    </td>*@
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Marca)
-                    </td>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.Modelo)
-                    </td>*@
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cor)
-                    </td>
-                    <td width="50*">
-                        @Html.DisplayFor(modelItem => item.Ano)
-                    </td>
-
-                </tr>
+                                <a href='@Url.Action("Delete", "Veiculo", new { id = item.EquipamentoVeiculoId })'>
+                                    @*<img src="~/images/remove.png" />*@
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PlacaIdentificador)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SerieChassi)
+                        </td>
+                        <td width="400*">
+                            @Html.DisplayFor(modelItem => item.Descricao)
+                        </td>
+                        @*<td>
+                                @Html.DisplayFor(modelItem => item.Patrimonio)
+                            </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Marca)
+                        </td>
+                        @*<td>
+                                @Html.DisplayFor(modelItem => item.Modelo)
+                            </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cor)
+                        </td>
+                        <td width="50*">
+                            @Html.DisplayFor(modelItem => item.Ano)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                    </tr>
                 }
             </tbody>
 

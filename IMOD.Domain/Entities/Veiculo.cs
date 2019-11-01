@@ -5,6 +5,7 @@
 // ***********************************************************************
 
 using System;
+using System.Web;
 
 namespace IMOD.Domain.Entities
 {
@@ -46,6 +47,14 @@ namespace IMOD.Domain.Entities
         public string Categoria { get; set; }
         public DateTime? DataLicenciameno { get; set; }
         public DateTime? DataVistoria { get; set; }
+        public string Observacao { get; set; }
+        public string NomeSeguradora { get; set; }
+        public string NumeroApolice { get; set; }
+        public decimal ValorCobertura { get; set; }
+        public DateTime Emissao { get; set; }
+        public DateTime Validade { get; set; }
+        public string Arquivo { get; set; }
+        public string NomeArquivo { get; set; }
         #endregion
     }
 }

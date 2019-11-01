@@ -220,6 +220,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Categoria", entity.Categoria, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataLicenciameno", entity.DataLicenciameno, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataVistoria", entity.DataVistoria, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Observacao", entity.Observacao, false)));
 
                         cmd.ExecuteNonQuery();
 

@@ -175,9 +175,9 @@
                 </TextBox.InputBindings>
 
             </TextBox>
-            <RadioButton x:Name="rd_cadastro" Content="Cadastro" Margin="625,5,0,0" IsChecked="True" Foreground="#FFD0D0D0" VerticalAlignment="Top" Width="95" Checked="Rd_cadastro_Checked" Cursor="Hand"/>
+            <RadioButton x:Name="rd_cadastro" Content="Cadastro" Margin="600,5,0,0" IsChecked="True" Foreground="#FFD0D0D0" VerticalAlignment="Top" Width="95" Checked="Rd_cadastro_Checked" Cursor="Hand"/>
             <RadioButton x:Name="rd_precadastro" Content="Pré-Cadastro" Margin="5,5,0,0" Foreground="Orange"  VerticalAlignment="Top" Width="95" Checked="Rd_precadastro_Checked" Cursor="Hand"/>
-
+            <Image Source="../Resources/aviso.png" ToolTip="{Binding Path=msgPreCadastro}" Visibility="{Binding existePreCadastro,  Converter={StaticResource VisibleControl}}" />
         </StackPanel>
 
         <StackPanel x:Name="ListaEmpresas_sp" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="0,0,-259,1">
@@ -205,15 +205,36 @@
         </StackPanel>
         <GridSplitter Grid.Row="2" Foreground="Gray" Height="5" Margin="0,1,-259,0" HorizontalAlignment="Stretch" ></GridSplitter>
         <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,-262,0" IsEnabled="{Binding HabilitaCommandPincipal}">
-            <Button x:Name="btnImportar" Content="{StaticResource imgImport}" ToolTip="Importar Pré-Cadastro"
+            <Button x:Name="btnImportar" ToolTip="Aprovar Pré-Cadastro"
                     Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}"
-                    IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareIportarCommand}"
-                    Width="25" Margin="0,0,5,0" />
-            <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar"     IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"     Width="25" Margin="0,0,5,0" Visibility="{Binding IsEnablePreCadastroCredenciamento,  Converter={StaticResource VisibleControl}}" />
-            <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"        IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"   Width="25" Margin="0,0,5,0"  />
-            <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"       IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"   Width="25" Margin="0,0,5,0"  Visibility="Collapsed" />
-            <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar"      IsEnabled="{Binding Comportamento.isEnableCancelar}"    Command="{Binding PrepareCancelarCommand}"  Width="25" Margin="0,0,5,0"  />
-            <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar"        IsEnabled="{Binding Comportamento.isEnableSalvar,UpdateSourceTrigger=PropertyChanged}"      Command="{Binding PrepareSalvarCommand}"    Width="25" Margin="0,0,5,0"  />
+                    IsEnabled="{Binding Comportamento.IsEnableEditar}" Command="{Binding PrepareIportarCommand}"
+                    Width="25" Margin="0,0,5,0" Cursor="Hand">
+                <StackPanel>
+                    <Image Source="../Resources/aprovado.png" />
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnReprovar" ToolTip="Reprovar Pré-Cadastro"
+                    Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}"
+                    IsEnabled="{Binding Comportamento.IsEnableEditar}" Command="{Binding PrepareReprovaCommand}"
+                    Width="25" Margin="0,0,5,0" Cursor="Hand">
+                <StackPanel>
+                    <Image Source="../Resources/reprovado.png" />
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar"     
+                    IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"     Width="25" Margin="0,0,5,0" 
+                    Visibility="{Binding IsEnablePreCadastroCredenciamento,  Converter={StaticResource VisibleControl}}" />
+            <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"        
+                    IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"   Width="25" Margin="0,0,5,0"  />
+            <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"       
+                    IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"   Width="25" Margin="0,0,5,0"  
+                    Visibility="Collapsed" />
+            <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar"      
+                    IsEnabled="{Binding Comportamento.isEnableCancelar}"    Command="{Binding PrepareCancelarCommand}"  Width="25" Margin="0,0,5,0"  />
+            <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar"        
+                    IsEnabled="{Binding Comportamento.isEnableSalvar,UpdateSourceTrigger=PropertyChanged}"      Command="{Binding PrepareSalvarCommand}"    
+                    Width="25" Margin="0,0,5,0"  />
 
         </StackPanel>
 
@@ -428,7 +449,15 @@
                         </StackPanel>
 
                     </GroupBox>
-
+                    <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Brown" 
+                              Grid.Column="0" Header="Observação da Reprovação" Margin="621,231,-611,0" Height="117" VerticalAlignment="Top" Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}">
+                        <StackPanel Margin="60,5,0,0" >
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <TextBox MinLines="5"  x:Name="obs_tb" Text="{Binding Entity.Observacao,  UpdateSourceTrigger=PropertyChanged}" 
+                                         Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}" Width="497" Height="56"></TextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
                     <GroupBox Background="Aquamarine" Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
                               Header="Características " HorizontalAlignment="Left" Width="614" Margin="2,231,-15,107">
 

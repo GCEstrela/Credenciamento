@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using Foolproof;
 
 namespace IMOD.PreCredenciamentoWeb.Models
 {
@@ -35,9 +36,11 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "Estado Civil")]
         public string EstadoCivil { get; set; }
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:###-##-####}")]
-        [Required(ErrorMessage = "O CPF é requerido.")]
+        //[Required(ErrorMessage = "O CPF é requerido.")]
+        [RequiredIf("Estrangeiro", false, ErrorMessage = "O CPF é requerido.")]
         [Display(Name = "CPF")]
         public string Cpf { get; set; }
+        [RequiredIf("Estrangeiro", false, ErrorMessage = "O RG é requerido.")]
         [Display(Name = "RG")]
         public string Rg { get; set; }
         [DataType(DataType.Date)]
@@ -48,11 +51,14 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string RgOrgLocal { get; set; }
         [Display(Name = "UF")]
         public string RgOrgUf { get; set; }
+        [RequiredIf("ValidaEstrangeiro", true, ErrorMessage = "O passaporte ou RNE são obrigatórios para estrangeiros.")]
         public string Passaporte { get; set; }
         [DataType(DataType.Date)]
+        [RequiredIf("ValidaEstrangeiro", true, ErrorMessage = "O passaporte ou RNE são obrigatórios para estrangeiros.")]
         [Display(Name = "Validade Passaporte")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? PassaporteValidade { get; set; }
+        [RequiredIf("ValidaEstrangeiro", true, ErrorMessage = "O passaporte ou RNE são obrigatórios para estrangeiros.")]
         public string Rne { get; set; }
         [Display(Name = "Telefone")]
         public string TelefoneFixo { get; set; }
@@ -89,10 +95,14 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public int EstadoId { get; set; }
         //[Range(1, int.MaxValue, ErrorMessage = "Motorista é requerido.")]
         public bool Motorista { get; set; }
+        [RequiredIf("Motorista", true, ErrorMessage = "Categoria da CNH é obrigatória para motorista.")]
         [Display(Name = "Categoria Habilitação")]
         public string CnhCategoria { get; set; }
+        [RequiredIf("Motorista", true, ErrorMessage = "Número da CNH é obrigatório para motorista.")]
         [Display(Name = "Número Habilitação")]
         public string Cnh { get; set; }
+        [Range(typeof(DateTime), "1/1/1880", "1/1/2200", ErrorMessage = "Data inválida")]
+        [RequiredIf("Motorista", true, ErrorMessage = "Validade da CNH é obrigatório para motorista.")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Validade Habilitação")]
@@ -111,8 +121,21 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DataValidade { get; set; }
-
+        
         public bool Estrangeiro { get; set; }
+
+        public bool ValidaEstrangeiro
+        {
+            get
+            {
+                return (Estrangeiro == true && (string.IsNullOrEmpty(Rne) & !PassaportePreenchido()));
+            }
+        }
+
+        private bool PassaportePreenchido()
+        {
+            return (!string.IsNullOrEmpty(Passaporte) && PassaporteValidade != null);
+        }
 
         //public IEnumerable<Estados> Estados { get; set; }
         [Display(Name = "Contrato Empresa")]

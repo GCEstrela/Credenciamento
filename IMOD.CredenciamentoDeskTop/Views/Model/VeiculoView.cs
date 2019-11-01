@@ -5,6 +5,7 @@
 // ***********************************************************************
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 using IMOD.CredenciamentoDeskTop.Funcoes;
 
 namespace IMOD.CredenciamentoDeskTop.Views.Model
@@ -64,6 +65,14 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public DateTime? DataLicenciameno { get; set; }
         //[Required(ErrorMessage = "A Data da Vistoria é Obrigatória.")]
         public DateTime? DataVistoria { get; set; }
+        public string Observacao { get; set; }
+        public string NomeSeguradora { get; set; }
+        public string NumeroApolice { get; set; }
+        public decimal ValorCobertura { get; set; }
+        public DateTime Emissao { get; set; }
+        public DateTime Validade { get; set; }
+        public string Arquivo { get; set; }
+        public string NomeArquivo { get; set; }
         #endregion
     }
 }

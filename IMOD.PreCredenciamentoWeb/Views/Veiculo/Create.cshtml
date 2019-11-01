@@ -141,10 +141,10 @@
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.FileUploadAnexo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.LabelFor(model => model.File, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-6">
-                                        <input type="file" name="FileUploadAnexo" id="FileUploadAnexo" accept=".pdf" />
-                                        @Html.ValidationMessageFor(model => model.FileUploadAnexo, "", new { @class = "text-danger", id = "FileUpload" })
+                                        <input type="file" name="File" id="File" accept=".pdf" />
+                                        @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger", id = "File" })
                                     </div>
                                 </div>
                                 <br />
@@ -337,17 +337,17 @@
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Arquivo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.LabelFor(model => model.FileAnexo, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-6">
-                                        <input type="file" name="Arquivo" id="Arquivo" accept=".pdf" />
-                                        @Html.ValidationMessageFor(model => model.Arquivo, "", new { @class = "text-danger" })
+                                        <input type="file" name="FileAnexo" id="FileAnexo" accept=".pdf" />
+                                        @Html.ValidationMessageFor(model => model.FileAnexo, "", new { @class = "text-danger", id = "FileAnexo" })
                                     </div>
                                 </div>
                                 <ul class="list-inline pull-right">
 
                                     <li><a href="~/Veiculo/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
                                     <li><button type="button" class="btn btn-default prev-step btn-icon"><i class="fa fa-arrow-left"></i> <span><strong>Voltar</strong></span></button></li>
-                                    <li><button type="submit" class="btn btn-success" id="btnSalvar"><i class="fa fa-save"></i> <span>Salvar Colaborador</span></button></li>
+                                    <li><button type="submit" class="btn btn-success" id="btnSalvar"><i class="fa fa-save"></i> <span>Salvar e Enviar para Aprovação</span></button></li>
                                 </ul>
                             </div>
                             <div class="tab-pane" role="tabpanel" id="complete">

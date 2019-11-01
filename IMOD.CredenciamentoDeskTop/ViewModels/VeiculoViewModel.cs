@@ -40,6 +40,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool IsEnablePreCadastro { get; set; } = false;
         public bool IsEnablePreCadastroCredenciamento { get; set; } = true;
         public string IsEnablePreCadastroColor { get; set; } = "#FFD0D0D0";
+        private bool isReprovacao = false;
 
         #region  Propriedades
 
@@ -176,6 +177,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 return _configuraSistema.imagemTamanho;
             }
         }
+
+        public bool existePreCadastro { get; set; }
+        public string msgPreCadastro { get; set; }
         #endregion
 
         public VeiculoViewModel()
@@ -185,6 +189,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento = new ComportamentoBasico (false, true, true, false, false);
             EntityObserver = new ObservableCollection<VeiculoView>();
             TiposEquipamentoServico = new ObservableCollection<EquipamentoVeiculoTipoServicoView>();
+            VerificaPreCadastroAprovacao();
             Comportamento.SalvarAdicao += OnSalvarAdicao;
             Comportamento.SalvarEdicao += OnSalvarEdicao;
             Comportamento.Remover += OnRemover;
@@ -404,6 +409,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Pré-Cadastro
         /// </summary>
         public ICommand PrepareIportarCommand => new CommandBase(PrepareImportar, true);
+        public ICommand PrepareReprovaCommand => new CommandBase(PrepareReprovar, true);
         private void PrepareImportar()
         {
             try
@@ -417,6 +423,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 EntityObserver.RemoveAt(SelectListViewIndex);
                 SalvarTipoServico(n1.EquipamentoVeiculoId);
                 HabilitaControle(true, true);
+                VerificaPreCadastroAprovacao();
             }
             catch (Exception ex)
             {
@@ -424,11 +431,37 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox(ex);
             }
         }
+
+        private void PrepareReprovar()
+        {
+            if (Entity == null) return;
+            isReprovacao = true;
+            if (string.IsNullOrEmpty(Entity.Observacao))
+            {
+                WpfHelp.PopupBox("Informe no campo observação o motivo da reprovação", 1);
+                PrepareAlterar();
+            }
+            else
+            {
+                var n1 = Mapper.Map<Veiculo>(Entity);
+                _service.Alterar(n1);
+            }
+        }
         /// <summary>
         ///     Novo
         /// </summary>
         public ICommand PrepareCriarCommand => new CommandBase (PrepareCriar, true);
 
+        private void VerificaPreCadastroAprovacao()
+        {
+            var l1 = _service.Listar(null, null, null, null, null, null, true);
+            existePreCadastro = false;
+            if (l1 != null && l1.Count > 0)
+            {
+                existePreCadastro = true;
+                msgPreCadastro = string.Format("Existem {0} pré-cadastros pendentes de aprovação", l1.Count());
+            }
+        }
         #endregion
 
         #region Salva Dados
@@ -482,6 +515,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     IsEnableLstView = true;
                     PopularObserver(l1);
                 }
+                VerificaPreCadastroAprovacao();
             }
             catch (Exception ex)
             {
@@ -586,9 +620,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Salvar Tipo de Servico
                 SalvarTipoServico (n1.EquipamentoVeiculoId);
                 HabilitaControle (true, true);
+                isReprovacao = false;
             }
             catch (Exception ex)
             {
+                isReprovacao = false;
                 Utils.TraceException (ex);
                 WpfHelp.PopupBox (ex);
             }
@@ -641,12 +677,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool Validar()
         {
             if (Entity == null) return true;
+            if (isReprovacao) return false;
             Entity.Validate();
             var hasErros = Entity.HasErrors;
             if (hasErros) return true;         
 
             return Entity.HasErrors;
         }
+
+
 
         #endregion
     }

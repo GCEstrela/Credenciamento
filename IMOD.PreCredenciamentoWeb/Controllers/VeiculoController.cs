@@ -38,12 +38,12 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             //var lstVeiculo = objService.Listar(null, null, string.Empty);
             //List<VeiculoViewModel> lstVeiculoMapeado = Mapper.Map<List<VeiculoViewModel>>(lstVeiculo);            
 
-            List<VeiculoViewModel> lstVeiculoMapeado = Mapper.Map<List<VeiculoViewModel>>(ObterVeiculossEmpresaLogada()).Distinct().ToList();
+            List<VeiculoViewModel> lstVeiculoMapeado = Mapper.Map<List<VeiculoViewModel>>(ObterVeiculosEmpresaLogada()).Distinct().ToList();
             ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
             return View(lstVeiculoMapeado.Distinct());
 
         }
-        private IList<Veiculo> ObterVeiculossEmpresaLogada()
+        private IList<Veiculo> ObterVeiculosEmpresaLogada()
         {
             vinculos = objVeiculoEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.EmpresaId).ToList();
             //vinculos.ForEach(v => { if (v.VeiculoId != 0) { veiculos.AddRange(objService.Listar(null, null, null, null, null, v.VeiculoId)); } });
@@ -81,7 +81,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             foreach (var item in veiculoSeguro)
             {
                 veiculoMapeado.NomeSeguradora = item.NomeSeguradora;
-                veiculoMapeado.NumeroApolice = Convert.ToInt32(item.NumeroApolice);
+                veiculoMapeado.NumeroApolice = item.NumeroApolice;
                 veiculoMapeado.Emissao = item.Emissao;
                 veiculoMapeado.ValorCobertura = Convert.ToDouble(item.ValorCobertura);
                 veiculoMapeado.Validade = item.Validade;
@@ -152,20 +152,20 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             try
             {
 
-                if (model.FileUploadAnexo != null)
+                if (model.FileAnexo != null)
                 {
-                    if (model.FileUploadAnexo.ContentLength > 2048000)
+                    if (model.FileAnexo.ContentLength > 2048000)
                         ModelState.AddModelError("FileUploadAnexo", "Tamanho permitido de arquivo 2,00 MB");
 
-                    if (!Path.GetExtension(model.FileUploadAnexo.FileName).Equals(".pdf"))
+                    if (!Path.GetExtension(model.FileAnexo.FileName).Equals(".pdf"))
                         ModelState.AddModelError("FileUploadAnexo", "Permitida Somente Extensão  .pdf");
                 }
-                if (model.Arquivo != null)
+                if (model.File != null)
                 {
-                    if (model.Arquivo.ContentLength > 2048000)
+                    if (model.File.ContentLength > 2048000)
                         ModelState.AddModelError("FileUpload", "Tamanho permitido de arquivo 2,00 MB");
 
-                    if (!Path.GetExtension(model.Arquivo.FileName).Equals(".pdf"))
+                    if (!Path.GetExtension(model.File.FileName).Equals(".pdf"))
                         ModelState.AddModelError("FileUpload", "Permitida Somente Extensão  .pdf");
                 }
 
@@ -175,10 +175,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     //var veiculoSeguroMapeado = Mapper.Map<VeiculoSeguro>(model);
 
                     veiculoMapeado.Precadastro = true;
+                    veiculoMapeado.Tipo = "VEÍCULO";
                     objService.Criar(veiculoMapeado);
                     //objVeiculoSeguroService.Criar(veiculoSeguroMapeado);
 
-                    if (model.Arquivo != null)
+                    if (model.File != null)
                     {
                         CriarVeiculoSeguro(model, veiculoMapeado.EquipamentoVeiculoId);
                     }
@@ -218,7 +219,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         }
                     }
 
-                    if (model.FileUploadAnexo != null)
+                    if (model.FileAnexo != null)
                     {
                         CriarVeiculoAnexo(model, veiculoMapeado.EquipamentoVeiculoId);
                     }
@@ -313,13 +314,13 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 if (id == null)
                     return HttpNotFound();
 
-                if (model.FileUploadAnexo != null)
+                if (model.FileAnexo != null)
                 {
-                    if (model.FileUploadAnexo.ContentLength > 2048000)
-                        ModelState.AddModelError("FileUploadAnexo", "Tamanho permitido de arquivo 2,00 MB");
+                    if (model.FileAnexo.ContentLength > 2048000)
+                        ModelState.AddModelError("FileAnexo", "Tamanho permitido de arquivo 2,00 MB");
 
-                    if (!Path.GetExtension(model.FileUploadAnexo.FileName).Equals(".pdf"))
-                        ModelState.AddModelError("FileUploadAnexo", "Permitida Somente Extensão  .pdf");
+                    if (!Path.GetExtension(model.FileAnexo.FileName).Equals(".pdf"))
+                        ModelState.AddModelError("FileAnexo", "Permitida Somente Extensão  .pdf");
                 }
 
 
@@ -332,6 +333,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                     var veiculoMapeado = Mapper.Map<Veiculo>(model);
                     veiculoMapeado.Precadastro = true;
+                    veiculoMapeado.Tipo = "VEÍCULO";
+                    veiculoMapeado.Observacao = null;
                     veiculoMapeado.EquipamentoVeiculoId = Convert.ToInt32(idVeiculo);
                     objService.Alterar(veiculoMapeado);
 
@@ -366,7 +369,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         }
                     }
 
-                    if (model.FileUploadAnexo != null)
+                    if (model.FileAnexo != null)
                     {
                         ExcluirVeiculoAnexoAnterior(model);
                         CriarVeiculoAnexo(model, veiculoMapeado.EquipamentoVeiculoId);
@@ -577,14 +580,14 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             if (veiculo == null || veiculoId == 0) return;
 
-            if (veiculo.FileUploadAnexo.ContentLength <= 0 || veiculo.FileUploadAnexo.ContentLength > 2048000) return;
+            if (veiculo.FileAnexo.ContentLength <= 0 || veiculo.FileAnexo.ContentLength > 2048000) return;
 
-            NomeArquivo = Path.GetFileNameWithoutExtension(veiculo.FileUploadAnexo.FileName);
-            ExtensaoArquivo = Path.GetExtension(veiculo.FileUploadAnexo.FileName);
+            NomeArquivo = Path.GetFileNameWithoutExtension(veiculo.FileAnexo.FileName);
+            ExtensaoArquivo = Path.GetExtension(veiculo.FileAnexo.FileName);
 
             if (!ExtensaoArquivo.Equals(".pdf")) return;
 
-            var arquivoStream = veiculo.FileUploadAnexo.InputStream;
+            var arquivoStream = veiculo.FileAnexo.InputStream;
             using (MemoryStream ms = new MemoryStream())
             {
                 arquivoStream.CopyTo(ms);
@@ -605,9 +608,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private void ExcluirVeiculoAnexoAnterior(VeiculoViewModel veiculo)
         {
             if (!veiculo.Precadastro) return;
-            if (veiculo.FileUploadAnexo == null) return;
+            if (veiculo.FileAnexo == null) return;
             if (veiculo == null || veiculo.EquipamentoVeiculoId == 0) return;
-            if (veiculo.FileUploadAnexo.ContentLength <= 0 || veiculo.FileUploadAnexo.ContentLength > 2048000) return;
+            if (veiculo.FileAnexo.ContentLength <= 0 || veiculo.FileAnexo.ContentLength > 2048000) return;
 
             var objVeiculoAnexo = objVeiculoAnexoService.ListarComAnexo(veiculo.EquipamentoVeiculoId).FirstOrDefault();
             if (objVeiculoAnexo == null) return;
@@ -623,14 +626,14 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             if (veiculo == null || veiculoId == 0) return;
 
-            if (veiculo.Arquivo.ContentLength <= 0 || veiculo.Arquivo.ContentLength > 2048000) return;
+            if (veiculo.File.ContentLength <= 0 || veiculo.File.ContentLength > 2048000) return;
 
-            NomeArquivo = Path.GetFileNameWithoutExtension(veiculo.Arquivo.FileName);
-            ExtensaoArquivo = Path.GetExtension(veiculo.Arquivo.FileName);
+            NomeArquivo = Path.GetFileNameWithoutExtension(veiculo.File.FileName);
+            ExtensaoArquivo = Path.GetExtension(veiculo.File.FileName);
 
             if (!ExtensaoArquivo.Equals(".pdf")) return;
 
-            var arquivoStream = veiculo.Arquivo.InputStream;
+            var arquivoStream = veiculo.File.InputStream;
             using (MemoryStream ms = new MemoryStream())
             {
                 arquivoStream.CopyTo(ms);
