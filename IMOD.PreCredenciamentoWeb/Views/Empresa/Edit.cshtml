@@ -110,7 +110,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Sigla, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10" , Height="22" Width="45">
-                                        @Html.EditorFor(model => model.Sigla, new { htmlAttributes = new { @class = "form-control text-uppercase", @readonly = "readonly", @style = "width: 50px;" } })
+                                        @Html.EditorFor(model => model.Sigla, new { htmlAttributes = new { @class = "form-control text-uppercase", @readonly = "readonly", @style = "width: 100px;" } })
                                         @*@Html.TextBoxFor(model => model.Sigla, new { @disabled = "disabled",style="width: 50px;" })*@
                                         @Html.ValidationMessageFor(model => model.Sigla, "", new { @class = "text-danger" })
                                     </div>

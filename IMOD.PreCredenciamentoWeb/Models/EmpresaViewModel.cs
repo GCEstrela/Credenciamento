@@ -33,14 +33,20 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Required(ErrorMessage = "O Apelido é requerido.")]
         public string Apelido { get; set; }
         [Required(ErrorMessage = "O Cnpj é requerido.")]
+        
         public string Cnpj { get; set; }
+        [Display(Name = "Inscrição Estadual")]
         public string InsEst { get; set; }
+        [Display(Name = "Inscrição Municipal")]
         public string InsMun { get; set; }
+        [Display(Name = "Responsável")]
         public string Responsavel { get; set; }
         [Required(ErrorMessage = "O Cep é requerido.")]
         public string Cep { get; set; }
+        [Display(Name = "Endereço")]
         [Required(ErrorMessage = "O Endereço é requerido.")]
         public string Endereco { get; set; }
+        [Display(Name = "Número")]
         public string Numero { get; set; }
         public string Complemento { get; set; }
         [Required(ErrorMessage = "O Bairro é requerido.")]
@@ -49,16 +55,24 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public int EstadoId { get; set; }
         //[Required(ErrorMessage = "O Município é requerido.")]
         public int MunicipioId { get; set; }
+        [Display(Name = "E-mail")]
         [Required(ErrorMessage = "O E-Mail é requerido.")]
         public string Email1 { get; set; }
+        [Display(Name = "Contato")]
         [Required(ErrorMessage = "O Contato é requerido.")]
         public string Contato1 { get; set; }
+        [Display(Name = "Telefone")]
         [Required(ErrorMessage = "O Telefone é requerido.")]
         public string Telefone1 { get; set; }
+        [Display(Name = "Celular")]
         public string Celular1 { get; set; }
+        [Display(Name = "E-mail secundário")]
         public string Email2 { get; set; }
+        [Display(Name = "Contato secundário")]
         public string Contato2 { get; set; }
+        [Display(Name = "Telefone secundário")]
         public string Telefone2 { get; set; }
+        [Display(Name = "Celular secundário")]
         public string Celular2 { get; set; }
         public string Obs { get; set; }
         public string Logo { get; set; }
