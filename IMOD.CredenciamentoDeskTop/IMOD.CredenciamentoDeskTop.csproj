@@ -172,6 +172,12 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="Cracha\CRACHA ESTRELA-02.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRACHA ESTRELA-02.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Cracha\CRACHA FLORIPA #1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -237,6 +243,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FlnCredencialTerceiros.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\EstAzulEstrela.cs">
+      <DependentUpon>EstAzulEstrela.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Cracha\EstAmareloEstrela.cs">
+      <DependentUpon>EstAmareloEstrela.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Cracha\FraportForAutorizacaoManobra.cs">
       <DependentUpon>FraportForAutorizacaoManobra.rpt</DependentUpon>
@@ -1246,6 +1264,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CRACHA ESTRELA .cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\CRACHA ESTRELA-02.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRACHA ESTRELA-02.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Cracha\CRACHA FLORIPA #1.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CRACHA FLORIPA #1.cs</LastGenOutput>
@@ -1289,6 +1311,14 @@
     <EmbeddedResource Include="Cracha\Floripa\FlnCredencialTerceiros.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>FlnCredencialTerceiros.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\EstAzulEstrela.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>EstAzulEstrela.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\EstAmareloEstrela.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>EstAmareloEstrela.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\FraportForAutorizacaoManobra.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
