@@ -777,9 +777,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     GerarCardHolder(n1.ColaboradorCredencialId, entity);
                 }
                 #endregion
-
-
-
                 /// Atualiza Observer
                 ListarColaboradoresCredenciais(_colaboradorView);
 
@@ -906,12 +903,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity.Ativa = Constantes.Constantes.ATIVO.Equals(Entity.CredencialStatusId);
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
+                n1.CredencialMotivoId = Entity.CredencialMotivoId;
+                n1.CredencialStatusId = Entity.CredencialStatusId;
+                n1.FormatoCredencialId = Entity.FormatoCredencialId;
+                n1.LayoutCrachaId = Entity.LayoutCrachaId;
+                
+                n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
+                n1.TipoCredencialId = Entity.TipoCredencialId;
                 n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
                 n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
+                n1.Identificacao1 = Entity.Identificacao1;
+                n1.Identificacao2 = Entity.Identificacao2;
+                n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);  //Sempre Add 23:59:59 horas à credencial nova.
+                n1.CredencialmotivoViaAdicionalID = Entity.CredencialmotivoViaAdicionalID;
+                n1.CredencialmotivoIDanterior = Entity.CredencialMotivoId;
+                n1.listadeGrupos = Entity.listadeGrupos;
                 n1.Usuario = UsuarioLogado.Nome;
                 Entity.Usuario= UsuarioLogado.Nome;
-
-
                 if (Entity.ColaboradorPrivilegio1Id != 0)
                 {
                     var areaAcesso1 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio1Id).FirstOrDefault();
