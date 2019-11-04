@@ -555,17 +555,17 @@
                                          Text="{Binding Entity.Rg, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="108" />
                                 <Label Content="Emissão:" Height="24" Foreground="#FFD0D0D0" Width="89"
-                                       HorizontalContentAlignment="Right" />
+                                       HorizontalContentAlignment="Right" Visibility="Collapsed" />
                                 <TextBox Name="txtDateEmissao"
                                          Text="{Binding Entity.DataEmissao,  StringFormat='{}{0:dd/MM/yyyy}'}"
                                          LostFocus="OnFormatEmissao_LostFocus"
                                          PreviewTextInput="NumberOnly"
                                          MaxLength="10"
-                                          
+                                         Visibility="Collapsed"
                                          Height="24" Width="102" />
 
 
-                                <Label Foreground="#FFD0D0D0" Content="Órg. Exp.:" Height="24" Width="82"
+                                <Label Foreground="#FFD0D0D0" Content="Órg. Exp.:" Height="24" Width="89"
                                        HorizontalContentAlignment="Right" />
                                 <ComboBox x:Name="RGOrgLocal_cb" IsEditable="true" 
                                           Text="{Binding Entity.RgOrgLocal, 
