@@ -988,6 +988,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     //Alterar o status do titular do cartão
                     if(n1.Validade > DateTime.Now || n1.CredencialStatusId == 1)
                     {
+                        var formatocredencialdescricao = _auxiliaresService.FormatoCredencialService.BuscarPelaChave(n1.FormatoCredencialId);
+                        Entity.FormatoCredencialDescricao = formatocredencialdescricao.Descricao;
                         GerarCardHolder(n1.ColaboradorCredencialId, Entity);
 
                         var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
