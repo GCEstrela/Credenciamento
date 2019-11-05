@@ -492,13 +492,20 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 if (e.Key.ToString() == "F5")
                 {
-                    _viewModel.ListarAtualizar();
+                    if (_viewModel.Entity != null)
+                    {
+                        _viewModel.ListarAtualizar(_viewModel.Entity.EmpresaId, 1);
+                    }
+                    
+                    if (ListaColaboradoresCredenciais_lv.SelectedItems.Count > 0)
+                    {
+                        ListaColaboradoresCredenciais_lv.SelectedItems[0] = false;
+                    }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                MessageBox.Show(ex.Message);
             }
         }
 
