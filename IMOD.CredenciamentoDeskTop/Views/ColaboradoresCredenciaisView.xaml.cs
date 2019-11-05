@@ -96,7 +96,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
             cmbEmpresaVinculo_cb.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
             cmbCredencialStatus.SelectionChanged += OnAlterarStatus_SelectonChanged;
             TipoCredencial_cb.SelectionChanged += TipoCredencial_cb_SelectionChanged;
-            //_viewModel.ListarAtualizar(); //Criado por Renato em 04-11-2019
+            var window = Window.GetWindow(this);
+            window.KeyDown += HandleKeyPress;
         }
 
         private void NumberOnly(object sender, TextCompositionEventArgs e)
@@ -170,7 +171,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
                 btnImprimirCredencial.IsEnabled = true;
                 _viewModel.ContentImprimir = "Imprimir Credencial";
-                Image img = new Image();                        
+                Image img = new Image();
 
                 if (_viewModel.HabilitaImpressao)
                 {
@@ -181,7 +182,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 }
                 else
                 {
-                    img.Source = new BitmapImage(new Uri(@"../Resources/Olho.png", UriKind.Relative)); 
+                    img.Source = new BitmapImage(new Uri(@"../Resources/Olho.png", UriKind.Relative));
                     btnImprimirCredencial.Content = img;
                     btnImprimirCredencial.ToolTip = "Visualizar Credencial";
                 }
@@ -467,7 +468,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 throw;
             }
         }
-        
+
         private void Lista_bt_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -485,20 +486,21 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 MessageBox.Show(ex.Message);
             }
         }
-        //private void UserControl_KeyUp(object sender, KeyEventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (e.Key.ToString() == "F5")
-        //        {                    
-        //            _viewModel.ListarAtualizar();
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
+        private void HandleKeyPress(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.Key.ToString() == "F5")
+                {
+                    _viewModel.ListarAtualizar();
+                }
+            }
+            catch (Exception)
+            {
 
-        //        throw;
-        //    }
-        //}
+                throw;
+            }
+        }
+
     }
 }
