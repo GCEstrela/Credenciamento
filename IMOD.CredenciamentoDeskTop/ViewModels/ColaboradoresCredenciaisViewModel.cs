@@ -419,7 +419,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var lst8 = _auxiliaresService.CredencialMotivoService.Listar();
                 _credencialMotivo = new List<CredencialMotivo>();
-                //_credencialMotivo = new List<CredencialMotivo>(lst8.OrderBy(n => n.Descricao));
                 _credencialMotivo.AddRange(lst8.OrderBy(n => n.Descricao));
 
                 var lst9 = _auxiliaresService.CredencialMotivoService.Listar(null, null, null, true);
@@ -445,7 +444,59 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             
 
         }
+        public void ListarAtualizar()
+        {
+            try
+            {
+                
+                ListarCracha(Entity.EmpresaId, 1);
+                //var lst0 = _auxiliaresService.CredencialStatusService.Listar();
+                //CredencialStatus = new List<CredencialStatus>();
+                //CredencialStatus.AddRange(lst0.OrderBy(n => n.Descricao));
 
+                //var lst2 = _auxiliaresService.FormatoCredencialService.Listar();
+                //FormatoCredencial = new List<FormatoCredencial>();
+                //FormatoCredencial.AddRange(lst2.OrderBy(n => n.FormatoCredencialId));
+
+                //var lst3 = _auxiliaresService.TipoCredencialService.Listar();
+                //TipoCredencial = new List<TipoCredencial>();
+                //TipoCredencial.AddRange(lst3.OrderBy(n => n.TipoCredencialId));
+
+                //var lst5 = _auxiliaresService.TecnologiaCredencialService.Listar();
+                //TecnologiasCredenciais = new List<TecnologiaCredencial>();
+                //TecnologiasCredenciais.AddRange(lst5.OrderBy(n => n.TecnologiaCredencialId));
+
+                //ColaboradoresEmpresas = new ObservableCollection<ColaboradorEmpresa>();
+
+                //var lst7 = _auxiliaresService.AreaAcessoService.Listar();
+                //ColaboradorPrivilegio = new List<AreaAcesso>();
+                //ColaboradorPrivilegio.AddRange(lst7.OrderBy(n => n.Identificacao));
+
+                //var lst8 = _auxiliaresService.CredencialMotivoService.Listar();
+                //_credencialMotivo = new List<CredencialMotivo>();
+                //_credencialMotivo.AddRange(lst8.OrderBy(n => n.Descricao));
+
+                //var lst9 = _auxiliaresService.CredencialMotivoService.Listar(null, null, null, true);
+                //ColaboradorMotivoViaAdcional = new List<CredencialMotivo>();
+                //ColaboradorMotivoViaAdcional.AddRange(lst9.OrderBy(n => n.Descricao));
+
+                _configuraSistema = ObterConfiguracao();
+                if (_configuraSistema.Contrato) //Se contrato for automático for true a combo sera removida do formulário
+                {
+                    IsEnableComboContrato = false;
+                }
+                if (!_configuraSistema.Colete) //Se Cole não for automático false
+                {
+                    IsEnableColete = false;
+                }
+                VisibleGrupos = Helper.ExibirCampo(_configuraSistema.AssociarGrupos);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
         /// <summary>
         /// </summary>

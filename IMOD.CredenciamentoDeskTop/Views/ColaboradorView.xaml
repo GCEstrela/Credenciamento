@@ -843,7 +843,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Tab5" Width="200" IsEnabled="{Binding IsEnableTabItemCredenciais}" 
+            <TabItem x:Name="Tab5" ToolTip="F5 para atualizar." Width="200" IsEnabled="{Binding IsEnableTabItemCredenciais}" 
                                                Visibility="{Binding IsEnablePreCadastroCredenciamento,  Converter={StaticResource VisibleControl}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -856,8 +856,8 @@
                                     Width="16" Height="16" />
                             </StackPanel>
                         </Button>
-                        <StackPanel Width="170">
-                            <TextBlock Text="Credenciais" HorizontalAlignment="Left" Margin="54,0,0,0" />
+                        <StackPanel Width="170" >
+                            <TextBlock Text="Credenciais" ToolTip="F5 para atualizar." HorizontalAlignment="Left" Margin="54,0,0,0" />
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>

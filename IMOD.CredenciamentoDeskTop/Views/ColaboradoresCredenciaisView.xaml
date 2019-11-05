@@ -8,7 +8,7 @@
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="1000" 
-             Loaded="UserControl_Loaded" >
+             Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <funcoes:BooleanToVisibilityConverter x:Key="VisibleControl" />
         <Image x:Key="imgAdd" Source="../Resources/add.png"  />
@@ -282,7 +282,7 @@
                                 ToolTip="Validade Permanente não pode ser superior a 2 anos, Temporária no máxio 90 dias" x:Name="txtDtValidade" Margin="0,4,0,6"/>
 
                             <Label Content="Status:" Width="50" Height="24" Margin="30,2,1,4" Foreground="#FFD0D0D0" />
-                            <TextBlock Text="{Binding Entity.DataStatus, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Center" Width="70" Margin="0,8,0,10"  />
+                            <TextBlock x:Name="txtStatus" Text="{Binding Entity.DataStatus, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Center" Width="70" Margin="0,8,0,10"  />
 
                             <Label Content="Emissão:" Width="57" Margin="30,4,0,10" Foreground="#FFD0D0D0" Height="24" />
                             <TextBlock Text="{Binding Entity.Emissao, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Center" Width="70" Margin="0,8.02,0,9.98" />
