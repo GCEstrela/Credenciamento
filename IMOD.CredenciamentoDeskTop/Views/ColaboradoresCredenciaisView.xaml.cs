@@ -96,7 +96,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             cmbEmpresaVinculo_cb.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
             cmbCredencialStatus.SelectionChanged += OnAlterarStatus_SelectonChanged;
             TipoCredencial_cb.SelectionChanged += TipoCredencial_cb_SelectionChanged;
-            _viewModel.ListarAtualizar(); //Criado por Renato em 04-11-2019
+            //_viewModel.ListarAtualizar(); //Criado por Renato em 04-11-2019
         }
 
         private void NumberOnly(object sender, TextCompositionEventArgs e)
