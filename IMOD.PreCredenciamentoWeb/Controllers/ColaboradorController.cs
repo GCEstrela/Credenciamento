@@ -203,7 +203,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                             if (item == null)
                             {
                                 vinculo.ColaboradorId = colaboradorMapeado.ColaboradorId;
-                                vinculo.Ativo = true;
+                                vinculo.Motorista = colaboradorMapeado.Motorista;
+                                vinculo.Ativo = false;
                                 vinculo.EmpresaId = SessionUsuario.EmpresaLogada.EmpresaId;
                                 var colaboradorEmpresa = Mapper.Map<ColaboradorEmpresa>(vinculo);
                                 objColaboradorEmpresaService.Criar(colaboradorEmpresa);
@@ -622,8 +623,19 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [Authorize]
         public JsonResult ConsultarCPF(string cpf)
         {
-            var colaborador = objService.ObterPorCpf(cpf);
-            return Json(colaborador, JsonRequestBehavior.AllowGet);
+            Colaborador colaborador = new Colaborador();
+
+            if (!cpf.Equals("___.___.___-__"))
+            {
+                colaborador = objService.ObterPorCpf(cpf);
+                return Json(colaborador, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return null;
+            }
+            
+            
         }
 
 
