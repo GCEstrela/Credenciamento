@@ -555,17 +555,17 @@
                                          Text="{Binding Entity.Rg, UpdateSourceTrigger=PropertyChanged}"
                                          IsEnabled="True" Height="24" Width="108" />
                                 <Label Content="Emissão:" Height="24" Foreground="#FFD0D0D0" Width="89"
-                                       HorizontalContentAlignment="Right" />
+                                       HorizontalContentAlignment="Right" Visibility="Collapsed" />
                                 <TextBox Name="txtDateEmissao"
                                          Text="{Binding Entity.DataEmissao,  StringFormat='{}{0:dd/MM/yyyy}'}"
                                          LostFocus="OnFormatEmissao_LostFocus"
                                          PreviewTextInput="NumberOnly"
                                          MaxLength="10"
-                                          
+                                         Visibility="Collapsed"
                                          Height="24" Width="102" />
 
 
-                                <Label Foreground="#FFD0D0D0" Content="Órg. Exp.:" Height="24" Width="82"
+                                <Label Foreground="#FFD0D0D0" Content="Órg. Exp.:" Height="24" Width="89"
                                        HorizontalContentAlignment="Right" />
                                 <ComboBox x:Name="RGOrgLocal_cb" IsEditable="true" 
                                           Text="{Binding Entity.RgOrgLocal, 
@@ -843,7 +843,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Tab5" Width="200" IsEnabled="{Binding IsEnableTabItemCredenciais}" 
+            <TabItem x:Name="Tab5" ToolTip="F5 para atualizar." Width="200" IsEnabled="{Binding IsEnableTabItemCredenciais}" 
                                                Visibility="{Binding IsEnablePreCadastroCredenciamento,  Converter={StaticResource VisibleControl}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -856,8 +856,8 @@
                                     Width="16" Height="16" />
                             </StackPanel>
                         </Button>
-                        <StackPanel Width="170">
-                            <TextBlock Text="Credenciais" HorizontalAlignment="Left" Margin="54,0,0,0" />
+                        <StackPanel Width="170" >
+                            <TextBlock Text="Credenciais" ToolTip="F5 para atualizar." HorizontalAlignment="Left" Margin="54,0,0,0" />
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>

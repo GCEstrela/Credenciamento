@@ -177,9 +177,12 @@ namespace IMOD.Infra.Servicos
                 {
                     entityCardholder.SetCustomFieldAsync("Identificador", entity.Matricula);
                 }
-
-                entityCardholder.FirstName = entity.Nome;
-                entityCardholder.LastName = entity.Apelido;
+                if (!string.IsNullOrEmpty(entity.Nome))
+                {
+                    var primeironome = entity.Nome.Split(' ')[0];
+                    entityCardholder.FirstName = primeironome;
+                    entityCardholder.LastName = entity.Nome.Replace(primeironome, "").Trim();
+                }
                 entityCardholder.Picture = entity.Foto;
                 entityCardholder.Description = entity.Empresa + " - " + entity.Cpf;
                 //Uma data de validade deve ser mairo que a data corrente 

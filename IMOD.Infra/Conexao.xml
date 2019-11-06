@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <StringConexao>   
-  <InstanciaSQL>GCTEC04</InstanciaSQL>
+  <InstanciaSQL>GCTEC04\WDPOA006100</InstanciaSQL>
   <Banco>D_iModCredenciamento</Banco>
   <UsuarioDB>imod</UsuarioDB>
   <SenhaDB>c4RRamq1Ico=</SenhaDB>

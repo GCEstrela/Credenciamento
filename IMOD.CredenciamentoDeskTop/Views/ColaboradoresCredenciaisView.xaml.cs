@@ -73,7 +73,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void EmpresaVinculo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel.ColaboradorEmpresa == null) return;
-            //_viewModel.ListarCracha (_viewModel.ColaboradorEmpresa.EmpresaId);
             _viewModel.ObterValidade();
             _viewModel.CarregarCaracteresColete(_viewModel.ColaboradorEmpresa);
 
@@ -82,15 +81,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 _viewModel.CarregarVinculosAtivos(_viewModel.ColaboradorEmpresa.ColaboradorId, _viewModel.ColaboradorEmpresa.EmpresaId);
             }
-
-            //if (cmbEmpresaVinculo_cb.IsEnabled)
-            //{
-            //    _viewModel.HabilitaCriar(_viewModel.ColaboradorEmpresa,_viewModel);                
-            //}
-            //else
-            //{
-            //    _viewModel.Entity.ClearMessageErro();
-            //}
 
         }
 
@@ -101,17 +91,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
             _viewModel.ListarCracha(_viewModel.ColaboradorEmpresa.EmpresaId, _viewModel.Entity.TipoCredencialId);
         }
 
-
-
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             cmbEmpresaVinculo_cb.SelectionChanged += EmpresaVinculo_cb_SelectionChanged;
             cmbCredencialStatus.SelectionChanged += OnAlterarStatus_SelectonChanged;
             TipoCredencial_cb.SelectionChanged += TipoCredencial_cb_SelectionChanged;
-
+            var window = Window.GetWindow(this);
+            window.KeyDown += HandleKeyPress;
         }
-
-
 
         private void NumberOnly(object sender, TextCompositionEventArgs e)
         {
@@ -132,16 +119,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 DateTime dataEncontrada;
                 TimeSpan diferenca = Convert.ToDateTime(txtDtValidade.Text) - DateTime.Now.Date;
                 int credencialDias = int.Parse(diferenca.Days.ToString());
-                //if (credencialDias > 730)
-                //{
-                //    dataEncontrada = DateTime.Now.AddDays(730);
-                //    str = dataEncontrada.ToString();
-                //    txtDtValidade.Text = str;
-                //}
-                //else
-                //{
-                //    txtDtValidade.Text = str.FormatarData(); ;
-                //}
+
                 if (_viewModel.Entity.TipoCredencialId == 1)
                 {
                     if (credencialDias > 730)
@@ -181,7 +159,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel.Entity.SetMessageErro("Validade", "Data inválida");
             }
 
-
         }
 
         #endregion
@@ -194,8 +171,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
                 btnImprimirCredencial.IsEnabled = true;
                 _viewModel.ContentImprimir = "Imprimir Credencial";
-                Image img = new Image();                        
-
+                Image img = new Image();
 
                 if (_viewModel.HabilitaImpressao)
                 {
@@ -206,7 +182,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 }
                 else
                 {
-                    img.Source = new BitmapImage(new Uri(@"../Resources/Olho.png", UriKind.Relative)); 
+                    img.Source = new BitmapImage(new Uri(@"../Resources/Olho.png", UriKind.Relative));
                     btnImprimirCredencial.Content = img;
                     btnImprimirCredencial.ToolTip = "Visualizar Credencial";
                 }
@@ -492,7 +468,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 throw;
             }
         }
-        
+
         private void Lista_bt_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -510,5 +486,28 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 MessageBox.Show(ex.Message);
             }
         }
+        private void HandleKeyPress(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.Key.ToString() == "F5")
+                {
+                    if (_viewModel.Entity != null)
+                    {
+                        _viewModel.ListarAtualizar(_viewModel.Entity.EmpresaId, 1);
+                    }
+                    
+                    if (ListaColaboradoresCredenciais_lv.SelectedItems.Count > 0)
+                    {
+                        ListaColaboradoresCredenciais_lv.SelectedItems[0] = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
     }
 }
