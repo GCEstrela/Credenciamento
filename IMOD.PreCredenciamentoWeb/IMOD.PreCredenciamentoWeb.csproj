@@ -198,9 +198,11 @@
     <Content Include="Images\Cracha.png" />
     <Content Include="Images\edit.png" />
     <Content Include="Images\FaportSoLogo.png" />
+    <Content Include="Images\logo floripa.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\logo3.png" />
     <Content Include="Images\lupa.png" />
+    <Content Include="Images\motorista.png" />
     <Content Include="Images\Olho.png" />
     <Content Include="Images\operadorBagagem.png" />
     <Content Include="Images\operadorEmbarque.png" />
@@ -215,7 +217,6 @@
     <Content Include="Images\Trator.png" />
     <Content Include="Images\undo.png" />
     <Content Include="Images\upload.png" />
-    <Content Include="Images\userAdd.png" />
     <Content Include="Images\Veiculo.png" />
     <Content Include="libman.json" />
     <Content Include="Scripts\bootstrap-datepicker-globalize.js" />
@@ -238,7 +239,7 @@
     <Content Include="Content\bootstrap-datepicker3.css.map" />
     <Content Include="Content\bootstrap-datepicker.standalone.css.map" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
-    <Content Include="Documentos\Modelo_Termo_Aceite.pdf" />
+    <Content Include="Documentos\Termo de Consentimento_Credenciamento.pdf" />
     <None Include="Properties\PublishProfiles\PreCadastro.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\dataTables.responsive.min.js" />
