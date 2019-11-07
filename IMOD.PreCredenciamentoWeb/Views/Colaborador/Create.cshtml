@@ -53,7 +53,7 @@
                                 <li role="presentation" class="disabled" style="padding-left: 10px">
                                     <a href="#cnh" data-toggle="tab" aria-controls="cnh" role="tab" title="CNH">
                                         <span class="round-tab">
-                                            <i class="glyphicon glyphicon-road"></i>
+                                            <i class="fa fa-id-card-o"></i>
                                         </span>
                                     </a>
                                 </li>
@@ -95,7 +95,7 @@
                                             @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label col-md-2" })
                                             <div class="col-md-4">
                                                 @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control disabled", @id = "Cpf" } })
-                                                @Html.ValidationMessageFor(model => model.Cpf, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                                @Html.ValidationMessageFor(model => model.Cpf, "", new { @class = "text-danger" })
                                             </div>
                                             @Html.LabelFor(model => model.Estrangeiro, htmlAttributes: new { @class = "control-label col-md-3" })
                                             <div class="col-md-2">
@@ -367,16 +367,6 @@
                                 </div>
                                 <div class="tab-pane" role="tabpanel" id="cnh">
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.Motorista, htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-10">
-                                            <div class="checkbox">
-                                                @Html.EditorFor(model => model.Motorista)
-                                                @Html.ValidationMessageFor(model => model.Motorista, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
                                         @Html.LabelFor(model => model.CnhCategoria, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-2">
 
@@ -425,25 +415,33 @@
                                 </div>
                                 <div class="tab-pane" role="tabpanel" id="vinculo">
                                     <div class="form-group  col-lg-12">
-                                        <div class="col-lg-4" style="vertical-align:top">
+                                        <div class="col-lg-3" style="vertical-align:top; text-align: center;">
                                             <div>
                                                 <img src="~/Images/operadorBagagem.png" height="20" />&nbsp;&nbsp;
                                                 @Html.Label("Manuseia bagagem?", htmlAttributes: new { @class = "control-label " })
                                                 @Html.CheckBox("Manuseia Bagagem", htmlAttributes: new { @id = "chkBagagem" })
                                             </div>
                                         </div>
-                                        <div class="col-lg-4" style="vertical-align:top">
+                                        <div class="col-lg-3" style="vertical-align:top; text-align: center;">
                                             <div>
                                                 <img src="~/Images/operadorEmbarque.png" height="25" />&nbsp;&nbsp;
                                                 @Html.Label("Operador Ponte Embarque?", htmlAttributes: new { @class = "control-label" })
                                                 @Html.CheckBox(" Operador Ponte Embarque ", htmlAttributes: new { @id = "chkPonteEmbarque" })
                                             </div>
                                         </div>
-                                        <div class="col-lg-4" style="vertical-align:top">
+                                        <div class="col-lg-3" style="vertical-align:top; text-align: center;">
                                             <div>
                                                 <img src="~/Images/ccam.png" height="25" />&nbsp;&nbsp;
                                                 @Html.Label("Operador CCAM?", htmlAttributes: new { @class = "control-label" })
                                                 @Html.CheckBox(" Operador CCAM ", htmlAttributes: new { @id = "chkCcam" })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3" style="vertical-align:top; text-align: center;">
+
+                                            <div>
+                                                <img src="~/Images/motorista.png" height="25" />&nbsp;&nbsp;
+                                                @Html.Label("Motorista?", htmlAttributes: new { @class = "control-label" })
+                                                @Html.CheckBoxFor(model => model.Motorista, htmlAttributes: new { @id = "chkMotorista" })
                                             </div>
                                         </div>
                                     </div>
@@ -569,14 +567,17 @@
                                             <div class="col-md-12" style="align-content:center">
                                                 <textarea rows="7" style="overflow:auto;resize:none" draggable="false" cols="150" readonly>
 
-                Entendo que para seguir com o preenchimento das informações pessoais solicitadas nas próximas etapas, obtive das respectivas pessoas, a devida autorização prévia, mediante a assinatura do Termo de Consentimento anexo. Declaro, ainda, que as pessoas serão orientadas a entregar a via original do Termo de Consentimento para a &#013;&#010;Fraport Brasil. Entendo, reconheço e me comprometo a seguir com as autorizações prévias conforme acima indicado e que tal ato será praticado em atenção à Lei Geral &#013;&#010;de Proteção de Dados Pessoais - Lei nº13.709/2018.
+           Entendo que para seguir com o preenchimento das informações pessoais solicitadas nas próximas etapas, obtive das respectivas pessoas, a devida autorização prévia, 
+    mediante a assinatura do Termo de Consentimento anexo. Declaro, ainda, que as pessoas serão orientadas a entregar a via original do Termo de Consentimento para o 
+    Aeroporto de Florianópolis. Entendo, reconheço e me comprometo a seguir com as autorizações prévias conforme acima indicado e que tal ato será praticado em atenção à 
+    Lei Geral de Proteção de Dados Pessoais - Lei nº13.709/2018.
 
                                                 </textarea>
                                             </div>
 
                                             <div class="form-group">
                                                 <div class="col-md-12 " style="padding-left: 30px; padding-top: 15px;">
-                                                    <a href="~/Documentos/Modelo_Termo_Aceite.pdf" download="Modelo_Termo_Aceite">Clique aqui para baixar o termo de consentimento.</a>
+                                                    <a href="~/Documentos/Termo de Consentimento_Credenciamento.pdf" download="Modelo_Termo_Aceite">Clique aqui para baixar o termo de consentimento.</a>
                                                     @Html.ValidationMessageFor(model => model.Aceite, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
@@ -605,15 +606,20 @@
                                     <p>You have successfully completed all steps.</p>
                                 </div>
                                 <div class="clearfix"></div>
+
                             </div>
+
                         </form>
+
                     </div>
+
                 </section>
 
             </div>
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
         </fieldset>
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
 
     </div>
 }
@@ -679,8 +685,8 @@
                 });
 
 
-                $('#cpf').focusout(function () {
-                     cpf = $('#cpf').val();
+                $('#Cpf').focusout(function () {
+                     cpf = $('#Cpf').val();
                     $.ajax({
                         type: "POST",
                         url: '@Url.Action("ConsultarCPF")',
@@ -690,7 +696,7 @@
                         success: function (result) {
                             if (result != null) {
                                 alert("Colaborador já cadastrado. Procure o credenciamento local para associá-lo ao contrato.");
-                                $('#cpf').val('');
+                                $('#Cpf').val('');
                             }
                         },
                         error: function (result) {
@@ -832,7 +838,7 @@
 
                 reader.onload = function (e) {
                     $('#FotoUpload').attr('src', e.target.result);
-                    
+
                 }
 
                 reader.readAsDataURL(input.files[0]);
@@ -891,7 +897,7 @@
                 //}
                 $("#Endereco").val(result.address);
                 $("#ddlBairro").val(result.district);
-                $("#ddlEstado option").filter(function () {                    
+                $("#ddlEstado option").filter(function () {
                     return $(this).text() == result.state;
                 }).prop('selected', true);
                 BuscarMunicipio();
