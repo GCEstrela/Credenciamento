@@ -789,12 +789,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 SelectListViewIndex = 0;
 
                 #region Verificar se pode gerar CardHolder
-                var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(Entity.TecnologiaCredencialId);
+                var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(n1.TecnologiaCredencialId);
                 if (tecCredencial.PodeGerarCardHolder)
                 {
                     var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
+                    //if (n1.listadeGrupos != null)
+                    //{
+                    //entity.grupoAlterado = true;
                     entity.listadeGrupos = n1.listadeGrupos;
                     GerarCardHolder(n1.ColaboradorCredencialId, entity);
+                    //}
+
                 }
                 #endregion
                 /// Atualiza Observer

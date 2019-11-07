@@ -98,6 +98,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
             TipoCredencial_cb.SelectionChanged += TipoCredencial_cb_SelectionChanged;
             var window = Window.GetWindow(this);
             window.KeyDown += HandleKeyPress;
+            //if (ListaColaboradoresCredenciais_lv.Items.Count > 0)
+            //{
+            //    ListaColaboradoresCredenciais_lv.SelectedItems[0] = true;
+            //}
         }
 
         private void NumberOnly(object sender, TextCompositionEventArgs e)
@@ -441,12 +445,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                
                 _viewModel.Entity.grupoAlterado = true;
                 popup = new PopUpGrupos();
-                if (cardholderGuids.Count != 0)
-                {
-                    popup.TCHG.CardHolderGroupGuid = cardholderGuids;
-                }
+                //if (cardholderGuids.Count != 0)
+                //{
+                //    popup.TCHG.CardHolderGroupGuid = cardholderGuids;
+                //}
 
                 if (_viewModel.Entity.CardHolderGuid != null)
                 {

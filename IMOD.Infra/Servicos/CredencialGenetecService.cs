@@ -300,6 +300,8 @@ namespace IMOD.Infra.Servicos
                     }
                 }
 
+                
+
                 if (!ativo)
                 {
                     if (cardholder == null) throw new InvalidOperationException("Não foi possível encontrar o titular do cartão.");
@@ -329,6 +331,13 @@ namespace IMOD.Infra.Servicos
                 {
                     cardholder.State = CardholderState.Inactive;
                 }
+
+
+                //if (cardholder.State != CardholderState.Active)
+                //{
+                //    cardholder.Groups.Clear();
+                //}
+
                 SetValorCamposCustomizados(entity, cardholder);
 
                 _sdk.TransactionManager.CommitTransaction();
@@ -925,6 +934,9 @@ namespace IMOD.Infra.Servicos
                 //if (layout != null) //Especifica um layout Cracha apenas se houver um existente
                 //    credencial.BadgeTemplate = new Guid (entity.IdentificadorLayoutCrachaGuid);
 
+
+
+
                 //Obter Formatacao da Credencial
                 //if(entity.IdentificadorCredencialGuid==null)
                 SetValorFormatoCredencial(entity, credencial);
@@ -938,6 +950,19 @@ namespace IMOD.Infra.Servicos
                 if (cardHolder.State != CardholderState.Active) //Quando uma credencial é criada o cardholder fica sempre ativo.
                 {
                     cardHolder.State = CardholderState.Active;
+                }
+
+                if (entity.grupoAlterado)
+                {
+                    cardHolder.Groups.Clear();
+                }
+                //cardHolder.Groups.Clear();
+                if (entity.listadeGrupos != null && entity.listadeGrupos.Count > 0)
+                {
+                    foreach (Guid cardholderGuid in entity.listadeGrupos)
+                    {
+                        cardHolder.Groups.Add(cardholderGuid);
+                    }
                 }
                 //if (entity.Validade > DateTime.Now)
                 //    cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);

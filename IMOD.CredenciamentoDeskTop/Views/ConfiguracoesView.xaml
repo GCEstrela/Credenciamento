@@ -1059,7 +1059,7 @@
 
                             </GroupBox>
                             <GroupBox Background="Brown"
-                              Grid.Column="0" Header="Configurações" Margin="300,250,0,-83" Height="260" VerticalAlignment="Top" Grid.RowSpan="3">
+                              Grid.Column="0" Header="Configurações" Margin="300,250,0,-120" Height="297" VerticalAlignment="Top" Grid.RowSpan="3">
                                 <StackPanel Margin="1">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1,1,0,1" Width="623">
@@ -1165,12 +1165,13 @@
                                         <Button x:Name="emprasa_bt" Content="Logo das Empresa" Margin="0,1,0,1" Width="139" Click="Emprasa_bt_Click" ></Button>
                                         <Button x:Name="colaborador_bt" Content="Fotos dos Colaborador" Margin="60,1,0,1" Width="148" Click="Colaborador_bt_Click"></Button>
                                     </StackPanel>
-                                    <!--<StackPanel  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                    <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                         Margin="1,1,0,1" Width="590">
-                                        <Label Content="Grupo Padrão:" Height="28" Margin="0,1,0,1" Foreground="#FFD0D0D0"  HorizontalContentAlignment="Right" Width="112" />
-                                        <ComboBox Width="278" Margin="0,1,0,1" ></ComboBox>
-
-                                    </StackPanel>-->
+                                        <Label Content="Dias de Contenção em Auditoria:" Height="28" Margin="0,1,0,1" Foreground="#FFD0D0D0"  HorizontalContentAlignment="Right" Width="205" />
+                                        <TextBox x:Name="txtDiasContencao" HorizontalContentAlignment="Center"  Width="46" Margin="0,1,0,1"
+                                                 Text="{Binding Entity.diasContencao, UpdateSourceTrigger=PropertyChanged}">
+                                        </TextBox>
+                                    </StackPanel>
                                 </StackPanel>
                             </GroupBox>
                             <!--<GroupBox Header="Contatos" Background="BlueViolet" x:Name="Contato1_gb"  VerticalAlignment="Top" Margin="630,20,-610,0"
