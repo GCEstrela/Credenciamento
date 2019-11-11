@@ -14,6 +14,7 @@ using Genetec.Sdk.Credentials;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Entities.Activation;
 using Genetec.Sdk.Entities.CustomEvents;
+using Genetec.Sdk.Entities.CustomFields;
 using Genetec.Sdk.Events;
 using Genetec.Sdk.Queries;
 using IMOD.CrossCutting;
@@ -300,13 +301,10 @@ namespace IMOD.Infra.Servicos
                     }
                 }
 
-                
-
                 if (!ativo)
                 {
                     if (cardholder == null) throw new InvalidOperationException("Não foi possível encontrar o titular do cartão.");
                     cardholder.State = entity.Ativo ? CardholderState.Active : CardholderState.Inactive;
-
                 }
                 if (entity.Validade > DateTime.Now)
                 {
@@ -1160,13 +1158,10 @@ namespace IMOD.Infra.Servicos
             }
             return null;
         }
-
         /// <summary>
         ///     Verifica a existencia do CustonField 
         ///     Se existir insere o valor no campo.
         /// </summary>
-
-        [Obsolete]
         public Boolean EncontrarCustonField(string descricao)
         {
             var sysConfig = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
@@ -1180,6 +1175,10 @@ namespace IMOD.Infra.Servicos
                     }
                 }
             }
+            //if (criargrupo)
+            //{
+            //    sysConfig.CustomFields.Add(descricao, EntityType.Cardholder,customType, string.Empty);
+            //}
             return false;
         }
         //public  List<CardholderGroup> ObterGruposCardHolder(string cardHolder)
@@ -1189,9 +1188,6 @@ namespace IMOD.Infra.Servicos
         //        Guid cardguid = new Guid(cardHolder);
         //        Cardholder cardholder = _sdk.GetEntity(cardguid) as Cardholder;
         //        return cardholder.Groups;
-
-
-
         //    }
         //    catch (Exception)
         //    {

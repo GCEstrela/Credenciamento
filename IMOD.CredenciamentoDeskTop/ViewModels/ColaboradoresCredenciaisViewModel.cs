@@ -786,23 +786,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _prepareCriarCommandAcionado = false;
                 _service.Criar(n1);
                 IsEnableLstView = true;
-                SelectListViewIndex = 0;
-
+                //SelectListViewIndex = 0; saio dessa linha e foi colocado na linha depois (Verificar se pode gerar CardHolder)
+                
                 #region Verificar se pode gerar CardHolder
                 var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(n1.TecnologiaCredencialId);
                 if (tecCredencial.PodeGerarCardHolder)
                 {
                     var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
-                    //if (n1.listadeGrupos != null)
-                    //{
                     //entity.grupoAlterado = true;
                     entity.listadeGrupos = n1.listadeGrupos;
                     GerarCardHolder(n1.ColaboradorCredencialId, entity);
-                    //}
 
                 }
+
                 #endregion
                 /// Atualiza Observer
+                SelectListViewIndex = 0;
                 ListarColaboradoresCredenciais(_colaboradorView);
 
                 //var list1 = _service.ListarView(null, null, null, null, _colaboradorView.ColaboradorId).ToList();                
@@ -1007,9 +1006,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var dados = view.DataContext as IAtualizarDados;
                 dados.AtualizarDadosPendencias();
 
-                if (Entity.FormatoCredencialId != 0)
+                #region Verificar se pode gerar CardHolder
+                var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(n1.TecnologiaCredencialId);
+                if (tecCredencial.PodeGerarCardHolder)
                 {
-                    #region Verificar se pode gerar CardHolder
+                    
                     //Alterar o status do titular do cartão
                     if(n1.Validade > DateTime.Now || n1.CredencialStatusId == 1)
                     {
@@ -1028,15 +1029,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         _service.Alterar(n1);
                     }
-
-                    #endregion
                 }
                 else
                 {
                     _service.Alterar(n1);
                 }
-                
-                
+                #endregion
+
                 ////Atualizar Observer
                 ListarColaboradoresCredenciais(_colaboradorView);
 
