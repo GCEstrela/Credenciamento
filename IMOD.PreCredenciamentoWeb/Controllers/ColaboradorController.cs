@@ -34,6 +34,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private const string SESS_CURSOS_REMOVIDOS = "CursosRemovidos";
         private List<Colaborador> colaboradores = new List<Colaborador>();
         private List<ColaboradorEmpresa> vinculos = new List<ColaboradorEmpresa>();
+        private const string SESS_FOTO_COLABORADOR = "Foto";
+        
         #endregion
 
         [Authorize]
@@ -41,6 +43,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
             List<ColaboradorViewModel> lstColaboradorMapeado = Mapper.Map<List<ColaboradorViewModel>>(ObterColaboradoresEmpresaLogada().OrderBy(e => e.Nome));
+
+            Session[SESS_FOTO_COLABORADOR] = null;
             return View(lstColaboradorMapeado);
         }
 
@@ -130,6 +134,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             Session.Remove(SESS_CONTRATOS_REMOVIDOS);
             Session.Remove(SESS_CURSOS_SELECIONADOS);
             Session.Remove(SESS_CURSOS_REMOVIDOS);
+            Session.Remove(SESS_FOTO_COLABORADOR);
             // carrega os contratosd da empresa
             if (SessionUsuario.EmpresaLogada.Contratos != null) { ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos; }
             ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
@@ -365,7 +370,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 {
                     OnSelecionaFoto_Click(model.FotoColaborador, model);
                 }
-
+                if (String.IsNullOrEmpty(model.Foto))
+                {
+                    model.Foto = (string)Session[SESS_FOTO_COLABORADOR];
+                }
+                
                 if (model.FileUpload != null)
                 {
                     if (model.FileUpload.ContentLength > 2048000)
@@ -455,7 +464,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         ExcluirColaboradorAnexoAnterior(model);
                         CriarColaboradorAnexo(model, colaboradorMapeado.ColaboradorId);
                     }
-
+                    
                     return RedirectToAction("Index");
                 }
                 if (SessionUsuario.EmpresaLogada.Contratos != null) { ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos; }
@@ -697,7 +706,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             if (model.Foto != null)
             {
                 var bytes = Convert.FromBase64String(model.Foto);
-                var base64 = Convert.ToBase64String(bytes);
+                string base64 = Convert.ToBase64String(bytes);
+
+                Session.Add(SESS_FOTO_COLABORADOR, base64);
                 ViewBag.FotoColaborador = String.Format("data:image/gif;base64,{0}", base64);
             }
         }
