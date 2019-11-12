@@ -94,6 +94,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             //Obter dados
             var list1 = _service.Listar (entity.EquipamentoVeiculoId, null, null);
+
             var list2 = Mapper.Map<List<VeiculoSeguroView>> (list1.OrderByDescending (n => n.VeiculoSeguroId));
             EntityObserver = new ObservableCollection<VeiculoSeguroView>();
             list2.ForEach (n => { EntityObserver.Add (n); });

@@ -7,8 +7,8 @@
     <ProjectGuid>{E8FF80EB-F650-4ABC-A8BB-3ED91653EC50}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Meu_Servico</RootNamespace>
-    <AssemblyName>Meu Servico</AssemblyName>
+    <RootNamespace>IMOD.Service</RootNamespace>
+    <AssemblyName>IMOD.Service</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -40,15 +40,11 @@
     <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Logging.Log4Net1213, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Common.Logging.Log4Net1213.3.3.1\lib\net40\Common.Logging.Log4Net1213.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Common.Logging.Log4Net208, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.Log4Net208.3.4.1\lib\net40\Common.Logging.Log4Net208.dll</HintPath>
     </Reference>
     <Reference Include="Genetec.Sdk">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Genetec Security Center 5.7\Genetec.Sdk.dll</HintPath>
+      <HintPath>..\IMOD.CredenciamentoDeskTop\Dlls\Genetec.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>

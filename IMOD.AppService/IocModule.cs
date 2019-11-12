@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Meu_Servico
+namespace IMOD.Service
 {
     class IocModule : Ninject.Modules.NinjectModule
     {

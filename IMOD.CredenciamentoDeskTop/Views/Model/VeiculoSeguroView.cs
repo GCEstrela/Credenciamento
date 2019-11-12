@@ -23,7 +23,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         [Required(ErrorMessage = "O Nome da Seguradora é requerido.")]
         public string NomeSeguradora { get; set; }
         [Required(ErrorMessage = "O Nùmero da Apólice é requerido.")]
-        public int NumeroApolice { get; set; }
+        public string NumeroApolice { get; set; }
         [Required(ErrorMessage = "O Valor da Corbetura é requerido.")]
         public decimal ValorCobertura { get; set; }
         [Range(typeof(DateTime), "1/1/1880", "1/1/2200", ErrorMessage = "Data inválida")]

@@ -22,7 +22,7 @@ using Genetec.Sdk.Entities;
 using System.Windows.Forms;
 using System.Configuration;
 
-namespace Meu_Servico.Service
+namespace IMOD.Service.Service
 {
 
     class WinService
@@ -63,26 +63,8 @@ namespace Meu_Servico.Service
 
         public bool Start(HostControl hostControl)
         {
-            //Genetec.Sdk.Engine _sdk = new Genetec.Sdk.Engine();
-            //Logon_SC_th(_sdk);
-
-            //_sdk.LoggedOn += _sdk_LoggedOn;
-            //_sdk.LoggedOff += _sdk_LoggedOff;
-            //_sdk.LogonFailed += _sdk_LogonFailed;
-            //_sdk.EventReceived += _sdk_EventReceived;
-            //_sdk.EntityInvalidated += _sdk_EntityInvalidated;
-
-            //this.timer = new System.Timers.Timer(40000D);  // 40000 milliseconds = 40 seconds
-            //this.timer.AutoReset = true;
-            //this.timer.Elapsed += new System.Timers.ElapsedEventHandler(this.timer_Elapsed);
-            //this.timer.Start();
             Genetec.Sdk.Engine _sdk = new Genetec.Sdk.Engine();
             Logon_SC_th(_sdk);
-            //_sdk.LoggedOn += _sdk_LoggedOn;
-            //_sdk.LoggedOff += _sdk_LoggedOff;
-            //_sdk.LogonFailed += _sdk_LogonFailed;
-            //_sdk.EventReceived += _sdk_EventReceived;
-            //_sdk.EntityInvalidated += _sdk_EntityInvalidated;
             CriarLog("Serviço Iniciado...: " + DateTime.Now);
             _serviceGenetec = new CredencialGenetecService(_sdk);
             MetodoRealizaFuncao(true, _sdk);
@@ -93,21 +75,7 @@ namespace Meu_Servico.Service
         }
         private void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-
-            //Genetec.Sdk.Engine _sdk = new Genetec.Sdk.Engine();
-            //Logon_SC_th(_sdk);
-            ////_sdk.LoggedOn += _sdk_LoggedOn;
-            ////_sdk.LoggedOff += _sdk_LoggedOff;
-            ////_sdk.LogonFailed += _sdk_LogonFailed;
-            ////_sdk.EventReceived += _sdk_EventReceived;
-            ////_sdk.EntityInvalidated += _sdk_EntityInvalidated;
-
-            //_serviceGenetec = new CredencialGenetecService(_sdk);
-            //MetodoRealizaFuncao(true, _sdk);
-
-           
-
-            //this.timer.Stop();
+            
         }
         private void Logon_SC_th(Genetec.Sdk.Engine _sdk)
         {
@@ -120,9 +88,8 @@ namespace Meu_Servico.Service
                 string diretorio = ConfigurationManager.AppSettings["Diretorio"];
                 string usuariosc = ConfigurationManager.AppSettings["UsuarioSC"];
                 string senhasc = ConfigurationManager.AppSettings["SenhaSC"];
-
-                //_sdk.ClientCertificate = "y+BiIiYO5VxBax6/HNi7/ZcXWuvlnEemfaMhoQS1RMkfOGvEBWdUV7zQN272yHVG"
-                _sdk.ClientCertificate = certificado;   // "KxsD11z743Hf5Gq9mv3+5ekxzemlCiUXkTFY5ba1NOGcLCmGstt2n0zYE9NsNimv";
+                
+                _sdk.ClientCertificate = certificado;   
                 if (_sdk.IsConnected)
                 {
                     _sdk.LogOff();
