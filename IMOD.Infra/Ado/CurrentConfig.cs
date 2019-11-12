@@ -38,13 +38,13 @@ namespace IMOD.Infra.Ado
         {
 
             string returnValue = null;
-            //string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             //string path = @"C:\Projetos\IMOD\IMOD.Infra";
             //string path = @"C:\Users\eduardo.martins\source\repos\Credenciamento\IMOD.Infra";
             XmlDocument xmlDoc = new XmlDocument();
 
             //Conexao Apenas para Publicação Pré Cadastro
-            xmlDoc.Load("C:\\publicacao\\Credencial\\Conexao.xml");
+            //xmlDoc.Load("C:\\publicacao\\Credencial\\Conexao.xml");
 
             //Conexao Apenas para Publicação ValidaCredencial QRcode
             //xmlDoc.Load("C:\\inetpub\\wwwroot\\ValidaCredencial\\Conexao.xml");
@@ -53,7 +53,7 @@ namespace IMOD.Infra.Ado
             //xmlDoc.Load("C:\\Windows\\Temp\\Conexao\\Conexao.xml");
 
             //Conexao no Temp
-            //xmlDoc.Load(path + "\\Conexao.xml");
+            xmlDoc.Load(path + "\\Conexao.xml");
 
             XmlNode nodestring = xmlDoc.SelectSingleNode("StringConexao");
             XmlNode instancia = nodestring.SelectSingleNode("InstanciaSQL");

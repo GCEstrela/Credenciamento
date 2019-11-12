@@ -98,6 +98,21 @@ namespace IMOD.CredenciamentoDeskTop.Views
             TipoCredencial_cb.SelectionChanged += TipoCredencial_cb_SelectionChanged;
             var window = Window.GetWindow(this);
             window.KeyDown += HandleKeyPress;
+
+            //_viewModel.SelectListViewIndex = 0;
+            //var original = PopUp_bt.Background;
+            //if (cardholderGuids.Count != 0)
+            //{
+            //    PopUp_bt.Background = Brushes.Green;
+            //}
+            //else
+            //{
+            //    PopUp_bt.Background = original;
+            //}
+            ////if (ListaColaboradoresCredenciais_lv.Items.Count > 0)
+            ////{
+            ////    ListaColaboradoresCredenciais_lv.SelectedItems[0] = true;
+            ////}
         }
 
         private void NumberOnly(object sender, TextCompositionEventArgs e)
@@ -150,25 +165,20 @@ namespace IMOD.CredenciamentoDeskTop.Views
                         txtDtValidade.Text = str.FormatarData();
                         _viewModel.HabilitaImpressao = true;
                     }
-
                 }
-
             }
             catch (Exception ex)
             {
                 _viewModel.Entity.SetMessageErro("Validade", "Data inválida");
             }
-
         }
 
         #endregion
 
         private void OnAlterarStatus_SelectonChanged(object sender, SelectionChangedEventArgs e)
         {
-
             try
             {
-
                 btnImprimirCredencial.IsEnabled = true;
                 _viewModel.ContentImprimir = "Imprimir Credencial";
                 Image img = new Image();
@@ -203,15 +213,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message);
             }
-
         }
 
         private void CmbMotivacao_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             _viewModel.Motivacao_Select();
             this.lblCredencialVia.Content = _viewModel._viaAdicional;
 
@@ -441,6 +448,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                
                 _viewModel.Entity.grupoAlterado = true;
                 popup = new PopUpGrupos();
                 if (cardholderGuids.Count != 0)

@@ -35,6 +35,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string GrupoPadrao { get; set; }
         public string UrlSistemaPreCadastro { get; set; }
         public bool AssociarGrupos { get; set; }
+        public int diasContencao { get; set; }
         #endregion
     }
 }

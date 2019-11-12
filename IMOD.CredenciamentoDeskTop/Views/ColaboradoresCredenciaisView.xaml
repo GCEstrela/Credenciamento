@@ -211,7 +211,7 @@
                                        SelectedValue="{Binding Entity.ColaboradorPrivilegio2Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                        SelectedValuePath="AreaAcessoId"  />
                             <!--IsEnabled="{Binding Habilitar}"-->
-                            <Button x:Name="PopUp_bt"  Content="Grupos" Width="119" Margin="19,0,0,0" Click="PopUp_bt_Click" 
+                            <Button x:Name="PopUp_bt"  Content="Grupos" Width="119"  Margin="19,0,0,0" Click="PopUp_bt_Click" 
                                     IsEnabled="{Binding Habilitar}"
                                     Visibility="{Binding VisibleGrupos}"/>
 
