@@ -6,8 +6,11 @@
 
 #region
 
+using System;
 using System.Data;
-
+using System.Globalization;
+using System.Text;
+using IMOD.CrossCutting;
 #endregion
 
 namespace IMOD.Infra.Ado.Interfaces.ParamSql
@@ -299,10 +302,23 @@ namespace IMOD.Infra.Ado.Interfaces.ParamSql
         /// <returns></returns>
         public ParamSelect Like()
         {
-            var sintaxe = " {0} like(@{0}) ".ToLower();
+            var sintaxe = " {0} collate Latin1_General_CI_AI like(@{0}) ".ToLower();
+            //var sintaxe = " {0} like(@{0}) ".ToLower();
+
             return Fill(sintaxe);
         }
-
+        public static string RemoverAcentos(string texto)//Renato Máximo 11/11/2019
+        {
+            String textoNormalizado = texto.Normalize(NormalizationForm.FormD);
+            StringBuilder textoSemAcento = new StringBuilder();
+            for (int i = 0; i < textoNormalizado.Length; i++)
+            {
+                Char c = textoNormalizado[i];
+                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                    textoSemAcento.Append(c);
+            }
+            return textoSemAcento.ToString();
+        }
         /// <summary>
         ///     Monta instrução [Where] da clausula SQL pesquisando pelo valor não nulo informado no respestivo campo
         ///     <para>Ex: is @CampoA not null </para>
