@@ -43,12 +43,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 - Services", "6 - Service
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.ValidacaoCredencialWeb", "IMOD.ValidacaoCredencialWeb\IMOD.ValidacaoCredencialWeb.csproj", "{DDA5B05E-EF69-4B73-99E5-1E334B47CBCA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{CACB6656-5863-4171-B060-CF37EB01810A}"
-	ProjectSection(SolutionItems) = preProject
-		G:\tchg.dll = G:\tchg.dll
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOD.Service", "IMOD.AppService\IMOD.Service.csproj", "{E8FF80EB-F650-4ABC-A8BB-3ED91653EC50}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{06628953-CE5C-4834-879B-5AAAF730F464}"
+	ProjectSection(SolutionItems) = preProject
+		Resources\CroppingImageLibrary.dll = Resources\CroppingImageLibrary.dll
+		Resources\CSharpControls.Wpf.dll = Resources\CSharpControls.Wpf.dll
+		Resources\EstrelaEncryparDecrypitar.dll = Resources\EstrelaEncryparDecrypitar.dll
+		Resources\Genetec.Sdk.Controls.dll = Resources\Genetec.Sdk.Controls.dll
+		Resources\Genetec.Sdk.dll = Resources\Genetec.Sdk.dll
+		Resources\Genetec.Sdk.Maps.dll = Resources\Genetec.Sdk.Maps.dll
+		Resources\Genetec.Sdk.Workspace.dll = Resources\Genetec.Sdk.Workspace.dll
+		Resources\Genetec.Themes.dll = Resources\Genetec.Themes.dll
+		Resources\Microsoft.Expression.Encoder.dll = Resources\Microsoft.Expression.Encoder.dll
+		Resources\Microsoft.ReportViewer.WinForms.dll = Resources\Microsoft.ReportViewer.WinForms.dll
+		Resources\PropertyChanged.dll = Resources\PropertyChanged.dll
+		Resources\PropertyChanged.xml = Resources\PropertyChanged.xml
+		Resources\tchg.dll = Resources\tchg.dll
+		Resources\WebCam_Capture.dll = Resources\WebCam_Capture.dll
+		Resources\WpfAnimatedGif.dll = Resources\WpfAnimatedGif.dll
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
