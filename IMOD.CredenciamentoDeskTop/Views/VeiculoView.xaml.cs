@@ -278,7 +278,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 txtPesquisa.Focus();
                 var num = _viewModel.PesquisarPor;
-                if (num.Key == 5)
+                if (num.Key == 6)
                 {
                     _viewModel.Pesquisar();
                 }
