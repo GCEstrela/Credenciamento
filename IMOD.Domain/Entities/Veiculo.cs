@@ -43,6 +43,7 @@ namespace IMOD.Domain.Entities
         public bool Pendente32 { get; set; }
         public bool Pendente33 { get; set; }
         public bool Pendente34 { get; set; }
+        public string DescricaoAlias { get { return Descricao; } }
         public bool Precadastro { get; set; }
         public string Categoria { get; set; }
         public DateTime? DataLicenciameno { get; set; }
