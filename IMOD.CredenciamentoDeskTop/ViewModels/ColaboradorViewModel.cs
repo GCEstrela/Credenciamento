@@ -10,8 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -380,9 +382,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Por nome
                 if (num.Key == 2)
                 {
+                    pesquisa.RetirarCaracteresEspeciais();
                     if (string.IsNullOrWhiteSpace(pesquisa)) return;
                     var l1 = _service.Listar(null, null, $"%{pesquisa}%", IsEnablePreCadastro);
-
+                    
                     PopularObserver(l1);
 
                 }
@@ -403,8 +406,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox(ex.Message, 1);
                 Utils.TraceException(ex);
             }
-        }
-
+        }        
         public void BucarFoto(int colaborador)
         {
             try
