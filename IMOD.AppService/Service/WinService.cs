@@ -63,15 +63,21 @@ namespace IMOD.Service.Service
 
         public bool Start(HostControl hostControl)
         {
-            Genetec.Sdk.Engine _sdk = new Genetec.Sdk.Engine();
-            Logon_SC_th(_sdk);
-            CriarLog("Serviço Iniciado...: " + DateTime.Now);
-            _serviceGenetec = new CredencialGenetecService(_sdk);
-            MetodoRealizaFuncao(true, _sdk);
-            CriarLog("Serviço Finalizado...: " + DateTime.Now);
-            Environment.Exit(1);
-            return true;
-
+            try
+            {
+                Genetec.Sdk.Engine _sdk = new Genetec.Sdk.Engine();
+                Logon_SC_th(_sdk);
+                CriarLog("Serviço Iniciado...: " + DateTime.Now);
+                _serviceGenetec = new CredencialGenetecService(_sdk);
+                MetodoRealizaFuncao(true, _sdk);
+                CriarLog("Serviço Finalizado...: " + DateTime.Now);
+                Environment.Exit(1);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         private void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {

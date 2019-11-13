@@ -269,6 +269,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 if (Validar()) return;
 
+                if (!Entity.Terceirizada)
+                {
+                    Entity.TerceirizadaNome = "";
+                    Entity.TerceirizadaSigla = "";
+                }
                 var n1 = Mapper.Map<EmpresaContrato> (Entity);
                 n1.EmpresaId = _empresaView.EmpresaId;
                 n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
@@ -293,6 +298,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
+            if (!Entity.Terceirizada)
+            {
+                Entity.TerceirizadaNome = "";
+                Entity.TerceirizadaSigla = "";
+            }
             Entity = new EmpresaContratoView();
             Comportamento.PrepareCriar();
             _prepareCriarCommandAcionado = true;
@@ -314,6 +324,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (Validar()) return;
 
+                if (!Entity.Terceirizada)
+                {
+                    Entity.TerceirizadaNome = "";
+                    Entity.TerceirizadaSigla = "";
+                }
                 var n1 = Mapper.Map<EmpresaContrato> (Entity);
                 n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
                 _service.Alterar (n1);
@@ -393,6 +408,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Validar()) return;
             Comportamento.PrepareSalvar();
+            
         }
 
         /// <summary>
@@ -405,7 +421,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox ("Selecione um item da lista", 1);
                 return;
             }
-
+            
             Comportamento.PrepareAlterar();
             _prepareCriarCommandAcionado = false;
             _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;

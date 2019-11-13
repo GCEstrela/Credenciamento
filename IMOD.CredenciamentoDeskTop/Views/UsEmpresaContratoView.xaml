@@ -69,15 +69,21 @@
                                  Text="{Binding Entity.NumeroContrato,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                  IsEnabled="True" Height="24" Width="130" 
                                  />
+
+
+
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="28,1,0,1" Width="484">
                         <CheckBox x:Name="Terceira_cb" IsChecked="{Binding Entity.Terceirizada}" FlowDirection="RightToLeft" VerticalAlignment="Center"
                                   Height="17" Width="90" Margin="1"
                                   Foreground="#FFD0D0D0" Content="Terceirizada" Click="Terceirizada_cb_Checked"/>
                         <Label Name="lblNome" Content="Nome:" Height="28" Width="45" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" Visibility="Hidden"/>
                         <TextBox x:Name="Terceira_tb" MaxLength="145" CharacterCasing="Upper" 
                                  Text="{Binding Entity.TerceirizadaNome, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 IsEnabled="True" Height="24" Width="175" Visibility="Hidden"
-                                 />
-                        
+                                 IsEnabled="True" Height="24" Width="232" Visibility="Hidden"/>
+                        <Label Name="lblSigla" Content="Sigla" Foreground="#FFD0D0D0" Margin="10,0,0,0" Visibility="Hidden"/>
+                        <TextBox x:Name="txtSiglaTerceira" CharacterCasing="Upper" Height="24" Width="40" MaxLength="4" Visibility="Hidden"
+                                 Text="{Binding Entity.TerceirizadaSigla, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                 Margin="1">
@@ -89,13 +95,30 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
                         <Label Content="Status:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                        <ComboBox x:Name="Status_cb" MinWidth="50" Height="25" VerticalContentAlignment="Center"
+                        <ComboBox x:Name="Status_cb" MinWidth="50" Height="26" VerticalContentAlignment="Center"
                                   HorizontalContentAlignment="Center"
                                   ItemsSource="{Binding Status}" 
                                   DisplayMemberPath="Descricao"
                                   SelectedValue="{Binding Entity.StatusId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                  SelectedValuePath="StatusId" Width="140" 
+                                  SelectedValuePath="StatusId" Width="78" 
                                   />
+                        <Label Content="D. Emissão:" Height="28" Width="71" Margin="0,0,0,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
+                        <TextBox 
+                            Name="txtDateEmissao"
+                            Text="{Binding Entity.Emissao, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,
+							StringFormat='{}{0:dd/MM/yyyy}'}"
+                            LostFocus="OnFormatDateEmissao_LostFocus"
+                            PreviewTextInput="NumberOnly"
+                            MaxLength="10" Height="24"  Width="80" />
+                        <Label Content="D. Validade:" Height="26" Width="72" Margin="0,0,0,0"
+                               Foreground="#FFD0D0D0" HorizontalContentAlignment="Left"/>
+                        <TextBox 
+                            Name="txtDtValidade"
+                            Text="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:dd/MM/yyyy}'}"
+                            LostFocus="OnFormatData_LostFocus"
+                            PreviewTextInput="NumberOnly"
+                            MaxLength="10"                            
+                            Height="24"  Width="80" />
 
                         <Label Visibility="Hidden" Content="Tipo de Acesso:" Height="28" Width="100" Margin="1"
                                Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
@@ -104,30 +127,14 @@
                                   ItemsSource="{Binding ListaTipoAcessos}" DisplayMemberPath="Descricao"
                                   SelectedValue="{Binding Entity.TipoAcessoId, UpdateSourceTrigger=PropertyChanged}"
                                   SelectedValuePath="TipoAcessoId" Width="140" />
+
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="1">
-                        <Label Content="Data de Emissão:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" /> 
-                        <TextBox 
-                            Name="txtDateEmissao"
-                            Text="{Binding Entity.Emissao, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,
-							StringFormat='{}{0:dd/MM/yyyy}'}"
-                            LostFocus="OnFormatDateEmissao_LostFocus"
-                            PreviewTextInput="NumberOnly"
-                            MaxLength="10"
-                            
-                            Height="24"  Width="80" />
+                        <!--<Label Content="Data de Emissão:" Height="28" Width="102" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />-->
 
 
-                        <Label Content="Data de Validade:" Height="26" Width="102" Margin="5,3,0,0"
-                               Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/> 
-                        <TextBox 
-                            Name="txtDtValidade"
-                            Text="{Binding Entity.Validade, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:dd/MM/yyyy}'}"
-                            LostFocus="OnFormatData_LostFocus"
-                            PreviewTextInput="NumberOnly"
-                            MaxLength="10"                            
-                            Height="24"  Width="80" />
-                        
+
+
                         <Label Content="Vence em:" Height="26" Width="64" Margin="7,0,0,0"
                                Foreground="#FFD0D0D0" 
                                Visibility="Collapsed"

@@ -55,7 +55,8 @@ namespace IMOD.Domain.Entities
         public ColaboradorEmpresa()
         {
         }
-
+        public bool Terceirizada { get; set; }
+        public string TerceirizadaSigla { get; set; }
 
 
         #endregion
