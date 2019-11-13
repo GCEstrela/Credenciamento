@@ -165,12 +165,16 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             lblNome.Visibility = Visibility.Hidden;
             Terceira_tb.Visibility = Visibility.Hidden;
+            lblSigla.Visibility = Visibility.Hidden;
+            txtSiglaTerceira.Visibility = Visibility.Hidden;
             bool terceiraCB = (bool)Terceira_cb.IsChecked;
 
             if (terceiraCB)
             {
                 lblNome.Visibility = Visibility.Visible;
                 Terceira_tb.Visibility = Visibility.Visible;
+                lblSigla.Visibility = Visibility.Visible;
+                txtSiglaTerceira.Visibility = Visibility.Visible;
             }
         }
 

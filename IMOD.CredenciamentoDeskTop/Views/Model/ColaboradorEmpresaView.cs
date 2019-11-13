@@ -37,6 +37,9 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public DateTime? DataInicio { get; set; }
         public DateTime? DataFim { get; set; }
         public string Usuario { get; set; }
+        public bool Terceirizada { get; set; }
+        public string TerceirizadaSigla { get; set; }
+
         #endregion
     }
 }

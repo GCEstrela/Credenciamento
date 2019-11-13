@@ -23,6 +23,7 @@ using IMOD.Domain.EntitiesCustom;
 using IMOD.CredenciamentoDeskTop.Windows;
 using Genetec.Sdk;
 using System.Collections.Generic;
+using System.Windows.Data;
 
 #endregion
 
@@ -73,15 +74,23 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void EmpresaVinculo_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel.ColaboradorEmpresa == null) return;
-            _viewModel.ObterValidade();
-            _viewModel.CarregarCaracteresColete(_viewModel.ColaboradorEmpresa);
+                _viewModel.ObterValidade();
 
-
-            if (_viewModel.ColaboradorEmpresa.ColaboradorId > 0 & _viewModel.ColaboradorEmpresa.EmpresaId > 0)
-            {
-                _viewModel.CarregarVinculosAtivos(_viewModel.ColaboradorEmpresa.ColaboradorId, _viewModel.ColaboradorEmpresa.EmpresaId);
+            if(_viewModel.Entity==null) return;
+                _viewModel.CarregarCaracteresColete(_viewModel.ColaboradorEmpresa);
+                _viewModel.Entity.Terceirizada = _viewModel.ColaboradorEmpresa.Terceirizada;
+                _viewModel.Entity.TerceirizadaSigla = _viewModel.ColaboradorEmpresa.TerceirizadaSigla;
+                if (_viewModel.Entity.Terceirizada)
+                {
+                    SigleColete_tb.Text = _viewModel.ColaboradorEmpresa.TerceirizadaSigla;
+                    _viewModel.Entity.EmpresaSigla= _viewModel.ColaboradorEmpresa.TerceirizadaSigla;
             }
 
+                if (_viewModel.ColaboradorEmpresa.ColaboradorId > 0 & _viewModel.ColaboradorEmpresa.EmpresaId > 0)
+                {
+                    _viewModel.CarregarVinculosAtivos(_viewModel.ColaboradorEmpresa.ColaboradorId, _viewModel.ColaboradorEmpresa.EmpresaId);
+                }
+            
         }
 
         private void TipoCredencial_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)

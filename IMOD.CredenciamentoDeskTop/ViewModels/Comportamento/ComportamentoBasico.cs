@@ -103,6 +103,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels.Comportamento
 
         public void PrepareSalvar()
         {
+            
             if (_salvar == Acao.SalvarEditar)
                 OnSalvarEdicao(new RoutedEventArgs());
             if (_salvar == Acao.SalvarAdicao)

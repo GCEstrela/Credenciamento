@@ -18,7 +18,8 @@ namespace IMOD.Domain.EntitiesCustom
         public string EmpresaNome { get; set; }
         public string Descricao { get; set; }
         public string NumeroContrato { get; set; }
-
+        public bool Terceirizada { get; set; }
+        public string TerceirizadaSigla { get; set; }
 
 
     }

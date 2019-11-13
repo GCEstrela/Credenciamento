@@ -319,8 +319,11 @@
                        Content="{Binding MensagemAlerta}">
                 </Label>
             </StackPanel>
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="990" Height="212">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977" Height="35" Margin="10,0,0,0" >
+                <Label Content="Operador Responsável:" Foreground="#FFD0D0D0" Margin="0,0,0,10" ></Label>
+                <Label x:Name="credencialusuario"  Foreground="#FFD0D0D0"  Content="{Binding Entity.Usuario}" Width="497" Margin="0,0,0,10"></Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="1000" Height="212" Margin="0,00,0,0">
                 <ListView x:Name="ListaColaboradoresCredenciais_lv" 
                           Width="947"  
                           IsEnabled="{Binding IsEnableLstView}"
