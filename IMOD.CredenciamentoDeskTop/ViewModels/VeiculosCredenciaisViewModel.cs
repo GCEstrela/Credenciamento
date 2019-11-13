@@ -167,7 +167,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         internal bool ExisteLacre()
         {
-            var l2 = _service.Listar(null, null, null, null, null, null, $"%{Entity.Lacre}%");
+            var l2 = _service.Listar(null, null, null, null, null, null, $"%{Entity.Lacre}%", Entity.VeiculoCredencialId);            
             return (l2 != null && l2.Count > 0);
         }
 
@@ -735,6 +735,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Entity == null) return true;
             Entity.Validate();
+            if (ExisteLacre()) return true;
             var hasErros = Entity.HasErrors;
             if (hasErros) return true;
 
