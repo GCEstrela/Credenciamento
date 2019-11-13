@@ -165,6 +165,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 numCredencial, StringComparison.Ordinal) != 0 && _service.ExisteNumeroCredencial (numCredencial);
         }
 
+        internal bool ExisteLacre()
+        {
+            var l2 = _service.Listar(null, null, null, null, null, null, $"%{Entity.Lacre}%");
+            return (l2 != null && l2.Count > 0);
+        }
+
         #endregion
 
         public void ObterValidade()
