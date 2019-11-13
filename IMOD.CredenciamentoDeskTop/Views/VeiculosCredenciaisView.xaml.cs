@@ -7,11 +7,13 @@
 #region
 
 using System;
+using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.Enums;
+using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
@@ -146,6 +148,34 @@ namespace IMOD.CredenciamentoDeskTop.Views
                     chkDevolucaoMotivo.Content = String.Empty;
                     chkDevolucaoMotivo.Visibility = Visibility.Hidden;
                 }
+            }
+        }
+
+        private void txtLacre_LostFocus(object sender, RoutedEventArgs e)
+            {
+            if (_viewModel.Entity == null ) return;
+            try
+            {                
+                var lacre = _viewModel.Entity.Lacre;
+                if (!string.IsNullOrEmpty(lacre)  && _viewModel.ExisteLacre())
+                {
+                    _viewModel.Entity.SetMessageErro("Lacre", "Lacre já existe");
+                }
+                else
+                {
+                    _viewModel.Entity.ClearMessageErro();
+                }
+
+                txtLacre.Text = lacre;
+            }
+            catch (SqlException ex)
+            {
+                WpfHelp.PopupBox(ex);
+                _viewModel.Comportamento.PrepareCancelar();
+            }
+            catch (Exception)
+            {
+                _viewModel.Entity.SetMessageErro("Cpf", "CPF inválido");
             }
         }
     }

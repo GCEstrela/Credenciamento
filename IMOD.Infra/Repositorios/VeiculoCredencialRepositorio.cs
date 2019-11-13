@@ -216,6 +216,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("FormatoCredencialID", DbType.Int32, objects, 3).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroCredencial", objects, 4).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Ativa", DbType.Boolean, objects, 5).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Lacre", DbType.String, objects, 6).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculoCredencial>();

@@ -272,7 +272,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 ListaPesquisa.Add(new KeyValuePair<int, string>(2, "Nome"));
                 ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Empresa"));
                 ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Colete"));
-                ListaPesquisa.Add(new KeyValuePair<int, string>(5, "Todos os Colaboradores"));
+                ListaPesquisa.Add(new KeyValuePair<int, string>(5, "Matrícula"));
+                ListaPesquisa.Add(new KeyValuePair<int, string>(6, "Todos os Colaboradores"));
                 PesquisarPor = ListaPesquisa[1]; //Pesquisa Default
             }
             catch (Exception ex)
@@ -346,7 +347,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var num = PesquisarPor;
 
                 //Todos
-                if (num.Key == 5)
+                if (num.Key == 6)
                 {
 
                     //var l1 = _service.Listar();
@@ -354,6 +355,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     PopularObserver(l1);
 
                 }
+                //Matrícula
+                if (num.Key == 5)
+                {
+
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    var l1 = _service.Listar(null, null, null, IsEnablePreCadastro);
+                    var l2 = _serviceColaboradorEmpresa.Listar(null, null, null, $"%{pesquisa}%", null, null);
+                    var l3 = l2.Select(c => c.ColaboradorId).ToList<int>();
+                    var l4 = l1.Where(c => l3.Contains(c.ColaboradorId)).ToList();
+
+                    PopularObserver(l4);
+
+                }
+                //Colete
                 if (num.Key == 4)
                 {
 
@@ -366,6 +381,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     PopularObserver(l4);
 
                 }
+                //Empresa
                 if (num.Key == 3)
                 {
 

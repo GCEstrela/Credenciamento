@@ -33,6 +33,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IVeiculoService _service = new VeiculoService();
         private readonly IVeiculoEmpresaService _veiculoEmpresaService = new VeiculoEmpresaService();
+        private readonly IVeiculoCredencialService _serviceCredencialVeiculo = new VeiculoCredencialService();
+
 
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
         private ConfiguraSistema _configuraSistema;
@@ -234,7 +236,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ListaPesquisa.Add (new KeyValuePair<int, string> (2, "Série/Chassi"));
             ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Descrição"));
             ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Empresa"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(5, "Todos"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(5, "Lacre"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(6, "Todos"));
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
 
@@ -510,6 +513,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 }
                 if (num.Key == 5)
+                {
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    var l1 = _service.Listar(null, null, null, null, $"%{tipoVeiculoEquipamento}%", null, IsEnablePreCadastro);
+                    var l2 = _serviceCredencialVeiculo.Listar(null, null, null, null, null, null, $"%{pesquisa}%");
+                    var l3 = l2.Select(c => c.VeiculoEmpresaId).ToList<int?>();
+                    var l4 = _veiculoEmpresaService.Listar(null, null, null, null, null, null);
+                    var l5 = l4.Where(c => l3.Contains(c.VeiculoEmpresaId)).ToList();                    
+                    var l6 = l5.Select(c => c.VeiculoId).ToList<int>();
+                    var l7 = l1.Where(c => l6.Contains(c.EquipamentoVeiculoId)).ToList();
+
+                    PopularObserver(l7);
+                }
+                if (num.Key == 6)
                 {
                     var l1 = _service.Listar(null, null, null, null, $"%{tipoVeiculoEquipamento}%", null, IsEnablePreCadastro);
                     IsEnableLstView = true;
