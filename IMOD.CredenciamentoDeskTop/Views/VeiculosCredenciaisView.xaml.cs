@@ -159,7 +159,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 var lacre = _viewModel.Entity.Lacre;
                 if (!string.IsNullOrEmpty(lacre)  && _viewModel.ExisteLacre())
                 {
-                    _viewModel.Entity.SetMessageErro("Lacre", "Lacre já existe");
+                    _viewModel.Entity.SetMessageErro("Lacre", "Lacre já existe");                    
                 }
                 else
                 {
