@@ -549,6 +549,25 @@
                 <views:UsEmpresaContratoView x:Name="EmpresaContratosUs" Margin="5,5,0,5" HorizontalAlignment="Left"
                                              Width="1141" />
             </TabItem>
+            <TabItem x:Name="Seguros_ti" IsEnabled="{Binding IsEnableTabSeguros}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="btnEmpresaSeguro"
+                                Style="{StaticResource MenuStyle}" IsEnabled="{Binding Comportamento.IsEnableEditar}">
+                            <StackPanel>
+                                <Image
+                                    Source="{Binding Pendencia19,Converter={StaticResource ConvertBoolToImage},UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    Width="16" Height="16" />
+                            </StackPanel>
+                        </Button>
+                        <StackPanel Width="170">
+                            <TextBlock Text="Seguros" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem.Header>
+
+                <views:EmpresasSeguros x:Name="EmpresaSeguroUs" Margin="0,0,245,17" Height="474" VerticalAlignment="Bottom"/>
+            </TabItem>
             <TabItem x:Name="Anexos_ti" Width="200" IsEnabled="{Binding IsEnableTabAnexo}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">

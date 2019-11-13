@@ -95,7 +95,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         public bool IsEnableTabGeral{ get; set; } 
         public bool IsEnableTabRepresentantes { get; set; } 
-        public bool IsEnableTabContratos { get; set; } 
+        public bool IsEnableTabContratos { get; set; }
+        public bool IsEnableTabSeguros { get; set; }
         public bool IsEnableTabAnexo { get; set; } 
 
         public bool HabilitaCommandPincipal { get; set; } = true;
@@ -858,13 +859,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         public void HabilitaControleTabControls(bool lstViewSuperior = true, bool isItemGeral = true,
-        bool isItemRpresentantes = false, bool isItemContratos = false, bool isItemAnexo = false)
+        bool isItemRpresentantes = false, bool isItemContratos = false, bool isItemSeguros = false, bool isItemAnexo = false)
         {
             IsEnableLstView = lstViewSuperior;
 
             IsEnableTabGeral = isItemGeral;
             IsEnableTabRepresentantes = isItemRpresentantes;
             IsEnableTabContratos = isItemContratos;
+            IsEnableTabSeguros = isItemSeguros;
             IsEnableTabAnexo = isItemAnexo;
             Comportamento.IsEnableCriar = lstViewSuperior;
         }

@@ -1,11 +1,10 @@
-﻿<UserControl x:Class="IMOD.CredenciamentoDeskTop.Views.VeiculosSegurosView"
+﻿<UserControl x:Class="IMOD.CredenciamentoDeskTop.Views.EmpresasSeguros"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
-             d:DataContext="{d:DesignInstance viewModels:VeiculosSegurosViewModel , IsDesignTimeCreatable=True}"
-             xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"             
+             xmlns:local="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
              mc:Ignorable="d"  Height="350">
     <UserControl.Resources>
         <Image x:Key="imgAdd" Source="../Resources/add.png"  />
@@ -29,72 +28,69 @@
             </DockPanel>
         </ControlTemplate>
     </UserControl.Resources>
-    <Grid Height="350" VerticalAlignment="Top">
+    <Grid Height="390" VerticalAlignment="Top" Margin="0,-30,0,0">
         <StackPanel Orientation="Vertical">
-
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
                       Background="Chocolate"                      
-                      x:Name="GbxInformacoesSeguro" Header="Seguro" Margin="0,0,40,0">
+                      x:Name="GbxInformacoesSeguro" Header="Empresa Seguro" Margin="0,0,0,0" Height="180">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Margin="1" Width="958">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
+                            <Label Content="Selecione um Contrato:" Foreground="#FFD0D0D0" Margin="0,0,0,0"></Label>
+                            <ComboBox x:Name="EmpresasContrato" Margin="0,0,0,0" Width="450"/>
+                            
+                        </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
                             <Label Content="Seguradora:" Height="28" Width="132"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBox x:Name="txtSeguradora" MaxLength="50" CharacterCasing="Upper"
-                                     Text="{Binding Entity.NomeSeguradora, UpdateSourceTrigger=PropertyChanged}" 
-                                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                     Text="{Binding Entity.NomeSeguradora, UpdateSourceTrigger=PropertyChanged}"                                      
                                      IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                      Height="24" Width="453" />
                             <Label Content="Número da Apólice:" Height="28" Width="117" HorizontalContentAlignment="Right"
                                    Foreground="#FFD0D0D0" />
                             <TextBox x:Name="txtNumeroApolice" MaxLength="50" CharacterCasing="Upper"
-                                     Text="{Binding Entity.NumeroApolice, UpdateSourceTrigger=PropertyChanged}"
-                                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                                     Text="{Binding Entity.NumeroApolice, UpdateSourceTrigger=PropertyChanged}"                                     
                                      IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="24" Width="110" 
                                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
                             <Label Content="Valor da Cobertura (R$):" Height="28" Width="132"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                             <TextBox x:Name="txtValorCobertura" MaxLength="15" CharacterCasing="Lower"
-                                     Text="{Binding Entity.ValorCobertura, UpdateSourceTrigger=PropertyChanged,  StringFormat={}{0:N}}"
-                                     Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                                     IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="24" Width="100" PreviewTextInput="NumberOnly"/>
+                                     Text="{Binding Entity.ValorCobertura, UpdateSourceTrigger=PropertyChanged,  StringFormat={}{0:N}}"                                     
+                                     IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="24" Width="100" />
                             <Label Content="Data de Emissão:" Height="28" Width="244" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-  
+
 
                             <TextBox 
                             Name="txtDtEmissao"
                             Text="{Binding Entity.Emissao,
-							StringFormat='{}{0:dd/MM/yyyy}'}"
-                            LostFocus="OnFormatData1_LostFocus"
-                            PreviewTextInput="NumberOnly"
+							StringFormat='{}{0:dd/MM/yyyy}'}"                            
+                            
                             MaxLength="10"
-                            IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            IsEnabled="{Binding Comportamento.isEnableCancelar}"                            
                             Height="24"  Width="110" />
 
                             <Label Content="Data de Validade:" Height="28" Width="105" Margin="10,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                        
+
                             <TextBox 
                             Name="txtDtValidade"
                             Text="{Binding Entity.Validade,
-							StringFormat='{}{0:dd/MM/yyyy}'}"
-                            LostFocus="OnFormatData2_LostFocus"
-                            PreviewTextInput="NumberOnly"
+							StringFormat='{}{0:dd/MM/yyyy}'}"                            
+                            
                             MaxLength="10"
-                            IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                            IsEnabled="{Binding Comportamento.isEnableCancelar}"                            
                             Height="24"  Width="110" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" >
                             <Label Content="Apólice Digitalizada:" Height="28" Width="131" Margin="0,0,2,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <TextBox  x:Name="txtApoliceArquivo" MaxLength="50" CharacterCasing="Upper" Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="False"  Height="24"  Width="454"/>
-                            <Button x:Name="btnBuscarArquivo" Height="24" Margin="10,0,0,0" IsEnabled="{Binding Comportamento.isEnableCancelar}" VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
+                            <Button x:Name="btnBuscarArquivo" Height="24" Margin="10,0,0,0" IsEnabled="{Binding Comportamento.isEnableCancelar}" VerticalAlignment="Center" Width="24">
                                 <StackPanel>
                                     <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                                 </StackPanel>
                             </Button>
-                            <Button x:Name="AbrirArquivo_bt" Height="24" Margin="10,0,0,0"  VerticalAlignment="Center" Width="24" Click="OnDownload_Click">
+                            <Button x:Name="AbrirArquivo_bt" Height="24" Margin="10,0,0,0"  VerticalAlignment="Center" Width="24">
                                 <StackPanel>
                                     <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png"/>
                                 </StackPanel>
@@ -103,25 +99,12 @@
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
-
-            <!--<StackPanel Orientation="Horizontal" Margin="0,3,0,-3">
-                <Label Content="Pesquisar:" Height="25" Width="65" Foreground="#FFD0D0D0" Margin="1,0,0,0"/>
-                <ComboBox  Width="150" ItemsSource="{Binding ListaPesquisa}"
-             DisplayMemberPath="Value"
-             SelectedValue="Key" 
-             SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center"/>
-                <TextBox Width="200" Margin="10,0,0,0" Text="{Binding NomePesquisa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
-                    <TextBox.InputBindings>
-                        <KeyBinding Command="{Binding Path=PesquisarCommand}" Key="Enter" />
-                    </TextBox.InputBindings>
-                </TextBox>
-            </StackPanel>-->
-            <StackPanel Orientation="Horizontal" Height="217">
+            <StackPanel Orientation="Horizontal" Height="217" Margin="0,10,0,0">
                 <ListView x:Name="ListaSeguros_lve"
                           IsEnabled="{Binding IsEnableLstView}"
                           SelectedIndex="{Binding SelectListViewIndex}"
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="931"  Height="175"  Margin="0,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" SelectionChanged="ListaSeguros_lve_SelectionChanged">
+                          SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="931"  Height="175"  Margin="0,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
 
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
@@ -138,7 +121,7 @@
 
                     <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"    IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"    Width="25" Margin="0,0,0,7" />
-                    <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"   IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7"  Visibility="Collapsed"/>
+                    <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"   IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar"  IsEnabled="{Binding Comportamento.isEnableCancelar}"    Command="{Binding PrepareCancelarCommand}"   Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar"    IsEnabled="{Binding Comportamento.isEnableSalvar}"      Command="{Binding PrepareSalvarCommand}"     Width="25" Margin="0,0,0,7" />
 

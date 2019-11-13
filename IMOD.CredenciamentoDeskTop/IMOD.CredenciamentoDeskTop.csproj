@@ -682,6 +682,9 @@
     <Compile Include="ViewModels\EquipamentosEmpresasViewModel.cs" />
     <Compile Include="ViewModels\EquipamentosSegurosViewModel.cs" />
     <Compile Include="ViewModels\EquipamentosViewModel.cs" />
+    <Compile Include="Views\EmpresasSeguros.xaml.cs">
+      <DependentUpon>EmpresasSeguros.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Model\AreaAcessoView.cs" />
     <Compile Include="Views\Model\AutorizacaoView.cs" />
     <Compile Include="Views\Model\ColaboradorAnexoView.cs" />
@@ -937,6 +940,10 @@
     <Page Include="Views\ColaboradoresAnexosView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EmpresasSeguros.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UsColaboradoresCursosView.xaml">
       <Generator>MSBuild:Compile</Generator>
