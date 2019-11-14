@@ -63,6 +63,7 @@
     <Compile Include="Interfaces\IEmpresaAreaAcessoService.cs" />
     <Compile Include="Interfaces\IEmpresaContratosService.cs" />
     <Compile Include="Interfaces\IEmpresaLayoutCrachaService.cs" />
+    <Compile Include="Interfaces\IEmpresaSeguroService.cs" />
     <Compile Include="Interfaces\IEmpresaService.cs" />
     <Compile Include="Interfaces\IEmpresaSignatarioService.cs" />
     <Compile Include="Interfaces\IEmpresaTipoAtividadeService.cs" />

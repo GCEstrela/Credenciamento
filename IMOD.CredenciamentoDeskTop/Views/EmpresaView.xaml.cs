@@ -82,6 +82,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 RepresentanteUs.AtualizarDados(_viewModel.Entity, _viewModel);
                 AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
                 EmpresaContratosUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                EmpresaSeguroUs.AtualizarDados(_viewModel.Entity, _viewModel);
                 //////////////////////////////////////////////////////////////
                 _viewModel.CarregarQuantidadeTipoCredencial();
                 //////////////////////////////////////////////////////////////

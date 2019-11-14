@@ -138,7 +138,21 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 if (_viewModel.Entity == null) return;
-                _viewModel.BuscarAnexo(_viewModel.Entity.VeiculoSeguroId);
+                _viewModel.ListarContratoSeguros(_viewModel.Entity);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void CmbContrato_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (_viewModel.Entity == null) return;
+                _viewModel.ListarContratoSeguros(_viewModel.Entity);
             }
             catch (Exception)
             {

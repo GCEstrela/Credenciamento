@@ -103,6 +103,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -677,13 +678,17 @@
     <Compile Include="ViewModels\Comportamento\ComportamentoBasico.cs" />
     <Compile Include="ViewModels\Comportamento\IAtualizarDados.cs" />
     <Compile Include="ViewModels\Comportamento\IComportamento.cs" />
+    <Compile Include="ViewModels\EmpresasSegurosViewModel.cs" />
     <Compile Include="ViewModels\EquipamentosAnexosViewModel.cs" />
     <Compile Include="ViewModels\EquipamentosCredenciaisViewModel.cs" />
     <Compile Include="ViewModels\EquipamentosEmpresasViewModel.cs" />
     <Compile Include="ViewModels\EquipamentosSegurosViewModel.cs" />
     <Compile Include="ViewModels\EquipamentosViewModel.cs" />
-    <Compile Include="Views\EmpresasSeguros.xaml.cs">
-      <DependentUpon>EmpresasSeguros.xaml</DependentUpon>
+    <Compile Include="Views\EmpresasSegurosView.xaml.cs">
+      <DependentUpon>EmpresasSegurosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmpresaView.xaml.cs">
+      <DependentUpon>EmpresaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Model\AreaAcessoView.cs" />
     <Compile Include="Views\Model\AutorizacaoView.cs" />
@@ -800,9 +805,6 @@
     </Compile>
     <Compile Include="Views\EmpresasSignatariosView.xaml.cs">
       <DependentUpon>EmpresasSignatariosView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EmpresaView.xaml.cs">
-      <DependentUpon>EmpresaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RelatoriosView.xaml.cs">
       <DependentUpon>RelatoriosView.xaml</DependentUpon>
@@ -941,9 +943,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\EmpresasSeguros.xaml">
+    <Page Include="Views\EmpresasSegurosView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EmpresaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Views\UsColaboradoresCursosView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -968,10 +974,6 @@
     <Page Include="Views\EmpresasSignatariosView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\EmpresaView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RelatoriosView.xaml">
       <Generator>MSBuild:Compile</Generator>

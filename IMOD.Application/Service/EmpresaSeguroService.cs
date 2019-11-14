@@ -7,6 +7,7 @@
 #region
 
 using System.Collections.Generic;
+using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
@@ -15,8 +16,15 @@ using IMOD.Infra.Repositorios;
 
 namespace IMOD.Application.Service
 {
-    public class EmpresaSeguroService : IEmpresaSeguroRepositorio
+    public class EmpresaSeguroService : IEmpresaSeguroService
     {
+        /// <summary>
+        ///     Pendência serviços
+        /// </summary>
+        public IPendenciaService Pendencia
+        {
+            get { return new PendenciaService(); }
+        }
         #region Variaveis Globais
 
         private readonly IEmpresaSeguroRepositorio _repositorio = new EmpresaSeguroRepositorio();
@@ -33,6 +41,12 @@ namespace IMOD.Application.Service
         public void Criar(EmpresaSeguro entity)
         {
             _repositorio.Criar (entity);
+            //#region Retirar pendencias de sistema
+            //var pendencia = Pendencia.ListarPorVeiculo(entity.EmpresaId)
+            //    .FirstOrDefault(n => n.PendenciaSistema & n.CodPendencia == 19);
+            //if (pendencia == null) return;
+            //Pendencia.Remover(pendencia);
+            //#endregion
         }
 
         /// <summary>

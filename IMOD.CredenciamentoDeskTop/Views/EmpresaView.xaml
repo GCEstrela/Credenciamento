@@ -566,7 +566,7 @@
                     </StackPanel>
                 </TabItem.Header>
 
-                <views:EmpresasSeguros x:Name="EmpresaSeguroUs" Margin="0,0,245,17" Height="474" VerticalAlignment="Bottom"/>
+                <views:EmpresasSegurosView x:Name="EmpresaSeguroUs" Margin="0,0,245,17" Height="474" VerticalAlignment="Bottom"/>
             </TabItem>
             <TabItem x:Name="Anexos_ti" Width="200" IsEnabled="{Binding IsEnableTabAnexo}">
                 <TabItem.Header>

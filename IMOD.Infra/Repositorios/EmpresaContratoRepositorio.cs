@@ -160,7 +160,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Contratante", DbType.String, objects, 5).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCobrancaID", DbType.Int32, objects, 6).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmailResp", DbType.String, objects, 7).Like()));
-                        //cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroContrato", DbType.String, objects, 8).MaiorIgual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaContratoID", DbType.Int32, objects, 8).Igual()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<EmpresaContrato>();

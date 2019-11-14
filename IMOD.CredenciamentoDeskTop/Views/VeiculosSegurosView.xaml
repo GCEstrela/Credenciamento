@@ -6,7 +6,7 @@
              xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
              d:DataContext="{d:DesignInstance viewModels:VeiculosSegurosViewModel , IsDesignTimeCreatable=True}"
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
-             mc:Ignorable="d"  Height="350">
+             mc:Ignorable="d"  Height="350" >
     <UserControl.Resources>
         <Image x:Key="imgAdd" Source="../Resources/add.png"  />
         <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
@@ -30,13 +30,27 @@
         </ControlTemplate>
     </UserControl.Resources>
     <Grid Height="350" VerticalAlignment="Top">
-        <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Vertical" >
 
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
                       Background="Chocolate"                      
-                      x:Name="GbxInformacoesSeguro" Header="Seguro" Margin="0,0,40,0">
+                      x:Name="GbxInformacoesSeguro" Header="Seguro" Margin="0,0,40,0" Height="180">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Margin="1" Width="958">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
+                            <Label Content="Selecione um Contrato:" Foreground="#FFD0D0D0" Margin="0,0,0,0"></Label>
+                            <ComboBox x:Name="cmbContrato" IsEditable="true" 
+                                   Width="451" Height="26" 
+                                   VerticalContentAlignment="Center" 
+                                   HorizontalContentAlignment="Left"
+                                   IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                   ItemsSource="{Binding Contratos}" 
+                                   DisplayMemberPath="Descricao"  
+                                   SelectedValue="{Binding Entity.EmpresaContratoId, UpdateSourceTrigger=PropertyChanged}" 
+                                   SelectedValuePath="EmpresaContratoId"
+                                   Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" SelectionChanged="CmbContrato_SelectionChanged"/>
+
+                        </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
                             <Label Content="Seguradora:" Height="28" Width="132"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
@@ -60,7 +74,7 @@
                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                      IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="24" Width="100" PreviewTextInput="NumberOnly"/>
                             <Label Content="Data de Emissão:" Height="28" Width="244" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-  
+
 
                             <TextBox 
                             Name="txtDtEmissao"
@@ -74,7 +88,7 @@
                             Height="24"  Width="110" />
 
                             <Label Content="Data de Validade:" Height="28" Width="105" Margin="10,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                        
+
                             <TextBox 
                             Name="txtDtValidade"
                             Text="{Binding Entity.Validade,

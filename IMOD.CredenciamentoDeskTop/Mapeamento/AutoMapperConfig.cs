@@ -57,7 +57,8 @@ namespace IMOD.CredenciamentoDeskTop.Mapeamento
                     //    .ReverseMap();
                     m.CreateMap<Empresa, EmpresaView>().ReverseMap();
                     m.CreateMap<EmpresaSignatario, EmpresaSignatarioView>().ForMember (k => k.Cpf, opt => opt.MapFrom (k => k.Cpf.FormatarCpf())).ReverseMap();
-                    m.CreateMap<EmpresaContratoView, EmpresaContrato>().ReverseMap();
+                    m.CreateMap< EmpresaContratoView, EmpresaContrato>().ReverseMap();
+                    m.CreateMap<EmpresaSeguroView, EmpresaSeguro>().ReverseMap();
                     m.CreateMap<EmpresaAnexoView, EmpresaAnexo>().ReverseMap();
                     m.CreateMap<EmpresaTipoCredencialView, Views.Model.EmpresaTipoCredencialView>().ReverseMap();
                     m.CreateMap<LayoutCracha, EmpresaLayoutCrachaView>().ReverseMap();
