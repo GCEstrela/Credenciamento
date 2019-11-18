@@ -19,6 +19,7 @@
     <link href="~/Content/dataTables.bootstrap.css" rel="stylesheet">
     <link href="~/Content/responsive.dataTables.min.css" rel="stylesheet">
     <link href="~/Content/bootstrapValidator.css" rel="stylesheet">
+    <link href="~/Content/bootstrap-datepicker.js">
 
     <style>
         .ui-widget {
@@ -333,6 +334,8 @@
         </footer>
     </div>
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
     @*@Scripts.Render("~/bundles/maskedinput")*@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
@@ -350,7 +353,6 @@
     <script src="~/Scripts/jquery.dataTables.js"></script>
     <script src="~/Scripts/dataTables.bootstrap.js"></script>
     <script src="~/Scripts/dataTables.responsive.min.js"></script>
-
 
 
     <script>

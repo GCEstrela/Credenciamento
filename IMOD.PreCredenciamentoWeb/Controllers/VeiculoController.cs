@@ -46,8 +46,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private IList<Veiculo> ObterVeiculosEmpresaLogada()
         {
             vinculos = objVeiculoEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.EmpresaId).ToList();
-            //vinculos.ForEach(v => { if (v.VeiculoId != 0) { veiculos.AddRange(objService.Listar(null, null, null, null, null, v.VeiculoId)); } });
-
             vinculos.ForEach(v => { veiculos.AddRange(objService.Listar(v.VeiculoId, null, null, null, null, null)); });
             return veiculos.OrderBy(c => c.Descricao).ToList();
         }
