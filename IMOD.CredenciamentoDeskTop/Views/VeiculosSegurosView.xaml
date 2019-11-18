@@ -44,9 +44,9 @@
                                    VerticalContentAlignment="Center" 
                                    HorizontalContentAlignment="Left"
                                    IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                   ItemsSource="{Binding Contratos}" 
-                                   DisplayMemberPath="Descricao"  
-                                   SelectedValue="{Binding Entity.EmpresaContratoId, UpdateSourceTrigger=PropertyChanged}" 
+                                   ItemsSource="{Binding SegurosVeiculo}" 
+                                   DisplayMemberPath="NomeSeguradora"  
+                                   SelectedValue="{Binding Entity.EmpresaSeguroid, UpdateSourceTrigger=PropertyChanged}" 
                                    SelectedValuePath="EmpresaContratoId"
                                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" SelectionChanged="CmbContrato_SelectionChanged"/>
 
@@ -152,7 +152,7 @@
 
                     <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"    IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"    Width="25" Margin="0,0,0,7" />
-                    <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"   IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7"  Visibility="Collapsed"/>
+                    <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"   IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar"  IsEnabled="{Binding Comportamento.isEnableCancelar}"    Command="{Binding PrepareCancelarCommand}"   Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar"    IsEnabled="{Binding Comportamento.isEnableSalvar}"      Command="{Binding PrepareSalvarCommand}"     Width="25" Margin="0,0,0,7" />
 

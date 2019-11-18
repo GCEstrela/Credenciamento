@@ -44,6 +44,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region  Propriedades
         public List<VeiculoEmpresa> Contratos { get; private set; }
+        public List<EmpresaSeguro> SegurosVeiculo { get; private set; }
         public List<EmpresaContrato> ContratosSeguros { get; private set; }
         public VeiculoSeguroView Entity { get; set; } 
 
@@ -136,14 +137,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         // <summary>
         ///  Listar dados de empresa e contratos
         /// </summary>
-        public void ListarContratos(int veivulo)
+        public void ListarContratos(int veiculo)
         {
             try
             {
                 //if (empresa == null) return;
                 
-                Contratos = _serviceContratos.Listar(veivulo).OrderBy(n => n.Descricao).ToList();
-
+                Contratos = _serviceContratos.Listar(veiculo).OrderBy(n => n.Descricao).ToList();
+                var codigosContratos = Contratos.Select(c => c.EmpresaContratoId).ToList();
+                
+                var seguros = _serviceEmpresaSeguros.Listar().ToList();
+                SegurosVeiculo = seguros.Where(s => codigosContratos.Contains(s.EmpresaContratoId)).ToList();
+                
             }
             catch (Exception ex)
             {
@@ -157,7 +162,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
 
                //var lista = _serviceEmpresaSeguros.Listar(null, null, null, null, null, null, null, null, entityEmpresa.EmpresaContratoId).OrderBy(n => n.Descricao).ToList().FirstOrDefault();
-                var lista = _serviceEmpresaSeguros.Listar(null, null, null, null, entityEmpresa.EmpresaContratoId).ToList().FirstOrDefault();
+                var lista = _serviceEmpresaSeguros.Listar(null, null, null, null, entityEmpresa.EmpresaSeguroid).ToList().FirstOrDefault();
                 if (lista == null) return;
                 Entity.NomeSeguradora = lista.NomeSeguradora;
                 Entity.NumeroApolice = lista.NumeroApolice;

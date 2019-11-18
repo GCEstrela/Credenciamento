@@ -35,6 +35,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IEmpresaSeguroService _service = new EmpresaSeguroService();
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaContratosService _serviceContratos = new EmpresaContratoService();
+        private readonly IVeiculoSeguroService _serviceVeiculoSeguro = new VeiculoSeguroService();
         private ConfiguraSistema _configuraSistema;
 
         private EmpresaView _empresaView;
@@ -237,6 +238,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Validar()) return;
                 var n1 = Mapper.Map<EmpresaSeguro>(Entity);
                 _service.Alterar(n1);
+                var n2 = _serviceVeiculoSeguro.Listar(null,null,null,n1.EmpresaContratoId).FirstOrDefault();
+                if (n2 != null)
+                {
+                    n2.Emissao = n1.Emissao;
+                    n2.Validade = n1.Validade;
+                    n2.ValorCobertura = n1.ValorCobertura;
+                    n2.Arquivo = n1.Arquivo;
+                    n2.NomeArquivo = n1.NomeArquivo;
+                    n2.NomeSeguradora = n1.NomeSeguradora;
+                    _serviceVeiculoSeguro.Alterar(n2);
+                }
+                
                 IsEnableLstView = true;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
                 Entity = null;

@@ -146,7 +146,8 @@ namespace IMOD.Infra.Repositorios
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Emissao", DbType.Date, objects, 2).Like()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.Date, objects, 3).Like()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, objects, 4).Igual()));
-                            
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaContratoId", DbType.Int32, objects, 5).Igual()));
+
                             var reader = cmd.ExecuteReaderSelect();
                             var d1 = reader.MapToList<EmpresaSeguro>();
 

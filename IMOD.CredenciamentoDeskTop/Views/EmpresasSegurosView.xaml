@@ -78,7 +78,8 @@
 							StringFormat='{}{0:dd/MM/yyyy}'}"                            
                             
                             MaxLength="10"
-                            IsEnabled="{Binding Comportamento.isEnableCancelar}"                            
+                            IsEnabled="{Binding Comportamento.isEnableCancelar}"   
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                             Height="24"  Width="110" />
 
                             <Label Content="Data de Validade:" Height="28" Width="105" Margin="10,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
@@ -89,7 +90,8 @@
 							StringFormat='{}{0:dd/MM/yyyy}'}"                            
                             
                             MaxLength="10"
-                            IsEnabled="{Binding Comportamento.isEnableCancelar}"                            
+                            IsEnabled="{Binding Comportamento.isEnableCancelar}" 
+                            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                             Height="24"  Width="110" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" >

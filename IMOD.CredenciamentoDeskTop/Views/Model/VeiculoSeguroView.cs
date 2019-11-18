@@ -34,7 +34,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         [Required(ErrorMessage = "A Data de Validade é requerido.")]
         [Range(typeof(DateTime), "1/1/1880", "1/1/2200", ErrorMessage = "Data inválida")]
         public DateTime? Validade { get; set; }
-        public int EmpresaContratoId { get; set; }
+        public int EmpresaSeguroid { get; set; }
         #endregion
     }
 }
