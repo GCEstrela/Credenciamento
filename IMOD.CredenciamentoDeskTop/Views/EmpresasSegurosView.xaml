@@ -98,12 +98,12 @@
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" >
                             <Label Content="Apólice Digitalizada:" Height="28" Width="131" Margin="0,0,2,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                             <TextBox  x:Name="txtApoliceArquivo" MaxLength="50" CharacterCasing="Upper" Text="{Binding Entity.NomeArquivo, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="False"  Height="24"  Width="454"/>
-                            <Button x:Name="btnBuscarArquivo" Height="24" Margin="10,0,0,0" IsEnabled="{Binding Comportamento.isEnableCancelar}" VerticalAlignment="Center" Width="24">
+                            <Button x:Name="btnBuscarArquivo" Height="24" Margin="10,0,0,0" IsEnabled="{Binding Comportamento.isEnableCancelar}" VerticalAlignment="Center" Width="24" Click="BtnBuscarArquivo_Click">
                                 <StackPanel>
                                     <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
                                 </StackPanel>
                             </Button>
-                            <Button x:Name="AbrirArquivo_bt" Height="24" Margin="10,0,0,0"  VerticalAlignment="Center" Width="24">
+                            <Button x:Name="AbrirArquivo_bt" Height="24" Margin="10,0,0,0"  VerticalAlignment="Center" Width="24" Click="AbrirArquivo_bt_Click">
                                 <StackPanel>
                                     <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png"/>
                                 </StackPanel>
