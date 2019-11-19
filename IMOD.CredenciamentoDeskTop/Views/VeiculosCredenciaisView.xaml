@@ -306,7 +306,10 @@
                         Command="{Binding ImprimirCommand}" />-->
                 <Label Style="{Styles {x:Static LabelStyles.Info} }" Margin="10,0,0,0" Visibility="{Binding MensagemAlerta, Converter={funcoes:StringNullOrEmptyToVisibilityConverter}}"   Height="24" VerticalAlignment="Center"   HorizontalAlignment="Center" Content="{Binding MensagemAlerta}"></Label>
             </StackPanel>
-
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977" Height="35" Margin="10,0,0,0" >
+                <Label Content="Operador Responsável:" Foreground="#FFD0D0D0" Margin="0,0,0,10" ></Label>
+                <Label x:Name="credencialusuario"  Foreground="#FFD0D0D0"  Content="{Binding Entity.Usuario}" Width="497" Margin="0,0,0,10"></Label>
+            </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="990" Height="230">
 
                 <ListView x:Name="ListaVeiculosCredenciais_lv" HorizontalAlignment="Stretch"

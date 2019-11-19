@@ -1,13 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using AutoMapper;
+using CrystalDecisions.CrystalReports.Engine;
 using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
+using IMOD.CredenciamentoDeskTop.Funcoes;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels;
+using IMOD.CredenciamentoDeskTop.Views.Model;
+using IMOD.CredenciamentoDeskTop.Windows;
 using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using Microsoft.Win32;
 
 namespace IMOD.CredenciamentoDeskTop.Views
@@ -743,7 +752,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
                             Nome = fi.FullName
                         };
 
-
                         arq.ArrayBytes = File.ReadAllBytes(path);
                         arq.FormatoBase64 = Convert.ToBase64String(arq.ArrayBytes);
                         arq.ArrayBytes = File.ReadAllBytes(path);
@@ -782,6 +790,28 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 throw ex;
             }
         }
+        
+        private void BtnVesualizar_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+               
+                var rpt = (LayoutCrachaView)ListaLayoutsCrachas_lv.SelectedValue;
+                if (rpt.TipoCracha == 1)
+                {
+                    _viewModel.VisualizarCrach(rpt);
+                }
+                
+
+                
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
+        
     }
 }
 

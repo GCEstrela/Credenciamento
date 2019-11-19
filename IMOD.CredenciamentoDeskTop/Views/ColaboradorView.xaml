@@ -18,10 +18,6 @@
         <Image x:Key="imgSave" Source="../Resources/save.png" />
         <Image x:Key="imgCancel" Source="../Resources/undo.png" />
         <Image x:Key="imgImport" Source="../Resources/Ok.ico" />
-        <!--<Image x:Key="imgAprovado" Source="../Resources/aprovadop.png" />
-        <Image x:Key="imgReporvado" Source="../Resources/reprovado.png" />
-        <Image x:Key="teste" Source="../Resources/Colaboradores.png" />-->
-        
         <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
@@ -31,7 +27,6 @@
                         <TextBlock Foreground="White" FontWeight="Heavy" FontSize="8" HorizontalAlignment="Center"
                                    VerticalAlignment="Center" TextAlignment="Center"
                                    ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
-                            X
                         </TextBlock>
                     </Grid>
                 </StackPanel>
@@ -195,7 +190,6 @@
                     <KeyBinding Command="{Binding Path=PesquisarCommand}" Key="Enter" />
                 </TextBox.InputBindings>
             </TextBox>
-            <!--<CheckBox x:Name="precadastro" Content="Pré-Cadastro" Margin="10,5,0,0" VerticalAlignment="Top"  Width="98" Foreground="#FFD0D0D0" Checked="Precadastro_Checked" Unchecked="Precadastro_Unchecked"/>-->
             <RadioButton x:Name="rd_cadastro" Content="Cadastro" Margin="600,5,0,0" IsChecked="True" Foreground="#FFD0D0D0" VerticalAlignment="Top" Width="95" Checked="Rd_cadastro_Checked" Cursor="Hand"/>
             <RadioButton x:Name="rd_precadastro" Content="Pré-Cadastro" Margin="0,5,0,0" Foreground="Orange"  VerticalAlignment="Top" Width="95" Checked="Rd_precadastro_Checked" Cursor="Hand"/>
             <Image Source="../Resources/aviso.png" ToolTip="{Binding Path=msgPreCadastro}" Visibility="{Binding existePreCadastro,  Converter={StaticResource VisibleControl}}" />
@@ -213,13 +207,6 @@
                 <ListView.View>
 
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
-                        <!--<GridViewColumn >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Image Source="{Binding Pendencias, Converter={StaticResource ConvertBoolToImage}, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Width="16"  Height="16"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>-->
                         <GridViewColumn Width="55"  Header="Código"                     DisplayMemberBinding="{Binding ColaboradorId}" />
                         <GridViewColumn Width="115" Header="CPF"                        DisplayMemberBinding="{Binding CpfMascara}"/>
                         <GridViewColumn Width="250" Header="Nome do Colaborador"        DisplayMemberBinding="{Binding Nome}" />
@@ -230,21 +217,8 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <!--<StackPanel x:Name="BotoesGeral_sp" Orientation="Vertical" Width="165" Margin="0,1,0,0">
-
-                -->
-            <!--<Button x:Name="btnPesquisar" Content="Pesquisar" ToolTip="Pesquisar"  Height="30" Width="148"  Click="Pesquisar_bt_Click" Margin="0,0,0,7" />-->
-            <!--
-                <Button x:Name="btnAdicionar" Content="Adicionar" ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}" Command="{Binding PrepareCriarCommand}"   Height="31" Width="148" Margin="0,0,0,7"  />
-                <Button x:Name="btnEditar" Content="Editar"  Height="31" ToolTip="Editar" IsEnabled="{Binding Comportamento.IsEnableEditar}"  Command="{Binding PrepareAlterarCommand}" Width="148"  Margin="0,0,0,7"  />
-                <Button x:Name="btnExcluir" Content="Remover"  Height="31" Width="148" ToolTip="Remover" IsEnabled="{Binding Comportamento.isEnableRemover}"  Command="{Binding PrepareRemoverCommand}" Margin="0,0,0,7"  />
-                <Button x:Name="btnCancelar" Content="Cancelar"  ToolTip="Cancelar"  Height="31" Width="148" IsEnabled="{Binding Comportamento.isEnableCancelar}"  Command="{Binding PrepareCancelarCommand}" Margin="0,0,0,7"  />
-                <Button x:Name="btnSalvar" Content="Salvar"   ToolTip="Salvar"  Height="31" Width="148" IsEnabled="{Binding Comportamento.isEnableSalvar}"  Command="{Binding PrepareSalvarCommand}" Margin="0,0,0,7"  />
-
-            </StackPanel>-->
         </StackPanel>
         <GridSplitter Grid.Row="2" Foreground="Gray" Height="5" Margin="0,1,-259,0" HorizontalAlignment="Stretch" ></GridSplitter>
-        <!--<Label Content="{Binding Entity.Nome }" Grid.Column="0" Grid.Row="2" FontSize="14" Foreground="#FF007ACC" Margin="0,1,-94,2" />-->
         <StackPanel x:Name="BotoesGeral_sp" Grid.Column="0" Grid.Row="3" Orientation="Horizontal"
                     HorizontalAlignment="Right" Margin="0,2,-262,0" IsEnabled="{Binding HabilitaCommandPincipal}">
             <Button x:Name="btnImportar" ToolTip="Aprovar Pré-Cadastro"
@@ -641,11 +615,6 @@
                                           
                                          Height="24" Width="114" />
                             </StackPanel>
-                            <!--<StackPanel  Orientation="Horizontal"  >
-                                <Label Content="Nascimento:" Height="28" Foreground="#FFD0D0D0" HorizontalContentAlignment="Left" />
-                                <Label Foreground="#FFD0D0D0" Content=" Nacionalidade:" Height="28" Width="215" HorizontalContentAlignment="Right"  />
-                                <Label Foreground="#FFD0D0D0" Content="Estado Civil:" Height="28" Width="176"  HorizontalContentAlignment="Right"  />
-                            </StackPanel>-->
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                           Width="577" Height="33">
                                 <Label Content="Nascimento:" Height="28" Foreground="#FFD0D0D0"
@@ -657,11 +626,6 @@
                                     PreviewTextInput="NumberOnly"
                                     MaxLength="10"                                     
                                     Height="24" Width="109" />
-
-                                <!--<DatePicker x:Name="DataNascimento_tb" Width="120" Height="24"
-                                    SelectedDate="{Binding Entity.DataNascimento,
-                                    UpdateSourceTrigger=PropertyChanged}"  Foreground="White" Background="{x:Null}" />-->
-
                                 <Label Foreground="#FFD0D0D0" Content="Nacionalidade:" Height="28" Width="88" />
                                 <TextBox CharacterCasing="Upper" x:Name="txtn"
                                          MaxLength="20"
@@ -861,12 +825,8 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
-                <views:ColaboradoresCredenciaisView x:Name="ColaboradoresCredenciaisUs" Margin="5,5,0,62"
-                                                    HorizontalAlignment="Left" />
-
+                <views:ColaboradoresCredenciaisView x:Name="ColaboradoresCredenciaisUs" Margin="5,5,0,62" HorizontalAlignment="Left" />
             </TabItem>
-
         </TabControl>
-
     </Grid>
 </UserControl>
