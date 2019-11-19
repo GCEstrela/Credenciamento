@@ -15,6 +15,7 @@ namespace IMOD.CredenciamentoDeskTop.Constantes
         public const string vetorInicializacao = "123PO4ESTREL4FOR";
         public const int ATIVO = 1;
         public const int INATIVO = 0;
-
+        public const int CREDENCIAL = 1;
+        public const int AUTORIZACAO = 2;
     }
 }

@@ -35,7 +35,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             InitializeComponent();
             _viewModel = new ConfiguracoesViewModel();
             DataContext = _viewModel;
-           
+
         }
         #endregion
 
@@ -45,7 +45,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void AbrirRelatorio_bt_Click(object sender, RoutedEventArgs e)
         {
-            
+
             ((ConfiguracoesViewModel)DataContext).OnAbrirRelatorioCommand();
         }
 
@@ -67,12 +67,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
             ((ConfiguracoesViewModel)DataContext).OnAdicionarRelatorioCommand();
         }
 
-        private void btnDeletarRelatorio_Click(object sender, RoutedEventArgs e) 
+        private void btnDeletarRelatorio_Click(object sender, RoutedEventArgs e)
         {
             btnAdicionarRelatorio.IsEnabled = true;
             btnSalvarRelatorio.IsEnabled = false;
 
-            ((ConfiguracoesViewModel)DataContext).OnExcluirRelatorioCommand(); 
+            ((ConfiguracoesViewModel)DataContext).OnExcluirRelatorioCommand();
         }
 
         private void btnCancelarRelatorio_Click(object sender, RoutedEventArgs e)
@@ -111,15 +111,15 @@ namespace IMOD.CredenciamentoDeskTop.Views
             DescricaoRelatorioGerencial_tb.Focus();
             BuscarRelatorioGerencial_bt.IsEnabled = true;
 
-            btnSalvarRelatorioGerencial.IsEnabled = true; 
-            btnCancelarRelatorioGerencial.IsEnabled = true; 
+            btnSalvarRelatorioGerencial.IsEnabled = true;
+            btnCancelarRelatorioGerencial.IsEnabled = true;
             ((ConfiguracoesViewModel)DataContext).OnAdicionarRelatorioGerencialCommand();
-    
+
         }
 
         private void btnSalvarRelatorioGerencial_Click(object sender, RoutedEventArgs e)
         {
-            btnAdicionarRelatorioGerencial.IsEnabled = true; 
+            btnAdicionarRelatorioGerencial.IsEnabled = true;
             btnSalvarRelatorioGerencial.IsEnabled = false;
             BuscarRelatorioGerencial_bt.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarRelatorioGerencialCommand();
@@ -134,8 +134,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void btnCancelarRelatorioGerencial_Click(object sender, RoutedEventArgs e)
         {
-            btnSalvarRelatorioGerencial.IsEnabled = false; 
-            btnAdicionarRelatorioGerencial.IsEnabled = true; 
+            btnSalvarRelatorioGerencial.IsEnabled = false;
+            btnAdicionarRelatorioGerencial.IsEnabled = true;
             ((ConfiguracoesViewModel)DataContext).CarregaColecaoRelatoriosGerenciais();
         }
 
@@ -170,7 +170,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             btnAdicionarCracha.IsEnabled = true;
             btnSalvarCracha.IsEnabled = false;
-            BuscarCracha_bt.IsEnabled = false;            
+            BuscarCracha_bt.IsEnabled = false;
             btnCancelarCracha.IsEnabled = false;
 
             BuscarRelatorioGerencial_bt.IsEnabled = false;
@@ -207,19 +207,19 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void btnSalvarEquipamento_Click(object sender, RoutedEventArgs e)
         {
-            btnAdicionarEquipamento.IsEnabled = true; 
-            btnSalvarEquipamento.IsEnabled = false; 
+            btnAdicionarEquipamento.IsEnabled = true;
+            btnSalvarEquipamento.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposEquipamentos();
         }
 
-        private void btnDeletarEquipamento_Click(object sender, RoutedEventArgs e) 
+        private void btnDeletarEquipamento_Click(object sender, RoutedEventArgs e)
         {
-            btnAdicionarEquipamento.IsEnabled = true; 
+            btnAdicionarEquipamento.IsEnabled = true;
             btnSalvarEquipamento.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposEquipamentos();
         }
 
-        private void btnCancelarEquipamento_Click(object sender, RoutedEventArgs e) 
+        private void btnCancelarEquipamento_Click(object sender, RoutedEventArgs e)
         {
             btnSalvarEquipamento.IsEnabled = false;
             btnAdicionarEquipamento.IsEnabled = true;
@@ -253,8 +253,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void btnCancelarTiposAcesso_Click(object sender, RoutedEventArgs e)
         {
-            btnSalvarTiposAcesso.IsEnabled = false; 
-            btnAdicionarTiposAcesso.IsEnabled = true; 
+            btnSalvarTiposAcesso.IsEnabled = false;
+            btnAdicionarTiposAcesso.IsEnabled = true;
             ((ConfiguracoesViewModel)DataContext).CarregaColecaoTiposAcessos();
         }
 
@@ -266,17 +266,17 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             IdentificacaoAreasAcessos_tb.Focus();
 
- 
-
-                btnSalvarTiposAreasAcessos.IsEnabled = true;
-                btnCancelarTiposAreasAcessos.IsEnabled = true;
-
-                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_AreaAcesso();
-            
 
 
+            btnSalvarTiposAreasAcessos.IsEnabled = true;
+            btnCancelarTiposAreasAcessos.IsEnabled = true;
 
-           
+            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_AreaAcesso();
+
+
+
+
+
         }
         private void SalvarTiposAreasAcessos_bt_Click(object sender, RoutedEventArgs e)
         {
@@ -296,12 +296,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
             btnSalvarTiposAreasAcessos.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_AreaAcesso();
         }
-        private void CancelarTiposAreasAcessos_bt_Click(object sender, RoutedEventArgs e) 
+        private void CancelarTiposAreasAcessos_bt_Click(object sender, RoutedEventArgs e)
         {
             btnAdicionarTiposAreasAcessos.IsEnabled = true;
             btnSalvarTiposAreasAcessos.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).CarregaColecaoAreasAcessos(); 
-        } 
+            ((ConfiguracoesViewModel)DataContext).CarregaColecaoAreasAcessos();
+        }
 
 
         #endregion
@@ -329,9 +329,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
         }
         private void CancelarTipoAtividade_bt_Click(object sender, RoutedEventArgs e)
         {
-                btnSalvarTipoAtividade.IsEnabled = false; 
-                btnAdicionarTipoAtividade.IsEnabled = true; 
-                ((ConfiguracoesViewModel)DataContext).CarregaColecaoTiposAtividades(); 
+            btnSalvarTipoAtividade.IsEnabled = false;
+            btnAdicionarTipoAtividade.IsEnabled = true;
+            ((ConfiguracoesViewModel)DataContext).CarregaColecaoTiposAtividades();
         }
 
         #endregion
@@ -356,8 +356,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void btnDeletarTipoServico_Click(object sender, RoutedEventArgs e)
         {
-            btnAdicionarTipoServico.IsEnabled = true; 
-            btnSalvarTipoServico.IsEnabled = false; 
+            btnAdicionarTipoServico.IsEnabled = true;
+            btnSalvarTipoServico.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TipoServico();
         }
 
@@ -374,9 +374,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void btnAdicionarTecnologiasCredenciais_Click(object sender, RoutedEventArgs e)
         {
-                DescricaoTecnologiasCredenciais_tb.Focus();
-                btnSalvarTecnologiasCredenciais.IsEnabled = true;
-                btnCancelarTecnologiasCredenciais.IsEnabled = true;
+            DescricaoTecnologiasCredenciais_tb.Focus();
+            btnSalvarTecnologiasCredenciais.IsEnabled = true;
+            btnCancelarTecnologiasCredenciais.IsEnabled = true;
             ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TecnologiasCredenciais();
         }
 
@@ -407,24 +407,24 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void btnAdicionarTiposCobranca_Click(object sender, RoutedEventArgs e)
         {
-                DescricaoCobrancas_tb.Focus();
-                btnSalvarTiposCobranca.IsEnabled = true; 
-                btnCancelarTiposCobranca.IsEnabled = true; 
-                ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposCobrancas();
+            DescricaoCobrancas_tb.Focus();
+            btnSalvarTiposCobranca.IsEnabled = true;
+            btnCancelarTiposCobranca.IsEnabled = true;
+            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposCobrancas();
         }
 
         private void btnSalvarTiposCobranca_Click(object sender, RoutedEventArgs e)
         {
-            btnAdicionarTiposCobranca.IsEnabled = true; 
-            btnSalvarTiposCobranca.IsEnabled = false; 
-            ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposCobrancas(); 
+            btnAdicionarTiposCobranca.IsEnabled = true;
+            btnSalvarTiposCobranca.IsEnabled = false;
+            ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposCobrancas();
         }
 
         private void btnDeletarTiposCobranca_Click(object sender, RoutedEventArgs e)
         {
             btnAdicionarTiposCobranca.IsEnabled = true;
             btnSalvarTiposCobranca.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposCobrancas(); 
+            ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposCobrancas();
         }
 
         private void btnCancelarTiposCobranca_Click(object sender, RoutedEventArgs e)
@@ -441,9 +441,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void btnAdicionarTiposCursos_Click(object sender, RoutedEventArgs e)
         {
-                DescricaoCursos_tb.Focus();
-                btnSalvarTiposCursos.IsEnabled = true;
-                btnCancelarTiposCursos.IsEnabled = true;
+            DescricaoCursos_tb.Focus();
+            btnSalvarTiposCursos.IsEnabled = true;
+            btnCancelarTiposCursos.IsEnabled = true;
             ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposCursos();
         }
 
@@ -459,14 +459,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
             btnAdicionarTiposCursos.IsEnabled = true;
             btnSalvarTiposCursos.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposCursos();
-        } 
+        }
 
         private void btnCancelarTiposCursos_Click(object sender, RoutedEventArgs e)
-        { 
+        {
             btnAdicionarTiposCursos.IsEnabled = true;
             btnSalvarTiposCursos.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).CarregaColecaoCursos();
-        } 
+        }
         #endregion
 
         #region Tipos Combustíveis
@@ -476,7 +476,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             DescricaoTiposCombustiveis_tb.Focus();
             btnSalvarTiposCombustiveis.IsEnabled = true;
             btnCancelarTiposCombustiveis.IsEnabled = true;
-            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposCombustiveis();   
+            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposCombustiveis();
         }
 
         private void btnSalvarTiposCombustiveis_Click(object sender, RoutedEventArgs e)
@@ -507,8 +507,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void btnAdicionarTiposStatus_Click(object sender, RoutedEventArgs e)
         {
             DescricaoStatus_tb.Focus();
-            btnSalvarTiposStatus.IsEnabled = true; 
-            btnCancelarTiposStatus.IsEnabled = true; 
+            btnSalvarTiposStatus.IsEnabled = true;
+            btnCancelarTiposStatus.IsEnabled = true;
             ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposStatus();
         }
 
@@ -519,20 +519,20 @@ namespace IMOD.CredenciamentoDeskTop.Views
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposStatus();
         }
 
-        private void btnDeletarTiposStatus_Click(object sender, RoutedEventArgs e) 
+        private void btnDeletarTiposStatus_Click(object sender, RoutedEventArgs e)
         {
             btnAdicionarTiposStatus.IsEnabled = true;
             btnSalvarTiposStatus.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposStatus(); 
+            ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposStatus();
         }
 
         private void btnCancelarTiposStatus_Click(object sender, RoutedEventArgs e)
         {
             btnAdicionarTiposStatus.IsEnabled = true;
-            btnSalvarTiposStatus.IsEnabled = false; 
+            btnSalvarTiposStatus.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).CarregaColecaoStatus();
         }
-        
+
 
         #endregion
 
@@ -545,7 +545,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             btnCancelarCredencialStatus.IsEnabled = true;
 
             ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_CredenciaisStatus();
-            
+
         }
 
         private void btnSalvarCredencialStatus_Click(object sender, RoutedEventArgs e)
@@ -611,9 +611,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
             ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_FormatosCredenciais();
         }
 
-        private void btnCancelarFormatosCredenciais_Click(object sender, RoutedEventArgs e) 
+        private void btnCancelarFormatosCredenciais_Click(object sender, RoutedEventArgs e)
         {
-            btnAdicionarFormatosCredenciais.IsEnabled = true; 
+            btnAdicionarFormatosCredenciais.IsEnabled = true;
             btnSalvarFormatosCredenciais.IsEnabled = false;
             ((ConfiguracoesViewModel)DataContext).CarregaColecaoFormatosCredenciais();
         }
@@ -653,10 +653,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_ConfiguracoesSistema();
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-            MessageBox.Show("Alteração realizada com sucesso!","Credenciamento",MessageBoxButton.OK);
+            MessageBox.Show("Alteração realizada com sucesso!", "Credenciamento", MessageBoxButton.OK);
         }
 
-        
+
 
         private void Colaborador_bt_Click(object sender, RoutedEventArgs e)
         {
@@ -712,12 +712,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
                             throw ex;
                         }
                     }
-                    
+
                     System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
                     MessageBox.Show("Importação concluida!", "Credenciamento", MessageBoxButton.OK);
                 }
 
-                
+
             }
             catch (Exception ex)
             {
@@ -732,7 +732,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-                IEmpresaService _serviceEmpresa= new Application.Service.EmpresaService();
+                IEmpresaService _serviceEmpresa = new Application.Service.EmpresaService();
 
                 var forderDialog = new System.Windows.Forms.FolderBrowserDialog();
                 var result = forderDialog.ShowDialog();
@@ -790,20 +790,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 throw ex;
             }
         }
-        
+
         private void BtnVesualizar_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-               
                 var rpt = (LayoutCrachaView)ListaLayoutsCrachas_lv.SelectedValue;
-                if (rpt.TipoCracha == 1)
-                {
-                    _viewModel.VisualizarCrach(rpt);
-                }
-                
-
-                
+                _viewModel.VisualizarCrach(rpt);
             }
             catch (Exception ex)
             {
@@ -811,7 +804,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
-        
+
     }
 }
 
