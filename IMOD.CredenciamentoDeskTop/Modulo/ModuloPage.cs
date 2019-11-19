@@ -9,6 +9,7 @@
 using Genetec.Sdk.Workspace.Pages;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.Domain.EntitiesCustom;
+using System;
 using System.Configuration;
 using Page = Genetec.Sdk.Workspace.Pages.Page;
 
@@ -33,7 +34,25 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
 
             EstrelaEncryparDecrypitar.Variavel.key = "CREDENCIAMENTO2019";
             EstrelaEncryparDecrypitar.Decrypt ESTRELA_EMCRYPTAR = new EstrelaEncryparDecrypitar.Decrypt();
-            string LicencaDecryptada = ESTRELA_EMCRYPTAR.EstrelaDecrypt(myValue);
+            string[] Decryptada = ESTRELA_EMCRYPTAR.EstrelaDecrypt(myValue).Split('<');
+            string LicencaDecryptada = Decryptada[0];               
+            if (Decryptada.Length > 1)
+            {
+                DateTime DataExpiracaoLicencaDecryptada = Convert.ToDateTime(Decryptada[1]);
+                Double expiracao = DataExpiracaoLicencaDecryptada.Subtract(DateTime.Now.Date).Days;
+                if (expiracao < 15  && expiracao > 0)
+                {
+                    WpfHelp.PopupBox(string.Format("Sua licença vai expirar em {0} dias", expiracao), 1);
+                    
+                }else if (expiracao <= 0)
+                {
+                    UsuarioLogado.LicencaValida = false;
+                    this.View = new AcessoNegado();
+                    return;
+                }
+            }
+
+                
             if (UsuarioLogado.sdiLicenca != LicencaDecryptada)
             {
                 UsuarioLogado.LicencaValida = false;

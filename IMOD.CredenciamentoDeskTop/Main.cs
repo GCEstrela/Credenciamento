@@ -178,6 +178,7 @@ namespace IMOD.CredenciamentoDeskTop
             UsuarioLogado.Adm = usuario.IsAdministrator;
             SystemConfiguration _systemConfiguration = (SystemConfiguration)Engine.GetEntity(SdkGuids.SystemConfiguration);
             UsuarioLogado.sdiLicenca = _systemConfiguration.License.SystemId;
+            
             //===================================================================
         }
 
