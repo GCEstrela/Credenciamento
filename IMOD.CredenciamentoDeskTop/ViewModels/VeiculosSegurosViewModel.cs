@@ -45,6 +45,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #region  Propriedades
         public List<VeiculoEmpresa> Contratos { get; private set; }
         public List<EmpresaSeguro> SegurosVeiculo { get; private set; }
+        public EmpresaSeguro SeguroVeiculo { get; set; }
         public List<EmpresaContrato> ContratosSeguros { get; private set; }
         public VeiculoSeguroView Entity { get; set; } 
 
@@ -92,21 +93,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         public void AtualizarDados(VeiculoView entity, VeiculoViewModel viewModelParent, int entityEmpresa=0)
         {
-            EntityObserver.Clear();
-            if (entity == null) return; // throw new ArgumentNullException (nameof (entity));
-            _veiculoView = entity;
-            _viewModelParent = viewModelParent;
+                EntityObserver.Clear();
+                if (entity == null) return; // throw new ArgumentNullException (nameof (entity));
+                _veiculoView = entity;
+                _viewModelParent = viewModelParent;
 
-            //Obter dados
-            var list1 = _service.Listar (entity.EquipamentoVeiculoId, null, null);
+                //Obter dados
+                var list1 = _service.Listar(entity.EquipamentoVeiculoId, null, null);
 
-            var list2 = Mapper.Map<List<VeiculoSeguroView>> (list1.OrderByDescending (n => n.VeiculoSeguroId));
-            EntityObserver = new ObservableCollection<VeiculoSeguroView>();
-            list2.ForEach (n => { EntityObserver.Add (n); });
+                var list2 = Mapper.Map<List<VeiculoSeguroView>>(list1.OrderByDescending(n => n.VeiculoSeguroId));
+                EntityObserver = new ObservableCollection<VeiculoSeguroView>();
+                list2.ForEach(n => { EntityObserver.Add(n); });
 
-            ListarContratos(entity.EquipamentoVeiculoId);
-            //Obter configuracoes de sistema
-            _configuraSistema = ObterConfiguracao();
+                ListarContratos(entity.EquipamentoVeiculoId);
+                //Obter configuracoes de sistema
+                _configuraSistema = ObterConfiguracao();
+            
         }
         /// <summary>
         /// Obtem configuração de sistema
@@ -143,7 +145,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 //if (empresa == null) return;
                 
-                Contratos = _serviceContratos.Listar(veiculo).OrderBy(n => n.Descricao).ToList();
+                 Contratos = _serviceContratos.Listar(veiculo).OrderBy(n => n.Descricao).ToList();
                 var codigosContratos = Contratos.Select(c => c.EmpresaContratoId).ToList();
                 
                 var seguros = _serviceEmpresaSeguros.Listar().ToList();
@@ -154,15 +156,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 WpfHelp.PopupBox(ex.Message, 1);
             }
-        }
-        public void ListarContratoSeguros(VeiculoSeguroView entityEmpresa)
+        }       
+        public void ListarContratoSeguros(EmpresaSeguro entityEmpresa)
         {
             try
             {
                 if (Entity == null) return;
 
-               //var lista = _serviceEmpresaSeguros.Listar(null, null, null, null, null, null, null, null, entityEmpresa.EmpresaContratoId).OrderBy(n => n.Descricao).ToList().FirstOrDefault();
-                var lista = _serviceEmpresaSeguros.Listar(null, null, null, null, entityEmpresa.EmpresaSeguroid).ToList().FirstOrDefault();
+                //var lista = _serviceEmpresaSeguros.Listar(null, null, null, null, null, null, null, null, entityEmpresa.EmpresaContratoId).OrderBy(n => n.Descricao).ToList().FirstOrDefault();
+                //var lista = _serviceEmpresaSeguros.Listar(null, null, null, null, entityEmpresa.EmpresaSeguroid).ToList().FirstOrDefault();
+                var lista = SegurosVeiculo.Find(s => s.EmpresaSeguroId == entityEmpresa.EmpresaSeguroId);
                 if (lista == null) return;
                 Entity.NomeSeguradora = lista.NomeSeguradora;
                 Entity.NumeroApolice = lista.NumeroApolice;
@@ -171,10 +174,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity.ValorCobertura = lista.ValorCobertura;
                 Entity.Arquivo = lista.Arquivo;
                 Entity.NomeArquivo = lista.NomeArquivo;
+                Entity.EmpresaSeguroid = lista.EmpresaSeguroId;
 
-               // var list2 = Mapper.Map<List<VeiculoSeguroView>>(lista);
-               //EntityObserver = new ObservableCollection<VeiculoSeguroView>();
-               //list2.ForEach(n => { EntityObserver.Add(n); });
+                // var list2 = Mapper.Map<List<VeiculoSeguroView>>(lista);
+                //EntityObserver = new ObservableCollection<VeiculoSeguroView>();
+                //list2.ForEach(n => { EntityObserver.Add(n); });
             }
             catch (Exception ex)
             {

@@ -14,6 +14,7 @@ using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
 
 #endregion
 
@@ -138,11 +139,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 if (_viewModel.Entity == null) return;
-                _viewModel.ListarContratoSeguros(_viewModel.Entity);
+                if (_viewModel.SegurosVeiculo == null) return;
+                _viewModel.SeguroVeiculo = _viewModel.SegurosVeiculo.Find(s=>s.EmpresaSeguroId == _viewModel.Entity.EmpresaSeguroid);
+               
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                //WpfHelp.Mbox(ex.Message);
                 throw;
             }
         }
@@ -151,12 +154,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                //var ttt  = this.cmbContrato.SelectedValue.ToString();
                 if (_viewModel.Entity == null) return;
-                _viewModel.ListarContratoSeguros(_viewModel.Entity);
+                if (e.AddedItems.Count <= 0) return;
+                _viewModel.ListarContratoSeguros((EmpresaSeguro)((object[])e.AddedItems)[0]);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                //WpfHelp.Mbox(ex.Message);
                 throw;
             }
         }

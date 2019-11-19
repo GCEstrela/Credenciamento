@@ -25,7 +25,7 @@ namespace IMOD.Domain.Entities
         public string NomeArquivo { get; set; }
         public DateTime? Emissao { get; set; }
         public DateTime? Validade { get; set; }
-        public int? EmpresaSeguroid { get; set; }
+        public int EmpresaSeguroid { get; set; }
         #endregion
     }
 }

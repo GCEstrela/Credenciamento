@@ -45,9 +45,10 @@
                                    HorizontalContentAlignment="Left"
                                    IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                    ItemsSource="{Binding SegurosVeiculo}" 
+                                   SelectedItem="{Binding SeguroVeiculo}"
                                    DisplayMemberPath="NomeSeguradora"  
                                    SelectedValue="{Binding Entity.EmpresaSeguroid, UpdateSourceTrigger=PropertyChanged}" 
-                                   SelectedValuePath="EmpresaContratoId"
+                                   SelectedValuePath="EmpresaSeguroid"
                                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" SelectionChanged="CmbContrato_SelectionChanged"/>
 
                         </StackPanel>

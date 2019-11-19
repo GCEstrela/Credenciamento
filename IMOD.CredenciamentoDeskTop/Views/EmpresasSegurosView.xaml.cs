@@ -47,5 +47,20 @@ namespace IMOD.CredenciamentoDeskTop.Views
             _viewModel.AtualizarDados(entity, viewModelParent);
         }
         #endregion
+
+        private void ListaSeguros_lve_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (_viewModel.Entity == null) return;
+                if (_viewModel.Contratos == null) return;
+                _viewModel.Contrato = _viewModel.Contratos.Find(s => s.EmpresaContratoId == _viewModel.Entity.EmpresaContratoId);
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.Mbox(ex.Message);
+                throw ex;
+            }
+        }
     }
 }

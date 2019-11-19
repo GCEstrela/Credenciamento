@@ -59,7 +59,7 @@ namespace IMOD.Infra.Repositorios
                     {
                         try
                         {
-                            //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaSeguroID", entity.EmpresaSeguroId, true)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaSeguroID", entity.EmpresaSeguroId, true)));
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeSeguradora", entity.NomeSeguradora, false)));
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NumeroApolice", entity.NumeroApolice, false)));
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ValorCobertura", entity.ValorCobertura, false)));
@@ -147,6 +147,7 @@ namespace IMOD.Infra.Repositorios
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.Date, objects, 3).Like()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, objects, 4).Igual()));
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaContratoId", DbType.Int32, objects, 5).Igual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaSeguroID", DbType.Int32, objects, 6).Igual()));
 
                             var reader = cmd.ExecuteReaderSelect();
                             var d1 = reader.MapToList<EmpresaSeguro>();
@@ -181,7 +182,7 @@ namespace IMOD.Infra.Repositorios
                     {
                         try
                         {
-                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaSeguroID", entity.EmpresaSeguroId, true)));
+                            //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaSeguroID", entity.EmpresaSeguroId, true)));
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeSeguradora", entity.NomeSeguradora, false)));
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NumeroApolice", entity.NumeroApolice, false)));
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ValorCobertura", entity.ValorCobertura, false)));

@@ -44,6 +44,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         #region  Propriedades
         //public List<Empresa> Empresas { get; private set; }
         public List<EmpresaContrato> Contratos { get; private set; }
+        public EmpresaContrato Contrato { get; set; }
         public Empresa Empresa { get; set; }
         public EmpresaSeguroView Entity { get; set; }
         public ObservableCollection<EmpresaSeguroView> EntityObserver { get; set; }
@@ -198,6 +199,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<EmpresaSeguro>(Entity);
                 n1.EmpresaId = _empresaView.EmpresaId;
+                //n1.EmpresaContratoId = Entity.EmpresaSeguroId;
                 _service.Criar(n1);
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<EmpresaSeguroView>(n1);
@@ -237,17 +239,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 if (Validar()) return;
                 var n1 = Mapper.Map<EmpresaSeguro>(Entity);
+                //Entity.EmpresaSeguroId
                 _service.Alterar(n1);
-                var n2 = _serviceVeiculoSeguro.Listar(null,null,null,n1.EmpresaContratoId).FirstOrDefault();
-                if (n2 != null)
+                var segurosVeiculos = _serviceVeiculoSeguro.Listar(null,null,null,n1.EmpresaSeguroId).ToList();
+                if (segurosVeiculos != null && segurosVeiculos.Count >0)
                 {
-                    n2.Emissao = n1.Emissao;
-                    n2.Validade = n1.Validade;
-                    n2.ValorCobertura = n1.ValorCobertura;
-                    n2.Arquivo = n1.Arquivo;
-                    n2.NomeArquivo = n1.NomeArquivo;
-                    n2.NomeSeguradora = n1.NomeSeguradora;
-                    _serviceVeiculoSeguro.Alterar(n2);
+                    foreach (var n2 in segurosVeiculos)
+                    {
+                        n2.Emissao = n1.Emissao;
+                        n2.Validade = n1.Validade;
+                        n2.ValorCobertura = n1.ValorCobertura;
+                        n2.Arquivo = n1.Arquivo;
+                        n2.NomeArquivo = n1.NomeArquivo;
+                        n2.NomeSeguradora = n1.NomeSeguradora;
+                        _serviceVeiculoSeguro.Alterar(n2);
+                    }
+                    
                 }
                 
                 IsEnableLstView = true;
@@ -295,7 +302,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
+                //var existeVeiculoSegoro = _serviceVeiculoSeguro.Listar(null,null,null, Entity.EmpresaContratoId).ToList();
+                //if (existeVeiculoSegoro != null && existeVeiculoSegoro.Count > 0)
+                //{
 
+                //}
                 var n1 = Mapper.Map<EmpresaSeguro>(Entity);
                 _service.Remover(n1);
                 //Retirar empresa da coleção
