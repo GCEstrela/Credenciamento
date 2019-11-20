@@ -105,6 +105,7 @@ namespace IMOD.Application.Interfaces
         /// <param name="geradorCredencialService"></param>
         /// <param name="entity"></param>
         /// <param name="entity2"></param>
+       void CriarTitularCartao(ICredencialService geradorCredencialService, IColaboradorService colaboradorService, ColaboradorEmpresa entity);
         void AlterarStatusTitularCartao(ICredencialService geradorCredencialService, ColaboradoresCredenciaisView entity, ColaboradorCredencial entity2);
 
         /// <summary>
