@@ -581,6 +581,102 @@ namespace IMOD.Application.Service
 
             Alterar(n1);
         }
+        public void CriarTitularCartao(ICredencialService geradorCredencialService, IColaboradorService colaboradorService, ColaboradorEmpresa entity)
+        {
+             
+
+            if (geradorCredencialService == null) throw new ArgumentNullException(nameof(geradorCredencialService));
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+            IColaboradorService _serviceColaborador = new ColaboradorService();
+            //IColaboradorCredencialService _service = new ColaboradorCredencialService();
+
+            var cardHolderColaborador = _serviceColaborador.BuscarPelaChave(entity.ColaboradorEmpresaId);
+            
+            //Somente é permitido criar uma única vez o titular do cartão...
+            //Os numeros GUIDs são indicação  de que já houve criação de credenciais no sub-sistema de credenciamento            
+            //if (!string.IsNullOrWhiteSpace(entity.CardHolderGuid) & !string.IsNullOrWhiteSpace(entity.CredencialGuid)) return;
+
+            var titularCartao = CardHolderEntity(entity);
+            titularCartao.listadeGrupos = entity.listadeGrupos;
+            titularCartao.grupoAlterado = entity.grupoAlterado;
+            #region Setar o valor CardHolder GUID ao colaborador
+
+            //Buscar dados do colaborador
+            var co1 = colaboradorService.Empresa.BuscarPelaChave(entity.ColaboradorEmpresaId);
+            if (co1 == null) throw new InvalidOperationException("Não foi possive obter um colaborador");
+
+            if (string.IsNullOrWhiteSpace(co1.CardHolderGuid))
+            {
+                //Gerar titular do cartão no sub-sistema de credenciamento (Genetec)
+                geradorCredencialService.CriarCardHolder(titularCartao);
+                co1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
+                colaboradorService.Empresa.Alterar(co1);
+            }
+
+            //titularCartao.IdentificadorCardHolderGuid = co1.CardHolderGuid;
+
+
+            //#endregion
+
+            ////Sistema somente gerar credencial se o tipo de autenticação permitir
+            ////Gerar Credencial do titular do cartão no sub-sistema de credenciamento (Genetec)
+            //geradorCredencialService.CriarCredencial(titularCartao);
+            ////Atualizar dados do identificador GUID
+            //entity.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
+            //entity.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
+            ////var colaboradorGenetec = Mapper.Map<ColaboradorCredencial>(entity);
+
+
+
+            //var n1 = BuscarPelaChave(entity.ColaboradorCredencialId);
+            ////var n1 = new ColaboradorCredencial();
+            //n1.ColaboradorCredencialId = entity.ColaboradorCredencialId;
+            //n1.ColaboradorEmpresaId = entity.ColaboradorEmpresaId;
+            //n1.TecnologiaCredencialId = entity.TecnologiaCredencialId;
+            //n1.TipoCredencialId = entity.TipoCredencialId;
+            //n1.LayoutCrachaId = entity.LayoutCrachaId;
+            //n1.FormatoCredencialId = entity.FormatoCredencialId;
+            //n1.NumeroCredencial = entity.NumeroCredencial;
+            //n1.Fc = entity.Fc;
+            //n1.Emissao = entity.Emissao;
+            //n1.Validade = entity.Validade;
+            //n1.CredencialStatusId = entity.CredencialStatusId;
+            //n1.DataStatus = entity.DataStatus;
+            //if (entity.CredencialStatusId == 1)
+            //{
+            //    n1.Ativa = true;
+            //}
+            //else
+            //{
+            //    n1.DataStatus = DateTime.Today.Date;
+            //    n1.Ativa = false;
+            //}
+            //n1.CardHolderGuid = entity.CardHolderGuid;
+            //n1.CredencialGuid = entity.CredencialGuid;
+            //n1.ColaboradorPrivilegio1Id = entity.ColaboradorPrivilegio1Id;
+            //n1.ColaboradorPrivilegio2Id = entity.ColaboradorPrivilegio2Id;
+
+            //n1.Colete = entity.Colete;
+            //n1.CredencialMotivoId = entity.CredencialMotivoId;
+            //n1.Baixa = entity.Baixa;
+            //n1.Impressa = entity.Impressa;
+
+            //n1.DevolucaoEntregaBo = entity.DevolucaoEntregaBo;
+            //n1.Policiafederal = entity.Policiafederal;
+            //n1.Receitafederal = entity.Receitafederal;
+            //n1.Segurancatrabalho = entity.Segurancatrabalho;
+            //n1.Obs = entity.Obs;
+            //n1.CredencialVia = entity.CredencialVia;
+            //n1.CredencialmotivoViaAdicionalID = entity.CredencialmotivoViaAdicionalID;
+            //n1.CredencialmotivoIDanterior = entity.CredencialmotivoIDanterior;
+            //n1.Identificacao1 = entity.Identificacao1;
+            //n1.Identificacao2 = entity.Identificacao2;
+            //n1.Usuario = UsuarioLogado.Nome;
+            //n1.grupoAlterado = entity.grupoAlterado;
+
+            //Alterar(n1);
+        }
         /// <summary>
         ///     Remove Regra de acesso do cardHolder sub-sistema de credenciamento (Genetec)
         /// </summary>

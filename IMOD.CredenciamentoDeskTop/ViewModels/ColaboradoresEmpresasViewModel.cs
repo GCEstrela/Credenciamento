@@ -20,9 +20,11 @@ using IMOD.Application.Service;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels.Commands;
 using IMOD.CredenciamentoDeskTop.ViewModels.Comportamento;
+//using IMOD.CredenciamentoDeskTop.Views;
 using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using IMOD.Infra.Servicos;
 
 #endregion
 
@@ -33,8 +35,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IEmpresaContratosService _empresaContratoService = new EmpresaContratoService();
         private readonly IEmpresaService _empresaService = new EmpresaService();
         private readonly IColaboradorEmpresaService _service = new ColaboradorEmpresaService();
-        private readonly IColaboradorCredencialService _servicecredencial = new ColaboradorCredencialService();
-
+        private readonly IColaboradorCredencialService _serviceCredencial = new ColaboradorCredencialService();
+        private readonly IColaboradorService _serviceColaborador = new ColaboradorService();
 
         //private readonly object _auxiliaresService;
         private ColaboradorView _colaboradorView;
@@ -256,9 +258,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _service.Criar(n1);
 
                 #region Verificar se pode gerar CardHolder
+
+                //var colaborador = _serviceColaborador.BuscarPelaChave(n1.ColaboradorId);
+                //ColaboradoresCredenciaisView entity = new ColaboradoresCredenciaisView();
+                //entity.col = colaborador.Nome;
+
+                _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
                 
-
-
                 #endregion
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<ColaboradorEmpresaView>(n1);
@@ -330,7 +336,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _service.Alterar(n1);
                 Entity.Matricula = n1.Matricula;
 
-                 IsEnableLstView = true;
+                _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+
+                IsEnableLstView = true;
                 SetDadosEmpresaContrato(Entity);
 
 
