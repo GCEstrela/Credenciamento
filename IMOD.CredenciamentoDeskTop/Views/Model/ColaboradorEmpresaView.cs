@@ -5,6 +5,7 @@
 // ***********************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using IMOD.CredenciamentoDeskTop.Funcoes;
 
@@ -39,7 +40,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string Usuario { get; set; }
         public bool Terceirizada { get; set; }
         public string TerceirizadaSigla { get; set; }
-
+        public List<Guid> listadeGrupos { get; set; }
         #endregion
     }
 }

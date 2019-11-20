@@ -258,6 +258,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 #region Verificar se pode gerar CardHolder
                 
 
+
                 #endregion
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<ColaboradorEmpresaView>(n1);

@@ -5,6 +5,7 @@
 // ***********************************************************************
 
 using System;
+using System.Collections.Generic;
 
 namespace IMOD.Domain.Entities
 {
@@ -57,7 +58,7 @@ namespace IMOD.Domain.Entities
         }
         public bool Terceirizada { get; set; }
         public string TerceirizadaSigla { get; set; }
-
+        public List<Guid> listadeGrupos { get; set; }
 
         #endregion
 

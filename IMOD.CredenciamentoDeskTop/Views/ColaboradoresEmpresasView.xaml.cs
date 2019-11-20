@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels;
+using IMOD.CredenciamentoDeskTop.Windows;
 using IMOD.CrossCutting;
 
 #endregion
@@ -181,6 +182,40 @@ namespace IMOD.CredenciamentoDeskTop.Views
             //txtDtInicio.Text = "";
             //_viewModel.Entity.DataFim= DateTime.Today.Date;
             txtDtFim.Text = DateTime.Today.Date.ToShortDateString();
+        }
+        PopUpGrupos popup;
+        public System.Collections.Generic.List<Guid> cardholderGuids = new System.Collections.Generic.List<Guid>();
+        private void Bnt_Gupos_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                //_viewModel.Entity.grupoAlterado = true;
+                popup = new PopUpGrupos();
+                if (cardholderGuids.Count != 0)
+                {
+                    popup.TCHG.CardHolderGroupGuid = cardholderGuids;
+                }
+
+                if (_viewModel.Entity.CardHolderGuid != null)
+                {
+                    popup.TCHG.CardHolderGuid = new Guid(_viewModel.Entity.CardHolderGuid); //
+                }
+                else
+                {
+                    popup.TCHG.CardHolderGuid = new Guid("ea3586f7-b6b7-42cc-8cca-04ef2ce7ebe8");
+                }
+                popup.TCHG.Initialize(Main.Engine);
+                popup.ShowDialog();
+                cardholderGuids = popup.TCHG.CardHolderGroupGuid;
+                _viewModel.Entity.listadeGrupos = cardholderGuids;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

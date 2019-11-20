@@ -163,6 +163,7 @@
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png" />
                             </StackPanel>
                         </Button>
+                        <Button x:Name="bnt_Gupos" Margin="23,0,0,0" Content="Grupos" Width="100" Click="Bnt_Gupos_Click"></Button>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>

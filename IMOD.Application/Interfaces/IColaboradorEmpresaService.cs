@@ -8,5 +8,6 @@ namespace IMOD.Application.Interfaces
         ///     Pendência serviços
         /// </summary>
         IPendenciaService Pendencia { get; }
+
     }
 }
