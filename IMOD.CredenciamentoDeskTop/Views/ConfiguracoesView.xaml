@@ -1106,7 +1106,7 @@
                                         <Label Content="E-Mail SMTP:" Height="28" Width="110" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                         <TextBox x:Name="Email2_tb" MaxLength="30" Text="{Binding Entity.SMTP, UpdateSourceTrigger=PropertyChanged}" Height="24" Width="295" />
                                         <Label Content="Porta SMTP" Foreground="#FFD0D0D0" Width="92" Margin="10,0,0,0" ></Label>
-                                        <TextBox x:Name="PortaSMTP_tb" Width="49"></TextBox>
+                                        <TextBox x:Name="PortaSMTP_tb" Text="{Binding Entity.PortaSMTP, UpdateSourceTrigger=PropertyChanged}"  Width="49"></TextBox>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,1,0,1" Width="590">
                                         

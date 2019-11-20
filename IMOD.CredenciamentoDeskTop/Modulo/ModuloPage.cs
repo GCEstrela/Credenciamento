@@ -41,17 +41,17 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
 
                 DateTime DataExpiracaoLicencaDecryptada = Convert.ToDateTime(Decryptada[1]);
                 Double expiracao = DataExpiracaoLicencaDecryptada.Subtract(DateTime.Now.Date).Days;
-                if (expiracao < 15 && expiracao > 0)
-                {
-                    WpfHelp.PopupBox(string.Format("Sua licença vai expirar em {0} dias", expiracao), 1);
+                //if (expiracao < 15 && expiracao > 0)
+                //{
+                //    WpfHelp.PopupBox(string.Format("Sua licença vai expirar em {0} dias", expiracao), 1);
 
-                }
-                else if (expiracao <= 0)
-                {
-                    UsuarioLogado.LicencaValida = false;
-                    this.View = new AcessoNegado("Licença válida até " + Decryptada[1] + ". Licença Expirada...");
-                    return;
-                }
+                //}
+                //else if (expiracao <= 0)
+                //{
+                //    UsuarioLogado.LicencaValida = false;
+                //    this.View = new AcessoNegado("Licença válida até " + Decryptada[1] + ". Licença Expirada...");
+                //    return;
+                //}
 
             }
 
