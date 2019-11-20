@@ -434,6 +434,14 @@ namespace IMOD.Infra.Servicos
                         SetValorCamposCustomizados(entity, existEntity);
                         //_sdk.TransactionManager.CommitTransaction();
                         //VerificaRegraAcesso(entity);
+                        var cardHolder = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
+                        cardHolder.Groups.Clear();
+                        foreach (Guid cardholderGuid in entity.listadeGrupos)
+                        {
+                            //Guid grupoencontrado = new Guid(EncontrarGrupos(cardholderNome));
+                            //if (grupoencontrado != null)
+                            cardHolder.Groups.Add(cardholderGuid);
+                        }
                         return;
                     }
                 }

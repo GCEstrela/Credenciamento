@@ -118,37 +118,44 @@ namespace IMOD.Application.Service
             //Data:13/03/19
             //Wrk:Adicionar um dia a credencial
             DateTime dataValidade = entity.Validade == null ? DateTime.Today.Date : (DateTime)entity.Validade;
-
-            var titularCartao = new CardHolderEntity
+            try
             {
-                Ativo = entity.Ativa,
-                Empresa = entity.EmpresaNome,
-                Nome = entity.ColaboradorNome,
-                Cnpj = entity.Cnpj,
-                Cpf = entity.Cpf,
-                Cargo = entity.Cargo,
-                Identificador = entity.Cpf,
-                Identificacao1 = entity.Identificacao1,
-                Identificacao2 = entity.Identificacao2,
-                Apelido = entity.ColaboradorApelido,
-                IdentificadorCardHolderGuid = entity.CardHolderGuid,
-                IdentificadorCredencialGuid = entity.CredencialGuid,
-                FacilityCode = entity.Fc,
-                Foto = entity.ColaboradorFoto.ConverterBase64StringToBitmap(),
-                Matricula = entity.Matricula,
-                Validade = dataValidade.AddDays(0),
-                NumeroCredencial = entity.NumeroCredencial,
-                IdentificadorLayoutCrachaGuid = entity.LayoutCrachaGuid,
-                FormatoCredencial = entity.FormatoCredencialDescricao.Trim(),
-                TecnologiaCredencialId = entity.TecnologiaCredencialId,
-                FormatoCredencialId = entity.FormatoCredencialId,
-                Fc = entity.Fc,
-                Regras = entity.Regras,
-                GrupoPadrao = entity.GrupoPadrao,
-                ListaGrupos = entity.listadeGrupos,
-                grupoAlterado=entity.grupoAlterado
-            };
-            return titularCartao;
+                var titularCartao = new CardHolderEntity
+                {
+                    Ativo = entity.Ativa,
+                    Empresa = entity.EmpresaNome,
+                    Nome = entity.ColaboradorNome,
+                    Cnpj = entity.Cnpj,
+                    Cpf = entity.Cpf,
+                    Cargo = entity.Cargo,
+                    Identificador = entity.Cpf,
+                    Identificacao1 = entity.Identificacao1,
+                    Identificacao2 = entity.Identificacao2,
+                    Apelido = entity.ColaboradorApelido,
+                    IdentificadorCardHolderGuid = entity.CardHolderGuid,
+                    IdentificadorCredencialGuid = entity.CredencialGuid,
+                    FacilityCode = entity.Fc,
+                    Foto = entity.ColaboradorFoto.ConverterBase64StringToBitmap(),
+                    Matricula = entity.Matricula,
+                    Validade = dataValidade.AddDays(0),
+                    NumeroCredencial = entity.NumeroCredencial,
+                    IdentificadorLayoutCrachaGuid = entity.LayoutCrachaGuid,
+                    FormatoCredencial = entity.FormatoCredencialDescricao.Trim(),
+                    TecnologiaCredencialId = entity.TecnologiaCredencialId,
+                    FormatoCredencialId = entity.FormatoCredencialId,
+                    Fc = entity.Fc,
+                    Regras = entity.Regras,
+                    GrupoPadrao = entity.GrupoPadrao,
+                    ListaGrupos = entity.listadeGrupos,
+                    grupoAlterado = entity.grupoAlterado
+                };
+                return titularCartao;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
 
         /// <summary>
@@ -591,15 +598,31 @@ namespace IMOD.Application.Service
             IColaboradorService _serviceColaborador = new ColaboradorService();
             //IColaboradorCredencialService _service = new ColaboradorCredencialService();
 
-            var cardHolderColaborador = _serviceColaborador.BuscarPelaChave(entity.ColaboradorEmpresaId);
-            
-            //Somente é permitido criar uma única vez o titular do cartão...
-            //Os numeros GUIDs são indicação  de que já houve criação de credenciais no sub-sistema de credenciamento            
-            //if (!string.IsNullOrWhiteSpace(entity.CardHolderGuid) & !string.IsNullOrWhiteSpace(entity.CredencialGuid)) return;
+            var cardHolderColaborador = _serviceColaborador.BuscarPelaChave(entity.ColaboradorId);
+            ColaboradoresCredenciaisView entityCardHolder = new ColaboradoresCredenciaisView();
+            entityCardHolder.ColaboradorNome = cardHolderColaborador.Nome;
+            entityCardHolder.ColaboradorFoto = cardHolderColaborador.Foto;
+            entityCardHolder.EmpresaNome = entity.EmpresaNome;
+            entityCardHolder.Cargo = entity.Cargo;
+            entityCardHolder.Matricula = entity.Matricula;
+            entityCardHolder.Email = cardHolderColaborador.Email;
+            entityCardHolder.Validade = entity.Validade;
+            entityCardHolder.listadeGrupos = entity.listadeGrupos;
+            entityCardHolder.grupoAlterado = true;
+            entityCardHolder.Cnpj = "";
+            entityCardHolder.Cpf = cardHolderColaborador.Cpf;
+            entityCardHolder.Cargo = entity.Cargo;
+            entityCardHolder.Identificacao1 = "";
+            entityCardHolder.Identificacao2 = "";
+            entityCardHolder.TecnologiaCredencialId = 0;
+            entityCardHolder.FormatoCredencialId = 0;
+            entityCardHolder.FormatoCredencialId = 0;
+            entityCardHolder.FormatoCredencialDescricao = "SNC";
+            entityCardHolder.CardHolderGuid = entity.CardHolderGuid;
 
-            var titularCartao = CardHolderEntity(entity);
-            titularCartao.listadeGrupos = entity.listadeGrupos;
-            titularCartao.grupoAlterado = entity.grupoAlterado;
+            var titularCartao = CardHolderEntity(entityCardHolder);
+            titularCartao.listadeGrupos = entityCardHolder.listadeGrupos;
+            titularCartao.grupoAlterado = entityCardHolder.grupoAlterado;
             #region Setar o valor CardHolder GUID ao colaborador
 
             //Buscar dados do colaborador
@@ -615,66 +638,7 @@ namespace IMOD.Application.Service
             }
 
             //titularCartao.IdentificadorCardHolderGuid = co1.CardHolderGuid;
-
-
-            //#endregion
-
-            ////Sistema somente gerar credencial se o tipo de autenticação permitir
-            ////Gerar Credencial do titular do cartão no sub-sistema de credenciamento (Genetec)
-            //geradorCredencialService.CriarCredencial(titularCartao);
-            ////Atualizar dados do identificador GUID
-            //entity.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
-            //entity.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
-            ////var colaboradorGenetec = Mapper.Map<ColaboradorCredencial>(entity);
-
-
-
-            //var n1 = BuscarPelaChave(entity.ColaboradorCredencialId);
-            ////var n1 = new ColaboradorCredencial();
-            //n1.ColaboradorCredencialId = entity.ColaboradorCredencialId;
-            //n1.ColaboradorEmpresaId = entity.ColaboradorEmpresaId;
-            //n1.TecnologiaCredencialId = entity.TecnologiaCredencialId;
-            //n1.TipoCredencialId = entity.TipoCredencialId;
-            //n1.LayoutCrachaId = entity.LayoutCrachaId;
-            //n1.FormatoCredencialId = entity.FormatoCredencialId;
-            //n1.NumeroCredencial = entity.NumeroCredencial;
-            //n1.Fc = entity.Fc;
-            //n1.Emissao = entity.Emissao;
-            //n1.Validade = entity.Validade;
-            //n1.CredencialStatusId = entity.CredencialStatusId;
-            //n1.DataStatus = entity.DataStatus;
-            //if (entity.CredencialStatusId == 1)
-            //{
-            //    n1.Ativa = true;
-            //}
-            //else
-            //{
-            //    n1.DataStatus = DateTime.Today.Date;
-            //    n1.Ativa = false;
-            //}
-            //n1.CardHolderGuid = entity.CardHolderGuid;
-            //n1.CredencialGuid = entity.CredencialGuid;
-            //n1.ColaboradorPrivilegio1Id = entity.ColaboradorPrivilegio1Id;
-            //n1.ColaboradorPrivilegio2Id = entity.ColaboradorPrivilegio2Id;
-
-            //n1.Colete = entity.Colete;
-            //n1.CredencialMotivoId = entity.CredencialMotivoId;
-            //n1.Baixa = entity.Baixa;
-            //n1.Impressa = entity.Impressa;
-
-            //n1.DevolucaoEntregaBo = entity.DevolucaoEntregaBo;
-            //n1.Policiafederal = entity.Policiafederal;
-            //n1.Receitafederal = entity.Receitafederal;
-            //n1.Segurancatrabalho = entity.Segurancatrabalho;
-            //n1.Obs = entity.Obs;
-            //n1.CredencialVia = entity.CredencialVia;
-            //n1.CredencialmotivoViaAdicionalID = entity.CredencialmotivoViaAdicionalID;
-            //n1.CredencialmotivoIDanterior = entity.CredencialmotivoIDanterior;
-            //n1.Identificacao1 = entity.Identificacao1;
-            //n1.Identificacao2 = entity.Identificacao2;
-            //n1.Usuario = UsuarioLogado.Nome;
-            //n1.grupoAlterado = entity.grupoAlterado;
-
+            #endregion
             //Alterar(n1);
         }
         /// <summary>
