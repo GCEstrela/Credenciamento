@@ -74,7 +74,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TelefoneEmergencia", entity.TelefoneEmergencia, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("UrlSistemaPreCadastro", entity.UrlSistemaPreCadastro, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DiasContencao", entity.diasContencao, false)));
-
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("PortaSMTP", entity.PortaSMTP, false)));
+                        
                         if (entity.GrupoPadrao != null)
                         {
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("GrupoPadrao", entity.GrupoPadrao.Trim(), false)));

@@ -37,6 +37,7 @@ namespace IMOD.Domain.Entities
         public string UrlSistemaPreCadastro { get; set; }
         public bool AssociarGrupos { get; set; }
         public int diasContencao { get; set; }
+        public int PortaSMTP { get; set; }
         #endregion
     }
 }

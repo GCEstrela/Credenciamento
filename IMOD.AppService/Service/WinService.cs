@@ -543,7 +543,7 @@ namespace IMOD.Service.Service
             using (var smtp = new SmtpClient(Emailsmtp))
             {
                 smtp.EnableSsl = false; // GMail requer SSL
-                smtp.Port = 587;       // porta para SSL
+                smtp.Port = _configuraSistema.PortaSMTP;       // porta para SSL 587
                 //smtp.Port = 465;
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network; // modo de envio
                 smtp.UseDefaultCredentials = false; // vamos utilizar credencias especificas
