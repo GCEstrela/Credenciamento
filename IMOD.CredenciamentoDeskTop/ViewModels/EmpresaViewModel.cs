@@ -25,6 +25,8 @@ using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CrossCutting;
 using IMOD.CrossCutting.Entities;
 using IMOD.Domain.Entities;
+using IMOD.Infra.Entities;
+using IMOD.Infra.Servicos;
 using EmpresaLayoutCrachaView = IMOD.Domain.EntitiesCustom.EmpresaLayoutCrachaView;
 
 #endregion
@@ -951,38 +953,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                ConfiguraSistema configSistema = ObterConfiguracao();
-                Email email = new Email();
-                email.Assunto = string.Format("{0}  - Acesso ao pré-cadastro do credenciamento web".ToUpper(), configSistema.NomeAeroporto);
-                email.Usuario = configSistema.EmailUsuario.Trim();
-                email.Senha = configSistema.EmailSenha.Trim();
-                email.ServidorEmail = configSistema.SMTP.Trim();
-                email.Porta = "587";       // porta para SSL                                   
-                email.UsarSsl = false; // GMail requer SSL         
-                                      //email.UsarTls = true;
-                email.UsarAutenticacao = false;
-                email.EmailDestinatario = Entity.Email1.Split(';').ToList();
-                email.EmailRemetente = configSistema.EmailUsuario;
-                email.NomeRemetente = configSistema.NomeAeroporto;
-
-                // seu usuário e senha para autenticação
-
-                email.NomeRemetente = configSistema.NomeAeroporto;
-
-                StringBuilder emailFraport = new StringBuilder();
-                emailFraport.AppendLine("Prezado usuário,");
-                emailFraport.AppendLine(string.Empty);
-                emailFraport.AppendLine(string.Format("Sua senha para acesso ao portal de pré-cadastro web do credenciamento é: <b>{0}</b>", Entity.Senha));
-                emailFraport.AppendLine("O acesso deve ser realizado através do link:" + configSistema.UrlSistemaPreCadastro);
-                emailFraport.AppendLine("");
-                emailFraport.AppendLine("Att:");
-                emailFraport.AppendLine("");
-                emailFraport.AppendLine("Sistema de Credenciamento.");
-                emailFraport.AppendLine("Setor de Credenciamento - Fraport-Brasil");
-
-                email.Mensagem = emailFraport.ToString();
-
-                Utils.EnviarEmail(email, configSistema.NomeAeroporto);
+                ConfiguraSistema configSistema = ObterConfiguracao();                
+                var assunto = string.Format("{0}  - Acesso ao pré-cadastro do credenciamento web".ToUpper(), configSistema.NomeAeroporto);
+                var destinatarios = Entity.Email1;
+                
+                StringBuilder mensagemEmail = new StringBuilder();
+                mensagemEmail.AppendLine("Prezado usuário,");
+                mensagemEmail.AppendLine(string.Empty);
+                mensagemEmail.AppendLine(string.Format("Sua senha para acesso ao portal de pré-cadastro web do credenciamento é: <b>{0}</b>", Entity.Senha));
+                mensagemEmail.AppendLine("O acesso deve ser realizado através do link:" + configSistema.UrlSistemaPreCadastro);
+                mensagemEmail.AppendLine("");
+                mensagemEmail.AppendLine("Att:");
+                mensagemEmail.AppendLine("");
+                mensagemEmail.AppendLine("Sistema de Credenciamento.");
+                mensagemEmail.AppendLine("Setor de Credenciamento - Fraport-Brasil");
+                
+                EmailService.EnviarEmail(destinatarios, assunto, mensagemEmail.ToString(), configSistema.NomeAeroporto);
 
                 WpfHelp.Mbox("Senha enviada para o email: " + Entity.Email1);
             }

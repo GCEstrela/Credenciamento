@@ -141,7 +141,9 @@
     <Compile Include="Repositorios\VeiculoSeguroRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoRepositorio.cs" />
     <Compile Include="Servicos\CredencialGenetecService.cs" />
+    <Compile Include="Servicos\EmailService.cs" />
     <Compile Include="Servicos\Entities\CardHolderEntity.cs" />
+    <Compile Include="Servicos\Entities\Email.cs" />
     <Compile Include="Servicos\ICredencialService.cs" />
   </ItemGroup>
   <ItemGroup>
