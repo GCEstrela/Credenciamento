@@ -38,6 +38,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             string LicencaDecryptada = Decryptada[0];               
             if (Decryptada.Length > 1)
             {
+
                 DateTime DataExpiracaoLicencaDecryptada = Convert.ToDateTime(Decryptada[1]);
                 Double expiracao = DataExpiracaoLicencaDecryptada.Subtract(DateTime.Now.Date).Days;
                 if (expiracao < 15 && expiracao > 0)
@@ -51,6 +52,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                     this.View = new AcessoNegado("Licença válida até " + Decryptada[1] + ". Licença Expirada...");
                     return;
                 }
+
             }
 
                 

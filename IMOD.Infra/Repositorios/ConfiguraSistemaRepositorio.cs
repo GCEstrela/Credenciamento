@@ -145,7 +145,6 @@ namespace IMOD.Infra.Repositorios
                 throw ex;
             }
         }
-
         public ICollection<Domain.Entities.ConfiguraSistema> Listar(params object[] objects)
         {
             try
@@ -153,7 +152,7 @@ namespace IMOD.Infra.Repositorios
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
                     using (var cmd = _dataBase.SelectText("ConfiguraSistema", conn))
-                    {
+                    {           
 
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CNPJ", objects, 0).Like()));
 
