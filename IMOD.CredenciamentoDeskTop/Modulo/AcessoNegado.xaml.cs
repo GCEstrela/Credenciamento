@@ -23,10 +23,10 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
     {
         int left = 0; // this is the left int variable with the value 0
         int speed = 5; // this integer called speed will determine how fast the blue circle will go
-        public AcessoNegado()
+        public AcessoNegado(string dataExpirada)
         {
             InitializeComponent();
-
+            lbl_DataExpirada.Content = dataExpirada;
             //var timer = new DispatcherTimer(); // creating a new timer
             //timer.Interval = TimeSpan.FromMilliseconds(10); // this timer will trigger every 10 milliseconds
             //timer.Start(); // starting the timer

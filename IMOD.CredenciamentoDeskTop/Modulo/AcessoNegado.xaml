@@ -6,10 +6,11 @@
              xmlns:local="clr-namespace:IMOD.CredenciamentoDeskTop.Modulo"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Label Name="BlueCircle" Content="Acesso Negado" FontSize="50"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Margin="10,0" Width="780"></Label>
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Label Name="BlueCircle" Content="Acesso Negado" FontSize="50" Foreground="#FFD0D0D0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Margin="10,0" Width="780"></Label>
         <!--<Label Content="Verifique junto ao fornecedor do Credenciamento uma licença válida para o System ID do seu Security Center" FontSize="15"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Margin="0,150,0,0" Width="780"></Label>-->
         <Label Content="Sua licença é inválida." FontSize="14"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Margin="0,150,0,0" Width="780"></Label>
         <Label Content="Por favor, verifique junto ao fornecedor do Credenciamento uma licença válida para o seu System ID" FontSize="14"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Margin="0,190,0,0" Width="780"></Label>
+        <Label x:Name="lbl_DataExpirada" Content="" FontSize="14"   Foreground="Red"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Margin="0,240,0,0" Width="780"></Label>
     </Grid>
 </UserControl>
