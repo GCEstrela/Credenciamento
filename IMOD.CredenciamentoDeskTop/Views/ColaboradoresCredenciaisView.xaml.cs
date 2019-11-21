@@ -449,54 +449,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
             //{
             //    WpfHelp.PopupBox(ex.Message, 1);
             //}
-        }
-
-        PopUpGrupos popup;
-        public System.Collections.Generic.List<Guid> cardholderGuids = new System.Collections.Generic.List<Guid>();
-        private void PopUp_bt_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                
-                _viewModel.Entity.grupoAlterado = true;
-                popup = new PopUpGrupos();
-                if (cardholderGuids.Count != 0)
-                {
-                    popup.TCHG.CardHolderGroupGuid = cardholderGuids;
-                }
-
-                if (_viewModel.Entity.CardHolderGuid != null)
-                {
-                    popup.TCHG.CardHolderGuid = new Guid(_viewModel.Entity.CardHolderGuid); //
-                }
-                else
-                {
-                    popup.TCHG.CardHolderGuid = new Guid("ea3586f7-b6b7-42cc-8cca-04ef2ce7ebe8");
-                }
-                popup.TCHG.Initialize(Main.Engine);
-                popup.ShowDialog();
-                cardholderGuids = popup.TCHG.CardHolderGroupGuid;
-                _viewModel.Entity.listadeGrupos = cardholderGuids;
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
+        }        
         private void Lista_bt_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                _viewModel.Entity.listadeGrupos.Clear();
-                foreach (Guid cardholderGuid in cardholderGuids)
-                {
-                    //Genetec.Sdk.Entities.CardholderGroup cardholdergroup = m_sdkEngine.GetEntity(cardholderGuid) as Genetec.Sdk.Entities.CardholderGroup;
-                    ////_viewModel.Entity.listadeGrupos += cardholdergroup.Name + ";";
-                    //_viewModel.Entity.listadeGrupos.Add(cardholdergroup.Guid);
-                }
+               
             }
             catch (Exception ex)
             {

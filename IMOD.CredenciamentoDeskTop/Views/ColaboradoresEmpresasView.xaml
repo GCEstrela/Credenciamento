@@ -32,11 +32,10 @@
     </UserControl.Resources >
     <Grid VerticalAlignment="Top">
         <StackPanel Orientation="Vertical">
-            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
-                      
+            <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"                      
                       Background="Crimson"
                       x:Name="Responsavel_gb" Header="Empresas Vínculos"
-                      VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795" Height="180">
+                      VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="810" Height="203">
 
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,-2,-12">
 
@@ -55,18 +54,16 @@
                                    SelectedValuePath="EmpresaId" 
                                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
 
-                        <Label Content="Matrícula:" Height="28" Width="140" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-
+                        <Label Content="Matrícula:" Height="28" Width="89" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <TextBox  x:Name="Matricula_tb" MaxLength="15" CharacterCasing="Upper"
                                   VerticalContentAlignment="Center" 
                                   Text="{Binding Entity.Matricula, 
                                   UpdateSourceTrigger=PropertyChanged}"  
                                   IsEnabled="False"  Height="24" 
-                                  MaxWidth="200"  Width="150"/>
+                                 Width="203" Margin="8,0,0,0"/>
 
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
-                                    Margin="1">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,5,0,0" Width="744">
                         <Label Name="lblContrato" Content="Contrato:" HorizontalContentAlignment="Right" Height="28" Foreground="#FFD0D0D0" Width="143"   Visibility="{Binding IsEnableComboContrato,  Converter={StaticResource VisibleControl}}" />
 
                         <ComboBox  x:Name="cmbContrato" IsEditable="true" 
@@ -81,18 +78,14 @@
                                    SelectedValuePath="EmpresaContratoId"
                                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
 
-
-
-
-                        <Label Content="Cargo:" Height="28" Width="140" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                        <Label Content="Cargo:" Height="28" Width="87" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox  x:Name="Cargo_tb" MaxLength="40" CharacterCasing="Upper" VerticalContentAlignment="Center" 
                                   Text="{Binding Entity.Cargo, UpdateSourceTrigger=PropertyChanged}" 
                                   IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                  Height="24"  MaxWidth="150"  HorizontalAlignment="Left" Width="150"/>
+                                  Height="24" HorizontalAlignment="Left" Width="203" Margin="10,0,0,0"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" 
-                                IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                    Width="740" Height="28">
+                                IsEnabled="{Binding Comportamento.isEnableCancelar}" Width="745" Height="28" Margin="0,5,0,0">
                         <Label Content="Vínculo Ativo:" Height="28" Width="143" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkAtivo"  Foreground="#FFD0D0D0" 
                                   IsEnabled="{Binding Comportamento.isEnableCancelar}" 
@@ -104,6 +97,7 @@
                                   IsChecked="{Binding Entity.Motorista, UpdateSourceTrigger=PropertyChanged}"/>
                         <Label Content=" Manuseio de Bagagem:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkManuseioBagagem"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.ManuseioBagagem, UpdateSourceTrigger=PropertyChanged}"/>
+
                         <Label Content="Inicio:" Height="24" Width="42" Margin="20,0,0,0"
                                Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox
@@ -112,38 +106,34 @@
                             PreviewTextInput="NumberOnly"
                             MaxLength="10"                            
                             Height="24"  Width="80" LostFocus="TxtDtInicio_LostFocus" />
-                        <Label Content="Fim:" Height="24" Width="30" Margin="0,2"
-                               Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+
+                        <Label Content="Fim:" Height="24" Width="30" Margin="0,2" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox
-                            Name="txtDtFim"
-                            Text="{Binding Entity.DataFim, StringFormat='{}{0:dd/MM/yyyy}'}"                           
-                            PreviewTextInput="NumberOnly"
-                            MaxLength="10"                            
-                            Height="24"  Width="84" Margin="0,2" LostFocus="TxtDtFim_LostFocus" />
+                            Name="txtDtFim" Text="{Binding Entity.DataFim, StringFormat='{}{0:dd/MM/yyyy}'}"                           
+                            PreviewTextInput="NumberOnly" MaxLength="10"                            
+                            Height="24"  Width="84" Margin="10,2,0,0" LostFocus="TxtDtFim_LostFocus" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
-                              IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                Height="28" >
+                              IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="28" Margin="0,5,0,0" >
+
                         <Label Content=" CCAM:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkCcam"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.FlagCcam, UpdateSourceTrigger=PropertyChanged}"/>
+
                         <Label Content="Operador Ponte:" Height="26" Width="142"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" Margin="0,1" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkOperadorPonte"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.OperadorPonteEmbarque, UpdateSourceTrigger=PropertyChanged}"/>
+
                         <Label Content="Pode ser Auditado:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                         <CheckBox VerticalAlignment="Center" x:Name="chkAuditado"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.FlagAuditoria, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Label Content="Data de Validade:" Height="24" Width="151" Margin="5,4,0,0"
-                               Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
-                        <TextBox
-                            Name="txtDtValidade"
-                            Text="{Binding Entity.Validade, StringFormat='{}{0:dd/MM/yyyy}'}"
-                            LostFocus="OnFormatData_LostFocus"
-                            PreviewTextInput="NumberOnly"
-                            MaxLength="10"                            
-                            Height="24"  Width="100" />
+
+                        <Label Content="Data de Validade:" Height="24" Width="151" Margin="5,4,0,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                        <TextBox Name="txtDtValidade" Text="{Binding Entity.Validade, StringFormat='{}{0:dd/MM/yyyy}'}"
+                            LostFocus="OnFormatData_LostFocus" PreviewTextInput="NumberOnly"
+                            MaxLength="10" Height="24"  Width="97" Margin="13,2,0,2" />
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
-                               Width="772" Height="30">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="772" Height="30" Margin="0,10,0,0">
+
                         <Label Content="Nome do Arquivo:" Height="30" Width="142" Margin="1" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                         <!-- Campo nome ddo Arquivo Anexo deve sempre esta Enabled, quem informa é a seleção do arquivo-->
                         <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper" Height="24" Width="406"  
@@ -163,13 +153,16 @@
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png" />
                             </StackPanel>
                         </Button>
-                        <Button x:Name="bnt_Gupos" Margin="23,0,0,0" Content="Grupos" Width="100" Click="Bnt_Gupos_Click"></Button>
+                        <Button x:Name="bnt_Gupos" 
+                                IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                Margin="32,0,0,0" Content="Grupos" Width="101" Click="Bnt_Gupos_Click">
+                        </Button>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
 
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Height="190">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Height="190" Margin="0,10,0,0">
 
                 <ListView x:Name="ListaSegnatarios_lv"
                           IsEnabled="{Binding IsEnableLstView}"
@@ -177,7 +170,7 @@
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}"
-                          Width="756" Height="175" Margin="0,10,0,0" VerticalAlignment="Top">
+                          Width="756" Height="175" Margin="0,20,0,0" VerticalAlignment="Top">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn Width="40" Header="Ativo">

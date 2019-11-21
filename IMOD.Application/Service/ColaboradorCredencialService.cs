@@ -629,13 +629,14 @@ namespace IMOD.Application.Service
             var co1 = colaboradorService.Empresa.BuscarPelaChave(entity.ColaboradorEmpresaId);
             if (co1 == null) throw new InvalidOperationException("Não foi possive obter um colaborador");
 
-            if (string.IsNullOrWhiteSpace(co1.CardHolderGuid))
-            {
+            //if (string.IsNullOrWhiteSpace(co1.CardHolderGuid))
+            //{
                 //Gerar titular do cartão no sub-sistema de credenciamento (Genetec)
                 geradorCredencialService.CriarCardHolder(titularCartao);
                 co1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
                 colaboradorService.Empresa.Alterar(co1);
-            }
+                entity.CardHolderGuid= titularCartao.IdentificadorCardHolderGuid;
+            //}
 
             //titularCartao.IdentificadorCardHolderGuid = co1.CardHolderGuid;
             #endregion

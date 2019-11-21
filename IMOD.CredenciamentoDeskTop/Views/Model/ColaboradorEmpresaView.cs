@@ -11,13 +11,13 @@ using IMOD.CredenciamentoDeskTop.Funcoes;
 
 namespace IMOD.CredenciamentoDeskTop.Views.Model
 {
-    public class ColaboradorEmpresaView:ValidacaoModel
+    public class ColaboradorEmpresaView : ValidacaoModel
     {
         #region  Propriedades
-       
+
         public int ColaboradorEmpresaId { get; set; }
-        public int ColaboradorId { get; set; } 
-        [Range(1, int.MaxValue,ErrorMessage = "A Razão Social é requerida.")]
+        public int ColaboradorId { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "A Razão Social é requerida.")]
         public int EmpresaId { get; set; }
         //[Range(1, int.MaxValue, ErrorMessage = "O Contrato é requerido.")]
         public int EmpresaContratoId { get; set; }
@@ -41,6 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool Terceirizada { get; set; }
         public string TerceirizadaSigla { get; set; }
         public List<Guid> listadeGrupos { get; set; }
+        public bool grupoAlterado { get; set; }
         #endregion
     }
 }

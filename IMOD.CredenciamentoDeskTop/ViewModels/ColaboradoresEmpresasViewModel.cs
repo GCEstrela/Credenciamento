@@ -257,11 +257,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
                 _service.Criar(n1);
 
-                #region Verificar se pode gerar CardHolder
-
-                //var colaborador = _serviceColaborador.BuscarPelaChave(n1.ColaboradorId);
-                //ColaboradoresCredenciaisView entity = new ColaboradoresCredenciaisView();
-                //entity.col = colaborador.Nome;
+                #region Gerar CardHolder
 
                 _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
                 
@@ -336,7 +332,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _service.Alterar(n1);
                 Entity.Matricula = n1.Matricula;
 
+                #region Gerar CardHolder
+
                 _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+                Entity.CardHolderGuid = n1.CardHolderGuid;
+                #endregion
 
                 IsEnableLstView = true;
                 SetDadosEmpresaContrato(Entity);
@@ -453,7 +453,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             list2.ForEach(n => { EntityObserver.Add(n); });
             ListarDadosEmpresaContratos();
         }
-
+        public string EncontrarCardHolterGuid(int colaboradorid)
+        {
+            try
+            {
+                var list1 = _service.Listar(colaboradorid).FirstOrDefault();
+                if (list1 != null)
+                {
+                    return list1.CardHolderGuid;
+                }
+                return "";
+            }
+            catch (Exception ex)
+            {            
+                throw ex;
+            }
+        }
         #endregion
 
         #region Propriedade Commands

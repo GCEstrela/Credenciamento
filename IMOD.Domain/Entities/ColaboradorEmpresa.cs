@@ -59,7 +59,7 @@ namespace IMOD.Domain.Entities
         public bool Terceirizada { get; set; }
         public string TerceirizadaSigla { get; set; }
         public List<Guid> listadeGrupos { get; set; }
-
+        public bool grupoAlterado { get; set; }
         #endregion
 
 
