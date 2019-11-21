@@ -878,7 +878,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity.grupoAlterado = false;
                 //if (!HabilitaCriar(_colaboradorView.ColaboradorId)) throw new InvalidOperationException("Não é possivel criar credencial, pois existe uma credencial ativa para o colaborador no contrato.");
                 
-                Entity.NumeroColete = "";
+                
                 _configuraSistema = ObterConfiguracao();
                 if (_configuraSistema.Colete)
                 {
