@@ -596,12 +596,15 @@ namespace IMOD.Application.Service
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
             IColaboradorService _serviceColaborador = new ColaboradorService();
+            IEmpresaService _serviceEmpresa = new EmpresaService();
             //IColaboradorCredencialService _service = new ColaboradorCredencialService();
-
+            var cardHolderEmpresa = _serviceEmpresa.BuscarPelaChave(entity.EmpresaId);
             var cardHolderColaborador = _serviceColaborador.BuscarPelaChave(entity.ColaboradorId);
+
             ColaboradoresCredenciaisView entityCardHolder = new ColaboradoresCredenciaisView();
             entityCardHolder.ColaboradorNome = cardHolderColaborador.Nome;
             entityCardHolder.ColaboradorFoto = cardHolderColaborador.Foto;
+            entityCardHolder.Cnpj = cardHolderEmpresa.Cnpj;
             entityCardHolder.EmpresaNome = entity.EmpresaNome;
             entityCardHolder.Cargo = entity.Cargo;
             entityCardHolder.Matricula = entity.Matricula;
@@ -623,6 +626,7 @@ namespace IMOD.Application.Service
             var titularCartao = CardHolderEntity(entityCardHolder);
             titularCartao.listadeGrupos = entityCardHolder.listadeGrupos;
             titularCartao.grupoAlterado = entityCardHolder.grupoAlterado;
+            titularCartao.Cnpj = cardHolderEmpresa.Cnpj;
             #region Setar o valor CardHolder GUID ao colaborador
 
             //Buscar dados do colaborador
