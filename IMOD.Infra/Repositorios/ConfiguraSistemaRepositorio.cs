@@ -74,7 +74,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TelefoneEmergencia", entity.TelefoneEmergencia, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("UrlSistemaPreCadastro", entity.UrlSistemaPreCadastro, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DiasContencao", entity.diasContencao, false)));
-
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("PortaSMTP", entity.PortaSMTP, false)));
+                        
                         if (entity.GrupoPadrao != null)
                         {
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("GrupoPadrao", entity.GrupoPadrao.Trim(), false)));
@@ -144,7 +145,6 @@ namespace IMOD.Infra.Repositorios
                 throw ex;
             }
         }
-
         public ICollection<Domain.Entities.ConfiguraSistema> Listar(params object[] objects)
         {
             try
@@ -152,7 +152,7 @@ namespace IMOD.Infra.Repositorios
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
                     using (var cmd = _dataBase.SelectText("ConfiguraSistema", conn))
-                    {
+                    {           
 
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("CNPJ", objects, 0).Like()));
 
