@@ -290,6 +290,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (!IsEnablePreCadastro)
                 {
                     var list2 = Mapper.Map<List<ColaboradorView>>(list.ToList().OrderBy(c => c.Nome));
+                    //var list2 = Mapper.Map<List<ColaboradorView>>(list.ToList());
                     //var list2 = Mapper.Map<List<ColaboradorView>>(list.ToList().OrderBy(c => c.Nome).Take(100));
                     //var list2 = Mapper.Map<List<ColaboradorView>>(list.ToList());
                     EntityObserver = new ObservableCollection<ColaboradorView>();

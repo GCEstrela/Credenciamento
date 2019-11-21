@@ -188,9 +188,9 @@
                     </ListView.View>
                 </ListView>
 
-                <StackPanel Orientation="Vertical"   HorizontalAlignment="Right" Width="30" Margin="10,0,10,10" Height="170" VerticalAlignment="Bottom">
+                <StackPanel Orientation="Vertical"   HorizontalAlignment="Right" Width="30" Margin="10,0,10,21" Height="159" VerticalAlignment="Bottom">
 
-                    <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" />
+                    <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,10,0,7" />
                     <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"    IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"    Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"   IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7"  Visibility="Collapsed"/>
                     <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar"  IsEnabled="{Binding Comportamento.isEnableCancelar}"    Command="{Binding PrepareCancelarCommand}"   Width="25" Margin="0,0,0,7" />

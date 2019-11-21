@@ -255,6 +255,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 n1.DataFim = DateTime.Today.Date;
                 n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
+                
                 _service.Criar(n1);
 
                 #region Gerar CardHolder

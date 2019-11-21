@@ -145,10 +145,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 //if (empresa == null) return;
                 
-                 Contratos = _serviceContratos.Listar(veiculo).OrderBy(n => n.Descricao).ToList();
+                Contratos = _serviceContratos.Listar(veiculo).OrderBy(n => n.Descricao).ToList();
                 var codigosContratos = Contratos.Select(c => c.EmpresaContratoId).ToList();
                 
                 var seguros = _serviceEmpresaSeguros.Listar().ToList();
+
+                if (SeguroVeiculo == null) return;
+                SeguroVeiculo.NomeSeguradora = "Novo Seguro";
+                SegurosVeiculo.Insert(0, SeguroVeiculo);
                 SegurosVeiculo = seguros.Where(s => codigosContratos.Contains(s.EmpresaContratoId)).ToList();
                 
             }

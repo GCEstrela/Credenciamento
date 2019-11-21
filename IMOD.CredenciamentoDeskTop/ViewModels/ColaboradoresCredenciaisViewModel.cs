@@ -758,6 +758,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.CredencialmotivoIDanterior = Entity.CredencialMotivoId;
                 n1.listadeGrupos = Entity.listadeGrupos;
                 n1.Usuario = UsuarioLogado.Nome;
+                //n1.NumeroColete = Entity.NumeroColete;
 
                 //_configuraSistema = ObterConfiguracao();
                 n1.Regras = _configuraSistema.Regras;
@@ -878,7 +879,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity.grupoAlterado = false;
                 //if (!HabilitaCriar(_colaboradorView.ColaboradorId)) throw new InvalidOperationException("Não é possivel criar credencial, pois existe uma credencial ativa para o colaborador no contrato.");
                 
-                Entity.NumeroColete = "";
+                //Entity.NumeroColete = "";
                 _configuraSistema = ObterConfiguracao();
                 if (_configuraSistema.Colete)
                 {
@@ -974,7 +975,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.CredencialmotivoIDanterior = Entity.CredencialMotivoId;
                 n1.listadeGrupos = Entity.listadeGrupos;
                 n1.Usuario = UsuarioLogado.Nome;
+                //n1.NumeroColete = Entity.NumeroColete;
                 Entity.Usuario= UsuarioLogado.Nome;
+                
                 if (Entity.ColaboradorPrivilegio1Id != 0)
                 {
                     var areaAcesso1 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio1Id).FirstOrDefault();
@@ -1055,6 +1058,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         n1.listadeGrupos = Entity.listadeGrupos;
 
                         _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
+                        _service.Alterar(n1);
                     }
                     else
                     {

@@ -590,11 +590,12 @@ namespace IMOD.Application.Service
         }
         public void CriarTitularCartao(ICredencialService geradorCredencialService, IColaboradorService colaboradorService, ColaboradorEmpresa entity)
         {
-             
 
+
+            ConfiguraSistema _configuraSistema;
             if (geradorCredencialService == null) throw new ArgumentNullException(nameof(geradorCredencialService));
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-
+            _configuraSistema = ObterConfiguracao();
             IColaboradorService _serviceColaborador = new ColaboradorService();
             IEmpresaService _serviceEmpresa = new EmpresaService();
             //IColaboradorCredencialService _service = new ColaboradorCredencialService();
@@ -622,13 +623,18 @@ namespace IMOD.Application.Service
             entityCardHolder.FormatoCredencialId = 0;
             entityCardHolder.FormatoCredencialDescricao = "SNC";
             entityCardHolder.CardHolderGuid = entity.CardHolderGuid;
+            if(_configuraSistema.GrupoPadrao!=null || _configuraSistema.GrupoPadrao != string.Empty)
+            {
+                entityCardHolder.GrupoPadrao = _configuraSistema.GrupoPadrao.Trim();
+            }
 
             var titularCartao = CardHolderEntity(entityCardHolder);
             titularCartao.listadeGrupos = entityCardHolder.listadeGrupos;
             titularCartao.grupoAlterado = entityCardHolder.grupoAlterado;
             titularCartao.Cnpj = cardHolderEmpresa.Cnpj;
+            titularCartao.GrupoPadrao = entityCardHolder.GrupoPadrao;
             #region Setar o valor CardHolder GUID ao colaborador
-
+            
             //Buscar dados do colaborador
             var co1 = colaboradorService.Empresa.BuscarPelaChave(entity.ColaboradorEmpresaId);
             if (co1 == null) throw new InvalidOperationException("Não foi possive obter um colaborador");
@@ -645,6 +651,19 @@ namespace IMOD.Application.Service
             //titularCartao.IdentificadorCardHolderGuid = co1.CardHolderGuid;
             #endregion
             //Alterar(n1);
+        }
+        /// <summary>
+        ///     Obtem configuração de sistema
+        /// </summary>
+        /// <returns></returns>
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
+            //Obter configuracoes de sistema
+            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
         }
         /// <summary>
         ///     Remove Regra de acesso do cardHolder sub-sistema de credenciamento (Genetec)

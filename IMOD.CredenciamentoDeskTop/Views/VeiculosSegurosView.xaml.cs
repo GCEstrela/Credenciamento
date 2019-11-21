@@ -154,9 +154,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                //var ttt  = this.cmbContrato.SelectedValue.ToString();
                 if (_viewModel.Entity == null) return;
                 if (e.AddedItems.Count <= 0) return;
+                _viewModel.Comportamento.isEnableCancelar = false;
                 _viewModel.ListarContratoSeguros((EmpresaSeguro)((object[])e.AddedItems)[0]);
             }
             catch (Exception ex)

@@ -42,7 +42,7 @@
                             <ComboBox x:Name="cmbContrato" IsEditable="true" 
                                    Width="451" Height="26" 
                                    VerticalContentAlignment="Center" 
-                                   HorizontalContentAlignment="Left"
+                                   HorizontalContentAlignment="Left"                                   
                                    IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                    ItemsSource="{Binding SegurosVeiculo}" 
                                    SelectedItem="{Binding SeguroVeiculo}"

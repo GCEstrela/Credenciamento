@@ -250,6 +250,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         n2.Validade = n1.Validade;
                         n2.ValorCobertura = n1.ValorCobertura;
                         n2.Arquivo = n1.Arquivo;
+                        n2.NumeroApolice = n1.NumeroApolice;
                         n2.NomeArquivo = n1.NomeArquivo;
                         n2.NomeSeguradora = n1.NomeSeguradora;
                         _serviceVeiculoSeguro.Alterar(n2);
@@ -302,11 +303,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var result = WpfHelp.MboxDialogRemove();
                 if (result != DialogResult.Yes) return;
-                //var existeVeiculoSegoro = _serviceVeiculoSeguro.Listar(null,null,null, Entity.EmpresaContratoId).ToList();
-                //if (existeVeiculoSegoro != null && existeVeiculoSegoro.Count > 0)
-                //{
 
-                //}
+                var segurosVeiculos = _serviceVeiculoSeguro.Listar(null, null, null, Entity.EmpresaSeguroId).ToList();
+                if (segurosVeiculos != null && segurosVeiculos.Count > 0)
+                {
+                    WpfHelp.PopupBox("Seguro não pode ser DELETADO, existe(m) " + segurosVeiculos.Count + " [ Veícula / Equipamento ] associado a este seguro. Ação cancelada.", 1);
+                    return;
+                }
+
                 var n1 = Mapper.Map<EmpresaSeguro>(Entity);
                 _service.Remover(n1);
                 //Retirar empresa da coleção

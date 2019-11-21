@@ -181,8 +181,15 @@ namespace IMOD.Infra.Servicos
                 if (!string.IsNullOrEmpty(entity.Nome))
                 {
                     var primeironome = entity.Nome.Split(' ')[0];
-                    entityCardholder.FirstName = primeironome;
-                    entityCardholder.LastName = entity.Nome.Replace(primeironome, "").Trim();
+                    if (primeironome != "")
+                    {
+                        entityCardholder.FirstName = primeironome;
+                        entityCardholder.LastName = entity.Nome.Replace(primeironome, "").Trim();
+                    }
+                    else
+                    {
+                        entityCardholder.FirstName = entity.Nome;
+                    }
                 }
                 entityCardholder.Description = entity.Empresa + " - " + entity.Cpf;
 
@@ -437,6 +444,7 @@ namespace IMOD.Infra.Servicos
                         _sdk.TransactionManager.CommitTransaction();
                         return;
                     }
+                    entity.IdentificadorCardHolderGuid = null;
                 }
                 else
                 {
@@ -456,38 +464,24 @@ namespace IMOD.Infra.Servicos
 
                     SetValorCamposCustomizados(entity, cardHolder);
 
-                    //EncontrarGrupos(entity.GrupoPadrao);
+                    cardHolder.Groups.Clear();
                     if (entity.GrupoPadrao != null)
                     {
-                        try
-                        {
-                            Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
-                            if (grupo != null)
-                                cardHolder.Groups.Add(grupo);
-                        }
-                        catch (Exception)
-                        {
-                            //throw;
-                        }
-
+                        Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
+                        if (grupo != null)
+                            cardHolder.Groups.Add(grupo);
                     }
-
-                    cardHolder.Groups.Clear();
                     if (entity.listadeGrupos != null)
                         foreach (Guid cardholderGuid in entity.listadeGrupos)
                         {
-                            //Guid grupoencontrado = new Guid(EncontrarGrupos(cardholderNome));
-                            //if (grupoencontrado != null)
                             cardHolder.Groups.Add(cardholderGuid);
                         }
-                    //var grupos = entity.ListaGrupos.Split(';');
 
                     if (entity.Validade > DateTime.Now)
                     {
                         cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                     }
                     cardHolder.Picture = entity.Foto;
-
 
                     _sdk.TransactionManager.CommitTransaction();
                 }
