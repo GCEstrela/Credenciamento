@@ -468,7 +468,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             list2.ForEach(n => { EntityObserver.Add(n); });
             ListarDadosEmpresaContratos();
         }
-        public string EncontrarCardHolterGuid(int colaboradorid)
+        public string EncontrarCardHolderGuid(int colaboradorid)
         {
             try
             {
