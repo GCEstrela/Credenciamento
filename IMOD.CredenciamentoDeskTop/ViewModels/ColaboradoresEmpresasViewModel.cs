@@ -306,9 +306,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-           
+            
             Entity = new ColaboradorEmpresaView();
             Entity.Ativo = true;
+            Entity.grupoAlterado = false;
             Entity.DataInicio = DateTime.Today.Date;
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
@@ -432,6 +433,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 WpfHelp.PopupBox("Selecione um item da lista", 1);
                 return;
             }
+            Entity.grupoAlterado = false;
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
             _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false);
