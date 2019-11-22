@@ -153,9 +153,11 @@
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png" />
                             </StackPanel>
                         </Button>
-                        <Button x:Name="bnt_Gupos" 
-                                IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                Margin="32,0,0,0" Content="Grupos" Width="101" Click="Bnt_Gupos_Click">
+                        <Button x:Name="bnt_Gupos" IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                Margin="35,0,0,0" VerticalAlignment="Center" Width="24" Height="24" Click="Bnt_Gupos_Click">
+                            <StackPanel>
+                                <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/CardholderGroup.jpg" />
+                            </StackPanel>
                         </Button>
                     </StackPanel>
                 </StackPanel>

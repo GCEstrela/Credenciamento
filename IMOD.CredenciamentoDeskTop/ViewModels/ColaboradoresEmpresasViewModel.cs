@@ -255,7 +255,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 n1.DataFim = DateTime.Today.Date;
                 n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
-                
+
+                n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                if (n1.Validade < DateTime.Now)
+                {
+                    WpfHelp.PopupBox("Data de Validade [ " + n1.Validade + " ] do CardHolder é Inválida", 1);
+                    return;
+                }
                 _service.Criar(n1);
 
                 #region Gerar CardHolder
@@ -329,6 +335,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (n1.Matricula == null)
                     _service.CriarNumeroMatricula(n1);
 
+                n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                if (n1.Validade < DateTime.Now)
+                {
+                    WpfHelp.PopupBox("Data de Validade [ " + n1.Validade + " ] do CardHolder é Inválida",1);
+                    return;
+                }
+
                 n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
                 _service.Alterar(n1);
                 Entity.Matricula = n1.Matricula;
@@ -337,6 +350,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
                 Entity.CardHolderGuid = n1.CardHolderGuid;
+
                 #endregion
 
                 IsEnableLstView = true;
