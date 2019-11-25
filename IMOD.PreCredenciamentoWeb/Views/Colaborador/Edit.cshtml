@@ -309,8 +309,16 @@
                                         </div>
                                         @Html.LabelFor(model => model.RgEmissao, htmlAttributes: new { @class = "control-label col-md-1" })
                                         <div class="col-md-2">
-                                            @Html.EditorFor(model => model.RgEmissao, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                            @Html.ValidationMessageFor(model => model.RgEmissao, "", new { @class = "text-danger" })
+                                            <div id="datepicker">
+                                                <div class="input-group date">
+                                                    @Html.EditorFor(model => model.RgEmissao, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                                
+                                                @Html.ValidationMessageFor(model => model.RgEmissao, "", new { @class = "text-danger" })
+
+                                            </div>
                                         </div>
 
                                     </div>
@@ -748,6 +756,14 @@
                 prevTab($active);
 
             });
+
+            $('#datepicker .input-group.date').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'pt-BR',
+                autoclose: true,
+                orientation: "bottom"
+            });
+
         });
 
         function nextTab(elem) {

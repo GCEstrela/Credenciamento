@@ -138,12 +138,10 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public HttpPostedFileBase File { get; set; }
         [Required(ErrorMessage = "A Emissão é requerida.")]
         [Display(Name = "Data Emissão")]
-        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? Emissao { get; set; }
 
         [Display(Name = "Data Validade")]
-        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? Validade { get; set; }
 

@@ -17,7 +17,7 @@
                     <div class="wizard">
                         <div class="wizard-inner" style="text-align:center">
                             <div class="connecting-line" style="width:45%"></div>
-                            <ul class="nav nav-tabs" role="tablist" >
+                            <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item" style="width:250px" data-toggle="tab" href="#" role="tab">
                                     &nbsp&nbsp
                                 </li>
@@ -157,13 +157,13 @@
                             </div>
                             <div class="tab-pane" id="profile" role="tabpanel">
                                 <br />
-                                                    @*<div class="form-group">
-                                    @Html.LabelFor(model => model.idTipoServicoVinculados, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-6">
-                                        @Html.EditorFor(model => model.idTipoServicoVinculados, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                        @Html.ValidationMessageFor(model => model.idTipoServicoVinculados, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>*@
+                                @*<div class="form-group">
+                                        @Html.LabelFor(model => model.idTipoServicoVinculados, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-6">
+                                            @Html.EditorFor(model => model.idTipoServicoVinculados, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                            @Html.ValidationMessageFor(model => model.idTipoServicoVinculados, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>*@
 
 
                                 <div class="form-group">
@@ -326,13 +326,24 @@
 
                                     @Html.LabelFor(model => model.Emissao, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-2">
-                                        @Html.EditorFor(model => model.Emissao, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                        @Html.ValidationMessageFor(model => model.Emissao, "", new { @class = "text-danger" })
+                                        <div id="datepicker">
+                                            <div class="input-group date">
+                                                @Html.EditorFor(model => model.Emissao, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                @Html.ValidationMessageFor(model => model.Emissao, "", new { @class = "text-danger" })
+                                            </div>
+
+                                        </div>
                                     </div>
                                     @Html.LabelFor(model => model.Validade, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-2">
-                                        @Html.EditorFor(model => model.Validade, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                        @Html.ValidationMessageFor(model => model.Validade, "", new { @class = "text-danger" })
+                                        <div id="datepicker">
+                                            <div class="input-group date">
+                                                @Html.EditorFor(model => model.Validade, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                @Html.ValidationMessageFor(model => model.Validade, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -424,7 +435,15 @@
                         Alert(result);
                     }
                 });
-                });
+            });
+
+            $('#datepicker .input-group.date').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'pt-BR',
+                autoclose: true,
+                orientation: "bottom"
+            });
+
             });
 
     //evento do botão incluir serviço
@@ -479,7 +498,7 @@
         };
     </script>
 
-    
+
     <script>
 
             $("#ddlEstado").change(function () {
