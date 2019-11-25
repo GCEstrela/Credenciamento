@@ -82,7 +82,7 @@
                         <TextBox  x:Name="Cargo_tb" MaxLength="40" CharacterCasing="Upper" VerticalContentAlignment="Center" 
                                   Text="{Binding Entity.Cargo, UpdateSourceTrigger=PropertyChanged}" 
                                   IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                  Height="24" HorizontalAlignment="Left" Width="203" Margin="10,0,0,0"/>
+                                  Height="24" HorizontalAlignment="Left" Width="204" Margin="10,0,0,0"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" 
                                 IsEnabled="{Binding Comportamento.isEnableCancelar}" Width="745" Height="28" Margin="0,5,0,0">
@@ -111,7 +111,7 @@
                         <TextBox
                             Name="txtDtFim" Text="{Binding Entity.DataFim, StringFormat='{}{0:dd/MM/yyyy}'}"                           
                             PreviewTextInput="NumberOnly" MaxLength="10"                            
-                            Height="24"  Width="84" Margin="10,2,0,0" LostFocus="TxtDtFim_LostFocus" />
+                            Height="24"  Width="85" Margin="10,3,0,1" LostFocus="TxtDtFim_LostFocus" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -154,9 +154,9 @@
                             </StackPanel>
                         </Button>
                         <Button x:Name="bnt_Gupos" IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                Margin="90,0,0,0" VerticalAlignment="Center"  HorizontalAlignment="Right" Width="40" Height="24" Click="Bnt_Gupos_Click">
+                                Margin="92,0,0,0" VerticalAlignment="Center"  HorizontalAlignment="Right" Width="40" Height="24" Click="Bnt_Gupos_Click">
                             <StackPanel ToolTip="Selecione os grupos" Width="24">
-                                <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/CardholderGroup.jpg"/> 
+                                <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/CardholderGroup.jpg"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>

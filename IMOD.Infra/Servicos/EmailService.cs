@@ -20,6 +20,10 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
+                EstrelaEncryparDecrypitar.Variavel.key = "CREDENCIAMENTO2019";
+                EstrelaEncryparDecrypitar.Decrypt ESTRELA_EMCRYPTAR = new EstrelaEncryparDecrypitar.Decrypt();
+                email.Senha = ESTRELA_EMCRYPTAR.EstrelaDecrypt(email.Senha);
+
                 var smtpClient = new SmtpClient();
                 var basicCredential = new NetworkCredential(email.Usuario, email.Senha);
 
@@ -77,8 +81,8 @@ namespace IMOD.Infra.Servicos
                 email.Usuario = configSistema.EmailUsuario.Trim();
                 email.Senha = configSistema.EmailSenha.Trim();
                 email.ServidorEmail = configSistema.SMTP.Trim();
-                email.Porta = "587";       // porta para SSL                                   
-                email.UsarSsl = false; // GMail requer SSL         
+                email.Porta = configSistema.PortaSMTP.ToString();       // porta para SSL                                   
+                email.UsarSsl = configSistema.EnableSsl; // GMail requer SSL         
                                        //email.UsarTls = true;
                 email.UsarAutenticacao = false;
                 email.EmailDestinatario = destinatarios.Split(';').ToList();
@@ -91,7 +95,7 @@ namespace IMOD.Infra.Servicos
 
                 smtpClient.EnableSsl = email.UsarSsl;
                 smtpClient.Host = email.ServidorEmail;
-                smtpClient.UseDefaultCredentials = false;
+                smtpClient.UseDefaultCredentials = configSistema.UseDefaultCredentials;
                 smtpClient.Credentials = basicCredential;
                 smtpClient.Port = Convert.ToInt32(email.Porta);
                 smtpClient.Timeout = string.IsNullOrEmpty(email.TimeOut) ? 100000 : Convert.ToInt32(email.TimeOut);

@@ -6,7 +6,7 @@
              xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
              d:DataContext="{d:DesignInstance viewModels:VeiculosSegurosViewModel , IsDesignTimeCreatable=True}"
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
-             mc:Ignorable="d"  Height="350" >
+             mc:Ignorable="d"  Height="350" Loaded="UserControl_Loaded" >
     <UserControl.Resources>
         <Image x:Key="imgAdd" Source="../Resources/add.png"  />
         <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
@@ -49,7 +49,7 @@
                                    DisplayMemberPath="NomeSeguradora"  
                                    SelectedValue="{Binding Entity.EmpresaSeguroid, UpdateSourceTrigger=PropertyChanged}" 
                                    SelectedValuePath="EmpresaSeguroid"
-                                   Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" SelectionChanged="CmbContrato_SelectionChanged"/>
+                                   Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
 
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"

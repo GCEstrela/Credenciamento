@@ -542,11 +542,11 @@ namespace IMOD.Service.Service
             //Tendo o objeto mail configurado, o próximo passo é criar um cliente Smtp e enviar o e-mail.
             using (var smtp = new SmtpClient(Emailsmtp))
             {
-                smtp.EnableSsl = false; // GMail requer SSL
+                smtp.EnableSsl = _configuraSistema.EnableSsl; // GMail requer SSL
                 smtp.Port = _configuraSistema.PortaSMTP;       // porta para SSL 587
                 //smtp.Port = 465;
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network; // modo de envio
-                smtp.UseDefaultCredentials = false; // vamos utilizar credencias especificas
+                smtp.UseDefaultCredentials = _configuraSistema.UseDefaultCredentials; // vamos utilizar credencias especificas
 
                 // seu usuário e senha para autenticação
                 smtp.Credentials = new NetworkCredential(usuario, senha);

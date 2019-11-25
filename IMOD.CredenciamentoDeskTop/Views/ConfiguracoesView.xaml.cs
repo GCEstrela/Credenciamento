@@ -630,7 +630,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 var arq = WpfHelp.UpLoadArquivoDialog(filtro, 200);
                 if (arq == null) return;
                 _viewModel.Entity.EmpresaLOGO = arq.FormatoBase64;
-                var binding = BindingOperations.GetBindingExpression(Logo_im, Image.SourceProperty);
+                var binding = BindingOperations.GetBindingExpression(Logo_im__, Image.SourceProperty);
                 binding?.UpdateTarget();
 
             }
@@ -646,9 +646,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
             btnAdicionarTipoAtividade.IsEnabled = true;
             btnSalvarTipoAtividade.IsEnabled = false;
-            if (Senha_tb.Password.Length > 0)
+            if (Senha_tb_.Password.Length > 0)
             {
-                _viewModel.Entity.EmailSenha = this.Senha_tb.Password;
+                _viewModel.Entity.EmailSenha = this.Senha_tb_.Password;
             }
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_ConfiguracoesSistema();
 
@@ -782,11 +782,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
                     MessageBox.Show("Importação concluida!", "Credenciamento", MessageBoxButton.OK);
                 }
 
-
             }
             catch (Exception ex)
             {
-
+                Utils.TraceException(ex);
                 throw ex;
             }
         }
@@ -795,12 +794,18 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+
                 var rpt = (LayoutCrachaView)ListaLayoutsCrachas_lv.SelectedValue;
                 _viewModel.VisualizarCrach(rpt);
+
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
             }
             catch (Exception ex)
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
                 Utils.TraceException(ex);
+                throw ex;
             }
         }
 

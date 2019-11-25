@@ -149,13 +149,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 throw;
             }
         }
-
-        private void CmbContrato_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void OnSelecionaSeguro_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
                 if (_viewModel.Entity == null) return;
                 if (e.AddedItems.Count <= 0) return;
+                var ttt = this.cmbContrato.Text;
                 if (this.cmbContrato.Text == "Novo Seguro" || this.cmbContrato.Text == "") return;
                 _viewModel.Comportamento.isEnableCancelar = false;
                 _viewModel.ListarContratoSeguros((EmpresaSeguro)((object[])e.AddedItems)[0]);
@@ -163,6 +163,36 @@ namespace IMOD.CredenciamentoDeskTop.Views
             catch (Exception ex)
             {
                 //WpfHelp.Mbox(ex.Message);
+                throw;
+            }
+        }
+        //private void old_CmbContrato_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (_viewModel.Entity == null) return;
+        //        if (e.AddedItems.Count <= 0) return;
+        //        var ttt = this.cmbContrato.Text;
+        //        if (this.cmbContrato.Text == "Novo Seguro" || this.cmbContrato.Text == "") return;
+        //        _viewModel.Comportamento.isEnableCancelar = false;
+        //        _viewModel.ListarContratoSeguros((EmpresaSeguro)((object[])e.AddedItems)[0]);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //WpfHelp.Mbox(ex.Message);
+        //        throw;
+        //    }
+        //}
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                this.cmbContrato.SelectionChanged += OnSelecionaSeguro_SelectionChanged;
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

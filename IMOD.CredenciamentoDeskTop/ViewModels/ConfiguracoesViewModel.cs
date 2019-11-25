@@ -1446,6 +1446,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var entity = Entity;
                 var entityConv = Mapper.Map<ConfiguraSistema>(entity);
+                EstrelaEncryparDecrypitar.Variavel.key = "CREDENCIAMENTO2019";
+                EstrelaEncryparDecrypitar.Decrypt ESTRELA_EMCRYPTAR = new EstrelaEncryparDecrypitar.Decrypt();
+                entityConv.EmailSenha = ESTRELA_EMCRYPTAR.EstrelaEncrypt(entity.EmailSenha);
                 _serviceConfiguracoesSistema.Alterar(entityConv);
 
                 CarregaConfiguracaoSistema();
@@ -2154,6 +2157,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var list2 = Mapper.Map<ConfiguraSistemaView>(list1);
                 Entity = list2;
 
+                EstrelaEncryparDecrypitar.Variavel.key = "CREDENCIAMENTO2019";
+                EstrelaEncryparDecrypitar.Decrypt ESTRELA_EMCRYPTAR = new EstrelaEncryparDecrypitar.Decrypt();
+                if (Entity != null)
+                {
+                    Entity.EmailSenha = ESTRELA_EMCRYPTAR.EstrelaDecrypt(Entity.EmailSenha);
+                }
 
                 var serviceSC = new CredencialGenetecService(Main.Engine);
                 var grupos = serviceSC.RetornarGrupos();
