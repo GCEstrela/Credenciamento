@@ -156,6 +156,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 if (_viewModel.Entity == null) return;
                 if (e.AddedItems.Count <= 0) return;
+                if (this.cmbContrato.Text == "Novo Seguro" || this.cmbContrato.Text == "") return;
                 _viewModel.Comportamento.isEnableCancelar = false;
                 _viewModel.ListarContratoSeguros((EmpresaSeguro)((object[])e.AddedItems)[0]);
             }

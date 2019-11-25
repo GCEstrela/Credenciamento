@@ -923,12 +923,10 @@
                                                           SelectedItem="{Binding Path = LayoutCrachaSelecionado, Mode=TwoWay}"  Height="167" Width="560"  SelectedIndex="{Binding Path=LayoutCrachaSelectedIndex, Mode=TwoWay}" >
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
-                                                    <!--<GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding LayoutCrachaId}"/>-->
                                                     <GridViewColumn Width="300" Header="Modelo"  DisplayMemberBinding="{Binding Modelo}"/>
                                                     <GridViewColumn Width="90" Header="Tipo"  DisplayMemberBinding="{Binding TipoCrachaDescricao}"/>
                                                     <GridViewColumn Width="90" Header="Validade"  DisplayMemberBinding="{Binding TipoValidadeDescricao}"/>
                                                     <GridViewColumn Width="90" Header="Cor"  DisplayMemberBinding="{Binding Cor}"/>
-                                                    <!--<GridViewColumn Width="100" Header="Valor"  DisplayMemberBinding="{Binding Valor}"/>-->
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -939,12 +937,6 @@
                                                     <Image Source="../Resources/edit.png"/>
                                                 </StackPanel>
                                             </Button>
-                                            <!--<Button x:Name="btnDeletarCracha" ToolTip="Remover" Width="25"
-                                                    Margin="0,0,0,7" Click="btnDeletarCracha_Click">
-                                                <StackPanel>
-                                                    <Image Source="../Resources/remove.png"/>
-                                                </StackPanel>
-                                            </Button>-->
                                             <Button x:Name="btnCancelarCracha" ToolTip="Cancelar" Width="25"
                                                 Margin="0,0,0,7" Click="btnCancelarCracha_Click">
                                                 <StackPanel>
@@ -1064,6 +1056,7 @@
                                 </StackPanel>
 
                             </GroupBox>
+                            
                             <GroupBox Background="Brown"
                               Grid.Column="0" Header="Configurações" Margin="300,250,0,-133" Height="310" VerticalAlignment="Top" Grid.RowSpan="3">
                                 <StackPanel Margin="1">
@@ -1173,16 +1166,7 @@
                                     </StackPanel>
                                 </StackPanel>
                             </GroupBox>
-                            <!--<GroupBox Header="Contatos" Background="BlueViolet" x:Name="Contato1_gb"  VerticalAlignment="Top" Margin="630,20,-610,0"
-                              Height="187">
-                                <StackPanel Margin="1">
-                                    
-
-                                </StackPanel>
-
-
-                            </GroupBox>-->
-
+                            
                         </Grid>
                     </StackPanel>
                 </ScrollViewer>

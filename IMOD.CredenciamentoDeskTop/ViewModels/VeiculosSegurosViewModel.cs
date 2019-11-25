@@ -150,11 +150,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 
                 var seguros = _serviceEmpresaSeguros.Listar().ToList();
 
-                if (SeguroVeiculo == null) return;
-                SeguroVeiculo.NomeSeguradora = "Novo Seguro";
-                SegurosVeiculo.Insert(0, SeguroVeiculo);
+                if (seguros == null) return;
                 SegurosVeiculo = seguros.Where(s => codigosContratos.Contains(s.EmpresaContratoId)).ToList();
                 
+
             }
             catch (Exception ex)
             {
@@ -263,6 +262,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
            
             Entity = new VeiculoSeguroView();
+            if (SegurosVeiculo != null || SegurosVeiculo.Count > 0)
+            {
+                EmpresaSeguro SeguroVeiculo = new EmpresaSeguro();
+                SeguroVeiculo.NomeSeguradora = "Novo Seguro";
+                SegurosVeiculo.Insert(0, SeguroVeiculo);
+            }
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
             _viewModelParent.HabilitaControleTabControls(false, false, false, true, false, false);
