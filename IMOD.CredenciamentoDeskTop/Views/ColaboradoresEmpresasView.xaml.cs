@@ -198,7 +198,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 }
 
                 _viewModel.Entity.CardHolderGuid =_viewModel.EncontrarCardHolderGuid(_viewModel.Entity.ColaboradorId);
-                if (_viewModel.Entity.CardHolderGuid != null)
+                if (!string.IsNullOrEmpty(_viewModel.Entity.CardHolderGuid.ToString()))
                 {
                     popup.TCHG.CardHolderGuid = new Guid(_viewModel.Entity.CardHolderGuid); //
                 }
