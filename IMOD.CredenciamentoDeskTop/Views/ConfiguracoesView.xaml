@@ -7,7 +7,7 @@
              d:DataContext="{d:DesignInstance viewModels:ConfiguracoesViewModel , IsDesignTimeCreatable=True}"             
              xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
              mc:Ignorable="d"
-             MaxWidth="1300" Width="1270" Height="500" >
+             MaxWidth="1300" Width="1270" Height="600" >
     <UserControl.Resources>
         <Image x:Key="imgAdd" Source="../Resources/add.png" />
         <Image x:Key="imgEdit" Source="../Resources/edit.png" />
@@ -29,7 +29,7 @@
                 <ColumnDefinition Width="168"  />
             </Grid.ColumnDefinitions>
         </Grid>
-        <TabControl x:Name="TabGeral_tc" Grid.Row="1" Grid.Column="0" Margin="0,-145,0,0" IsSynchronizedWithCurrentItem="True" TabStripPlacement="Top" >
+        <TabControl x:Name="TabGeral_tc" Grid.Row="1" Grid.Column="0" Margin="0,-20,0,0" IsSynchronizedWithCurrentItem="True" TabStripPlacement="Top" >
 
             <TabItem x:Name="Empresas_ti"  Width="200"  Header="Empresas"  >
                 <ScrollViewer   VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Auto"  >
