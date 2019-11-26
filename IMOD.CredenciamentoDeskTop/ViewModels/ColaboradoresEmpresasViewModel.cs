@@ -179,15 +179,30 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (empresa == null) return;
 
             Contratos.Clear();
-            var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId).OrderBy(n => n.Descricao).ToList();
+            
+            if (!_configuraSistema.Contrato)
+            {
+                var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId).OrderBy(n => n.Descricao).ToList();
+                lstContratos.ForEach(n =>
+                {
+                    n.Descricao = $"{n.Descricao} - {n.NumeroContrato}";
+                    Contratos.Add(n);
+
+                });
+            }
+            else
+            {
+                var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId).OrderBy(n => n.Descricao).ToList().FirstOrDefault();
+                if(lstContratos!=null)
+                    Contratos.Add(lstContratos);
+
+                Entity.Validade = lstContratos.Validade;
+            }
+
+            
             //Contratos.AddRange(lstContratos);
             //Manipular concatenaçção de conrato
-            lstContratos.ForEach(n =>
-            {
-                n.Descricao = $"{n.Descricao} - {n.NumeroContrato}";
-                Contratos.Add(n);
-
-            });
+            
             
         }
 
