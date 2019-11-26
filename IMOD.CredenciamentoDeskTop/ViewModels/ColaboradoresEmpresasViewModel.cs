@@ -52,6 +52,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<Empresa> Empresas { get; private set; }
         public Empresa Empresa { get; set; } 
         public ColaboradorEmpresaView Entity { get; set; }
+        public string VisibleGrupos { get; set; }
         public ObservableCollection<ColaboradorEmpresaView> EntityObserver { get; set; }
         /// <summary>
         ///     Seleciona indice da listview
@@ -172,6 +173,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 IsEnableColete = false;
             }
+            VisibleGrupos = Helper.ExibirCampo(_configuraSistema.AssociarGrupos);
         }
 
         public void ListarContratos(Empresa empresa)
