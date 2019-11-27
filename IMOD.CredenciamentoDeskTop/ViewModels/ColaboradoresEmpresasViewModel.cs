@@ -175,7 +175,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             VisibleGrupos = Helper.ExibirCampo(_configuraSistema.AssociarGrupos);
         }
+        public void AtualizarConfiguracoes()
+        {
+            try
+            {
+                _configuraSistema = ObterConfiguracao();
+                if (!_configuraSistema.Colete) //Se Cole não for automático false
+                {
+                    IsEnableColete = false;
+                }
+                VisibleGrupos = Helper.ExibirCampo(_configuraSistema.AssociarGrupos);
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
         public void ListarContratos(Empresa empresa)
         {
             if (empresa == null) return;

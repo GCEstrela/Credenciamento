@@ -35,7 +35,7 @@ namespace IMOD.Application.Service
         {
             var v = assembly.GetName().Version;
             return string.Format (CultureInfo.InvariantCulture, @"Versão {0}.{1}.{2}", v.Major, v.Minor,
-                v.Revision);
+                v.Build);
         }
 
         #endregion

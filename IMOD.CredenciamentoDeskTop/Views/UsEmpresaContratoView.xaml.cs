@@ -182,7 +182,19 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                lblNome.Visibility = Visibility.Hidden;
+                Terceira_tb.Visibility = Visibility.Hidden;
+                lblSigla.Visibility = Visibility.Hidden;
+                txtSiglaTerceira.Visibility = Visibility.Hidden;
+
                 if (_viewModel.Entity == null) return;
+                if (_viewModel.Entity.Terceirizada)
+                {
+                    lblNome.Visibility = Visibility.Visible;
+                    Terceira_tb.Visibility = Visibility.Visible;
+                    lblSigla.Visibility = Visibility.Visible;
+                    txtSiglaTerceira.Visibility = Visibility.Visible;
+                }
                 _viewModel.BuscarAnexo(_viewModel.Entity.EmpresaContratoId);
             }
             catch (Exception)

@@ -46,6 +46,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void Frm_Loaded(object sender, RoutedEventArgs e)
         {
             cmbEmpresa.SelectionChanged += OnSelecionaContrato_SelectionChanged;
+            var window = Window.GetWindow(this);
+            window.KeyDown += HandleKeyPress;
         }
 
         private void OnSelecionaContrato_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -218,6 +220,20 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
 
                 throw;
+            }
+        }
+        private void HandleKeyPress(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.Key.ToString() == "F5")
+                {
+                    _viewModel.AtualizarConfiguracoes();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }
