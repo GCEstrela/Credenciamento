@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using AutoMapper;
@@ -27,7 +28,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IVeiculoSeguroService _service = new VeiculoSeguroService();
 
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
-        private readonly IEmpresaContratosService _serviceContratos = new EmpresaContratoService();
+        private readonly IVeiculoEmpresaService _serviceContratos = new VeiculoEmpresaService();
+
+        private readonly IEmpresaSeguroService _serviceEmpresaSeguros = new EmpresaSeguroService();
+
         private ConfiguraSistema _configuraSistema;
 
         private VeiculoView _veiculoView;
@@ -35,8 +39,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region  Propriedades
 
-        public VeiculoSeguroView Entity { get; set; } 
-
+        public VeiculoSeguroView Entity { get; set; }
+        public List<VeiculoEmpresa> Contratos { get; private set; }
+        public List<EmpresaSeguro> SegurosVeiculo { get; private set; }
+        public EmpresaSeguro SeguroVeiculo { get; set; }
         public ObservableCollection<VeiculoSeguroView> EntityObserver { get; set; }
         /// <summary>
         ///     Seleciona indice da listview
@@ -92,6 +98,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             EntityObserver = new ObservableCollection<VeiculoSeguroView>();
             list2.ForEach (n => { EntityObserver.Add (n); });
 
+            ListarContratos(entity.EquipamentoVeiculoId);
             //Obter configuracoes de sistema
             _configuraSistema = ObterConfiguracao();
         }
@@ -299,7 +306,65 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void Pesquisar()
         {
         }
+        // <summary>
+        ///  Listar dados de empresa e contratos
+        /// </summary>
+        public void ListarContratos(int veiculo)
+        {
+            try
+            {
+                //if (empresa == null) return;
 
+                Contratos = _serviceContratos.Listar(veiculo).OrderBy(n => n.Descricao).ToList();
+                var codigosContratos = Contratos.Select(c => c.EmpresaContratoId).ToList();
+
+                var seguros = _serviceEmpresaSeguros.Listar().ToList();
+
+                if (seguros == null) return;
+                SegurosVeiculo = seguros.Where(s => codigosContratos.Contains(s.EmpresaContratoId)).ToList();
+                if (SegurosVeiculo == null)
+                {
+                    SegurosVeiculo = new List<EmpresaSeguro>();
+                }
+                EmpresaSeguro SeguroVeiculo = new EmpresaSeguro();
+                SeguroVeiculo.NomeSeguradora = "NOVO SEGURO";
+                SegurosVeiculo.Insert(0, SeguroVeiculo);
+
+                CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
+
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message, 1);
+            }
+        }
+        public void ListarContratoSeguros(EmpresaSeguro entityEmpresa)
+        {
+            try
+            {
+                if (Entity == null) return;
+
+                var lista = SegurosVeiculo.Find(s => s.EmpresaSeguroId == entityEmpresa.EmpresaSeguroId);
+                if (lista == null) return;
+                Entity.NomeSeguradora = "";
+                if (entityEmpresa.EmpresaSeguroId != 0)
+                {
+                    Entity.NomeSeguradora = lista.NomeSeguradora;
+                }
+                Entity.NumeroApolice = lista.NumeroApolice;
+                Entity.Emissao = lista.Emissao;
+                Entity.Validade = lista.Validade;
+                Entity.ValorCobertura = lista.ValorCobertura;
+                Entity.Arquivo = lista.Arquivo;
+                Entity.NomeArquivo = lista.NomeArquivo;
+                Entity.EmpresaSeguroid = lista.EmpresaSeguroId;
+
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex.Message, 1);
+            }
+        }
         #endregion
 
         #region Propriedade de Pesquisa

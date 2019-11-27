@@ -175,8 +175,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity == null) return;
 
-                //var lista = _serviceEmpresaSeguros.Listar(null, null, null, null, null, null, null, null, entityEmpresa.EmpresaContratoId).OrderBy(n => n.Descricao).ToList().FirstOrDefault();
-                //var lista = _serviceEmpresaSeguros.Listar(null, null, null, null, entityEmpresa.EmpresaSeguroid).ToList().FirstOrDefault();
                 var lista = SegurosVeiculo.Find(s => s.EmpresaSeguroId == entityEmpresa.EmpresaSeguroId);
                 if (lista == null) return;
                 Entity.NomeSeguradora = "";
@@ -192,9 +190,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity.NomeArquivo = lista.NomeArquivo;
                 Entity.EmpresaSeguroid = lista.EmpresaSeguroId;
                 
-                // var list2 = Mapper.Map<List<VeiculoSeguroView>>(lista);
-                //EntityObserver = new ObservableCollection<VeiculoSeguroView>();
-                //list2.ForEach(n => { EntityObserver.Add(n); });
             }
             catch (Exception ex)
             {
