@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using AutoMapper;
@@ -160,6 +161,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 SeguroVeiculo.NomeSeguradora = "NOVO SEGURO";
                 SegurosVeiculo.Insert(0, SeguroVeiculo);
 
+                CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
 
             }
             catch (Exception ex)

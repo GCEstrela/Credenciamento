@@ -146,7 +146,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 }
                 else
                 {
-                    _viewModel.SeguroVeiculo = _viewModel.SegurosVeiculo.Find(s => s.EmpresaSeguroId == _viewModel.Entity.EmpresaSeguroid);
+                    cmbContrato.Text = "";
+                    //_viewModel.SeguroVeiculo = _viewModel.SegurosVeiculo.Find(s => s.EmpresaSeguroId == _viewModel.Entity.EmpresaSeguroid);
                 }
                
             }
