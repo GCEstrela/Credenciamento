@@ -48,7 +48,7 @@
                                    SelectedItem="{Binding SeguroVeiculo}"
                                    DisplayMemberPath="NomeSeguradora"  
                                    SelectedValue="{Binding Entity.EmpresaSeguroid, UpdateSourceTrigger=PropertyChanged}" 
-                                   SelectedValuePath="EmpresaSeguroid"
+                                   SelectedValuePath="EmpresaSeguroid"                                   
                                    Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
 
                         </StackPanel>
@@ -141,7 +141,7 @@
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding VeiculoSeguroId}"/>
-                            <GridViewColumn Width="200" Header="Seguradora"  DisplayMemberBinding="{Binding NomeSeguradora}"/>
+                            <GridViewColumn Width="378" Header="Seguradora"  DisplayMemberBinding="{Binding NomeSeguradora}"/>
                             <GridViewColumn Width="200" Header="Número da Apólice"  DisplayMemberBinding="{Binding NumeroApolice}"/>
                             <GridViewColumn Width="150"  Header="Valor da Cobertura" DisplayMemberBinding="{Binding ValorCobertura}"/>
                             <GridViewColumn Width="150"  Header="Arquivo" DisplayMemberBinding="{Binding NomeArquivo}"/>

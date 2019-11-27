@@ -184,8 +184,8 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="80"  Header="Matrícula"  DisplayMemberBinding="{Binding Matricula}" />
-                            <GridViewColumn Width="250" Header="Empresa"    DisplayMemberBinding="{Binding EmpresaNome}" />
-                            <GridViewColumn Width="150" Header="Contrato"   DisplayMemberBinding="{Binding Descricao}" />
+                            <GridViewColumn Width="350" Header="Empresa"    DisplayMemberBinding="{Binding EmpresaNome}" />
+                            <GridViewColumn Width="178" Header="Contrato"   DisplayMemberBinding="{Binding Descricao}" />
                             <GridViewColumn Width="100" Header="Cargo"      DisplayMemberBinding="{Binding Cargo}" />
                         </GridView>
                     </ListView.View>

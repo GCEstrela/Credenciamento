@@ -308,14 +308,14 @@
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
                         <GridViewColumn Width="50" Header="Cód." DisplayMemberBinding="{Binding EmpresaContratoId}" />
-                        <GridViewColumn Width="200" Header="Descrição do Contrato" DisplayMemberBinding="{Binding Descricao}" />
+                        <GridViewColumn Width="350" Header="Descrição do Contrato" DisplayMemberBinding="{Binding Descricao}" />
                         <GridViewColumn Width="200" Header="Número do Contrato"
                                         DisplayMemberBinding="{Binding NumeroContrato}" />
                         <GridViewColumn Width="110" Header="Data de Emissão"
                                         DisplayMemberBinding="{Binding Emissao, StringFormat=dd/MM/yyyy}" />
                         <GridViewColumn Width="110" Header="Data de Validade"
                                         DisplayMemberBinding="{Binding Validade, StringFormat=dd/MM/yyyy}" />
-                        <GridViewColumn Width="165" Header="Responsável" DisplayMemberBinding="{Binding NomeResp}" />
+                        <GridViewColumn Width="220" Header="Responsável" DisplayMemberBinding="{Binding NomeResp}" />
                     </GridView>
                 </ListView.View>
             </ListView>

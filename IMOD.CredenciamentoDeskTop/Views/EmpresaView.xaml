@@ -549,6 +549,7 @@
                 <views:UsEmpresaContratoView x:Name="EmpresaContratosUs" Margin="5,5,0,5" HorizontalAlignment="Left"
                                              Width="1141" />
             </TabItem>
+            
             <TabItem x:Name="Seguros_ti" IsEnabled="{Binding IsEnableTabSeguros}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -568,6 +569,7 @@
 
                 <views:EmpresasSegurosView x:Name="EmpresaSeguroUs" Margin="0,0,245,17" Height="474" VerticalAlignment="Bottom"/>
             </TabItem>
+            
             <TabItem x:Name="Anexos_ti" Width="200" IsEnabled="{Binding IsEnableTabAnexo}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">

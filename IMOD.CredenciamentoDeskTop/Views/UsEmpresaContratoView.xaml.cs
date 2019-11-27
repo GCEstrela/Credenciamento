@@ -182,12 +182,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                if (_viewModel.Entity == null) return;
+
                 lblNome.Visibility = Visibility.Hidden;
                 Terceira_tb.Visibility = Visibility.Hidden;
                 lblSigla.Visibility = Visibility.Hidden;
                 txtSiglaTerceira.Visibility = Visibility.Hidden;
-
-                if (_viewModel.Entity == null) return;
+                
                 if (_viewModel.Entity.Terceirizada)
                 {
                     lblNome.Visibility = Visibility.Visible;
