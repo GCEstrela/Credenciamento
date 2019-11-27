@@ -478,7 +478,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 string mensagemComplementoTipo = string.Empty;
                 string mensagemComplementoMotivoCredencial = string.Empty;
                 string mensagemPeriodo = string.Empty;
-                string codigoMotivoSelecionados = string.Empty;
+                List<int> codigoMotivoSelecionados = new List<int>();
                 IEnumerable<ColaboradoresCredenciaisView> resultLista;
 
                 Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
@@ -525,10 +525,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     foreach (CredencialMotivoView credencialMotivo in credencialMotivoSelecionados)
                     {
                         mensagemComplementoMotivoCredencial += credencialMotivo.Descricao + ",";
-                        codigoMotivoSelecionados += Convert.ToString(credencialMotivo.CredencialMotivoId) + ",";
+                        codigoMotivoSelecionados.Add(credencialMotivo.CredencialMotivoId);
                     }
                     mensagemComplementoMotivoCredencial = " (" + mensagemComplementoMotivoCredencial.Substring(0, mensagemComplementoMotivoCredencial.Length - 1) + " ) ";
-                    codigoMotivoSelecionados = codigoMotivoSelecionados.Substring(0, codigoMotivoSelecionados.Length - 1);
+                    
                 }
 
                 mensagem += mensagemComplementoTipo + mensagemComplemento + mensagemComplementoMotivoCredencial + mensagemPeriodo;
@@ -539,7 +539,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (credencialMotivoSelecionados.Count() > 0)
                 {
-                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialInvalidasView(colaboradorCredencial).Where(n => n.CredencialStatusId == 2 && codigoMotivoSelecionados.Contains(n.CredencialMotivoId.ToString()));
+                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialInvalidasView(colaboradorCredencial).Where(n => codigoMotivoSelecionados.Contains(n.CredencialMotivoId));
                 }
                 else
                 {

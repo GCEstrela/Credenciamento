@@ -21,7 +21,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Required(ErrorMessage = "O Apelido é requerido.")]
         [Display(Name = "Apelido")]
         public string Apelido { get; set; }
-        [DataType(DataType.Date)]
+        
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Data Nascimento")]
         public DateTime? DataNascimento { get; set; }
@@ -43,7 +43,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [RequiredIf("Estrangeiro", false, ErrorMessage = "O RG é requerido.")]
         [Display(Name = "RG")]
         public string Rg { get; set; }
-        [DataType(DataType.Date)]
+        
         [Display(Name = "Emissão")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? RgEmissao { get; set; }
@@ -53,7 +53,6 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string RgOrgUf { get; set; }
         [RequiredIf("ValidaEstrangeiro", true, ErrorMessage = "O passaporte ou RNE são obrigatórios para estrangeiros.")]
         public string Passaporte { get; set; }
-        [DataType(DataType.Date)]
         [RequiredIf("ValidaEstrangeiro", true, ErrorMessage = "O passaporte ou RNE são obrigatórios para estrangeiros.")]
         [Display(Name = "Validade Passaporte")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
@@ -103,11 +102,9 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string Cnh { get; set; }
         [Range(typeof(DateTime), "1/1/1880", "1/1/2200", ErrorMessage = "Data inválida")]
         [RequiredIf("Motorista", true, ErrorMessage = "Validade da CNH é obrigatório para motorista.")]
-        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Validade Habilitação")]
         public DateTime? CnhValidade { get; set; }
-        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Vigência")]
         public DateTime? Vigencia { get; set; }
@@ -115,10 +112,8 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string CnhEmissor { get; set; }
         [Display(Name = "UF")]
         public string Cnhuf { get; set; }
-        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DataEmissao { get; set; }
-        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DataValidade { get; set; }
         
