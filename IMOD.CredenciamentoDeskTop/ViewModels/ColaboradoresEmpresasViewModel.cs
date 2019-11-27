@@ -52,6 +52,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<Empresa> Empresas { get; private set; }
         public Empresa Empresa { get; set; } 
         public ColaboradorEmpresaView Entity { get; set; }
+        public string VisibleGrupos { get; set; }
         public ObservableCollection<ColaboradorEmpresaView> EntityObserver { get; set; }
         /// <summary>
         ///     Seleciona indice da listview
@@ -110,7 +111,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 var anexo = _service.BuscarPelaChave(ColaboradorEmpresaId);
-                if(anexo.Anexo!=null)
+                if (anexo == null) return;
+                if (anexo.Anexo!=null)
                     Entity.Anexo = anexo.Anexo;
             }
             catch (Exception ex)
@@ -171,6 +173,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 IsEnableColete = false;
             }
+            VisibleGrupos = Helper.ExibirCampo(_configuraSistema.AssociarGrupos);
         }
 
         public void ListarContratos(Empresa empresa)
@@ -178,16 +181,31 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (empresa == null) return;
 
             Contratos.Clear();
+
+            //if (!_configuraSistema.Contrato)
+            //{
             var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId).OrderBy(n => n.Descricao).ToList();
-            //Contratos.AddRange(lstContratos);
-            //Manipular concatenaçção de conrato
             lstContratos.ForEach(n =>
             {
                 n.Descricao = $"{n.Descricao} - {n.NumeroContrato}";
                 Contratos.Add(n);
 
             });
-            
+            //}
+            //else
+            //{
+            //    var lstContratos = _empresaContratoService.Listar(empresa.EmpresaId).OrderBy(n => n.Descricao).ToList().FirstOrDefault();
+            //    if(lstContratos!=null)
+            //        Contratos.Add(lstContratos);
+
+            //    Entity.Validade = lstContratos.Validade;
+            //}
+
+
+            //Contratos.AddRange(lstContratos);
+            //Manipular concatenaçção de conrato
+
+
         }
 
         /// <summary>

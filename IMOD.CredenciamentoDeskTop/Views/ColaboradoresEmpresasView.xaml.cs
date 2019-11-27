@@ -51,7 +51,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void OnSelecionaContrato_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel.Empresa == null) return;
+
             _viewModel.ListarContratos(_viewModel.Empresa);
+            
             _viewModel.BuscarAnexo(_viewModel.Entity.ColaboradorEmpresaId);
             cmbContrato.Items.Refresh();
         }
@@ -198,7 +200,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 }
 
                 _viewModel.Entity.CardHolderGuid =_viewModel.EncontrarCardHolderGuid(_viewModel.Entity.ColaboradorId);
-                if (_viewModel.Entity.CardHolderGuid != null)
+                if (!string.IsNullOrEmpty(_viewModel.Entity.CardHolderGuid.ToString()))
                 {
                     popup.TCHG.CardHolderGuid = new Guid(_viewModel.Entity.CardHolderGuid); //
                 }
