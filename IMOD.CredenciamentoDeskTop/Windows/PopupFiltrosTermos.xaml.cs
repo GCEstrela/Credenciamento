@@ -34,6 +34,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
+            bool tipoValidade;
             int periodo = 0;
             string DataIni = "01/01/1900";
             string DataFim = DateTime.Now.ToShortDateString();
@@ -61,13 +62,22 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 DataFim = dp_dataFinal.Text;
             }
 
-            if (_tipo)
+            if (permanente_rb.IsChecked.Value)
             {
-                ((TermosViewModel)DataContext).OnFiltrosTermosCredenciaisCommand(_termo, _status, periodo, DataIni, DataFim);
+                tipoValidade = true;
             }
             else
             {
-                ((TermosViewModel)DataContext).OnFiltrosTermosAutorizacoesCommand(_termo, _status, periodo, DataIni, DataFim);
+                tipoValidade = false;
+            }
+
+            if (_tipo)
+            {
+                ((TermosViewModel)DataContext).OnFiltrosTermosCredenciaisCommand(tipoValidade, _termo, _status, periodo, DataIni, DataFim);
+            }
+            else
+            {
+                ((TermosViewModel)DataContext).OnFiltrosTermosAutorizacoesCommand(tipoValidade, _termo, _status, periodo, DataIni, DataFim);
             }
 
             Close();
