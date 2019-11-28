@@ -40,7 +40,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         //private readonly object _auxiliaresService;
         private ColaboradorView _colaboradorView;
-       
+
         private ColaboradorViewModel _viewModelParent;
 
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
@@ -50,7 +50,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private int _colaboradorid;
         public List<EmpresaContrato> Contratos { get; private set; }
         public List<Empresa> Empresas { get; private set; }
-        public Empresa Empresa { get; set; } 
+        public Empresa Empresa { get; set; }
         public ColaboradorEmpresaView Entity { get; set; }
         public string VisibleGrupos { get; set; }
         public ObservableCollection<ColaboradorEmpresaView> EntityObserver { get; set; }
@@ -66,9 +66,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Habilita Combo de Contratos
         /// </summary>
-        public bool IsEnableComboContrato { get {
+        public bool IsEnableComboContrato
+        {
+            get
+            {
                 return !_configuraSistema.Contrato;
-            } }
+            }
+        }
         /// <summary>
         ///     Habilita Combo de Contratos
         /// </summary>
@@ -112,7 +116,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var anexo = _service.BuscarPelaChave(ColaboradorEmpresaId);
                 if (anexo == null) return;
-                if (anexo.Anexo!=null)
+                if (anexo.Anexo != null)
                     Entity.Anexo = anexo.Anexo;
             }
             catch (Exception ex)
@@ -127,7 +131,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 //Verificar se existe numero de contrato
                 var n1 = _service.Listar(_colaborador, Entity.Ativo, null, null, null, null, Entity.EmpresaContratoId);
-                if (n1!= null && n1.Count() > 0)
+                if (n1 != null && n1.Count() > 0)
                 {
                     WpfHelp.Mbox("Colaborador já esta vinculado à este contrato. Operação cancelada.");
                     //System.Windows.MessageBox.Show("Colaborador já esta vinculado à este contrato. Operação cancelada.");
@@ -155,7 +159,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 Comportamento.IsEnableEditar = Entity != null;
                 Comportamento.isEnableRemover = Entity != null;
-                
+
             }
         }
 
@@ -163,7 +167,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Listar dados auxilizares
         /// </summary>
         private void ListarDadosAuxiliares()
-        { 
+        {
             Empresas = new List<Empresa>();
             Contratos = new List<EmpresaContrato>();
             ListarDadosEmpresaContratos();
@@ -237,7 +241,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Empresas.AddRange(l2);
                 var l3 = _empresaContratoService.Listar().ToList();
                 Contratos = l3;
-                base.OnPropertyChanged ("Entity");
+                base.OnPropertyChanged("Entity");
 
             }
             catch (Exception ex)
@@ -289,19 +293,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 n1.DataFim = DateTime.Today.Date;
                 n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
-
-                n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                if (n1.Validade < DateTime.Now)
+                if (Entity.Validade != null)
                 {
-                    WpfHelp.PopupBox("Data de Validade [ " + n1.Validade + " ] do CardHolder é Inválida", 1);
-                    return;
+                    n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                    if (n1.Validade < DateTime.Now)
+                    {
+                        WpfHelp.PopupBox("Data de Validade [ " + n1.Validade + " ] do CardHolder é Inválida", 1);
+                        return;
+                    }
                 }
+                else
+                {
+                    n1.Validade = DateTime.Now.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                }
+
                 _service.Criar(n1);
 
                 #region Gerar CardHolder
 
                 _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
-                
+
                 #endregion
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<ColaboradorEmpresaView>(n1);
@@ -309,7 +320,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 SetDadosEmpresaContrato(n2);
                 EntityObserver.Insert(0, n2);
                 IsEnableLstView = true;
-               _viewModelParent.AtualizarDadosPendencias();
+                _viewModelParent.AtualizarDadosPendencias();
                 SelectListViewIndex = 0;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
@@ -328,7 +339,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Verificar essa linha
                 //entity.EmpresaContratoId = Contratos[0].EmpresaContratoId;
                 entity.EmpresaNome = empresa.Nome;//Setar o nome da empresa para ser exibida na list view
-            
+
 
             if (contrato != null)
                 entity.Descricao = contrato.Descricao;//Setar o nome do contrato para ser exibida na list view
@@ -340,7 +351,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            
+
             Entity = new ColaboradorEmpresaView();
             Entity.Ativo = true;
             Entity.grupoAlterado = false;
@@ -370,11 +381,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (n1.Matricula == null)
                     _service.CriarNumeroMatricula(n1);
 
-                n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                if (n1.Validade < DateTime.Now)
+                if (Entity.Validade != null)
                 {
-                    WpfHelp.PopupBox("Data de Validade [ " + n1.Validade + " ] do CardHolder é Inválida",1);
-                    return;
+                    n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                    if (n1.Validade < DateTime.Now)
+                    {
+                        WpfHelp.PopupBox("Data de Validade [ " + n1.Validade + " ] do CardHolder é Inválida", 1);
+                        return;
+                    }
+                }
+                else
+                {
+                    n1.Validade = DateTime.Now.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
                 }
 
                 n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
@@ -453,7 +471,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private void PrepareSalvar()
         {
             if (Validar()) return;
-           
+
             Comportamento.PrepareSalvar();
         }
 
@@ -482,7 +500,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             _viewModelParent = viewModel;
             AtualizarDados(entity);
-             
+
         }
         /// <summary>
         /// 
@@ -495,11 +513,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //throw new ArgumentNullException(nameof(entity));
             _colaboradorid = entity.ColaboradorId;
 
-           _colaboradorView = entity;
+            _colaboradorView = entity;
             //Obter dados
             var list1 = _service.Listar(entity.ColaboradorId);
             var list2 = Mapper.Map<List<ColaboradorEmpresaView>>(list1.OrderByDescending(n => n.ColaboradorEmpresaId));
-            
+
             EntityObserver = new ObservableCollection<ColaboradorEmpresaView>();
             list2.ForEach(n => { EntityObserver.Add(n); });
             ListarDadosEmpresaContratos();
@@ -516,7 +534,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 return "";
             }
             catch (Exception ex)
-            {            
+            {
                 throw ex;
             }
         }
@@ -559,7 +577,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             if (Entity == null) return true;
             Entity.Validate();
-           
+
 
             if (!_configuraSistema.Contrato && Entity.EmpresaContratoId <= 0)
             {
@@ -574,6 +592,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         #endregion
- 
+
     }
 }
