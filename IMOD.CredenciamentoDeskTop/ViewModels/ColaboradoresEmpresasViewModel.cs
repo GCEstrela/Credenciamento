@@ -304,7 +304,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 else
                 {
-                    n1.Validade = DateTime.Now.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                    var validadeContrato = _empresaContratoService.Listar(null, null, null, null, null, null, null, null, Entity.EmpresaContratoId).FirstOrDefault();
+                    n1.Validade = validadeContrato.Validade.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
                 }
 
                 _service.Criar(n1);
@@ -392,7 +393,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 else
                 {
-                    n1.Validade = DateTime.Now.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                    var validadeContrato = _empresaContratoService.Listar(null, null, null, null, null, null, null, null, Entity.EmpresaContratoId).FirstOrDefault();
+                    n1.Validade = validadeContrato.Validade.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
                 }
 
                 n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
