@@ -65,20 +65,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_periodo"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnFiltrosTermosCredenciaisCommand(int report, int status, int periodo, string dataIni, string dataFim)
+        public void OnFiltrosTermosCredenciaisCommand(bool tipo, int report, int status, int periodo, string dataIni, string dataFim)
         {
             switch (report)
             {
                 case 11:
-                    this.CarregarCredencialConcedidas(report, status, periodo, dataIni, dataFim);
+                    this.CarregarCredencialConcedidas(tipo, report, status, periodo, dataIni, dataFim);
                     break;
                 case 13:
                 case 15:
                 case 17:
-                    this.CarregarCredencialInativas(report, status, periodo, dataIni, dataFim);
+                    this.CarregarCredencialInativas(tipo, report, status, periodo, dataIni, dataFim);
                     break;
                 default:
-                    this.CarregarCredencialViasAdicionais(report, status, periodo, dataIni, dataFim);
+                    this.CarregarCredencialViasAdicionais(tipo, report, status, periodo, dataIni, dataFim);
                     break;
             }
         }
@@ -91,20 +91,20 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_periodo"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnFiltrosTermosAutorizacoesCommand(int report, int status, int periodo, string dataIni, string dataFim)
+        public void OnFiltrosTermosAutorizacoesCommand(bool tipo, int report, int status, int periodo, string dataIni, string dataFim)
         {
             switch (report)
             {
                 case 12:
-                    this.CarregarAutorizacaoConcedidas(report, status, periodo, dataIni, dataFim);
+                    this.CarregarAutorizacaoConcedidas(tipo, report, status, periodo, dataIni, dataFim);
                     break;
                 case 14:
                 case 16:
                 case 18:
-                    this.CarregarAutorizacaoInativas(report, status, periodo, dataIni, dataFim);
+                    this.CarregarAutorizacaoInativas(tipo, report, status, periodo, dataIni, dataFim);
                     break;
                 default:
-                    this.CarregarAutorizacaoViasAdicionais(report, status, periodo, dataIni, dataFim);
+                    this.CarregarAutorizacaoViasAdicionais(tipo, report, status, periodo, dataIni, dataFim);
                     break;
             }
         }
@@ -113,7 +113,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region Métodos de Termos Credenciais - COLABORADOR
 
-        public void CarregarCredencialViasAdicionais(int report, int status, int periodo, string dataIni, string dataFim)
+        public void CarregarCredencialViasAdicionais(bool tipo, int report, int status, int periodo, string dataIni, string dataFim)
         {
             try
             {
@@ -151,6 +151,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 colaboradorCredencial.Periodo = periodo;
                 colaboradorCredencial.CredencialMotivoId = 0;
+                colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
 
                 mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", emitiu as seguintes vias adicionais : ";
@@ -181,7 +182,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        public void CarregarCredencialConcedidas(int report, int status, int periodo, string dataIni, string dataFim)
+        public void CarregarCredencialConcedidas(bool tipo, int report, int status, int periodo, string dataIni, string dataFim)
         {
             try
             {
@@ -221,6 +222,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     }
                 }
                 colaboradorCredencial.Periodo = periodo;
+                colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
 
                 mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", concedeu as seguintes credenciais: ";
@@ -248,7 +250,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        public void CarregarCredencialInativas(int report, int status, int periodo, string dataIni, string dataFim)
+        public void CarregarCredencialInativas(bool tipo, int report, int status, int periodo, string dataIni, string dataFim)
         {
             try
             {
@@ -323,6 +325,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 colaboradorCredencial.CredencialStatusId = 2; // status desativado
                 colaboradorCredencial.Impressa = true;
 
+                colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
+
                 mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", " + verbo + " as seguintes credenciais: ";
 
@@ -357,7 +361,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region Métodos de Termos Autorizações - VEICULOS
 
-        public void CarregarAutorizacaoViasAdicionais(int report, int status, int periodo, string dataIni, string dataFim)
+        public void CarregarAutorizacaoViasAdicionais(bool tipo, int report, int status, int periodo, string dataIni, string dataFim)
         {
             try
             {
@@ -399,6 +403,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 filtroAutorizacao.Periodo = periodo;
                 filtroAutorizacao.CredencialMotivoId = 0;
+                filtroAutorizacao.TipoCredencialId = tipo ? 1 : 2;
 
                 mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", emitiu as seguintes vias adicionais : ";
@@ -425,7 +430,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        public void CarregarAutorizacaoConcedidas(int report, int status, int periodo, string dataIni, string dataFim)
+        public void CarregarAutorizacaoConcedidas(bool tipo, int report, int status, int periodo, string dataIni, string dataFim)
         {
             try
             {
@@ -466,6 +471,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     }
                 }
                 filtroAutorizacao.Periodo = periodo;
+                filtroAutorizacao.TipoCredencialId = tipo ? 1 : 2;
 
                 mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", concedeu as seguintes autorizações: ";
@@ -494,7 +500,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-        public void CarregarAutorizacaoInativas(int report, int status, int periodo, string dataIni, string dataFim)
+        public void CarregarAutorizacaoInativas(bool tipo, int report, int status, int periodo, string dataIni, string dataFim)
         {
             try
             {
@@ -570,6 +576,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 filtroAutorizacao.Periodo = periodo;
                 filtroAutorizacao.CredencialStatusId = 2;
+                filtroAutorizacao.TipoCredencialId = tipo ? 1 : 2;
 
                 mensagemComplemento = !string.IsNullOrEmpty(configSistema.NomeAeroporto) ? configSistema.NomeAeroporto?.Trim() : mensagemComplemento;
                 mensagem = mensagemPeriodo + " esse setor  de credenciamento do " + mensagemComplemento + ", " + verbo + " as seguintes autorizações: ";

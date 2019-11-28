@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
         mc:Ignorable="d"
-        Title="Procurar Empresa" Height="372.879" Width="444.628" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
+        Title="Procurar Empresa" Height="454.879" Width="444.628" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FF171717" Offset="0.984"/>
@@ -39,8 +39,16 @@
             </Button>
         </StackPanel>
         <StackPanel Grid.Column="0" Margin="0,0,0,0" Grid.ColumnSpan="2">
-            <GroupBox x:Name="Informacoes_gb" Header="Filtro de Termos por Período" Margin="10,10" Height="231" Foreground="#FFD0D0D0">
-                <StackPanel x:Name="Informacoes_sp" Margin="0,26,10,5">
+            <GroupBox x:Name="Informacoes_gb" Header="Filtrar por Tipo" Margin="10,10" Height="101" Foreground="#FFD0D0D0">
+                <StackPanel x:Name="Informacoes_sp" Margin="0,10,10,5">
+                    <RadioButton x:Name="permanente_rb" Content="Termos Permanentes" TextBlock.TextAlignment="Left" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True"/>
+                    <RadioButton x:Name="temporario_rb" Content="Termos Temporários" TextBlock.TextAlignment="Left" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="151"/>
+                </StackPanel>
+
+            </GroupBox>
+            
+            <GroupBox x:Name="Data_gb" Header="Filtrar por Período" Margin="10,10" Height="213" Foreground="#FFD0D0D0">
+                <StackPanel x:Name="Data_sp" Margin="0,26,10,5">
                     <RadioButton x:Name="hoje_rb" Content="Hoje" TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True" Margin="10,0,0,0" Width="130"/>
                     <RadioButton x:Name="semana_rb" Content="Últimos 7 dias" TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Width="130"/>
                     <RadioButton x:Name="mes_rb" Content="Últimos 30 dias" TextBlock.TextAlignment="Left" GroupName="Cred_rb" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Width="130"/>
