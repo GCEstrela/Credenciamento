@@ -81,7 +81,7 @@ namespace IMOD.Service.Service
         }
         private void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            
+
         }
         private void Logon_SC_th(Genetec.Sdk.Engine _sdk)
         {
@@ -94,8 +94,8 @@ namespace IMOD.Service.Service
                 string diretorio = ConfigurationManager.AppSettings["Diretorio"];
                 string usuariosc = ConfigurationManager.AppSettings["UsuarioSC"];
                 string senhasc = ConfigurationManager.AppSettings["SenhaSC"];
-                
-                _sdk.ClientCertificate = certificado;   
+
+                _sdk.ClientCertificate = certificado;
                 if (_sdk.IsConnected)
                 {
                     _sdk.LogOff();
@@ -186,7 +186,7 @@ namespace IMOD.Service.Service
         {
             try
             {
-                
+
                 Cursor.Current = Cursors.WaitCursor;
                 ////_serviceGenetec.DisparaAlarme("teste", 8);
                 CriarLog("-----------------------------------------------");
@@ -213,19 +213,19 @@ namespace IMOD.Service.Service
                             case diasAlerta1:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta1 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-                               
+
                                 break;
 
                             case diasAlerta2:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta2 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-                                
+
                                 break;
 
                             case diasAlerta3:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta3 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
-                                
+
                                 break;
 
                             default:
@@ -236,7 +236,7 @@ namespace IMOD.Service.Service
                         if (_configuraSistema.Email != null)
                         {
                             //if (empresasEmail != null && empresasEmail.Email1 !=null)
-                                //sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
+                            //sendMessage(messa, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
                         }
 
                         if (ec.Validade < DateTime.Now)
@@ -249,7 +249,7 @@ namespace IMOD.Service.Service
                             //Em processo de alteração.
                             var pendencia = _serviceColaborador.ListarView(ec.ColaboradorCredencialId).FirstOrDefault();
                             _serviceColaborador.CriarPendenciaImpeditiva(pendencia);
-                            
+
                             if (!string.IsNullOrEmpty(ec.CredencialGuid))
                             {
                                 CardHolderEntity entity = new CardHolderEntity();
@@ -299,21 +299,19 @@ namespace IMOD.Service.Service
                                 break;
 
                             case diasAlerta1:
-                                messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta1 + " dias.";
-                                //_serviceGenetec.DisparaAlarme(messa, 8);
-                               
+                                messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta1 + " dias.";                                
+
                                 break;
 
                             case diasAlerta2:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta2 + " dias.";
-                                //_serviceGenetec.DisparaAlarme(messa, 8);
                                 
+
                                 break;
 
                             case diasAlerta3:
-                                messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta3 + " dias.";
-                                //_serviceGenetec.DisparaAlarme(messa, 8);
-                                
+                                messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta3 + " dias.";                                
+
                                 break;
 
                             default:
@@ -323,8 +321,6 @@ namespace IMOD.Service.Service
                         _configuraSistema = ObterConfiguracao();
                         if (_configuraSistema.Email != null)
                         {
-                            //if (empresasEmail.Email1 != null)
-                                //sendMessage(messaveiculo, _configuraSistema.Email.Trim(), _configuraSistema.SMTP.Trim(), _configuraSistema.EmailUsuario.Trim(), _configuraSistema.EmailSenha.Trim(), empresasEmail.Email1.Trim());
                         }
 
                         if (ev.Validade < DateTime.Now)
@@ -336,36 +332,24 @@ namespace IMOD.Service.Service
                             _serviceVeiculo.Alterar(ev);
                             if (!string.IsNullOrEmpty(ev.CredencialGuid))
                             {
-                                //CardHolderEntity entity = new CardHolderEntity();
-                                //entity.IdentificadorCardHolderGuid = ev.CardHolderGuid;
-                                //entity.IdentificadorCredencialGuid = ev.CredencialGuid;
-                                //entity.Nome = ev.IdentificacaoDescricao;
-                                //////O _SDK está vindo nulo
-                                //_serviceGenetec.AlterarStatusCredencial(entity);
 
                             }
 
-                            //var n1 = _serviceColaborador.BuscarCredencialPelaChave(ec.ColaboradorCredencialId);
-                            //_serviceColaborador.RemoverRegrasCardHolder(new CredencialGenetecService(m_sdk), new ColaboradorService(), n1);
-
                         }
 
-                        string texto = "Impressa.:" + ev.Impressa + " Status.: " + ev.Ativa + " " + ev.IdentificacaoDescricao + ((ev.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ev.Validade;
-                        //CriarLog(dias + " Veículo/Equipamento.: " + ev.IdentificacaoDescricao + " Validade.: " + ev.Validade);
+                        string texto = "Impressa.:" + ev.Impressa + " Status.: " + ev.Ativa + " " + ev.IdentificacaoDescricao + ((ev.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ev.Validade;                        
                     }
                     );
                 }
                 catch (Exception)
                 {
-
-                    //throw;
+                    
                 }
 
                 try
                 {
                     CriarLog("-----------------------------------------------");
-                    CriarLog("Iniciando Validade dos Contratos...");
-                    //Hashtable empresaContrato = new Hashtable();
+                    CriarLog("Iniciando Validade dos Contratos...");                    
                     Hashtable empresaContratoEmail = new Hashtable();
                     string nomeEmpresa = "";
                     string emailEmpresa = "";
@@ -373,7 +357,7 @@ namespace IMOD.Service.Service
                     var empresas = _serviceEmpresa.Listar().OrderByDescending(ec => ec.EmpresaId).ToList();
                     empresas.ForEach(e =>
                     {
-                        
+
                         emailEmpresa = e.Email1;
                         nomeEmpresa = e.Nome;
 
@@ -383,23 +367,15 @@ namespace IMOD.Service.Service
                         empresaContratosAtivo.ForEach(ec =>
                         {
                             int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;
-                           
+
                             if (AlartaList.Contains(dias))
                             {
                                 AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta0);
 
-                                //_configuraSistema = ObterConfiguracao();{
+                                var messa1 = new MessagemEmail() { Contrato = ec.NumeroContrato, Dias = dias, DescricaoDoContrato = ec.Descricao, EmailDestino = emailEmpresa };
+                                listMessagemEmail.Add(messa1);
 
-                                //if (_configuraSistema.EmailUsuario != null)
-                                //{
-                                    //if (emailEmpresa != null)
-                                    //{
-                                        var messa1 = new MessagemEmail() { Contrato = ec.NumeroContrato, Dias = dias, DescricaoDoContrato = ec.Descricao, EmailDestino = emailEmpresa };
-                                        listMessagemEmail.Add(messa1);
-                                //}
-                                //}
-
-                                CriarLog("Dias.: " + dias +" Contrato.: " + ec.NumeroContrato + " Descrição.: " + ec.Descricao);
+                                CriarLog("Dias.: " + dias + " Contrato.: " + ec.NumeroContrato + " Descrição.: " + ec.Descricao);
                             }
                         }
                         );
@@ -416,25 +392,25 @@ namespace IMOD.Service.Service
                             emailFraport.AppendLine(string.Empty);
                             foreach (MessagemEmail element in listMessagemEmail)
                             {
-                                emailFraport.AppendLine(string.Format(" - Contrato: {0} - {1}. {2} dia(s) para o vencimento;", element.Contrato,element.DescricaoDoContrato, element.Dias));
+                                emailFraport.AppendLine(string.Format(" - Contrato: {0} - {1}. {2} dia(s) para o vencimento;", element.Contrato, element.DescricaoDoContrato, element.Dias));
                             }
                             emailFraport.AppendLine("");
                             emailFraport.AppendLine("Att:");
                             emailFraport.AppendLine("");
                             emailFraport.AppendLine("Alerta do Sistema de Credenciamento.");
-                            emailFraport.AppendLine("Setor de Credenciamento - Fraport-Brasil");
+                            emailFraport.AppendLine("Setor de Credenciamento " + _configuraSistema.NomeAeroporto);
                             if (emailEmpresa != "")
                             {
                                 try
                                 {
-                                    sendMessage(emailFraport.ToString(),emailEmpresa);
+                                    sendMessage(emailFraport.ToString(), emailEmpresa);
                                 }
                                 catch (Exception ex)
                                 {
 
                                     //throw;
                                 }
-                                
+
                             }
                         }
                     }
@@ -446,9 +422,9 @@ namespace IMOD.Service.Service
 
                     //throw;
                 }
-                
+
                 Cursor.Current = Cursors.IBeam;
-                
+
             }
             catch (Exception ex)
             {
@@ -501,9 +477,9 @@ namespace IMOD.Service.Service
                 //trata erro
             }
         }
-        protected void sendMessage(string msg,string emailDestino)
+        protected void sendMessage(string msg, string emailDestino)
         {
-            var emailOrigem="";
+            var emailOrigem = "";
             var Emailsmtp = "";
             var usuario = "";
             var senha = "";
@@ -533,7 +509,7 @@ namespace IMOD.Service.Service
             {
                 mail.To.Add(element);
             }
-            
+
             mail.Subject = "Alerta de Vencimento de Contrato(s)"; // assunto 
             mail.Body = msg; // mensagem
 
