@@ -37,7 +37,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
             catch (Exception ex)
             {
-                //WpfHelp.Mbox(ex.Message);
                 Utils.TraceException(ex);
             }
         }
@@ -64,9 +63,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                //if (_viewModel.Entity.Validade == null) return;
                 if (((IMOD.Domain.Entities.EmpresaContrato)((object[])e.AddedItems)[0]).Validade == null) return;
                 _viewModel.Entity.Validade = ((IMOD.Domain.Entities.EmpresaContrato)((object[])e.AddedItems)[0]).Validade;
+                
             }
             catch (Exception ex)
             {
@@ -79,13 +78,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
         /// <param name="entity"></param>
         public void AtualizarDados(Model.ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
-            //if (entity == null) return;
-            _viewModel.AtualizarDados(entity, viewModelParent);
-            //if (!_viewModel.IsEnableComboContrato)
-            //{
-            //    ListaSegnatarios_lv.Columns[2].Visible = false;
-            //    ListaSegnatarios_lv.gri
-            //}
+            try
+            {
+                _viewModel.AtualizarDados(entity, viewModelParent);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         /// <summary>
@@ -196,9 +196,15 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void ChkAtivo_Unchecked(object sender, RoutedEventArgs e)
         {
-            //txtDtInicio.Text = "";
-            //_viewModel.Entity.DataFim= DateTime.Today.Date;
-            txtDtFim.Text = DateTime.Today.Date.ToShortDateString();
+            try
+            {
+                txtDtFim.Text = DateTime.Today.Date.ToShortDateString();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            
         }
         PopUpGrupos popup;
         public System.Collections.Generic.List<Guid> cardholderGuids = new System.Collections.Generic.List<Guid>();
@@ -229,10 +235,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel.Entity.listadeGrupos = cardholderGuids;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                //throw;
             }
         }
         private void HandleKeyPress(object sender, KeyEventArgs e)
