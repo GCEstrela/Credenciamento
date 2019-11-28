@@ -14,6 +14,7 @@ using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
 
 #endregion
 
@@ -131,6 +132,58 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
+        
+
+        private void StackPanel_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                cmbContrato.SelectionChanged += OnSelecionaSeguro_SelectionChanged;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        private void OnSelecionaSeguro_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (_viewModel.Entity == null) return;
+                if (e.AddedItems.Count <= 0) return;
+                _viewModel.ListarContratoSeguros((EmpresaSeguro)((object[])e.AddedItems)[0]);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         #endregion
+
+        private void ListaSeguros_lve_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (_viewModel.Entity == null) return;
+                if (_viewModel.SegurosVeiculo == null) return;
+                if (_viewModel.Entity.EmpresaSeguroid > 0)
+                {
+                    _viewModel.SeguroVeiculo = _viewModel.SegurosVeiculo.Find(s => s.EmpresaSeguroId == _viewModel.Entity.EmpresaSeguroid);
+                }
+                else
+                {
+                    cmbContrato.Text = "";
+                    //_viewModel.SeguroVeiculo = _viewModel.SegurosVeiculo.Find(s => s.EmpresaSeguroId == _viewModel.Entity.EmpresaSeguroid);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //WpfHelp.Mbox(ex.Message);
+                throw;
+            }
+        }
     }
 }

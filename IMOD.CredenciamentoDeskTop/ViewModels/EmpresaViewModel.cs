@@ -209,7 +209,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     var enableControls = Entity != null;
                     Comportamento.IsEnableEditar = Entity != null;
-                    HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls);
+                    HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls, enableControls);
                 }
 
                 if (e.PropertyName == "SelectedTabIndex")

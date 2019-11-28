@@ -119,8 +119,8 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="100" Header="Validade"  DisplayMemberBinding="{Binding Validade, StringFormat='dd/MM/yyyy'}"/>
-                            <GridViewColumn Width="250" Header="Nome do Curso"    DisplayMemberBinding="{Binding CursoNome}"/>
-                            <GridViewColumn Width="190" Header="Arquivo"  DisplayMemberBinding="{Binding NomeArquivo}"/>
+                            <GridViewColumn Width="350" Header="Nome do Curso"    DisplayMemberBinding="{Binding CursoNome}"/>
+                            <GridViewColumn Width="218" Header="Arquivo"  DisplayMemberBinding="{Binding NomeArquivo}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

@@ -6,7 +6,7 @@
              xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
               d:DataContext="{d:DesignInstance viewModels:EquipamentosSegurosViewModel , IsDesignTimeCreatable=True}"
               xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
-             mc:Ignorable="d"  Height="350">
+             mc:Ignorable="d"  Height="366.94">
     <UserControl.Resources>
         <Image x:Key="imgAdd" Source="../Resources/add.png"  />
         <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
@@ -30,13 +30,28 @@
         </ControlTemplate>
     </UserControl.Resources>
     <Grid Height="350" VerticalAlignment="Top">
-        <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Vertical" Loaded="StackPanel_Loaded">
 
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
                       Background="Chocolate"                      
-                      x:Name="GbxInformacoesSeguro" Header="Seguro" Margin="0,0,40,0">
+                      x:Name="GbxInformacoesSeguro" Header="Seguro" Margin="0,0,40,0" Height="180">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Margin="1" Width="958">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
+                            <Label Content="Selecione um Contrato:" Foreground="#FFD0D0D0" Margin="0,0,0,0"></Label>
+                            <ComboBox x:Name="cmbContrato" IsEditable="true" 
+                                   Width="451" Height="26" 
+                                   VerticalContentAlignment="Center" 
+                                   HorizontalContentAlignment="Left"                                   
+                                   IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                   ItemsSource="{Binding SegurosVeiculo}" 
+                                   SelectedItem="{Binding SeguroVeiculo}"
+                                   DisplayMemberPath="NomeSeguradora"  
+                                   SelectedValue="{Binding Entity.EmpresaSeguroid, UpdateSourceTrigger=PropertyChanged}" 
+                                   SelectedValuePath="EmpresaSeguroid"                                   
+                                   Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
+
+                        </StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1">
                             <Label Content="Seguradora:" Height="28" Width="132"  Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
@@ -60,7 +75,7 @@
                                      Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                                      IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="24" Width="100" PreviewTextInput="NumberOnly"/>
                             <Label Content="Data de Emissão:" Height="28" Width="244" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-  
+
 
                             <TextBox 
                             Name="txtDtEmissao"
@@ -74,7 +89,7 @@
                             Height="24"  Width="110" />
 
                             <Label Content="Data de Validade:" Height="28" Width="105" Margin="10,0,0,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                        
+
                             <TextBox 
                             Name="txtDtValidade"
                             Text="{Binding Entity.Validade,
@@ -103,33 +118,20 @@
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
-
-            <!--<StackPanel Orientation="Horizontal" Margin="0,3,0,-3">
-                <Label Content="Pesquisar:" Height="25" Width="65" Foreground="#FFD0D0D0" Margin="1,0,0,0"/>
-                <ComboBox  Width="150" ItemsSource="{Binding ListaPesquisa}"
-             DisplayMemberPath="Value"
-             SelectedValue="Key" 
-             SelectedItem="{Binding PesquisarPor}" VerticalContentAlignment="Center"/>
-                <TextBox Width="200" Margin="10,0,0,0" Text="{Binding NomePesquisa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
-                    <TextBox.InputBindings>
-                        <KeyBinding Command="{Binding Path=PesquisarCommand}" Key="Enter" />
-                    </TextBox.InputBindings>
-                </TextBox>
-            </StackPanel>-->
             <StackPanel Orientation="Horizontal" Height="217">
                 <ListView x:Name="ListaSeguros_lve"
                           IsEnabled="{Binding IsEnableLstView}"
                           SelectedIndex="{Binding SelectListViewIndex}"
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="931"  Height="175"  Margin="0,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                          SelectedItem="{Binding Entity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="931"  Height="175"  Margin="0,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" SelectionChanged="ListaSeguros_lve_SelectionChanged">
 
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding VeiculoSeguroId}"/>
-                            <GridViewColumn Width="200" Header="Seguradora"  DisplayMemberBinding="{Binding NomeSeguradora}"/>
+                            <GridViewColumn Width="350" Header="Seguradora"  DisplayMemberBinding="{Binding NomeSeguradora}"/>
                             <GridViewColumn Width="200" Header="Número da Apólice"  DisplayMemberBinding="{Binding NumeroApolice}"/>
                             <GridViewColumn Width="150"  Header="Valor da Cobertura" DisplayMemberBinding="{Binding ValorCobertura}"/>
-                            <GridViewColumn Width="150"  Header="Arquivo" DisplayMemberBinding="{Binding NomeArquivo}"/>
+                            <GridViewColumn Width="170"  Header="Arquivo" DisplayMemberBinding="{Binding NomeArquivo}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -138,7 +140,7 @@
 
                     <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"    IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"    Width="25" Margin="0,0,0,7" />
-                    <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"   IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7"  Visibility="Collapsed"/>
+                    <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"   IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar"  IsEnabled="{Binding Comportamento.isEnableCancelar}"    Command="{Binding PrepareCancelarCommand}"   Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar"    IsEnabled="{Binding Comportamento.isEnableSalvar}"      Command="{Binding PrepareSalvarCommand}"     Width="25" Margin="0,0,0,7" />
 

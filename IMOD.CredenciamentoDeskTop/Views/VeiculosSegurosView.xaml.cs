@@ -140,7 +140,15 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 if (_viewModel.Entity == null) return;
                 if (_viewModel.SegurosVeiculo == null) return;
-                _viewModel.SeguroVeiculo = _viewModel.SegurosVeiculo.Find(s=>s.EmpresaSeguroId == _viewModel.Entity.EmpresaSeguroid);
+                if(_viewModel.Entity.EmpresaSeguroid > 0)
+                {
+                    _viewModel.SeguroVeiculo = _viewModel.SegurosVeiculo.Find(s => s.EmpresaSeguroId == _viewModel.Entity.EmpresaSeguroid);
+                }
+                else
+                {
+                    cmbContrato.Text = "";
+                    //_viewModel.SeguroVeiculo = _viewModel.SegurosVeiculo.Find(s => s.EmpresaSeguroId == _viewModel.Entity.EmpresaSeguroid);
+                }
                
             }
             catch (Exception ex)
@@ -155,46 +163,29 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 if (_viewModel.Entity == null) return;
                 if (e.AddedItems.Count <= 0) return;
-                var ttt = this.cmbContrato.Text;
-                if (this.cmbContrato.Text == "Novo Seguro" || this.cmbContrato.Text == "") return;
-                _viewModel.Comportamento.isEnableCancelar = false;
                 _viewModel.ListarContratoSeguros((EmpresaSeguro)((object[])e.AddedItems)[0]);
             }
             catch (Exception ex)
             {
-                //WpfHelp.Mbox(ex.Message);
                 throw;
             }
         }
-        //private void old_CmbContrato_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (_viewModel.Entity == null) return;
-        //        if (e.AddedItems.Count <= 0) return;
-        //        var ttt = this.cmbContrato.Text;
-        //        if (this.cmbContrato.Text == "Novo Seguro" || this.cmbContrato.Text == "") return;
-        //        _viewModel.Comportamento.isEnableCancelar = false;
-        //        _viewModel.ListarContratoSeguros((EmpresaSeguro)((object[])e.AddedItems)[0]);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //WpfHelp.Mbox(ex.Message);
-        //        throw;
-        //    }
-        //}
-
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {
-                this.cmbContrato.SelectionChanged += OnSelecionaSeguro_SelectionChanged;
+                cmbContrato.SelectionChanged += OnSelecionaSeguro_SelectionChanged;
             }
             catch (Exception)
             {
 
                 throw;
             }
+        }
+
+        private void CmbContrato_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

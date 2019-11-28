@@ -2505,6 +2505,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 var layoutCracha = _auxiliaresService.LayoutCrachaService.BuscarPelaChave(rpt.LayoutCrachaId);
+                if (string.IsNullOrEmpty(layoutCracha.LayoutRpt))
+                {
+                    WpfHelp.PopupBox("Layout do Crachá não Encontrado !", 1);
+                    return;
+                }
+
                 if (Constantes.Constantes.CREDENCIAL.Equals(layoutCracha.TipoCracha))
                 {
                     GerarCredencialModelo(rpt, layoutCracha);

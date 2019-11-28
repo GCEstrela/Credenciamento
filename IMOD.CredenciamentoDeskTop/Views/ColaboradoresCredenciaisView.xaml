@@ -264,7 +264,7 @@
                                       MaxLength="32"  CharacterCasing="Upper"
                                       IsEnabled="{Binding HabilitarOpcoesCredencial}"
                                       Text="{Binding Entity.NumeroCredencial, UpdateSourceTrigger=PropertyChanged}"                                       
-                                      Height="24"  Width="159" LostFocus="NumeroCredencial_tb_LostFocus" />
+                                      Height="24"  Width="169" LostFocus="NumeroCredencial_tb_LostFocus" />
                             </StackPanel>
                         </Border>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977" Height="34"  >
@@ -286,14 +286,13 @@
                             <Label Content="Baixa:" Width="50" Margin="30,2,1,4" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBlock Text="{Binding Entity.Baixa, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Center" Width="70"  Margin="0,8.02,0,9.98"  />
                             
+                            <Label Content="Usuário:" Foreground="#FFD0D0D0" Margin="100,2,0,0" ></Label>
+                            <Label x:Name="credencialusuario" FontSize="12" Foreground="#FFD0D0D0"  Content="{Binding Entity.Usuario}" Width="219" Margin="0,2,0,0"></Label>
+
                             <Button x:Name="Lista_bt" Content="Lista" Width="124" Margin="22,0,0,0" Click="Lista_bt_Click" Visibility="Collapsed" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977" Height="34"  >
-                            <!--<Label Content="Card Holder GUID" Height="28" Width="113" Margin="1" Foreground="#FFD0D0D0" />
-                            <TextBlock Text="{Binding Entity.CardHolderGuid}"  VerticalAlignment="Center" Width="357" />
-                            <Label Content="Credential Holder GUID" Height="28" Width="106" Margin="1" Foreground="#FFD0D0D0" />
-                            <TextBlock Text="{Binding Entity.CredencialGuid}"  VerticalAlignment="Center" Width="357" />-->
                             <Label Content="Autorização:" Margin="0,4,10,0" Foreground="#FFD0D0D0"></Label>
                             <CheckBox x:Name="PF_chek" Content="Policia Federal"       Margin="5,9,0,10"  VerticalContentAlignment="Center"    IsChecked="{Binding Entity.Policiafederal, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"/>
                             <CheckBox x:Name="RF_chek" Content="Receita Federal"       Margin="15,9,0,10" VerticalContentAlignment="Center"    IsChecked="{Binding Entity.Receitafederal, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"/>
@@ -315,10 +314,6 @@
                        Content="{Binding MensagemAlerta}">
                 </Label>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977" Height="35" Margin="10,0,0,0" >
-                <Label Content="Operador Responsável:" Foreground="#FFD0D0D0" Margin="0,0,0,10" ></Label>
-                <Label x:Name="credencialusuario"  Foreground="#FFD0D0D0"  Content="{Binding Entity.Usuario}" Width="497" Margin="0,0,0,10"></Label>
-            </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="1000" Height="212" Margin="0,00,0,0">
                 <ListView x:Name="ListaColaboradoresCredenciais_lv" 
                           Width="947"  
@@ -331,10 +326,10 @@
                     <ListView.View>
                         <GridView  >
 
-                            <GridViewColumn Width="250" Header="Vínculo Empregatício">
+                            <GridViewColumn Width="400" Header="Vínculo Empregatício" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
+                                        <StackPanel Orientation="Horizontal" >
                                             <TextBlock Margin="0,0,10,0" Text="{Binding Path=  EmpresaNome}" Foreground="{Binding   Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"/>
                                             <TextBlock Foreground="{Binding  Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"/>
                                         </StackPanel>
@@ -342,14 +337,14 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Width="95" Header="Tipo" >
+                            <GridViewColumn Width="130" Header="Tipo" >
                                 <GridViewColumn.CellTemplate >
                                     <DataTemplate>
                                         <TextBlock Text="{Binding  TipoCredencialDescricao}"  Foreground="{Binding   Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="150" Header="Modelo" >
+                            <GridViewColumn Width="220" Header="Modelo" >
                                 <GridViewColumn.CellTemplate  >
                                     <DataTemplate>
                                         <TextBlock Text="{Binding  LayoutCrachaNome}"  Foreground="{Binding   Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}" TextAlignment="Center"/>
@@ -364,9 +359,9 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="90" Header="Emitida">
+                            <GridViewColumn Width="88" Header="Emitida">
                                 <GridViewColumn.CellTemplate>
-                                    <DataTemplate >
+                                    <DataTemplate>
                                         <CheckBox HorizontalAlignment="Center" IsChecked="{Binding Path= Impressa}" IsHitTestVisible="False" Background="{Binding   Impressa,  Converter={StaticResource CheckImpressao}, ConverterParameter='Impressa_tw'}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
