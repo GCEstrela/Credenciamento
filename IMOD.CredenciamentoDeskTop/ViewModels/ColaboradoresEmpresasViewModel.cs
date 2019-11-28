@@ -37,6 +37,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IColaboradorEmpresaService _service = new ColaboradorEmpresaService();
         private readonly IColaboradorCredencialService _serviceCredencial = new ColaboradorCredencialService();
         private readonly IColaboradorService _serviceColaborador = new ColaboradorService();
+        
 
         //private readonly object _auxiliaresService;
         private ColaboradorView _colaboradorView;
@@ -306,6 +307,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     var validadeContrato = _empresaContratoService.Listar(null, null, null, null, null, null, null, null, Entity.EmpresaContratoId).FirstOrDefault();
                     n1.Validade = validadeContrato.Validade.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                    //var colaborador = _serviceCredencial.BuscarPelaChave(Entity.ColaboradorId);
+                    //var menordata = _serviceCredencial.ObterDataValidadeCredencial(colaborador.TipoCredencialId, n1.ColaboradorId, validadeContrato.NumeroContrato, _serviceCredencial.TipoCredencial);                    
                 }
 
                 _service.Criar(n1);

@@ -46,6 +46,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void Frm_Loaded(object sender, RoutedEventArgs e)
         {
             cmbEmpresa.SelectionChanged += OnSelecionaContrato_SelectionChanged;
+            cmbContrato.SelectionChanged += OnSelecionaContratoEmpresa_SelectionChanged;
             var window = Window.GetWindow(this);
             window.KeyDown += HandleKeyPress;
         }
@@ -59,7 +60,19 @@ namespace IMOD.CredenciamentoDeskTop.Views
             _viewModel.BuscarAnexo(_viewModel.Entity.ColaboradorEmpresaId);
             cmbContrato.Items.Refresh();
         }
-
+        private void OnSelecionaContratoEmpresa_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                //if (_viewModel.Entity.Validade == null) return;
+                if (((IMOD.Domain.Entities.EmpresaContrato)((object[])e.AddedItems)[0]).Validade == null) return;
+                _viewModel.Entity.Validade = ((IMOD.Domain.Entities.EmpresaContrato)((object[])e.AddedItems)[0]).Validade;
+            }
+            catch (Exception ex)
+            {
+                //throw;
+            }
+        }
         /// <summary>
         ///     Atualizar dados
         /// </summary>
