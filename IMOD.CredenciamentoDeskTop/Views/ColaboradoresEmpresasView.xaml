@@ -155,7 +155,7 @@
                         </Button>
                         <Button x:Name="bnt_Gupos" IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                 Visibility="{Binding VisibleGrupos}"
-                                Margin="85,3,0,3" VerticalAlignment="Center" Content="Grupos"  HorizontalAlignment="Right" Width="47" Height="24" Click="Bnt_Gupos_Click">
+                                Margin="83,3,0,3" ToolTip="Selecione os grupos" VerticalAlignment="Center" Content="Grupos"  HorizontalAlignment="Right" Width="50" Height="24" Click="Bnt_Gupos_Click">
                             <!--<StackPanel ToolTip="Selecione os grupos" Width="24">
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/CardholderGroup.jpg"/>
                             </StackPanel>-->

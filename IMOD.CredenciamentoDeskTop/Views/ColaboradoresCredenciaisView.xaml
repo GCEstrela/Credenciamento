@@ -286,17 +286,13 @@
                             <Label Content="Baixa:" Width="50" Margin="30,2,1,4" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBlock Text="{Binding Entity.Baixa, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Center" Width="70"  Margin="0,8.02,0,9.98"  />
                             
-                            <Label Content="Operador Responsável:" Foreground="#FFD0D0D0" Margin="20,2,0,0" ></Label>
-                            <Label x:Name="credencialusuario" FontSize="12" Foreground="#FFD0D0D0"  Content="{Binding Entity.Usuario}" Width="200" Margin="0,2,0,0"></Label>
+                            <Label Content="Usuário:" Foreground="#FFD0D0D0" Margin="100,2,0,0" ></Label>
+                            <Label x:Name="credencialusuario" FontSize="12" Foreground="#FFD0D0D0"  Content="{Binding Entity.Usuario}" Width="219" Margin="0,2,0,0"></Label>
 
                             <Button x:Name="Lista_bt" Content="Lista" Width="124" Margin="22,0,0,0" Click="Lista_bt_Click" Visibility="Collapsed" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="977" Height="34"  >
-                            <!--<Label Content="Card Holder GUID" Height="28" Width="113" Margin="1" Foreground="#FFD0D0D0" />
-                            <TextBlock Text="{Binding Entity.CardHolderGuid}"  VerticalAlignment="Center" Width="357" />
-                            <Label Content="Credential Holder GUID" Height="28" Width="106" Margin="1" Foreground="#FFD0D0D0" />
-                            <TextBlock Text="{Binding Entity.CredencialGuid}"  VerticalAlignment="Center" Width="357" />-->
                             <Label Content="Autorização:" Margin="0,4,10,0" Foreground="#FFD0D0D0"></Label>
                             <CheckBox x:Name="PF_chek" Content="Policia Federal"       Margin="5,9,0,10"  VerticalContentAlignment="Center"    IsChecked="{Binding Entity.Policiafederal, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"/>
                             <CheckBox x:Name="RF_chek" Content="Receita Federal"       Margin="15,9,0,10" VerticalContentAlignment="Center"    IsChecked="{Binding Entity.Receitafederal, UpdateSourceTrigger=PropertyChanged}"   Foreground="#FFD0D0D0"/>
