@@ -298,17 +298,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary>
         private void PrepareCriar()
         {
-            if (!Entity.Terceirizada)
+            try
             {
-                Entity.TerceirizadaNome = "";
-                Entity.TerceirizadaSigla = "";
+                Entity = new EmpresaContratoView();
+                
+                Comportamento.PrepareCriar();
+                _prepareCriarCommandAcionado = true;
+                _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
+                IsEnableLstView = false;
+                _viewModelParent.HabilitaControleTabControls(false, false, false, true);
             }
-            Entity = new EmpresaContratoView();
-            Comportamento.PrepareCriar();
-            _prepareCriarCommandAcionado = true;
-            _prepareAlterarCommandAcionado = !_prepareCriarCommandAcionado;
-            IsEnableLstView = false;
-            _viewModelParent.HabilitaControleTabControls (false, false, false, true);
+            catch (Exception ex)
+            {
+                WpfHelp.PopupBox(ex);
+            }
+            
         }
 
         /// <summary>

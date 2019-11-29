@@ -263,18 +263,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                _viewModel.Entity.grupoAlterado = false;
-                //popup = new PopUpGrupos();
-                //_viewModel.Entity.CardHolderGuid = _viewModel.EncontrarCardHolderGuid(_viewModel.Entity.ColaboradorId, _viewModel.Entity.ColaboradorEmpresaId);
-                //if (!string.IsNullOrEmpty(_viewModel.Entity.CardHolderGuid.ToString()))
-                //{
-                //    popup.TCHG.CardHolderGroupGuid.Clear();
-                //    popup.TCHG.CardHolderGuid = new Guid(_viewModel.Entity.CardHolderGuid); //
-                //}
-
-                //cardholderGuids = popup.TCHG.CardHolderGroupGuid;
-                //popup.TCHG.CardHolderGroupGuid = cardholderGuids;
-                //_viewModel.Entity.listadeGrupos = cardholderGuids;
+                _viewModel.Entity.grupoAlterado = false;                
             }
             catch (Exception)
             {
