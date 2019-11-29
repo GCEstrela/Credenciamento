@@ -950,7 +950,7 @@
                                                 </StackPanel>
                                             </Button>
                                             <Button x:Name="btnVesualizar" ToolTip="Visualizar modelo" Width="25"
-                                                    Margin="0,0,0,7" Click="BtnVesualizar_Click">
+                                                    Margin="0,0,0,7" Click="BtnVisualizar_Click">
                                                 <StackPanel>
                                                     <Image Source="../Resources/Olho.png"/>
                                                 </StackPanel>

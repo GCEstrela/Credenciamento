@@ -790,7 +790,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
-        private void BtnVesualizar_Click(object sender, RoutedEventArgs e)
+        private void BtnVisualizar_Click(object sender, RoutedEventArgs e)
         {
             try
             {
