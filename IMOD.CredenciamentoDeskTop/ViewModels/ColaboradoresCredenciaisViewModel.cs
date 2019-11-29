@@ -1494,7 +1494,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     verificarcredencialAtiva = false;
                     Comportamento.PrepareCancelar();
-                    //WpfHelp.Mbox("Já existe credencial ativa para esse contrato.");
+                    
                     WpfHelp.PopupBox("Já existe credencial ativa para esse contrato.",1);
                     return;
                 }
