@@ -173,7 +173,7 @@
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}"
-                          Width="756" Height="175" Margin="0,20,0,0" VerticalAlignment="Top">
+                          Width="756" Height="175" Margin="0,20,0,0" VerticalAlignment="Top" SelectionChanged="ListaSegnatarios_lv_SelectionChanged">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn Width="40" Header="Ativo">

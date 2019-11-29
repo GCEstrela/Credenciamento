@@ -779,6 +779,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Validar()) return;
 
                 var n1 = Mapper.Map<Colaborador>(Entity);
+                n1.Nome = n1.Nome.TrimStart().TrimEnd();
                 _service.Alterar(n1);
                 HabilitaControle(true, true);
                 isReprovacao = false;
