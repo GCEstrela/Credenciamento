@@ -212,9 +212,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                popup.TCHG.CardHolderGroupGuid.Clear();
+                
                 _viewModel.Entity.grupoAlterado = true;
                 popup = new PopUpGrupos();
+                
                 if (cardholderGuids.Count != 0)
                 {
                     popup.TCHG.CardHolderGroupGuid = cardholderGuids;
@@ -223,10 +224,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel.Entity.CardHolderGuid =_viewModel.EncontrarCardHolderGuid(_viewModel.Entity.ColaboradorId, _viewModel.Entity.ColaboradorEmpresaId);
                 if (!string.IsNullOrEmpty(_viewModel.Entity.CardHolderGuid.ToString()))
                 {
+                    popup.TCHG.CardHolderGroupGuid.Clear();
                     popup.TCHG.CardHolderGuid = new Guid(_viewModel.Entity.CardHolderGuid); //
                 }
                 else
                 {
+                    popup.TCHG.CardHolderGroupGuid.Clear();
                     popup.TCHG.CardHolderGuid = new Guid("ea3586f7-b6b7-42cc-8cca-04ef2ce7ebe8");
                 }
                 popup.TCHG.Initialize(Main.Engine);
