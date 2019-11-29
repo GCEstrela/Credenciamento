@@ -401,7 +401,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
-                _service.Alterar(n1);
+                
                 Entity.Matricula = n1.Matricula;
 
                 #region Gerar CardHolder
@@ -410,7 +410,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity.CardHolderGuid = n1.CardHolderGuid;
 
                 #endregion
-
+                _service.Alterar(n1);
                 IsEnableLstView = true;
                 SetDadosEmpresaContrato(Entity);
 
@@ -527,11 +527,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             list2.ForEach(n => { EntityObserver.Add(n); });
             ListarDadosEmpresaContratos();
         }
-        public string EncontrarCardHolderGuid(int colaboradorid)
+        public string EncontrarCardHolderGuid(int colaboradorid,int colaboradorEmpresaid)
         {
             try
             {
-                var list1 = _service.Listar(colaboradorid).FirstOrDefault();
+                var list1 = _service.Listar(colaboradorid, null, null, null, null, null,null, colaboradorEmpresaid).FirstOrDefault();
                 if (list1 != null)
                 {
                     return list1.CardHolderGuid;

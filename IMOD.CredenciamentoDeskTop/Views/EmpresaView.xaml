@@ -101,20 +101,20 @@
                       Margin="0,0,5,0" Width="1258" PreviewKeyDown="LstView_PreviewKeyDown">
                 <ListView.View>
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
-                        <GridViewColumn Header="Alerta Vencto" Width="100">
+                        <GridViewColumn Header="Alerta Vencto" Width="85">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Image ToolTip="{Binding PraVencerTooltip}" Source="{Binding PraVencer, Converter={StaticResource ConvertIntToImage}, Mode=TwoWay}" Width="60"  Height="16" HorizontalAlignment="Center"  Margin="0,0,0,0"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Width="55" Header="Código" DisplayMemberBinding="{Binding EmpresaId}" />
-                        <GridViewColumn Width="140" Header="CNPJ" DisplayMemberBinding="{Binding CnpjMascara}" />
-                        <GridViewColumn Width="330" Header="Razão Social" DisplayMemberBinding="{Binding Nome}" />
-                        <GridViewColumn Width="130" Header="Nome Fantasia" DisplayMemberBinding="{Binding Apelido}" />
-                        <GridViewColumn Width="115" Header="Telefone" DisplayMemberBinding="{Binding Telefone1}" />
-                        <GridViewColumn Width="115" Header="Celular" DisplayMemberBinding="{Binding Celular1}" />
-                        <GridViewColumn Width="260" Header="E-Mail" DisplayMemberBinding="{Binding Email1}" />
+                        <GridViewColumn Width="55"  Header="Código"         DisplayMemberBinding="{Binding EmpresaId}" />
+                        <GridViewColumn Width="135" Header="CNPJ"           DisplayMemberBinding="{Binding CnpjMascara}" />
+                        <GridViewColumn Width="358" Header="Razão Social"   DisplayMemberBinding="{Binding Nome}" />
+                        <GridViewColumn Width="220" Header="Nome Fantasia"  DisplayMemberBinding="{Binding Apelido}" />
+                        <GridViewColumn Width="105" Header="Telefone"       DisplayMemberBinding="{Binding Telefone1}" />
+                        <GridViewColumn Width="105" Header="Celular"        DisplayMemberBinding="{Binding Celular1}" />
+                        <GridViewColumn Width="170" Header="E-Mail"         DisplayMemberBinding="{Binding Email1}" />
 
                     </GridView>
                 </ListView.View>
