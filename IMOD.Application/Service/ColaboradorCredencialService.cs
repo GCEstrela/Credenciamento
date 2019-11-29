@@ -612,7 +612,7 @@ namespace IMOD.Application.Service
             entityCardHolder.Email = cardHolderColaborador.Email;
             entityCardHolder.Validade = entity.Validade;
             entityCardHolder.listadeGrupos = entity.listadeGrupos;
-            entityCardHolder.grupoAlterado = true;
+            entityCardHolder.grupoAlterado = entity.grupoAlterado;
             entityCardHolder.Cnpj = "";
             entityCardHolder.Cpf = cardHolderColaborador.Cpf;
             entityCardHolder.Cargo = entity.Cargo;

@@ -438,7 +438,7 @@ namespace IMOD.Infra.Servicos
                                     cardHolder.Groups.Add(cardholderGuid);
                                 }
                         }
-
+                        
 
                         _sdk.TransactionManager.CommitTransaction();
                         return;

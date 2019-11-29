@@ -316,7 +316,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 #region Gerar CardHolder
 
                 _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
-
+                Entity.grupoAlterado = false;
                 #endregion
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<ColaboradorEmpresaView>(n1);
@@ -327,6 +327,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _viewModelParent.AtualizarDadosPendencias();
                 SelectListViewIndex = 0;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
+                
             }
             catch (Exception ex)
             {
@@ -408,7 +409,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
                 Entity.CardHolderGuid = n1.CardHolderGuid;
-
+                Entity.grupoAlterado = false;
                 #endregion
                 _service.Alterar(n1);
                 IsEnableLstView = true;
