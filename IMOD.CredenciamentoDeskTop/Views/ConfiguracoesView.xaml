@@ -7,7 +7,7 @@
              d:DataContext="{d:DesignInstance viewModels:ConfiguracoesViewModel , IsDesignTimeCreatable=True}"             
              xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
              mc:Ignorable="d"
-             MaxWidth="1300" Width="1270" Height="600" >
+             MaxWidth="1300" Width="1300" Height="650" >
     <UserControl.Resources>
         <Image x:Key="imgAdd" Source="../Resources/add.png" />
         <Image x:Key="imgEdit" Source="../Resources/edit.png" />
@@ -62,7 +62,7 @@
                                                 <ListView.View>
                                                     <GridView FrameworkElement.FlowDirection="RightToLeft">
                                                         <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding TipoAtividadeId}"/>
-                                                        <GridViewColumn Width="500" Header="Atividades"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                        <GridViewColumn Width="485" Header="Atividades"  DisplayMemberBinding="{Binding Descricao}"/>
                                                     </GridView>
                                                 </ListView.View>
                                             </ListView>
@@ -107,7 +107,7 @@
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
                                                     <GridViewColumn Width="100" Header="Identificacao"  DisplayMemberBinding="{Binding Identificacao}"/>
-                                                    <GridViewColumn Width="500" Header="Área de Acesso"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                    <GridViewColumn Width="435" Header="Área de Acesso"  DisplayMemberBinding="{Binding Descricao}"/>
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -161,7 +161,7 @@
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
                                                     <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding TipoCobrancaId}"/>
-                                                    <GridViewColumn Width="500" Header="Tipo de Cobrança"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                    <GridViewColumn Width="485" Header="Tipo de Cobrança"  DisplayMemberBinding="{Binding Descricao}"/>
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -210,7 +210,7 @@
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
                                                     <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding StatusId}"/>
-                                                    <GridViewColumn Width="500" Header="Status"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                    <GridViewColumn Width="485" Header="Status"  DisplayMemberBinding="{Binding Descricao}"/>
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -284,7 +284,7 @@
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
                                                     <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding TipoEquipamentoId}"/>
-                                                    <GridViewColumn Width="500" Header="Tipos de Equipamento"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                    <GridViewColumn Width="485" Header="Tipos de Equipamento"  DisplayMemberBinding="{Binding Descricao}"/>
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -335,7 +335,7 @@
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
                                                     <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding TipoServicoId}"/>
-                                                    <GridViewColumn Width="500" Header="Tipo de Serviço"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                    <GridViewColumn Width="485" Header="Tipo de Serviço"  DisplayMemberBinding="{Binding Descricao}"/>
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -387,7 +387,7 @@
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
                                                     <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding CursoId}"/>
-                                                    <GridViewColumn Width="500" Header="Treinamento/Certificação"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                    <GridViewColumn Width="485" Header="Treinamento/Certificação"  DisplayMemberBinding="{Binding Descricao}"/>
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -447,7 +447,7 @@
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
                                                     <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding TipoCombustivelId}"/>
-                                                    <GridViewColumn Width="500" Header="Tipo de Combustível"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                    <GridViewColumn Width="485" Header="Tipo de Combustível"  DisplayMemberBinding="{Binding Descricao}"/>
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -519,7 +519,7 @@
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
                                                     <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding CredencialStatusId}"/>
-                                                    <GridViewColumn Width="500" Header="Status da Credencial/Autorização"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                    <GridViewColumn Width="485" Header="Status da Credencial/Autorização"  DisplayMemberBinding="{Binding Descricao}"/>
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -553,7 +553,6 @@
                                 </StackPanel>
                             </GroupBox>
 
-
                             <GroupBox x:Name="TiposAcessos_gb"  Grid.Row="0" Grid.Column="2"  Header=" Tipos de Acessos " Margin="10,10,10,10" VerticalAlignment="Stretch" >
                                 <StackPanel Margin="0,10,0,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
@@ -571,7 +570,7 @@
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
                                                     <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding TipoAcessoId}"/>
-                                                    <GridViewColumn Width="500" Header="Tipo de Acesso"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                    <GridViewColumn Width="485" Header="Tipo de Acesso"  DisplayMemberBinding="{Binding Descricao}"/>
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -606,8 +605,6 @@
                                 </StackPanel>
                             </GroupBox>
 
-
-
                             <GroupBox x:Name="TecnologiasCredenciais_gb"  Grid.Row="1" Grid.Column="0"  Header="Tecnologias de Credenciais " Margin="10,10,10,10" VerticalAlignment="Stretch" >
                                 <StackPanel Margin="0,10,0,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
@@ -621,13 +618,13 @@
 
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
                                         <ListView x:Name="ListaTecnologiasCredenciais_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding TecnologiasCredenciais, Mode=TwoWay}" 
-                                                                  SelectedItem="{Binding Path = TecnologiaCredencialSelecionada, Mode=TwoWay}"  Height="167" Width="560" 
+                                                           SelectedItem="{Binding Path = TecnologiaCredencialSelecionada, Mode=TwoWay}"  Height="167" Width="560" 
                                                            SelectedIndex="{Binding Path=TecnologiaCredencialSelectedIndex, Mode=TwoWay}" >
 
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
                                                     <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding TecnologiaCredencialId}"/>
-                                                    <GridViewColumn Width="500" Header="Tecnologia de Credencial"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                    <GridViewColumn Width="485" Header="Tecnologia de Credencial"  DisplayMemberBinding="{Binding Descricao}"/>
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -682,7 +679,7 @@
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
                                                     <GridViewColumn Width="50" Header="Cód."  DisplayMemberBinding="{Binding FormatoCredencialId}"/>
-                                                    <GridViewColumn Width="500" Header="Formato de Credencial"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                    <GridViewColumn Width="485" Header="Formato de Credencial"  DisplayMemberBinding="{Binding Descricao}"/>
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -894,17 +891,6 @@
                                         <TextBox CharacterCasing="Upper"  x:Name="CodigoCracha_tb"  Text="{Binding SelectedItem.LayoutCrachaId, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50" Visibility="Collapsed"/>
                                         <Label Content="{Binding SelectedItem.Modelo, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}" Height="28" Width="250"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                                         <TextBox CharacterCasing="Upper"  x:Name="Nome_tb"  Text="{Binding SelectedItem.Nome, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="249"/>
-                                        <!--<Label Content="Tipo:" Height="28"  Margin="0,0,1,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>-->
-
-                                        <!--<ComboBox  x:Name="cbTipoLayoutCracha" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" 
-                                              ItemsSource="{Binding TipoLayoutCracha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                SelectedValue="{Binding SelectedItem.TipoCracha,  ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                                    DisplayMemberPath="Description" SelectedValuePath="Value"
-                                                        IsSynchronizedWithCurrentItem="True"  IsEnabled="true" Width="90"/>-->
-
-                                        <!--<Label Content="Valor:" Height="28"  Margin="0,0,1,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0"/>
-                                        <TextBox x:Name="ValorCracha_tb" IsEnabled="true" Text="{Binding SelectedItem.Valor, ElementName=ListaLayoutsCrachas_lv, UpdateSourceTrigger=PropertyChanged}" Height="24"  Width="50"/>-->
-
                                         <Button x:Name="BuscarCracha_bt" Height="24" Margin="10,0,0,0" VerticalAlignment="Center" Width="24" Click="BuscarCracha_bt_Click" IsEnabled="False">
                                             <StackPanel>
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico"/>
@@ -923,7 +909,7 @@
                                                           SelectedItem="{Binding Path = LayoutCrachaSelecionado, Mode=TwoWay}"  Height="167" Width="560"  SelectedIndex="{Binding Path=LayoutCrachaSelectedIndex, Mode=TwoWay}" >
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
-                                                    <GridViewColumn Width="300" Header="Modelo"  DisplayMemberBinding="{Binding Modelo}"/>
+                                                    <GridViewColumn Width="260" Header="Modelo"  DisplayMemberBinding="{Binding Modelo}"/>
                                                     <GridViewColumn Width="90" Header="Tipo"  DisplayMemberBinding="{Binding TipoCrachaDescricao}"/>
                                                     <GridViewColumn Width="90" Header="Validade"  DisplayMemberBinding="{Binding TipoValidadeDescricao}"/>
                                                     <GridViewColumn Width="90" Header="Cor"  DisplayMemberBinding="{Binding Cor}"/>

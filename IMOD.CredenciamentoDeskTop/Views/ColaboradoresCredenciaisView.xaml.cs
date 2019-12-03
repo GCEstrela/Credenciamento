@@ -88,7 +88,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
                 if (_viewModel.ColaboradorEmpresa.ColaboradorId > 0 & _viewModel.ColaboradorEmpresa.EmpresaId > 0)
                 {
-                    _viewModel.CarregarVinculosAtivos(_viewModel.ColaboradorEmpresa.ColaboradorId, _viewModel.ColaboradorEmpresa.EmpresaId);
+                    _viewModel.CarregarVinculosAtivos(_viewModel.ColaboradorEmpresa.ColaboradorId, _viewModel.ColaboradorEmpresa.EmpresaId, _viewModel.ColaboradorEmpresa.EmpresaContratoId);
                 }
             
         }

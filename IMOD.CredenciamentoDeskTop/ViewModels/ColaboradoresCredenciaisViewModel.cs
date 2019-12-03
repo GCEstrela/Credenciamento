@@ -1481,19 +1481,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Carregar Vinculos Ativos do Colaborador
         /// </summary>
-        public void CarregarVinculosAtivos(int colaboradorId, int empresaId)
-        {
+        public void CarregarVinculosAtivos(int colaboradorId, int empresaId, int contratoId)
+        {                                //Foi add mais um parâmetro (contratoId) para identificar o contrato da credencial
             try
             {
                 if (!verificarcredencialAtiva) return;
                 if (colaboradorId == 0) return;
                 if (empresaId == 0) return;
-                var n1 = _service.Listar(null, null, null, null, colaboradorId, empresaId, true);
+                if (contratoId == 0) return;
+                var n1 = _service.Listar(null, null, null, null, colaboradorId, empresaId, true,null,null,null,null, contratoId);
                 if (n1.Count >= 1)
                 {
                     verificarcredencialAtiva = false;
                     Comportamento.PrepareCancelar();
-                    WpfHelp.Mbox("Já existe credencial ativa para esse contrato.");
+                    
+                    WpfHelp.PopupBox("Já existe credencial ativa para esse contrato.",1);
                     return;
                 }
                 verificarcredencialAtiva = false;
