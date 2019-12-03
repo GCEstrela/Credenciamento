@@ -31,11 +31,11 @@
         </ControlTemplate>
     </UserControl.Resources >
     <Grid VerticalAlignment="Top">
-        <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Vertical" Margin="0,0,0,-106">
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"                      
                       Background="Crimson"
                       x:Name="Responsavel_gb" Header="Empresas Vínculos"
-                      VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="810" Height="203">
+                      VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="810" Height="281">
 
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,-2,-12">
 
@@ -85,20 +85,60 @@
                                   Height="24" HorizontalAlignment="Left" Width="204" Margin="10,0,0,0"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" 
-                                IsEnabled="{Binding Comportamento.isEnableCancelar}" Width="745" Height="28" Margin="0,5,0,0">
-                        <Label Content="Vínculo Ativo:" Height="28" Width="143" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                        <CheckBox VerticalAlignment="Center" x:Name="chkAtivo"  Foreground="#FFD0D0D0" 
+                                IsEnabled="{Binding Comportamento.isEnableCancelar}" Width="745" Height="82" Margin="0,5,0,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                               
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Vínculo Ativo:" Height="28" Width="143" Foreground="#FFD0D0D0" Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Right" />
+                            <CheckBox VerticalAlignment="Center" x:Name="chkAtivo"  Foreground="#FFD0D0D0" Margin="45,0,0,0" Grid.Row="0" Grid.Column="0"
                                   IsEnabled="{Binding Comportamento.isEnableCancelar}" 
                                   IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}" Checked="ChkAtivo_Checked" Unchecked="ChkAtivo_Unchecked"/>
 
-                        <Label Content="Autorização Dirigir:" Height="28" Width="143" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                        <CheckBox VerticalAlignment="Center" x:Name="chkMotorista"  Foreground="#FFD0D0D0" 
+                            <Label Content="Autorização Dirigir:" Height="28" Width="143" Foreground="#FFD0D0D0" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Right" />
+                            <CheckBox VerticalAlignment="Center" x:Name="chkMotorista"  Foreground="#FFD0D0D0" Grid.Row="0" Grid.Column="1"
                                   IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                   IsChecked="{Binding Entity.Motorista, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Label Content=" Manuseio de Bagagem:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                        <CheckBox VerticalAlignment="Center" x:Name="chkManuseioBagagem"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.ManuseioBagagem, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content=" Manuseio de Bagagem:" Height="26" Width="145"   VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                            <CheckBox VerticalAlignment="Center" x:Name="chkManuseioBagagem"  Foreground="#FFD0D0D0" Grid.Row="0" Grid.Column="2" IsChecked="{Binding Entity.ManuseioBagagem, UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <Label Content="Inicio:" Height="24" Width="42" Margin="20,0,0,0"
+                            
+                            
+                            <Label Content="CCAM:" Grid.Column="0" Grid.Row="1" Height="26" Width="80" Margin="0,0,0,0"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                            <CheckBox VerticalAlignment="Center" x:Name="chkCcam" Grid.Column="0" Grid.Row="1" Margin="45,0,0,0" Foreground="#FFD0D0D0" IsChecked="{Binding Entity.FlagCcam, UpdateSourceTrigger=PropertyChanged}"/>
+                            
+                            <Label Content="Operador Ponte:" Grid.Column="1" Grid.Row="1" Height="26" Width="100"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" Margin="0,1" />
+                            <CheckBox VerticalAlignment="Center" x:Name="chkOperadorPonte" Grid.Column="1" Grid.Row="1"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.OperadorPonteEmbarque, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <Label Content="Pode ser Auditado:" Grid.Column="2" Grid.Row="1" Height="26" Width="110"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                            <CheckBox VerticalAlignment="Center" x:Name="chkAuditado" Grid.Column="2" Grid.Row="1" Foreground="#FFD0D0D0" IsChecked="{Binding Entity.FlagAuditoria, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        </Grid>
+                        <GroupBox Margin="110,0,0,0" Grid.Row="0" Grid.Column="3" Header="Controle de Acesso" Padding="1" Width="200" Height="70" VerticalAlignment="Stretch">
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="150" Height="30" Margin="22,10,0,0">
+
+                                <Button x:Name="bnt_Gupos" IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                            Visibility="{Binding VisibleGrupos}" Margin="5,0,0,3" ToolTip="Selecione os grupos" 
+                                            VerticalAlignment="Center" Content="Grupos"  HorizontalAlignment="Center"  Width="141" Height="24" Click="Bnt_Gupos_Click">
+                                </Button>
+
+                            </StackPanel>
+
+                        </GroupBox>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                              IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="28" Margin="0,5,0,0" >
+                        <Label Content="Inicio:" Height="24" Width="42" Margin="107,0,0,0"
                                Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                         <TextBox
                             Name="txtDtInicio"
@@ -112,33 +152,21 @@
                             Name="txtDtFim" Text="{Binding Entity.DataFim, StringFormat='{}{0:dd/MM/yyyy}'}"                           
                             PreviewTextInput="NumberOnly" MaxLength="10"                            
                             Height="24"  Width="85" Margin="10,3,0,1" LostFocus="TxtDtFim_LostFocus" />
+                        
+                        <Label Content="Data de Validade:" Height="24" Width="151" Margin="0,4,0,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                        <TextBox Name="txtDtValidade" Text="{Binding Entity.Validade, StringFormat='{}{0:dd/MM/yyyy}'}"
+                            LostFocus="OnFormatData_LostFocus" PreviewTextInput="NumberOnly"
+                            MaxLength="10" Height="24"  Width="97" Margin="10,2,0,2" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
-                              IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="28" Margin="0,5,0,0" >
-
-                        <Label Content=" CCAM:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                        <CheckBox VerticalAlignment="Center" x:Name="chkCcam"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.FlagCcam, UpdateSourceTrigger=PropertyChanged}"/>
-
-                        <Label Content="Operador Ponte:" Height="26" Width="142"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" Margin="0,1" />
-                        <CheckBox VerticalAlignment="Center" x:Name="chkOperadorPonte"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.OperadorPonteEmbarque, UpdateSourceTrigger=PropertyChanged}"/>
-
-                        <Label Content="Pode ser Auditado:" Height="26" Width="145"  VerticalAlignment="Center" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                        <CheckBox VerticalAlignment="Center" x:Name="chkAuditado"  Foreground="#FFD0D0D0" IsChecked="{Binding Entity.FlagAuditoria, UpdateSourceTrigger=PropertyChanged}"/>
-
-                        <Label Content="Data de Validade:" Height="24" Width="151" Margin="5,4,0,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
-                        <TextBox Name="txtDtValidade" Text="{Binding Entity.Validade, StringFormat='{}{0:dd/MM/yyyy}'}"
-                            LostFocus="OnFormatData_LostFocus" PreviewTextInput="NumberOnly"
-                            MaxLength="10" Height="24"  Width="97" Margin="13,2,0,2" />
-                    </StackPanel>
-
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="772" Height="30" Margin="0,10,0,0">
+                              IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="28" Margin="0,5,0,0" Width="745" >
 
                         <Label Content="Nome do Arquivo:" Height="30" Width="142" Margin="1" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                         <!-- Campo nome ddo Arquivo Anexo deve sempre esta Enabled, quem informa é a seleção do arquivo-->
-                        <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper" Height="24" Width="406"  
+                        <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper" Height="24" Width="527"  
                                  Text="{Binding Entity.NomeAnexo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                 IsEnabled="False"
+                                 IsEnabled="False" Margin="5,0,0,4"
                                  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
                         <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="10,0,0,0"
                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"
@@ -153,19 +181,13 @@
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png" />
                             </StackPanel>
                         </Button>
-                        <Button x:Name="bnt_Gupos" IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                Visibility="{Binding VisibleGrupos}"
-                                Margin="83,3,0,3" ToolTip="Selecione os grupos" VerticalAlignment="Center" Content="Grupos"  HorizontalAlignment="Right" Width="50" Height="24" Click="Bnt_Gupos_Click">
-                            <!--<StackPanel ToolTip="Selecione os grupos" Width="24">
-                                <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/CardholderGroup.jpg"/>
-                            </StackPanel>-->
-                        </Button>
+
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
 
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Height="190" Margin="0,10,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Height="190" Margin="0,0,0,0">
 
                 <ListView x:Name="ListaSegnatarios_lv"
                           IsEnabled="{Binding IsEnableLstView}"
@@ -173,7 +195,7 @@
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}"
-                          Width="756" Height="175" Margin="0,20,0,0" VerticalAlignment="Top" SelectionChanged="ListaSegnatarios_lv_SelectionChanged">
+                          Width="756" Height="175" Margin="0,0,0,0" VerticalAlignment="Top" SelectionChanged="ListaSegnatarios_lv_SelectionChanged">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
                             <GridViewColumn Width="40" Header="Ativo">

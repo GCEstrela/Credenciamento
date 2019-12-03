@@ -222,7 +222,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 }
 
                 _viewModel.Entity.CardHolderGuid =_viewModel.EncontrarCardHolderGuid(_viewModel.Entity.ColaboradorId, _viewModel.Entity.ColaboradorEmpresaId);
-                if (!string.IsNullOrEmpty(_viewModel.Entity.CardHolderGuid.ToString()))
+                if (!string.IsNullOrEmpty(_viewModel.Entity.CardHolderGuid))
                 {
                     popup.TCHG.CardHolderGroupGuid.Clear();
                     popup.TCHG.CardHolderGuid = new Guid(_viewModel.Entity.CardHolderGuid); //

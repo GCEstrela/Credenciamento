@@ -816,6 +816,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
                     //entity.grupoAlterado = true;
                     entity.listadeGrupos = n1.listadeGrupos;
+
+                    IColaboradorService _serviceColaborador = new ColaboradorService();
+                    var cardHolderColaborador = _serviceColaborador.BuscarPelaChave(entity.ColaboradorId);
+                    entity.ColaboradorFoto = cardHolderColaborador.Foto;
+
+                    var colaboradorEmpresa = _colaboradorEmpresaService.BuscarPelaChave(entity.ColaboradorEmpresaId);
+                    entity.CardHolderGuid = colaboradorEmpresa.CardHolderGuid;
+
+
                     GerarCardHolder(n1.ColaboradorCredencialId, entity);
 
                 }
@@ -1050,6 +1059,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         var formatocredencialdescricao = _auxiliaresService.FormatoCredencialService.BuscarPelaChave(n1.FormatoCredencialId);
                         Entity.FormatoCredencialDescricao = formatocredencialdescricao.Descricao;
+
+                        IColaboradorService _serviceColaborador = new ColaboradorService();
+                        var cardHolderColaborador = _serviceColaborador.BuscarPelaChave(n1.ColaboradorId);
+                        Entity.ColaboradorFoto = cardHolderColaborador.Foto;
                         GerarCardHolder(n1.ColaboradorCredencialId, Entity);
 
                         var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
@@ -1519,14 +1532,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         ///     Carregar Vinculos Ativos do Colaborador
         /// </summary>
-        public void CarregarVinculosAtivosOutrasCredenciais(int colaboradorId, int empresaId)
+        public void CarregarVinculosAtivosOutrasCredenciais(int colaboradorId, int empresaId,int contratoId)
         {
             try
             {
                 if (!verificarcredencialAtiva) return;
                 if (colaboradorId == 0) return;
                 if (empresaId == 0) return;
-                var n1 = _service.Listar(null, null, null, null, colaboradorId, empresaId, true, null, Entity.ColaboradorCredencialId);
+                if (contratoId == 0) return;
+                var n1 = _service.Listar(null, null, null, null, colaboradorId, empresaId, true, null, Entity.ColaboradorCredencialId,null,null,contratoId);
                 if (n1.Count >= 1)
                 {
                     verificarcredencialAtiva = false;

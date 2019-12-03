@@ -209,7 +209,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 if (_viewModel.ColaboradorEmpresa == null) return;
                 if (_viewModel.ColaboradorEmpresa.ColaboradorId > 0 & _viewModel.ColaboradorEmpresa.EmpresaId > 0)
                 {
-                    _viewModel.CarregarVinculosAtivosOutrasCredenciais(_viewModel.ColaboradorEmpresa.ColaboradorId, _viewModel.ColaboradorEmpresa.EmpresaId);
+                    _viewModel.CarregarVinculosAtivosOutrasCredenciais(_viewModel.ColaboradorEmpresa.ColaboradorId, _viewModel.ColaboradorEmpresa.EmpresaId, _viewModel.ColaboradorEmpresa.EmpresaContratoId);
                 }
 
                 if (cmbCredencialStatus.SelectedItem != null &&

@@ -318,7 +318,7 @@ namespace IMOD.Infra.Servicos
                     cardholder.State = CardholderState.Inactive;
                 }
 
-                //SetValorCamposCustomizados(entity, cardholder);
+                SetValorCamposCustomizados(entity, cardholder);
 
                 _sdk.TransactionManager.CommitTransaction();
             }
@@ -337,7 +337,7 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
-
+                
                 if (string.IsNullOrWhiteSpace(entity.IdentificadorCredencialGuid)) throw new ArgumentNullException(nameof(entity.IdentificadorCredencialGuid));
                 // _sdk.TransactionManager.CreateTransaction();
 
@@ -438,12 +438,13 @@ namespace IMOD.Infra.Servicos
                                     cardHolder.Groups.Add(cardholderGuid);
                                 }
                         }
-                        
+                        SetValorCamposCustomizados(entity, cardHolder);
 
                         _sdk.TransactionManager.CommitTransaction();
                         return;
                     }
-                    entity.IdentificadorCardHolderGuid = null;
+                    //entity.IdentificadorCardHolderGuid = null;
+                    entity.IdentificadorCardHolderGuid = EncontraCardHolderPelaMatricula(entity, entity.Matricula);
                 }
                 else
                 {
@@ -463,7 +464,7 @@ namespace IMOD.Infra.Servicos
                     entity.IdentificadorCardHolderGuid = cardHolder.Guid.ToString(); //Set identificador Guid
 
                     SetValorCamposCustomizados(entity, cardHolder);
-                    
+                    cardHolder.Picture = entity.Foto;
                     if (entity.grupoAlterado)
                     {
                         cardHolder.Groups.Clear();
@@ -484,7 +485,7 @@ namespace IMOD.Infra.Servicos
                     {
                         cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                     }
-                    cardHolder.Picture = entity.Foto;
+                    //cardHolder.Picture = entity.Foto;
 
                     _sdk.TransactionManager.CommitTransaction();
                 }
@@ -879,6 +880,7 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
+
                 if (ExisteCardHolder(entity) == false)
                 {
                     entity.IdentificadorCardHolderGuid = EncontraCardHolderPelaMatricula(entity, entity.Matricula);//Encontra Credencial pelo Numero da Matrícula
@@ -927,7 +929,10 @@ namespace IMOD.Infra.Servicos
                 }
 
                 entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
-
+                entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
+                if(entity.Foto!=null)
+                    cardHolder.Picture = entity.Foto;
+                SetValorCamposCustomizados(entity, cardHolder);
                 _sdk.TransactionManager.CommitTransaction();
             }
             catch (Exception ex)
