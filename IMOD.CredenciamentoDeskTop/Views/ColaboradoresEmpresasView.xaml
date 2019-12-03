@@ -35,7 +35,7 @@
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"                      
                       Background="Crimson"
                       x:Name="Responsavel_gb" Header="Empresas Vínculos"
-                      VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="810" Height="281">
+                      VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="810" Height="248">
 
                 <StackPanel x:Name="InformacoesAnexo_sp" Margin="0,10,-2,-12">
 
@@ -84,8 +84,30 @@
                                   IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                   Height="24" HorizontalAlignment="Left" Width="204" Margin="10,0,0,0"/>
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
+                              IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="28" Margin="0,5,0,0" >
+                        <Label Content="Inicio:" Height="24" Width="42" Margin="100,0,0,0"
+                               Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                        <TextBox
+                            Name="txtDtInicio"
+                            Text="{Binding Entity.DataInicio, StringFormat='{}{0:dd/MM/yyyy}'}"                            
+                            PreviewTextInput="NumberOnly"
+                            MaxLength="10"                            
+                            Height="24"  Width="80" LostFocus="TxtDtInicio_LostFocus" />
+
+                        <Label Content="Fim:" Height="24" Width="30" Margin="0,2" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                        <TextBox
+                            Name="txtDtFim" Text="{Binding Entity.DataFim, StringFormat='{}{0:dd/MM/yyyy}'}"                           
+                            PreviewTextInput="NumberOnly" MaxLength="10"                            
+                            Height="24"  Width="85" Margin="10,3,0,1" LostFocus="TxtDtFim_LostFocus" />
+
+                        <Label Content="Data de Validade:" Height="24" Width="151" Margin="32,4,0,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
+                        <TextBox Name="txtDtValidade" Text="{Binding Entity.Validade, StringFormat='{}{0:dd/MM/yyyy}'}"
+                            LostFocus="OnFormatData_LostFocus" PreviewTextInput="NumberOnly"
+                            MaxLength="10" Height="24"  Width="97" Margin="10,2,0,2" />
+                    </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" 
-                                IsEnabled="{Binding Comportamento.isEnableCancelar}" Width="745" Height="82" Margin="0,5,0,0">
+                                IsEnabled="{Binding Comportamento.isEnableCancelar}" Width="745" Height="80" Margin="0,5,0,0">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -136,28 +158,7 @@
                         </GroupBox>
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
-                              IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="28" Margin="0,5,0,0" >
-                        <Label Content="Inicio:" Height="24" Width="42" Margin="107,0,0,0"
-                               Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
-                        <TextBox
-                            Name="txtDtInicio"
-                            Text="{Binding Entity.DataInicio, StringFormat='{}{0:dd/MM/yyyy}'}"                            
-                            PreviewTextInput="NumberOnly"
-                            MaxLength="10"                            
-                            Height="24"  Width="80" LostFocus="TxtDtInicio_LostFocus" />
-
-                        <Label Content="Fim:" Height="24" Width="30" Margin="0,2" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
-                        <TextBox
-                            Name="txtDtFim" Text="{Binding Entity.DataFim, StringFormat='{}{0:dd/MM/yyyy}'}"                           
-                            PreviewTextInput="NumberOnly" MaxLength="10"                            
-                            Height="24"  Width="85" Margin="10,3,0,1" LostFocus="TxtDtFim_LostFocus" />
-                        
-                        <Label Content="Data de Validade:" Height="24" Width="151" Margin="0,4,0,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
-                        <TextBox Name="txtDtValidade" Text="{Binding Entity.Validade, StringFormat='{}{0:dd/MM/yyyy}'}"
-                            LostFocus="OnFormatData_LostFocus" PreviewTextInput="NumberOnly"
-                            MaxLength="10" Height="24"  Width="97" Margin="10,2,0,2" />
-                    </StackPanel>
+                    
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                               IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="28" Margin="0,5,0,0" Width="745" >
