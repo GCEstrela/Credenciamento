@@ -221,8 +221,38 @@
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Cracha\Floripa\AgenteDeCargas.cs">
-      <DependentUpon>AgenteDeCargas.rpt</DependentUpon>
+    <Compile Include="Cracha\Floripa\AgenteCargas.cs">
+      <DependentUpon>AgenteCargas.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Cracha\Floripa\CiaAerea.cs">
+      <DependentUpon>CiaAerea.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Cracha\Floripa\VigilanciaApac.cs">
+      <DependentUpon>VigilanciaApac.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Cracha\Floripa\FloripaAirport.cs">
+      <DependentUpon>FloripaAirport.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Cracha\Floripa\OrgaosPublicos.cs">
+      <DependentUpon>OrgaosPublicos.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Cracha\Floripa\ContratosFA.cs">
+      <DependentUpon>ContratosFA.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
@@ -1300,9 +1330,29 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>EstAmareloEstrela.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\Floripa\AgenteDeCargas.rpt">
+    <EmbeddedResource Include="Cracha\Floripa\AgenteCargas.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>AgenteDeCargas.cs</LastGenOutput>
+      <LastGenOutput>AgenteCargas.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\Floripa\CiaAerea.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CiaAerea.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\Floripa\VigilanciaApac.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>VigilanciaApac.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\Floripa\FloripaAirport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FloripaAirport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\Floripa\OrgaosPublicos.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>OrgaosPublicos.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\Floripa\ContratosFA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ContratosFA.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\FraportForAutorizacaoManobra.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
