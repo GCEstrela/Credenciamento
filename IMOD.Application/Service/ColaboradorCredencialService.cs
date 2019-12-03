@@ -615,7 +615,7 @@ namespace IMOD.Application.Service
             entityCardHolder.grupoAlterado = entity.grupoAlterado;
             entityCardHolder.Cnpj = "";
             entityCardHolder.Cpf = cardHolderColaborador.Cpf;
-            entityCardHolder.Cargo = entity.Cargo;
+            //entityCardHolder.Cargo = entity.Cargo;
             entityCardHolder.Identificacao1 = "";
             entityCardHolder.Identificacao2 = "";
             entityCardHolder.TecnologiaCredencialId = 0;
@@ -633,8 +633,9 @@ namespace IMOD.Application.Service
             titularCartao.grupoAlterado = entityCardHolder.grupoAlterado;
             titularCartao.Cnpj = cardHolderEmpresa.Cnpj;
             titularCartao.GrupoPadrao = entityCardHolder.GrupoPadrao;
+            titularCartao.Cargo = entityCardHolder.Cargo;
             #region Setar o valor CardHolder GUID ao colaborador
-            
+
             //Buscar dados do colaborador
             var co1 = colaboradorService.Empresa.BuscarPelaChave(entity.ColaboradorEmpresaId);
             if (co1 == null) throw new InvalidOperationException("Não foi possive obter um colaborador");

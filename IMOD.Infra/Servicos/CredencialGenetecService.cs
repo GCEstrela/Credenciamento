@@ -157,26 +157,32 @@ namespace IMOD.Infra.Servicos
                 if (EncontrarCustonField("CPF"))
                 {
                     entityCardholder.SetCustomFieldAsync("CPF", entity.Cpf);
+                    entityCardholder.CustomFields["Cpf"] = entity.Cpf;
                 }
                 if (EncontrarCustonField("CNPJ"))
                 {
                     entityCardholder.SetCustomFieldAsync("CNPJ", entity.Cnpj);
+                    entityCardholder.CustomFields["Cnpj"] = entity.Cnpj;
                 }
                 if (EncontrarCustonField("Cargo"))
                 {
                     entityCardholder.SetCustomFieldAsync("Cargo", entity.Cargo);
+                    entityCardholder.CustomFields["Cargo"] = entity.Cargo;
                 }
                 if (EncontrarCustonField("Empresa"))
                 {
                     entityCardholder.SetCustomFieldAsync("Empresa", entity.Empresa);
+                    entityCardholder.CustomFields["Empresa"] = entity.Empresa;
                 }
                 if (EncontrarCustonField("Matricula"))
                 {
                     entityCardholder.SetCustomFieldAsync("Matricula", entity.Matricula);
+                    entityCardholder.CustomFields["Matricula"] = entity.Matricula;
                 }
                 if (EncontrarCustonField("Identificador"))
                 {
-                    entityCardholder.SetCustomFieldAsync("Identificador", entity.Matricula);
+                    entityCardholder.SetCustomFieldAsync("Identificador", entity.Identificador);
+                    entityCardholder.CustomFields["Identificador"] = entity.Identificador;
                 }
                 if (!string.IsNullOrEmpty(entity.Nome))
                 {
@@ -415,7 +421,7 @@ namespace IMOD.Infra.Servicos
                     {
                         _sdk.TransactionManager.CreateTransaction();
                         //Atualizar dados
-                        SetValorCamposCustomizados(entity, existEntity);
+                        //SetValorCamposCustomizados(entity, existEntity);
 
                         var cardHolder = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
                         if (cardHolder.State != CardholderState.Active)
@@ -428,6 +434,7 @@ namespace IMOD.Infra.Servicos
                         {
                             cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                         }
+
                         cardHolder.Picture = entity.Foto;
                         if (entity.grupoAlterado)
                         {
@@ -464,6 +471,7 @@ namespace IMOD.Infra.Servicos
                     entity.IdentificadorCardHolderGuid = cardHolder.Guid.ToString(); //Set identificador Guid
 
                     SetValorCamposCustomizados(entity, cardHolder);
+
                     cardHolder.Picture = entity.Foto;
                     if (entity.grupoAlterado)
                     {
