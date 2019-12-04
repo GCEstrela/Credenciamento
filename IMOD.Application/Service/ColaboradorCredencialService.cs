@@ -644,6 +644,11 @@ namespace IMOD.Application.Service
                 //if (string.IsNullOrWhiteSpace(co1.CardHolderGuid))
                 //{
                 //Gerar titular do cartão no sub-sistema de credenciamento (Genetec)
+                if (titularCartao.Validade < DateTime.Now)
+                {
+                    titularCartao.Validade= DateTime.Now.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                }
+                
                 geradorCredencialService.CriarCardHolder(titularCartao);
                 co1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
                 colaboradorService.Empresa.Alterar(co1);
@@ -654,9 +659,10 @@ namespace IMOD.Application.Service
                 #endregion
                 //Alterar(n1);
             }
-            catch
+            catch (Exception ex)
             {
-                //throw ex;
+                
+                throw ex;
             }
             
         }

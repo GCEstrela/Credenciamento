@@ -200,8 +200,8 @@ namespace IMOD.Infra.Servicos
                 entityCardholder.Description = entity.Empresa + " - " + entity.Cpf;
 
                 //Uma data de validade deve ser mairo que a data corrente 
-                var compareData = DateTime.Compare(DateTime.Now, entity.Validade);
-                if (compareData >= 0) throw new InvalidOperationException("A data de validade deve ser maior que a data corrente.");
+                //var compareData = DateTime.Compare(DateTime.Now, entity.Validade);
+                //if (compareData >= 0) throw new InvalidOperationException("A data de validade deve ser maior que a data corrente.");
 
                 if (entity.Validade > DateTime.Now)
                 {
@@ -210,7 +210,7 @@ namespace IMOD.Infra.Servicos
                 }
                 else
                 {
-                    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, DateTime.Now.AddHours(23).AddMinutes(59).AddSeconds(59));
+                    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade.AddHours(23).AddMinutes(59).AddSeconds(59));
                 }
 
             }

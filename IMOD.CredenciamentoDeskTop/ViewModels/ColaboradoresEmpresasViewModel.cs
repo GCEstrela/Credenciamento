@@ -292,31 +292,41 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     n1.EmpresaContratoId = Contratos[0].EmpresaContratoId;
                 }
-                n1.DataFim = DateTime.Today.Date;
+                //n1.DataFim = DateTime.Today.Date;
                 n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
-                if (Entity.Validade != null)
-                {
-                    n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                    if (n1.Validade < DateTime.Now)
-                    {
-                        WpfHelp.PopupBox("Data de Validade [ " + n1.Validade + " ] do CardHolder é Inválida", 1);
-                        return;
-                    }
-                }
-                else
-                {
-                    var validadeContrato = _empresaContratoService.Listar(null, null, null, null, null, null, null, null, Entity.EmpresaContratoId).FirstOrDefault();
-                    n1.Validade = validadeContrato.Validade.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                    //var colaborador = _serviceCredencial.BuscarPelaChave(Entity.ColaboradorId);
-                    //var menordata = _serviceCredencial.ObterDataValidadeCredencial(colaborador.TipoCredencialId, n1.ColaboradorId, validadeContrato.NumeroContrato, _serviceCredencial.TipoCredencial);                    
-                }
+                //if (Entity.Validade != null)
+                //{
+                //    n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                //    if (n1.Validade < DateTime.Now)
+                //    {
+                //        WpfHelp.PopupBox("Data de Validade [ " + n1.Validade + " ] do CardHolder é Inválida", 1);
+                //        return;
+                //    }
+                //}
+                //else
+                //{
+                //    //var validadeContrato = _empresaContratoService.Listar(null, null, null, null, null, null, null, null, Entity.EmpresaContratoId).FirstOrDefault();
+                //    //n1.Validade = validadeContrato.Validade.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                //    ////var colaborador = _serviceCredencial.BuscarPelaChave(Entity.ColaboradorId);
+                //    ////var menordata = _serviceCredencial.ObterDataValidadeCredencial(colaborador.TipoCredencialId, n1.ColaboradorId, validadeContrato.NumeroContrato, _serviceCredencial.TipoCredencial);                    
+                //}
 
                 _service.Criar(n1);
 
                 #region Gerar CardHolder
-               
-                    _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+                try
+                {
+                    //if (n1.Validade < DateTime.Now)
+                    //{
+                        _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+                    //}
                     Entity.grupoAlterado = false;
+                }
+                catch (Exception ex)
+                {
+                    WpfHelp.PopupBox(ex);
+                }
+
                
 
                 #endregion
@@ -388,35 +398,43 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (n1.Matricula == null)
                     _service.CriarNumeroMatricula(n1);
 
-                if (Entity.Validade != null)
-                {
-                    n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                    if (n1.Validade < DateTime.Now)
-                    {
-                        WpfHelp.PopupBox("Data de Validade [ " + n1.Validade + " ] do CardHolder é Inválida", 1);
-                        return;
-                    }
-                }
-                else
-                {
-                    var validadeContrato = _empresaContratoService.Listar(null, null, null, null, null, null, null, null, Entity.EmpresaContratoId).FirstOrDefault();
-                    n1.Validade = validadeContrato.Validade.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                }
+                //if (Entity.Validade != null)
+                //{
+                //    n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                //    if (n1.Validade < DateTime.Now)
+                //    {
+                //        WpfHelp.PopupBox("Data de Validade [ " + n1.Validade + " ] do CardHolder é Inválida", 1);
+                //        return;
+                //    }
+                //}
+                //else
+                //{
+                //    //var validadeContrato = _empresaContratoService.Listar(null, null, null, null, null, null, null, null, Entity.EmpresaContratoId).FirstOrDefault();
+                //    //n1.Validade = validadeContrato.Validade.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                //}
 
                 n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
-
                 Entity.Matricula = n1.Matricula;
 
                 #region Gerar CardHolder
-
-                _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
-                Entity.CardHolderGuid = n1.CardHolderGuid;
-                Entity.grupoAlterado = false;
+                try
+                {
+                    //if (n1.Validade < DateTime.Now)
+                    //{
+                        _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+                    //}
+                    Entity.CardHolderGuid = n1.CardHolderGuid;
+                }
+                catch (Exception ex)
+                {
+                    WpfHelp.PopupBox(ex);
+                }
                 #endregion
+
+                Entity.grupoAlterado = false;
                 _service.Alterar(n1);
                 IsEnableLstView = true;
                 SetDadosEmpresaContrato(Entity);
-
 
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
