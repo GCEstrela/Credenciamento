@@ -591,67 +591,74 @@ namespace IMOD.Application.Service
         public void CriarTitularCartao(ICredencialService geradorCredencialService, IColaboradorService colaboradorService, ColaboradorEmpresa entity)
         {
 
-
-            ConfiguraSistema _configuraSistema;
-            if (geradorCredencialService == null) throw new ArgumentNullException(nameof(geradorCredencialService));
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            _configuraSistema = ObterConfiguracao();
-            IColaboradorService _serviceColaborador = new ColaboradorService();
-            IEmpresaService _serviceEmpresa = new EmpresaService();
-            //IColaboradorCredencialService _service = new ColaboradorCredencialService();
-            var cardHolderEmpresa = _serviceEmpresa.BuscarPelaChave(entity.EmpresaId);
-            var cardHolderColaborador = _serviceColaborador.BuscarPelaChave(entity.ColaboradorId);
-
-            ColaboradoresCredenciaisView entityCardHolder = new ColaboradoresCredenciaisView();
-            entityCardHolder.ColaboradorNome = cardHolderColaborador.Nome;
-            entityCardHolder.ColaboradorFoto = cardHolderColaborador.Foto;
-            entityCardHolder.Cnpj = cardHolderEmpresa.Cnpj;
-            entityCardHolder.EmpresaNome = entity.EmpresaNome;
-            entityCardHolder.Cargo = entity.Cargo;
-            entityCardHolder.Matricula = entity.Matricula;
-            entityCardHolder.Email = cardHolderColaborador.Email;
-            entityCardHolder.Validade = entity.Validade;
-            entityCardHolder.listadeGrupos = entity.listadeGrupos;
-            entityCardHolder.grupoAlterado = entity.grupoAlterado;
-            entityCardHolder.Cnpj = "";
-            entityCardHolder.Cpf = cardHolderColaborador.Cpf;
-            //entityCardHolder.Cargo = entity.Cargo;
-            entityCardHolder.Identificacao1 = "";
-            entityCardHolder.Identificacao2 = "";
-            entityCardHolder.TecnologiaCredencialId = 0;
-            entityCardHolder.FormatoCredencialId = 0;
-            entityCardHolder.FormatoCredencialId = 0;
-            entityCardHolder.FormatoCredencialDescricao = "SNC";
-            entityCardHolder.CardHolderGuid = entity.CardHolderGuid;
-            if(_configuraSistema.GrupoPadrao!=null || _configuraSistema.GrupoPadrao != string.Empty)
+            try
             {
-                entityCardHolder.GrupoPadrao = _configuraSistema.GrupoPadrao.Trim();
-            }
+                ConfiguraSistema _configuraSistema;
+                if (geradorCredencialService == null) throw new ArgumentNullException(nameof(geradorCredencialService));
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
+                _configuraSistema = ObterConfiguracao();
+                IColaboradorService _serviceColaborador = new ColaboradorService();
+                IEmpresaService _serviceEmpresa = new EmpresaService();
+                //IColaboradorCredencialService _service = new ColaboradorCredencialService();
+                var cardHolderEmpresa = _serviceEmpresa.BuscarPelaChave(entity.EmpresaId);
+                var cardHolderColaborador = _serviceColaborador.BuscarPelaChave(entity.ColaboradorId);
 
-            var titularCartao = CardHolderEntity(entityCardHolder);
-            titularCartao.listadeGrupos = entityCardHolder.listadeGrupos;
-            titularCartao.grupoAlterado = entityCardHolder.grupoAlterado;
-            titularCartao.Cnpj = cardHolderEmpresa.Cnpj;
-            titularCartao.GrupoPadrao = entityCardHolder.GrupoPadrao;
-            titularCartao.Cargo = entityCardHolder.Cargo;
-            #region Setar o valor CardHolder GUID ao colaborador
+                ColaboradoresCredenciaisView entityCardHolder = new ColaboradoresCredenciaisView();
+                entityCardHolder.ColaboradorNome = cardHolderColaborador.Nome;
+                entityCardHolder.ColaboradorFoto = cardHolderColaborador.Foto;
+                entityCardHolder.Cnpj = cardHolderEmpresa.Cnpj;
+                entityCardHolder.EmpresaNome = entity.EmpresaNome;
+                entityCardHolder.Cargo = entity.Cargo;
+                entityCardHolder.Matricula = entity.Matricula;
+                entityCardHolder.Email = cardHolderColaborador.Email;
+                entityCardHolder.Validade = entity.Validade;
+                entityCardHolder.listadeGrupos = entity.listadeGrupos;
+                entityCardHolder.grupoAlterado = entity.grupoAlterado;
+                entityCardHolder.Cnpj = "";
+                entityCardHolder.Cpf = cardHolderColaborador.Cpf;
+                //entityCardHolder.Cargo = entity.Cargo;
+                entityCardHolder.Identificacao1 = "";
+                entityCardHolder.Identificacao2 = "";
+                entityCardHolder.TecnologiaCredencialId = 0;
+                entityCardHolder.FormatoCredencialId = 0;
+                entityCardHolder.FormatoCredencialId = 0;
+                entityCardHolder.FormatoCredencialDescricao = "SNC";
+                entityCardHolder.CardHolderGuid = entity.CardHolderGuid;
+                if (_configuraSistema.GrupoPadrao != null || _configuraSistema.GrupoPadrao != string.Empty)
+                {
+                    entityCardHolder.GrupoPadrao = _configuraSistema.GrupoPadrao.Trim();
+                }
 
-            //Buscar dados do colaborador
-            var co1 = colaboradorService.Empresa.BuscarPelaChave(entity.ColaboradorEmpresaId);
-            if (co1 == null) throw new InvalidOperationException("Não foi possive obter um colaborador");
+                var titularCartao = CardHolderEntity(entityCardHolder);
+                titularCartao.listadeGrupos = entityCardHolder.listadeGrupos;
+                titularCartao.grupoAlterado = entityCardHolder.grupoAlterado;
+                titularCartao.Cnpj = cardHolderEmpresa.Cnpj;
+                titularCartao.GrupoPadrao = entityCardHolder.GrupoPadrao;
+                titularCartao.Cargo = entityCardHolder.Cargo;
+                #region Setar o valor CardHolder GUID ao colaborador
 
-            //if (string.IsNullOrWhiteSpace(co1.CardHolderGuid))
-            //{
+                //Buscar dados do colaborador
+                var co1 = colaboradorService.Empresa.BuscarPelaChave(entity.ColaboradorEmpresaId);
+                if (co1 == null) throw new InvalidOperationException("Não foi possive obter um colaborador");
+
+                //if (string.IsNullOrWhiteSpace(co1.CardHolderGuid))
+                //{
                 //Gerar titular do cartão no sub-sistema de credenciamento (Genetec)
                 geradorCredencialService.CriarCardHolder(titularCartao);
                 co1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
                 colaboradorService.Empresa.Alterar(co1);
-                entity.CardHolderGuid= titularCartao.IdentificadorCardHolderGuid;
-            //}
+                entity.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
+                //}
 
-            //titularCartao.IdentificadorCardHolderGuid = co1.CardHolderGuid;
-            #endregion
-            //Alterar(n1);
+                //titularCartao.IdentificadorCardHolderGuid = co1.CardHolderGuid;
+                #endregion
+                //Alterar(n1);
+            }
+            catch
+            {
+                //throw ex;
+            }
+            
         }
         /// <summary>
         ///     Obtem configuração de sistema

@@ -37,7 +37,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IColaboradorEmpresaService _service = new ColaboradorEmpresaService();
         private readonly IColaboradorCredencialService _serviceCredencial = new ColaboradorCredencialService();
         private readonly IColaboradorService _serviceColaborador = new ColaboradorService();
-        
+
 
         //private readonly object _auxiliaresService;
         private ColaboradorView _colaboradorView;
@@ -314,9 +314,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _service.Criar(n1);
 
                 #region Gerar CardHolder
+               
+                    _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+                    Entity.grupoAlterado = false;
+               
 
-                _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
-                Entity.grupoAlterado = false;
                 #endregion
                 //Adicionar no inicio da lista um item a coleção
                 var n2 = Mapper.Map<ColaboradorEmpresaView>(n1);
@@ -327,7 +329,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _viewModelParent.AtualizarDadosPendencias();
                 SelectListViewIndex = 0;
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
-                
+
             }
             catch (Exception ex)
             {
@@ -402,7 +404,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
-                
+
                 Entity.Matricula = n1.Matricula;
 
                 #region Gerar CardHolder
@@ -528,11 +530,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             list2.ForEach(n => { EntityObserver.Add(n); });
             ListarDadosEmpresaContratos();
         }
-        public string EncontrarCardHolderGuid(int colaboradorid,int colaboradorEmpresaid)
+        public string EncontrarCardHolderGuid(int colaboradorid, int colaboradorEmpresaid)
         {
             try
             {
-                var list1 = _service.Listar(colaboradorid, null, null, null, null, null,null, colaboradorEmpresaid).FirstOrDefault();
+                var list1 = _service.Listar(colaboradorid, null, null, null, null, null, null, colaboradorEmpresaid).FirstOrDefault();
                 if (list1 != null)
                 {
                     return list1.CardHolderGuid;
