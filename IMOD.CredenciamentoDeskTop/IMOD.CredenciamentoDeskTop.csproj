@@ -494,6 +494,9 @@
     <Compile Include="Modulo\AcessoNegado.xaml.cs">
       <DependentUpon>AcessoNegado.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modulo\Sobre.xaml.cs">
+      <DependentUpon>Sobre.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Relatorio\RelatorioAutorizacaoEmitidaPorArea_8.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -913,6 +916,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Modulo\Sobre.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ColaboradoresCredenciaisView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1142,6 +1149,12 @@
     <Content Include="Dlls\PropertyChanged.dll" />
     <Content Include="FodyWeavers.xml" />
     <Content Include="Dlls\tchg.dll" />
+    <Resource Include="Resources\credenciamento-01.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\credenciamento-02.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Scripts\cldr.js" />
     <Content Include="Scripts\cldr\event.js" />
     <Content Include="Scripts\cldr\supplemental.js" />

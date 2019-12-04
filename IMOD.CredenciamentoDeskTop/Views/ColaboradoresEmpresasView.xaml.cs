@@ -64,7 +64,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 if (((IMOD.Domain.Entities.EmpresaContrato)((object[])e.AddedItems)[0]).Validade == null) return;
-                _viewModel.Entity.Validade = ((IMOD.Domain.Entities.EmpresaContrato)((object[])e.AddedItems)[0]).Validade;
+               // _viewModel.Entity.Validade = ((IMOD.Domain.Entities.EmpresaContrato)((object[])e.AddedItems)[0]).Validade;
                 
             }
             catch (Exception ex)
