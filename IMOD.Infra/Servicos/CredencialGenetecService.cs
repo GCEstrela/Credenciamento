@@ -210,7 +210,7 @@ namespace IMOD.Infra.Servicos
                 }
                 else
                 {
-                    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade.AddHours(23).AddMinutes(59).AddSeconds(59));
+                    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade.Date.AddHours(23).AddMinutes(59).AddSeconds(59));
                 }
 
             }
