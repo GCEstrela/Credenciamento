@@ -2651,7 +2651,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             a1.Validade = DateTime.Now.Date.AddDays(3);
             a1.VeiculoCredencialId = 0000;
             a1.Registro = "1234-5";
-            a1.TipoServico = "Transporte Interno";            
+            a1.TipoServico = "Transporte Interno";
+            a1.Logo2 = obterLogo();
             lst.Add(a1);
             relatorio.SetDataSource(lst);
 

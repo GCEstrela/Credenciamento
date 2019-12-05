@@ -684,11 +684,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     if (_servicoAutorizacao == "")
                     {
-                        _servicoAutorizacao = !String.IsNullOrEmpty(element.Descricao) ? " - " + element.Descricao?.ToString() : "";
+                        _servicoAutorizacao = !String.IsNullOrEmpty(element.Descricao) ? element.Descricao?.ToString() : "";
                     }
                     else
                     {
-                        _servicoAutorizacao = _servicoAutorizacao + Environment.NewLine + " - " + element.Descricao.ToString();
+                        _servicoAutorizacao = _servicoAutorizacao + "; " + element.Descricao.ToString();
                     }
                 }
 
@@ -699,6 +699,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 credencialView.TipoServico = _servicoAutorizacao;
                 var AutorizacaoMapeada = Mapper.Map<Views.Model.AutorizacaoView>(credencialView);
+                AutorizacaoMapeada.Logo2 = Convert.FromBase64String(credencialView.Logo);
                 AutorizacaoMapeada.Emissao = DateTime.Now;
                 lst.Add (AutorizacaoMapeada); 
 
