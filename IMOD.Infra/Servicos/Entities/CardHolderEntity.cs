@@ -48,7 +48,7 @@ namespace IMOD.Infra.Servicos.Entities
 
         public string Cargo
         {
-            get { return _cargo.Truncate(10); }
+            get { return _cargo.Truncate(30); }
             set { _cargo = value; }
         }
 
