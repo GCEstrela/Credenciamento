@@ -10,6 +10,7 @@ using Genetec.Sdk.Workspace.Pages;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CredenciamentoDeskTop.Helpers;
+using IMOD.CredenciamentoDeskTop.Views;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using System;
@@ -26,10 +27,11 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
     {
         
         #region  Metodos
-
+        private ConfiguraSistema _viewConfig = new ConfiguraSistema();
         private MenuPrincipalView _view  = new MenuPrincipalView();
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private ConfiguraSistema _configuraSistema;
+        private static ConfiguracoesView _configuracoesView;
         public ModuloPage()
         {
 
@@ -60,21 +62,23 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 }
                 else if (expiracao <= 0)
                 {
-                    UsuarioLogado.LicencaValida = false;
+                    UsuarioLogado.LicencaValida = false;                    
                     this.View = new AcessoNegado("Licença válida até " + Decryptada[1] + ". Licença Expirada...");
+                    //this.View = _configuracoesView;
                     return;
                 }
 
             }
-
                 
             if (UsuarioLogado.sdiLicenca != LicencaDecryptada)
             {
                 UsuarioLogado.LicencaValida = false;
                 //WpfHelp.PopupBox("A Licença do credenciamento não é válida para este Security Center!", 1);
-                this.View = new AcessoNegado("");
+                this.View = new AcessoNegado("A Licença do credenciamento não é válida para este Security Center!");
+
                 return;
             }
+            
             this.View = _view; 
         }
         string GetAppSetting(Configuration config, string key)

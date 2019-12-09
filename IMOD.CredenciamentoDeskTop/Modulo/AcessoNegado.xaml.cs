@@ -1,4 +1,7 @@
-﻿using System;
+﻿using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
+using IMOD.CredenciamentoDeskTop.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,6 +53,21 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             {
                 // if the left is less than 2 then we reverse the speed
                 speed = 5;
+            }
+        }
+        private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
+        private void BntSalvarLicenca_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var cf = _auxiliaresService.ConfiguraSistemaService.Listar().FirstOrDefault();
+                cf.Licenca = this.txtLicenca.Text.Trim();
+                _auxiliaresService.ConfiguraSistemaService.Alterar(cf);
+                WpfHelp.PopupBox("Licença salva com êxito!",1);
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.MboxError(ex);
             }
         }
     }

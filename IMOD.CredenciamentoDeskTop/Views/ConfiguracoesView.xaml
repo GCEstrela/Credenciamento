@@ -22,7 +22,7 @@
             <RowDefinition Height="1" />
             <RowDefinition/>
         </Grid.RowDefinitions>
-        
+
         <Grid Grid.Row="0" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -487,7 +487,7 @@
                 </ScrollViewer>
 
             </TabItem>
-            
+
             <TabItem x:Name="CredenciaisAutorizacoes_ti"  Width="200"  Header="Credenciais e Autorizações"  >
                 <ScrollViewer VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Auto"  >
                     <StackPanel>
@@ -949,7 +949,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            
+
             <TabItem x:Name="Congiguracaosistema_" Width="200" Header="Configurações do Sistema">
                 <ScrollViewer   VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Auto"  >
                     <StackPanel  >
@@ -966,11 +966,11 @@
                                 <ColumnDefinition Width="64*"/>
                             </Grid.ColumnDefinitions>
 
-                            <GroupBox Header="Informações da Empresa" Background="BlueViolet" Height="235" VerticalAlignment="Top" Margin="0,10,2,0">
-                                <StackPanel Orientation="Horizontal" Height="199" Margin="2,0,0,0" VerticalAlignment="Top" >
+                            <GroupBox Header="Informações da Empresa" Background="BlueViolet" Height="260" VerticalAlignment="Top" Margin="0,10,2,0">
+                                <StackPanel Orientation="Horizontal" Height="216" Margin="2,0,0,-3" VerticalAlignment="Top" >
                                     <StackPanel.Resources>
                                     </StackPanel.Resources>
-                                    <StackPanel Margin="1,1,1,0" Height="197" VerticalAlignment="Top" Width="421">
+                                    <StackPanel Margin="1,1,1,0" Height="215" VerticalAlignment="Top" Width="419">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
                                             <Label Content="CNPJ:" Height="28" Width="64" Margin="40,0,0,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
@@ -992,11 +992,6 @@
                                             <TextBox CharacterCasing="Upper" x:Name="Apelido_tb" MaxLength="30"
                                              Text="{Binding Entity.Apelido, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" Height="24" Width="200" />
-
-                                            <!--<Label Content="Sigla:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                                            <TextBox CharacterCasing="Upper"  x:Name="Sigla_tb" MaxLength="3"
-                                             Text="{Binding Entity.Sigla, UpdateSourceTrigger=PropertyChanged}"
-                                             HorizontalContentAlignment="Center" IsEnabled="True" Height="24" Width="49"/>-->
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
                                             <Label Content="Responsável:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
@@ -1011,7 +1006,12 @@
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
                                             <Label Content="Emergência:" Width="100" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                             <TextBox CharacterCasing="Upper" x:Name="txtEmergencia" MaxLength="100"
-                                            Text="{Binding Entity.TelefoneEmergencia, UpdateSourceTrigger=PropertyChanged}" Height="28" IsEnabled="True" Width="220" />
+                                             Text="{Binding Entity.TelefoneEmergencia, UpdateSourceTrigger=PropertyChanged}" Height="28" IsEnabled="True" Width="220" />
+                                        </StackPanel>
+                                        <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
+                                            <Label Content="Licença.:"  Width="100" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                            <TextBox CharacterCasing="Upper" FontSize="9" x:Name="txtLicenca" MaxLength="100"
+                                             Text="{Binding Entity.Licenca, UpdateSourceTrigger=PropertyChanged}" Height="24" IsEnabled="True" Width="300" />
                                         </StackPanel>
 
                                     </StackPanel>
@@ -1064,7 +1064,7 @@
                                         <Label Content="Senha:" Height="28" Width="53" Margin="0,0,0,0" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                         <PasswordBox Foreground="#FFD0D0D0"  x:Name="Senha_tb_" MaxLength="100" Margin="1" Height="24" Width="100" HorizontalContentAlignment="Center" 
                                          PasswordChar="{Binding Path=Entity.EmailSenha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                        
+
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,1,0,1" Width="578">
 
@@ -1148,14 +1148,14 @@
                                         <Button x:Name="emprasa_bt_" Content="Logo da Empresa" Margin="0,1,0,1" Width="139" Click="Emprasa_bt_Click" ></Button>
                                         <Button x:Name="colaborador_bt_" Content="Fotos dos Colaborador" Margin="90,1,0,1" Width="148" Click="Colaborador_bt_Click"></Button>
                                     </StackPanel>
-                                    
+
                                 </StackPanel>
                             </GroupBox>
                         </Grid>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            
+
             <TabItem x:Name="Congiguracaosistema" Width="200" Header="Configurações do Sistema" Visibility="Collapsed">
                 <ScrollViewer   VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Auto"  >
                     <StackPanel  >
@@ -1199,10 +1199,12 @@
                                              Text="{Binding Entity.Apelido, UpdateSourceTrigger=PropertyChanged}"
                                              IsEnabled="True" Height="24" Width="200" />
 
-                                            --><!--<Label Content="Sigla:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
+                                            -->
+                            <!--<Label Content="Sigla:" Height="28" Width="53" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                             <TextBox CharacterCasing="Upper"  x:Name="Sigla_tb" MaxLength="3"
                                              Text="{Binding Entity.Sigla, UpdateSourceTrigger=PropertyChanged}"
-                                             HorizontalContentAlignment="Center" IsEnabled="True" Height="24" Width="49"/>--><!--
+                                             HorizontalContentAlignment="Center" IsEnabled="True" Height="24" Width="49"/>-->
+                            <!--
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
                                             <Label Content="Responsável:" Height="28" Width="100" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
