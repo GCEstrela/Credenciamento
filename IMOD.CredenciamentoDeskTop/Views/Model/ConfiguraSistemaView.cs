@@ -39,6 +39,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int PortaSMTP { get; set; }
         public bool EnableSsl { get; set; }
         public bool UseDefaultCredentials { get; set; }
+        public string Licenca { get; set; }
         #endregion
     }
 }

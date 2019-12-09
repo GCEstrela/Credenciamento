@@ -77,6 +77,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("PortaSMTP", entity.PortaSMTP, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EnableSsl", entity.EnableSsl, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("UseDefaultCredentials", entity.UseDefaultCredentials, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Licenca", entity.Licenca, false)));
 
                         if (entity.GrupoPadrao != null)
                         {
