@@ -25,7 +25,8 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool AreaManobra { get; set; }
         public string Registro { get; set; }
         public string Portao { get; set; }
-
+        public string Logo { get; set; }
+        public byte[] Logo2 { get; set; }
         #endregion
 
     }

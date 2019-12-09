@@ -221,6 +221,18 @@
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Cracha\Floripa\AutorizacaoTemporaria.cs">
+      <DependentUpon>AutorizacaoTemporaria.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Cracha\Floripa\AutorizacaoManobra.cs">
+      <DependentUpon>AutorizacaoManobra.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Cracha\Floripa\ReceitaFederal.cs">
       <DependentUpon>ReceitaFederal.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -1366,6 +1378,14 @@
     <EmbeddedResource Include="Cracha\EstAmareloEstrela.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>EstAmareloEstrela.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\Floripa\AutorizacaoTemporaria.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>AutorizacaoTemporaria.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\Floripa\AutorizacaoManobra.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>AutorizacaoManobra.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\Floripa\ReceitaFederal.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
