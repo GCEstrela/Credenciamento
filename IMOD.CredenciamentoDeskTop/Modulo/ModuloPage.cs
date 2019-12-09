@@ -7,10 +7,14 @@
 #region
 
 using Genetec.Sdk.Workspace.Pages;
+using IMOD.Application.Interfaces;
+using IMOD.Application.Service;
 using IMOD.CredenciamentoDeskTop.Helpers;
+using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using System;
 using System.Configuration;
+using System.Linq;
 using Page = Genetec.Sdk.Workspace.Pages.Page;
 
 #endregion
@@ -24,18 +28,26 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         #region  Metodos
 
         private MenuPrincipalView _view  = new MenuPrincipalView();
-       
+        private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
+        private ConfiguraSistema _configuraSistema;
         public ModuloPage()
         {
-            Configuration config = null;
-            string exeConfigPath = this.GetType().Assembly.Location;
-            config = ConfigurationManager.OpenExeConfiguration(exeConfigPath);
-            string myValue = GetAppSetting(config, "Licenca");
 
+
+            //Configuration config = null;
+            //string exeConfigPath = this.GetType().Assembly.Location;
+            //config = ConfigurationManager.OpenExeConfiguration(exeConfigPath);
+            //string myValue = GetAppSetting(config, "Licenca");
+            string myValue="";
+            _configuraSistema = ObterConfiguracao();
+            if (!string.IsNullOrEmpty(_configuraSistema.Licenca))
+            {
+                myValue = _configuraSistema.Licenca.Trim();
+            }
             EstrelaEncryparDecrypitar.Variavel.key = "CREDENCIAMENTO2019";
             EstrelaEncryparDecrypitar.Decrypt ESTRELA_EMCRYPTAR = new EstrelaEncryparDecrypitar.Decrypt();
             string[] Decryptada = ESTRELA_EMCRYPTAR.EstrelaDecrypt(myValue).Split('<');
-            string LicencaDecryptada = Decryptada[0];               
+            string LicencaDecryptada = Decryptada[0];
             if (Decryptada.Length > 1)
             {
 
@@ -76,7 +88,18 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             }
             return string.Empty;
         }
-
+        /// <summary>
+        ///     Obtem configuração de sistema
+        /// </summary>
+        /// <returns></returns>
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
+        }
         /// <summary>
         /// Deserializes the data contained by the specified byte array.
         /// </summary>
