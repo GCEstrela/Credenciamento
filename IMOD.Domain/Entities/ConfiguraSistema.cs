@@ -40,6 +40,7 @@ namespace IMOD.Domain.Entities
         public int PortaSMTP { get; set; }
         public bool EnableSsl { get; set; }
         public bool UseDefaultCredentials { get; set; }
+        public string Licenca { get; set; }
         #endregion
     }
 }
