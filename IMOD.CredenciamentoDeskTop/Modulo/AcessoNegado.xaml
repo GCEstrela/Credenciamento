@@ -6,23 +6,23 @@
              xmlns:local="clr-namespace:IMOD.CredenciamentoDeskTop.Modulo"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,50,0,0" HorizontalAlignment="Left">
-            <Label Name="BlueCircle" Content="Acesso Negado" FontSize="50" Foreground="#FFD0D0D0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Margin="10,0" Width="780"></Label>
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-200,0,0">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,0" HorizontalAlignment="Left">
+            <Label Name="BlueCircle" Content="Acesso Negado" FontSize="50" Foreground="#FFD0D0D0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="780"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1,100,0,0" HorizontalAlignment="Left">
+            <Label Content="Sua licença é inválida." FontSize="14" Foreground="#FFD0D0D0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="780" Height="58"></Label>
         </StackPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1,150,0,0" HorizontalAlignment="Left">
-            <Label Content="Sua licença é inválida." FontSize="14"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="780" Height="58"></Label>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1,180,0,0" HorizontalAlignment="Left">
-            <Label Margin="0,0,0,0" Content="Por favor, verifique junto ao fornecedor do Credenciamento uma licença válida para o seu System ID" FontSize="14"   Foreground="#FFD0D0D0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="780"></Label>
+            <Label Content="Por favor, verifique junto ao fornecedor do Credenciamento uma licença válida para o seu System ID" FontSize="14" Foreground="#FFD0D0D0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="780"></Label>
         </StackPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1,200,0,0" HorizontalAlignment="Left">
-            <Label x:Name="lbl_DataExpirada" Content="" FontSize="14"   Foreground="Red"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Margin="0,240,0,0" Width="780"></Label>
+            <Label x:Name="lbl_DataExpirada" Content="" FontSize="14" FontWeight="Bold"  Foreground="Coral"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="780"></Label>
         </StackPanel>
         <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" Margin="1,350,0,0" HorizontalAlignment="Center">
-            <Label Content="Licença:" Foreground="#FFD0D0D0"></Label>
-            <TextBox x:Name="txtLicenca" Width="233"></TextBox>
-            <Button x:Name="bntSalvarLicenca" Content="Salvar" Margin="10,0,0,0" Width="51" Click="BntSalvarLicenca_Click"></Button>
+            <Label Content="Informe a nova licença:" Foreground="#FFD0D0D0"></Label>
+            <TextBox x:Name="txtLicenca" Width="250"></TextBox>
+            <Button x:Name="bntSalvarLicenca" Cursor="Hand" Content="Enviar" Foreground="Red"  Margin="10,0,0,0" Width="55" Click="BntSalvarLicenca_Click"></Button>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using IMOD.Application.Interfaces;
+﻿using Genetec.Sdk.Workspace;
+using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using System;
@@ -60,10 +61,14 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         {
             try
             {
+
                 var cf = _auxiliaresService.ConfiguraSistemaService.Listar().FirstOrDefault();
                 cf.Licenca = this.txtLicenca.Text.Trim();
                 _auxiliaresService.ConfiguraSistemaService.Alterar(cf);
-                WpfHelp.PopupBox("Licença salva com êxito!",1);
+                
+                bntSalvarLicenca.Foreground = new SolidColorBrush(Colors.Green);
+                WpfHelp.PopupBox("Licença para o credenciamento foi enviada com êxito!",1);
+                
             }
             catch (Exception ex)
             {
