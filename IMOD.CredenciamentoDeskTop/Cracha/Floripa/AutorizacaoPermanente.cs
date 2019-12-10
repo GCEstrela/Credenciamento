@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Cracha.Floripa {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class AutorizacaoManobra : ReportClass {
+    public class AutorizacaoPermanente : ReportClass {
         
-        public AutorizacaoManobra() {
+        public AutorizacaoPermanente() {
         }
         
         public override string ResourceName {
             get {
-                return "AutorizacaoManobra.rpt";
+                return "AutorizacaoPermanente.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha.Floripa {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Cracha.Floripa.AutorizacaoManobra.rpt";
+                return "IMOD.CredenciamentoDeskTop.Cracha.Floripa.AutorizacaoPermanente.rpt";
             }
             set {
                 // Do nothing
@@ -98,9 +98,9 @@ namespace IMOD.CredenciamentoDeskTop.Cracha.Floripa {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedAutorizacaoManobra : Component, ICachedReport {
+    public class CachedAutorizacaoPermanente : Component, ICachedReport {
         
-        public CachedAutorizacaoManobra() {
+        public CachedAutorizacaoPermanente() {
         }
         
         [Browsable(false)]
@@ -137,7 +137,7 @@ namespace IMOD.CredenciamentoDeskTop.Cracha.Floripa {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            AutorizacaoManobra rpt = new AutorizacaoManobra();
+            AutorizacaoPermanente rpt = new AutorizacaoPermanente();
             rpt.Site = this.Site;
             return rpt;
         }
