@@ -35,7 +35,6 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         public ModuloPage()
         {
 
-
             //Configuration config = null;
             //string exeConfigPath = this.GetType().Assembly.Location;
             //config = ConfigurationManager.OpenExeConfiguration(exeConfigPath);

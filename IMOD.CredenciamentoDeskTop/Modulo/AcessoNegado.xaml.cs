@@ -2,6 +2,8 @@
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CredenciamentoDeskTop.Helpers;
+using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,16 +66,83 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
 
                 var cf = _auxiliaresService.ConfiguraSistemaService.Listar().FirstOrDefault();
                 cf.Licenca = this.txtLicenca.Text.Trim();
-                _auxiliaresService.ConfiguraSistemaService.Alterar(cf);
-                
-                bntSalvarLicenca.Foreground = new SolidColorBrush(Colors.Green);
-                WpfHelp.PopupBox("Licença para o credenciamento foi enviada com êxito!",1);
-                
+                if (ValidarLicenca(cf.Licenca))
+                {
+                    _auxiliaresService.ConfiguraSistemaService.Alterar(cf);
+
+                    //bntSalvarLicenca.Foreground = new SolidColorBrush(Colors.Green);
+                    //WpfHelp.PopupBox("Licença para o credenciamento foi enviada com êxito!", 1);
+                    this.lblResposta.Content = "Sua licença foi validada com sucesso. Feche esta aba e acesse novamente!";
+                    this.lblResposta.Foreground = new SolidColorBrush(Colors.Green);
+                    new MenuPrincipalView();
+                }
+                else
+                {
+                    //bntSalvarLicenca.Foreground = new SolidColorBrush(Colors.Red);
+                    //WpfHelp.PopupBox("Licença para o credenciamento inválida !", 1);
+                    this.lblResposta.Content = "Licença para o credenciamento inválida!";
+                }
             }
             catch (Exception ex)
             {
                 WpfHelp.MboxError(ex);
             }
+        }
+
+        private MenuPrincipalView _view = new MenuPrincipalView();
+        private ConfiguraSistema _configuraSistema;
+        private bool ValidarLicenca(string licenca)
+        {
+            try
+            {
+                string myValue = licenca;
+                _configuraSistema = ObterConfiguracao();
+                if (!string.IsNullOrEmpty(licenca))
+                {
+                    myValue = licenca.Trim();
+                }
+                EstrelaEncryparDecrypitar.Variavel.key = "CREDENCIAMENTO2019";
+                EstrelaEncryparDecrypitar.Decrypt ESTRELA_EMCRYPTAR = new EstrelaEncryparDecrypitar.Decrypt();
+                string[] Decryptada = ESTRELA_EMCRYPTAR.EstrelaDecrypt(myValue).Split('<');
+                string LicencaDecryptada = Decryptada[0];
+                if (Decryptada.Length > 1)
+                {
+                    DateTime DataExpiracaoLicencaDecryptada = Convert.ToDateTime(Decryptada[1]);
+                    Double expiracao = DataExpiracaoLicencaDecryptada.Subtract(DateTime.Now.Date).Days;
+                    if (expiracao < 15 && expiracao > 0)
+                    {
+                        WpfHelp.PopupBox(string.Format("Sua licença vai expirar em {0} dias", expiracao), 1);
+
+                    }
+                    else if (expiracao <= 0)
+                    {
+                        UsuarioLogado.LicencaValida = false;
+                        //this.View = _configuracoesView;
+                        return false;
+                    }
+                }
+
+                if (UsuarioLogado.sdiLicenca != LicencaDecryptada)
+                {
+                    return false;
+                }
+
+                return true;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        private ConfiguraSistema ObterConfiguracao()
+        {
+            //Obter configuracoes de sistema
+            var config = _auxiliaresService.ConfiguraSistemaService.Listar();
+            //Obtem o primeiro registro de configuracao
+            if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
+            return config.FirstOrDefault();
         }
     }
 }
