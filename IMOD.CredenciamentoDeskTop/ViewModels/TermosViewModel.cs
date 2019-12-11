@@ -547,7 +547,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     if (!(dataIni.Equals(string.Empty) || dataFim.Equals(string.Empty)))
                     {
                         DateTime dataFimAlterada = ((DateTime.Parse(dataFim)).AddHours(23).AddMinutes(59).AddSeconds(59));
-                        if (report == 17)
+                        if (report == 18)
                         {
                             filtroAutorizacao.Baixa = DateTime.Parse(dataIni);
                             filtroAutorizacao.BaixaFim = dataFimAlterada;
