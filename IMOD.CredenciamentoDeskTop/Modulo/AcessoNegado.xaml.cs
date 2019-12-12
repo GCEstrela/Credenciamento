@@ -22,21 +22,21 @@ using System.Windows.Threading;
 
 namespace IMOD.CredenciamentoDeskTop.Modulo
 {
+
     /// <summary>
     /// Interação lógica para AcessoNegado.xam
     /// </summary>
     public partial class AcessoNegado : UserControl
     {
+        //private ModuloPage _pagina = new ModuloPage();
+        //private MenuPrincipalView _view = new MenuPrincipalView();
+        private ConfiguraSistema _configuraSistema;
         int left = 0; // this is the left int variable with the value 0
         int speed = 5; // this integer called speed will determine how fast the blue circle will go
         public AcessoNegado(string dataExpirada)
         {
             InitializeComponent();
             lbl_DataExpirada.Content = dataExpirada;
-            //var timer = new DispatcherTimer(); // creating a new timer
-            //timer.Interval = TimeSpan.FromMilliseconds(10); // this timer will trigger every 10 milliseconds
-            //timer.Start(); // starting the timer
-            //timer.Tick += _timer_Tick; // with each tick it will trigger this function
         }
         void _timer_Tick(object sender, EventArgs e)
         {
@@ -70,27 +70,23 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 {
                     _auxiliaresService.ConfiguraSistemaService.Alterar(cf);
 
-                    //bntSalvarLicenca.Foreground = new SolidColorBrush(Colors.Green);
-                    //WpfHelp.PopupBox("Licença para o credenciamento foi enviada com êxito!", 1);
                     this.lblResposta.Content = "Sua licença foi validada com sucesso. Feche esta aba e acesse novamente!";
                     this.lblResposta.Foreground = new SolidColorBrush(Colors.Green);
-                    new MenuPrincipalView();
+
                 }
                 else
                 {
-                    //bntSalvarLicenca.Foreground = new SolidColorBrush(Colors.Red);
-                    //WpfHelp.PopupBox("Licença para o credenciamento inválida !", 1);
                     this.lblResposta.Content = "Licença para o credenciamento inválida!";
+                    this.lblResposta.Foreground = new SolidColorBrush(Colors.Cornsilk);
                 }
             }
+            
             catch (Exception ex)
             {
                 WpfHelp.MboxError(ex);
             }
         }
-
-        private MenuPrincipalView _view = new MenuPrincipalView();
-        private ConfiguraSistema _configuraSistema;
+        
         private bool ValidarLicenca(string licenca)
         {
             try
@@ -117,7 +113,6 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                     else if (expiracao <= 0)
                     {
                         UsuarioLogado.LicencaValida = false;
-                        //this.View = _configuracoesView;
                         return false;
                     }
                 }
@@ -132,8 +127,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             }
             catch (Exception)
             {
-
-                throw;
+                return false;
             }
         }
         private ConfiguraSistema ObterConfiguracao()
