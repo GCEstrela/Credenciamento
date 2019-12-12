@@ -227,8 +227,8 @@
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Cracha\Floripa\AutorizacaoManobra.cs">
-      <DependentUpon>AutorizacaoManobra.rpt</DependentUpon>
+    <Compile Include="Cracha\Floripa\AutorizacaoPermanente.cs">
+      <DependentUpon>AutorizacaoPermanente.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
@@ -1383,9 +1383,9 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>AutorizacaoTemporaria.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\Floripa\AutorizacaoManobra.rpt">
+    <EmbeddedResource Include="Cracha\Floripa\AutorizacaoPermanente.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>AutorizacaoManobra.cs</LastGenOutput>
+      <LastGenOutput>AutorizacaoPermanente.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\Floripa\ReceitaFederal.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
