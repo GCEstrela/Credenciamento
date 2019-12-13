@@ -1,5 +1,21 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" standalone="yes"?>
 <Produtos>
+  <Produto>
+    <SystemID>DEM-191014-12345</SystemID>
+    <InstanciaSQL>SCVIRTUAL-01\SQLEXPRESS</InstanciaSQL>
+    <Banco>D_iModCredenciamento</Banco>
+    <UsuarioDB>imod</UsuarioDB>
+    <SenhaDB>c4RRamq1Ico=</SenhaDB>
+    <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
+  </Produto>
+  <Produto>
+    <SystemID>GSC-23419-9844</SystemID>
+    <InstanciaSQL>172.16.190.162-02</InstanciaSQL>
+    <Banco>D_iModCredenciamento</Banco>
+    <UsuarioDB>imod</UsuarioDB>
+    <SenhaDB>c4RRamq1Ico=</SenhaDB>
+    <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
+  </Produto>
   <Produto>
     <SystemID>DEM-191014-184238</SystemID>
     <InstanciaSQL>SCVIRTUAL\SQLEXPRESS</InstanciaSQL>
@@ -9,19 +25,59 @@
     <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
   </Produto>
   <Produto>
-    <SystemID>GSC-23419-9844</SystemID>
-    <InstanciaSQL>172.16.190.162</InstanciaSQL>
-    <Banco>D_iModCredenciamento</Banco>
-    <UsuarioDB>imod</UsuarioDB>
-    <SenhaDB>c4RRamq1Ico=</SenhaDB>
+    <SystemID>GSC-111111-2343</SystemID>
+    <InstanciaSQL>GCTEC04</InstanciaSQL>
+    <Banco>CREDENCIAMENTO</Banco>
+    <UsuarioDB>MAXIMO</UsuarioDB>
     <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
   </Produto>
   <Produto>
-    <SystemID>GSC-TT553737</SystemID>
-    <InstanciaSQL>DGÇDLGKÇLSDKGÇLS</InstanciaSQL>
-    <Banco>D_iModCredenciamento</Banco>
-    <UsuarioDB>imod</UsuarioDB>
-    <SenhaDB>c4RRamq1Ico=</SenhaDB>
+    <SystemID>GSC-7777-4444</SystemID>
+    <InstanciaSQL>GCTEC65</InstanciaSQL>
+    <Banco>cREDENCIAMENTO</Banco>
+    <UsuarioDB>EDUARDO</UsuarioDB>
+    <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
+  </Produto>
+  <Produto>
+    <SystemID>GSC-7777-4444</SystemID>
+    <InstanciaSQL>GCTEC65</InstanciaSQL>
+    <Banco>cREDENCIAMENTO</Banco>
+    <UsuarioDB>EDUARDO</UsuarioDB>
+    <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
+  </Produto>
+  <Produto>
+    <SystemID>GSC-7777-4444</SystemID>
+    <InstanciaSQL>GCTEC65</InstanciaSQL>
+    <Banco>cREDENCIAMENTO</Banco>
+    <UsuarioDB>EDUARDO</UsuarioDB>
+    <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
+  </Produto>
+  <Produto>
+    <SystemID>GSC-7777-4444</SystemID>
+    <InstanciaSQL>GCTEC65</InstanciaSQL>
+    <Banco>cREDENCIAMENTO</Banco>
+    <UsuarioDB>EDUARDO</UsuarioDB>
+    <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
+  </Produto>
+  <Produto>
+    <SystemID>GSC-7777-4444</SystemID>
+    <InstanciaSQL>GCTEC65</InstanciaSQL>
+    <Banco>cREDENCIAMENTO</Banco>
+    <UsuarioDB>EDUARDO</UsuarioDB>
+    <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
+  </Produto>
+  <Produto>
+    <SystemID>GSC-7777-4444</SystemID>
+    <InstanciaSQL>GCTEC65</InstanciaSQL>
+    <Banco>cREDENCIAMENTO</Banco>
+    <UsuarioDB>EDUARDO</UsuarioDB>
+    <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
+  </Produto>
+  <Produto>
+    <SystemID>fgdgsdfgsdg</SystemID>
+    <InstanciaSQL>DSGDSG</InstanciaSQL>
+    <Banco>dsfgsfd</Banco>
+    <UsuarioDB>dfgsd</UsuarioDB>
     <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
   </Produto>
 </Produtos>
