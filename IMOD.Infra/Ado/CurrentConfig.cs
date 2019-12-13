@@ -15,6 +15,9 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System;
+using System.Xml.Linq;
+using System.Linq;
+using IMOD.Domain.EntitiesCustom;
 
 namespace IMOD.Infra.Ado
 {
@@ -39,35 +42,54 @@ namespace IMOD.Infra.Ado
 
             string returnValue = null;
             string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            //string path = @"C:\Projetos\IMOD\IMOD.Infra";
-            //string path = @"C:\Users\eduardo.martins\source\repos\Credenciamento\IMOD.Infra";
             XmlDocument xmlDoc = new XmlDocument();
+            ////////////////////
+            //string nodestring = "";
+            string instancia = "";
+            string banco = "";
+            string usuario = "";
+            string senha = "";
+            string complemento = "";
+            // cria a consulta
+            var prods = from p in XElement.Load(path + "\\Conexao.xml").Elements("Produto")
+                        where p.Element("SystemID").Value == UsuarioLogado.sdiLicenca
+                        select new
+                        {
+                            instancia = p.Element("InstanciaSQL").Value,
+                            banco = p.Element("Banco").Value,
+                            usuarioDB = p.Element("UsuarioDB").Value,
+                            SenhaDB = p.Element("SenhaDB").Value,
+                            complemento = p.Element("Complemento").Value,
+                        };
 
-            //Conexao Apenas para Publicação Pré Cadastro
-            //xmlDoc.Load("C:\\publicacao\\Credencial\\Conexao.xml");
+            // Executa a consulta
+            foreach (var produto in prods)
+            {
+                //lbProdutos.Items.Add(produto.NomeProduto);
+                instancia = produto.instancia;
+                banco = produto.banco;
+                usuario = produto.usuarioDB;
+                senha = produto.SenhaDB;
+                complemento = produto.complemento;
+            }
 
-            //Conexao Apenas para Publicação ValidaCredencial QRcode
-            //xmlDoc.Load("C:\\inetpub\\wwwroot\\ValidaCredencial\\Conexao.xml");
 
-            //Conexao Rodando local
-            //xmlDoc.Load("C:\\Windows\\Temp\\Conexao\\Conexao.xml");
+            ////Conexao no Temp
+            //xmlDoc.Load(path + "\\Conexao.xml");
 
-            //Conexao no Temp
-            xmlDoc.Load(path + "\\Conexao.xml");
-
-            XmlNode nodestring = xmlDoc.SelectSingleNode("StringConexao");
-            XmlNode instancia = nodestring.SelectSingleNode("InstanciaSQL");
-            XmlNode banco = nodestring.SelectSingleNode("Banco");
-            XmlNode usuario = nodestring.SelectSingleNode("UsuarioDB");
-            XmlNode senha = nodestring.SelectSingleNode("SenhaDB");
-            string senhaDecryptada = senha.InnerXml;
+            //XmlNode nodestring = xmlDoc.SelectSingleNode("StringConexao");
+            //XmlNode instancia = nodestring.SelectSingleNode("InstanciaSQL");
+            //XmlNode banco = nodestring.SelectSingleNode("Banco");
+            //XmlNode usuario = nodestring.SelectSingleNode("UsuarioDB");
+            //XmlNode senha = nodestring.SelectSingleNode("SenhaDB");
+            //string senhaDecryptada = senha.InnerXml;
 
             EstrelaEncryparDecrypitar.Decrypt ESTRELA_EMCRYPTAR = new EstrelaEncryparDecrypitar.Decrypt();
             EstrelaEncryparDecrypitar.Variavel.key = "CREDENCIAMENTO2019";
-            senhaDecryptada = ESTRELA_EMCRYPTAR.EstrelaDecrypt(senhaDecryptada);
+            string senhaDecryptada = ESTRELA_EMCRYPTAR.EstrelaDecrypt(senha);
 
-            XmlNode complemento = nodestring.SelectSingleNode("Complemento");
-            returnValue = "Data Source=" + instancia.InnerXml + ";Initial Catalog="+ banco.InnerXml + ";User ID="+ usuario.InnerXml + ";Password="+ senhaDecryptada + ";"+ complemento.InnerXml;
+            //XmlNode complemento = nodestring.SelectSingleNode("Complemento");
+            returnValue = "Data Source=" + instancia + ";Initial Catalog="+ banco + ";User ID="+ usuario + ";Password="+ senhaDecryptada + ";"+ complemento;
                       
 
             return returnValue;
