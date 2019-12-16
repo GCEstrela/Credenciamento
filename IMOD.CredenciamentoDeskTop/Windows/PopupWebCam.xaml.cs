@@ -20,6 +20,8 @@ using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using AForge.Imaging.Filters;
 using CroppingImageLibrary;
+//using DirectX.Capture;
+
 namespace iModSCCredenciamento.Windows
 {
     /// <summary>
@@ -27,6 +29,13 @@ namespace iModSCCredenciamento.Windows
     /// </summary>
     public partial class PopupWebCam : Window
     {
+        public DirectX.Capture.Filter Camera;
+        public DirectX.Capture.Capture CaptureInfo;
+        public DirectX.Capture.Filters CamContainer;
+        System.Drawing.Image capturaImagem;
+        public string caminhoImagemSalva = null;
+
+
         public CroppingAdorner CroppingAdorner;
        
 
@@ -60,8 +69,6 @@ namespace iModSCCredenciamento.Windows
 
             AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(CanvasPanel);
             CroppingAdorner = new CroppingAdorner(CanvasPanel);
-            //CroppingAdorner.Width = 194;
-            //CroppingAdorner.Height = 224;
             adornerLayer.Add(CroppingAdorner);
         }
 

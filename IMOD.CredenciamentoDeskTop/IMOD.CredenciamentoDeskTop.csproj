@@ -1157,6 +1157,8 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Dlls\CroppingImageLibrary.dll" />
+    <Content Include="Dlls\DirectX.Capture.dll" />
+    <Content Include="Dlls\DShowNET.dll" />
     <Content Include="Dlls\EstrelaEncryparDecrypitar.dll" />
     <Content Include="Dlls\PropertyChanged.dll" />
     <Content Include="FodyWeavers.xml" />
