@@ -296,7 +296,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 //Data:12/03/2019
                 //Wrk:Ao fechar a janela, as coleções (observable) devem ser limpas para possibilitar uma nova pesquisa
                 //Limpar dados dos observables principais de suas respectivas views
-                
+                txtVersao.Text = txtVersao.Text + " - " + UsuarioLogado.sdiLicenca;
                 var x1 = (ColaboradorViewModel)_viewSingleton.ColaboradorView.DataContext;
                 x1.EntityObserver.Clear();
                 var x2 = (EmpresaViewModel)_viewSingleton.EmpresaView.DataContext;

@@ -41,6 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             //string myValue = GetAppSetting(config, "Licenca");
             string myValue="";
             _configuraSistema = ObterConfiguracao();
+            
             if (!string.IsNullOrEmpty(_configuraSistema.Licenca))
             {
                 myValue = _configuraSistema.Licenca.Trim();
@@ -49,6 +50,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             EstrelaEncryparDecrypitar.Decrypt ESTRELA_EMCRYPTAR = new EstrelaEncryparDecrypitar.Decrypt();
             string[] Decryptada = ESTRELA_EMCRYPTAR.EstrelaDecrypt(myValue).Split('<');
             string LicencaDecryptada = Decryptada[0];
+            
             if (Decryptada.Length > 1)
             {
 
@@ -100,6 +102,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             //Obter configuracoes de sistema
             var config = _auxiliaresService.ConfiguraSistemaService.Listar();
             //Obtem o primeiro registro de configuracao
+            
             if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
             return config.FirstOrDefault();
         }

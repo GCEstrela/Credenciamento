@@ -72,7 +72,7 @@ namespace IMOD.Infra.Ado
                 senha = produto.SenhaDB;
                 complemento = produto.complemento;
             }
-
+            
 
             ////Conexao no Temp
             //xmlDoc.Load(path + "\\Conexao.xml");
@@ -90,7 +90,7 @@ namespace IMOD.Infra.Ado
 
             //XmlNode complemento = nodestring.SelectSingleNode("Complemento");
             returnValue = "Data Source=" + instancia + ";Initial Catalog="+ banco + ";User ID="+ usuario + ";Password="+ senhaDecryptada + ";"+ complemento;
-                      
+            UsuarioLogado.InstanciaSQL = returnValue;
 
             return returnValue;
 

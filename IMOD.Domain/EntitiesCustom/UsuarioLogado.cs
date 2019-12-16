@@ -17,6 +17,7 @@ namespace IMOD.Domain.EntitiesCustom
         public static string sdiLicenca { get; set; }
         public static bool LicencaDataLimite { get; set; }
         public static bool LicencaValida { get; set; }
+        public static string InstanciaSQL { get; set; }
         #endregion
     }
 }
