@@ -29,9 +29,9 @@ namespace iModSCCredenciamento.Windows
     /// </summary>
     public partial class PopupWebCam : Window
     {
-        public DirectX.Capture.Filter Camera;
-        public DirectX.Capture.Capture CaptureInfo;
-        public DirectX.Capture.Filters CamContainer;
+        //public DirectX.Capture.Filter Camera;
+        //public DirectX.Capture.Capture CaptureInfo;
+        //public DirectX.Capture.Filters CamContainer;
         System.Drawing.Image capturaImagem;
         public string caminhoImagemSalva = null;
 
