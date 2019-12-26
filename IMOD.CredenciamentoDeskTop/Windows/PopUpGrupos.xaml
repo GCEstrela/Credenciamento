@@ -5,17 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IMOD.CredenciamentoDeskTop.Windows"
             xmlns:tchg="clr-namespace:tchg;assembly=tchg"
-             mc:Ignorable="d" Height="447.443" Width="488.068" 
-             Title="Grupos de CardHolder - Controle de acesso (Genetec)" WindowStartupLocation="CenterScreen">
+             mc:Ignorable="d" Height="500" Width="430" 
+             Title="Grupos de CardHolder - Controle de acesso (Genetec)" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True" ResizeMode="NoResize">
 
     <Window.Background>
-        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
             <GradientStop Color="#FF171717" Offset="0.984"/>
             <GradientStop Color="#FF363535"/>
         </LinearGradientBrush>
     </Window.Background>
     <Window.BorderBrush>
-        <LinearGradientBrush EndPoint="0,0" MappingMode="RelativeToBoundingBox" StartPoint="1,1">
+        <LinearGradientBrush EndPoint="0,0" MappingMode="RelativeToBoundingBox"  StartPoint="1,1" >
             <GradientStop Color="#FF131313"/>
             <GradientStop Color="#FF424040" Offset="0.976"/>
             <GradientStop Color="White" Offset="0.544"/>
@@ -31,16 +31,14 @@
                     </LinearGradientBrush>
                 </Button.Background>
                 <DockPanel>
-                    <!--<Image Source="Fechar2.png" Height="10" Width="10" />-->
+                    <Image  Height="10" Width="10" Source="/IMOD.CredenciamentoDeskTop;component/Resources/Fechar2.png" />
                 </DockPanel>
 
             </Button>
         </StackPanel>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <tchg:Tree x:Name="TCHG" MinHeight="100" Width="782" />
-        </ScrollViewer>
-        <!--<StackPanel Margin="10,20,10,0">
+        <StackPanel  HorizontalAlignment="Left" Margin="10,0">
+            <tchg:Tree x:Name="TCHG"   />
+        </StackPanel>
 
-        </StackPanel>-->
     </Grid>
 </Window>
