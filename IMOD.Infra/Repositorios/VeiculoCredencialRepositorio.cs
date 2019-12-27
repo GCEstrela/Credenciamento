@@ -842,6 +842,11 @@ namespace IMOD.Infra.Repositorios
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impressa", DbType.Boolean, entity.Impressa).Igual()));
                         }
 
+                        if (entity.Emissao != null || entity.EmissaoFim != null)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Emissao", DbType.DateTime, entity.Emissao).MaiorIgual()));
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmissaoFim", DbType.DateTime, entity.EmissaoFim).MenorIgual()));
+                        }
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculosCredenciaisView>();
 

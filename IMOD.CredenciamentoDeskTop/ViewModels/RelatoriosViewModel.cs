@@ -575,7 +575,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// </summary> 
         /// <param name="_area"></param>
         /// <param name="_check"></param>
-        public void OnRelatorioCredencialPorAreaCommand(bool tipo, string area, bool _check, AreaAcessoView objAreaSelecionado, bool? flaAtivoInativo)
+        public void OnRelatorioCredencialPorAreaCommand(bool tipo, string area, bool _check, AreaAcessoView objAreaSelecionado, bool? flaAtivoInativo, string dataIni, string dataFim)
         {
             try
             {
@@ -593,6 +593,27 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     mensagemComplementoArea = " - " + objAreaSelecionado.Identificacao + " / " + objAreaSelecionado.Descricao;
                 }
 
+                if (!string.IsNullOrEmpty(dataIni))
+                {
+                    colaboradorCredencial.EmissaoFim = DateTime.Now;
+                    colaboradorCredencial.Emissao = DateTime.Parse(dataIni);
+                    mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
+                }
+
+                if (!string.IsNullOrEmpty(dataFim))
+                {
+                    colaboradorCredencial.EmissaoFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+                        mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = " até a data " + dataFim + "";
+                    }
+
+                }
+
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
                 mensagemComplemento = tipo ? " permanentes " : " temporárias ";
 
@@ -602,7 +623,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     mensagemComplemento += (bool)flaAtivoInativo ? " ativas " : " inativas ";
                 }
 
-                mensagem = " Todas as credenciais " + mensagemComplemento + " por área de acesso " + mensagemComplementoArea;
+                mensagem = " Todas as credenciais " + mensagemComplemento + " por área de acesso " + mensagemComplementoArea + mensagemPeriodo;
 
                 if (area != string.Empty)
                 {
@@ -1303,7 +1324,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="area"></param>
         /// <param name="_check"></param>
         /// <param name="objAreaSelecionado"></param>
-        public void OnRelatorioAutorizacoesPorAreaCommand(bool tipo, string area, bool _check, AreaAcessoView objAreaSelecionado, bool? flaAtivoInativo)
+        public void OnRelatorioAutorizacoesPorAreaCommand(bool tipo, string area, bool _check, AreaAcessoView objAreaSelecionado, bool? flaAtivoInativo, string dataIni, string dataFim)
         {
             try
             {
@@ -1321,6 +1342,27 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     mensagemComplemento = " - " + objAreaSelecionado.Identificacao + " / " + objAreaSelecionado.Descricao;
                 }
 
+                if (!string.IsNullOrEmpty(dataIni))
+                {
+                    veiculoCredencial.EmissaoFim = DateTime.Now;
+                    veiculoCredencial.Emissao = DateTime.Parse(dataIni);
+                    mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
+                }
+
+                if (!string.IsNullOrEmpty(dataFim))
+                {
+                    veiculoCredencial.EmissaoFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+                        mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
+                    }
+                    else
+                    {
+                        mensagemPeriodo = " até a data " + dataFim + "";
+                    }
+
+                }
+
                 veiculoCredencial.TipoCredencialId = tipo ? 1 : 2;
                 mensagemComplementoTipo = tipo ? " permanentes " : " temporárias ";
 
@@ -1330,7 +1372,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     mensagemComplementoTipo += (bool)flaAtivoInativo ? " ativas " : " inativas ";
                 }
 
-                mensagem = " Todas as autorizações " + mensagemComplementoTipo + " por área de acesso " + mensagemComplemento;
+                mensagem = " Todas as autorizações " + mensagemComplementoTipo + " por área de acesso " + mensagemComplemento + mensagemPeriodo;
 
                 if (area != string.Empty)
                 {

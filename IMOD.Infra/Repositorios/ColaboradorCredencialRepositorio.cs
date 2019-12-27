@@ -1002,6 +1002,12 @@ namespace IMOD.Infra.Repositorios
                             {
                                 cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("TipoCredencialId", DbType.Int32, entity.TipoCredencialId).Igual()));
                             }
+                            //Busca faixa de data
+                            if (entity.Emissao != null || entity.EmissaoFim != null)
+                            {
+                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Emissao", DbType.DateTime, entity.Emissao).MaiorIgual()));
+                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmissaoFim", DbType.DateTime, entity.EmissaoFim).MenorIgual()));
+                            }
 
                             var reader = cmd.ExecuteReaderSelect();
                             var d1 = reader.MapToList<ColaboradoresCredenciaisView>();
