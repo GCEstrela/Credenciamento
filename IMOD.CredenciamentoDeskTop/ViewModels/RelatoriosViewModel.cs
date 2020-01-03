@@ -469,7 +469,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_status"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnRelatorioCredenciaisInvalidasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
+        public void OnRelatorioCredenciaisInvalidasFiltroCommand(bool tipo, string empresa, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
         {
             try
             {
@@ -515,6 +515,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         mensagemPeriodo = " até a data " + dataFim + "";
                     }
 
+                }
+
+                if (!string.IsNullOrEmpty(empresa))
+                {
+                    colaboradorCredencial.EmpresaId = Convert.ToInt16(empresa);
                 }
 
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
@@ -842,7 +847,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_tipo"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnFiltroCredencialViasAdicionaisCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool ? flagAtivoInativo) 
+        public void OnFiltroCredencialViasAdicionaisCommand(bool tipo, string empresa, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool ? flagAtivoInativo) 
         {
             try 
             {
@@ -899,6 +904,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 mensagem += mensagemComplementoTipo + mensagemComplemento + mensagemComplementoMotivoCredencial + mensagemPeriodo;
 
+                if (!string.IsNullOrEmpty(empresa))
+                {
+                    colaboradorCredencial.EmpresaId = Convert.ToInt16(empresa);
+                }
+
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(21);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
 
@@ -942,7 +952,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="dataFim"></param>
         /// <param name="flaTodasDevolucaoEntregaBO"></param>
         /// <param name="flaSimNaoDevolucaoEntregaBO"></param>
-        public void OnRelatorioCredenciaisDestruidasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
+        public void OnRelatorioCredenciaisDestruidasFiltroCommand(bool tipo, string empresa, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
         {
             try
             {
@@ -974,6 +984,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     colaboradorCredencial.BaixaFim = DateTime.Now;
                     colaboradorCredencial.Baixa = DateTime.Parse(dataIni);
                     mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
+                }
+
+                if (!string.IsNullOrEmpty(empresa))
+                {
+                    colaboradorCredencial.EmpresaId = Convert.ToInt16(empresa);
                 }
 
                 if (!string.IsNullOrEmpty(dataFim))
@@ -1221,7 +1236,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_tipo"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnRelatorioAutorizacoesInvalidasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
+        public void OnRelatorioAutorizacoesInvalidasFiltroCommand(bool tipo, string empresa, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
         {
             try
             {
@@ -1253,6 +1268,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     veiculoCredencial.BaixaFim = DateTime.Now;
                     veiculoCredencial.Baixa = DateTime.Parse(dataIni);
                     mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
+                }
+
+                if (!string.IsNullOrEmpty(empresa))
+                {
+                    veiculoCredencial.EmpresaId = Convert.ToInt16(empresa);
                 }
 
                 if (!string.IsNullOrEmpty(dataFim))
@@ -1581,13 +1601,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="motivoTipo"></param>
         /// <param name="dataIni"></param>
         /// <param name="dataFim"></param>
-        public void OnFiltroAutorizacaoViasAdicionaisCommand(int motivoTipo, string dataIni, string dataFim)
+        public void OnFiltroAutorizacaoViasAdicionaisCommand(bool tipo, int motivoTipo, string empresa, string dataIni, string dataFim)
         {
             try
             {
                 string mensagem = string.Empty;
                 string mensagemPeriodo = string.Empty;
                 string mensagemComplemento = string.Empty;
+                string mensagemComplementoTipo = string.Empty;
 
                 FiltroReportVeiculoCredencial veiculoCredencial = new FiltroReportVeiculoCredencial();
 
@@ -1615,6 +1636,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 }
 
+                veiculoCredencial.TipoCredencialId = tipo ? 1 : 2;
+                mensagemComplementoTipo = tipo ? " permanentes " : " temporárias ";
+
                 if (motivoTipo > 0)
                 {
                     veiculoCredencial.CredencialMotivoId = motivoTipo;
@@ -1628,12 +1652,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                             mensagemComplemento = "( terceira emissão )";
                             break;
                     }
-                    mensagem = "Todas as vias adicionais " + mensagemComplemento + " de autorizações emitidas " + mensagemPeriodo;
+                    mensagem = "Todas as vias adicionais " + mensagemComplemento + " de autorizações " + mensagemComplementoTipo + " emitidas " + mensagemPeriodo;
                 }
                 else
                 {
                     veiculoCredencial.CredencialMotivoId = 0;
-                    mensagem = "Todas as vias adicionais de autorizações emitidas" + mensagemPeriodo;
+                    mensagem = "Todas as vias adicionais de autorizações " + mensagemComplementoTipo + " emitidas" + mensagemPeriodo;
+                }
+
+                if (!string.IsNullOrEmpty(empresa))
+                {
+                    veiculoCredencial.EmpresaId = Convert.ToInt16(empresa);
                 }
 
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(22);
@@ -1671,7 +1700,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="dataFim"></param>
         /// <param name="flaTodasDevolucaoEntregaBO"></param>
         /// <param name="flaSimNaoDevolucaoEntregaBO"></param>
-        public void OnRelatorioAutorizacoesDestruidasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
+        public void OnRelatorioAutorizacoesDestruidasFiltroCommand(bool tipo, string empresa, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
         {
             try
             {
@@ -1704,6 +1733,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     veiculoCredencial.BaixaFim = DateTime.Now;
                     veiculoCredencial.Baixa = DateTime.Parse(dataIni);
                     mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
+                }
+
+                if (!string.IsNullOrEmpty(empresa))
+                {
+                    veiculoCredencial.EmpresaId = Convert.ToInt16(empresa);
                 }
 
                 if (!string.IsNullOrEmpty(dataFim))

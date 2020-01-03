@@ -16,6 +16,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             DataContext = new RelatoriosViewModel();
             MouseDown += Window_MouseDown;
             ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciais(2);//Carregar os motivos do status 2 - inativo 
+            ((RelatoriosViewModel)DataContext).CarregaColecaoEmpresas();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -37,7 +38,8 @@ namespace IMOD.CredenciamentoDeskTop.Windows
          IEnumerable<object> motivoCredencialSelecionados = new List<object>(); 
 
             string dataIni = dp_dataInicial.Text; 
-            string dataFim = dp_dataFinal.Text; 
+            string dataFim = dp_dataFinal.Text;
+            string empresa;
 
             bool flaTodasDevolucaoEntregue = (bool)RbtnTodasDevolucaoEntregue.IsChecked.Value;
             bool flaSimNaoDevolucaoEntregue = (bool)RbtnSimDevolucaoEntregue.IsChecked.Value ? true : (bool)RbtnNaoDevolucaoEntregue.IsChecked.Value ? false : true;
@@ -50,8 +52,17 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
                 var teste = lstMotivoCredencial.SelectedItems;
             }
-           
-            ((RelatoriosViewModel)DataContext).OnRelatorioCredenciaisInvalidasFiltroCommand(checkTipo,
+
+            if (EmpresaRazaoSocial_cb.SelectedItem == null)
+            {
+                empresa = "0";
+            }
+            else
+            {
+                empresa = ((IMOD.CredenciamentoDeskTop.Views.Model.EmpresaView)EmpresaRazaoSocial_cb.SelectedItem).EmpresaId.ToString();
+            }
+
+            ((RelatoriosViewModel)DataContext).OnRelatorioCredenciaisInvalidasFiltroCommand(checkTipo, empresa,
                                                                                             (IEnumerable<object>)motivoCredencialSelecionados, dataIni, dataFim,
                                                                                                                         flaTodasDevolucaoEntregue, flaSimNaoDevolucaoEntregue);
 

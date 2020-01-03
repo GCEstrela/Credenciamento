@@ -17,6 +17,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             MouseDown += Window_MouseDown;
             List<int> status = new List<int> { 6, 8, 15 };
             ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciaisListaSelecionada(status);
+            ((RelatoriosViewModel)DataContext).CarregaColecaoEmpresas();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -37,6 +38,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
             string dataIni = dp_dataInicial.Text;
             string dataFim = dp_dataFinal.Text;
+            string empresa;
 
             IEnumerable<object> motivoCredencialSelecionados = new List<object>();
 
@@ -49,11 +51,20 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
             var checkTipo = (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value ? false : true);
 
+            if (EmpresaRazaoSocial_cb.SelectedItem == null)
+            {
+                empresa = "0";
+            }
+            else
+            {
+                empresa = ((IMOD.CredenciamentoDeskTop.Views.Model.EmpresaView)EmpresaRazaoSocial_cb.SelectedItem).EmpresaId.ToString();
+            }
+
             bool flaTodasDevolucaoEntregue = (bool)RbtnTodasDevolucaoEntregue.IsChecked.Value;
             bool flaSimNaoDevolucaoEntregue = (bool)RbtnSimDevolucaoEntregue.IsChecked.Value ? true : (bool)RbtnNaoDevolucaoEntregue.IsChecked.Value ? false : true;
 
 
-            ((RelatoriosViewModel)DataContext).OnRelatorioCredenciaisDestruidasFiltroCommand(checkTipo, motivoCredencialSelecionados, dataIni, dataFim, flaTodasDevolucaoEntregue, flaSimNaoDevolucaoEntregue);
+            ((RelatoriosViewModel)DataContext).OnRelatorioCredenciaisDestruidasFiltroCommand(checkTipo, empresa, motivoCredencialSelecionados, dataIni, dataFim, flaTodasDevolucaoEntregue, flaSimNaoDevolucaoEntregue);
 
             Close();
         }

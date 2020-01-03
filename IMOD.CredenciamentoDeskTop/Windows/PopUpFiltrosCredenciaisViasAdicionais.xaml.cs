@@ -16,6 +16,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             DataContext = new RelatoriosViewModel();
             MouseDown += Window_MouseDown;
             ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciaisViaAdicional(true);
+            ((RelatoriosViewModel)DataContext).CarregaColecaoEmpresas();
         }
 
 
@@ -33,6 +34,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView motivoCredencialSelecionado = null;
             string dataIni = dp_dataInicial.Text;  
             string dataFim = dp_dataFinal.Text;
+            string empresa;
             bool? flaAtivoInativo;
             IEnumerable<object> motivoCredencialSelecionados = new List<object>();
 
@@ -45,6 +47,15 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 flaAtivoInativo = (bool)RbtnStatusAtiva.IsChecked.Value ? true : (bool)RbtnStatusInativa.IsChecked.Value ? false : true;
             }
 
+            if (EmpresaRazaoSocial_cb.SelectedItem == null)
+            {
+                empresa = "0";
+            }
+            else
+            {
+                empresa = ((IMOD.CredenciamentoDeskTop.Views.Model.EmpresaView)EmpresaRazaoSocial_cb.SelectedItem).EmpresaId.ToString();
+            }
+
             var checkTipo = (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value ? false : true);
 
             if (lstMotivoCredencial.SelectedItems.Count > 0)
@@ -54,7 +65,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 var teste = lstMotivoCredencial.SelectedItems;
             }
 
-            ((RelatoriosViewModel)DataContext).OnFiltroCredencialViasAdicionaisCommand(checkTipo, motivoCredencialSelecionados, dataIni, dataFim, flaAtivoInativo);
+            ((RelatoriosViewModel)DataContext).OnFiltroCredencialViasAdicionaisCommand(checkTipo, empresa, motivoCredencialSelecionados, dataIni, dataFim, flaAtivoInativo);
 
             Close();
         }
