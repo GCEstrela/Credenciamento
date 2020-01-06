@@ -30,12 +30,15 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         #region Inicializacao
         private readonly ConfiguracoesViewModel _viewModel;
+        private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
         public ConfiguracoesView()
         {
             InitializeComponent();
             _viewModel = new ConfiguracoesViewModel();
             DataContext = _viewModel;
-
+          
+            var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar().FirstOrDefault();
+            Group_cb_.Text = config.GrupoPadrao.ToString();
         }
         #endregion
 
