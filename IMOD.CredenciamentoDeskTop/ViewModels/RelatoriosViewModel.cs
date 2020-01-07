@@ -265,7 +265,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (!string.IsNullOrWhiteSpace(cnpj)) cnpj = $"%{cnpj}%";
 
                 var list1 = _empresaService.Listar(idEmpresa, nome, apelido, cnpj);
-                var list2 = Mapper.Map<List<EmpresaView>>(list1.OrderBy(a => a.Nome ));
+                var list2 = Mapper.Map<List<EmpresaView>>(list1.OrderBy(a => a.Nome));
 
                 var observer = new ObservableCollection<EmpresaView>();
                 list2.ForEach(n =>
@@ -304,6 +304,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 var lst1 = this.ListarMotivoCredenciais.Where(n => n.CredencialStatusID == statusId).ToList();
+
+                if (statusId == 0)
+                {
+                    lst1 = this.ListarMotivoCredenciais.ToList();
+                }
 
                 var list2 = Mapper.Map<List<CredencialMotivoView>>(lst1);
                 var observer = new ObservableCollection<CredencialMotivoView>();
@@ -396,11 +401,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_tipo"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnFiltroRelatorioCredenciaisCommand(bool tipo, string dataIni, string dataFim)
+        public void OnFiltroRelatorioCredenciaisCommand(bool tipo, string empresa, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim)
         {
             string mensagem = string.Empty;
             string mensagemComplemento = string.Empty;
             string mensagemPeriodo = string.Empty;
+            string mensagemComplementoMotivoCredencial = string.Empty;
+            List<int> codigoMotivoSelecionados = new List<int>();
+            IEnumerable<ColaboradoresCredenciaisView> result;
             Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais colaboradorCredencial = new Domain.EntitiesCustom.FiltroReportColaboradoresCredenciais();
 
             try
@@ -431,21 +439,45 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 }
 
+                if (!string.IsNullOrEmpty(empresa))
+                {
+                    colaboradorCredencial.EmpresaId = Convert.ToInt16(empresa);
+                }
+
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
                 mensagemComplemento = tipo ? " permanentes " : " temporárias ";
 
+                if (credencialMotivoSelecionados.Count() > 0)
+                {
+                    foreach (CredencialMotivoView credencialMotivo in credencialMotivoSelecionados)
+                    {
+                        mensagemComplementoMotivoCredencial += credencialMotivo.Descricao + ",";
+                        codigoMotivoSelecionados.Add(credencialMotivo.CredencialMotivoId);
+                    }
+                    mensagemComplementoMotivoCredencial = " (" + mensagemComplementoMotivoCredencial.Substring(0, mensagemComplementoMotivoCredencial.Length - 1) + " ) ";
+
+                }
 
                 var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(1);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
 
-                var result = objColaboradorCredencial.ListarColaboradorCredencialConcedidasView(colaboradorCredencial);
+                if (credencialMotivoSelecionados.Count() > 0)
+                {
+                    result = objColaboradorCredencial.ListarColaboradorCredencialConcedidasView(colaboradorCredencial).Where(n => codigoMotivoSelecionados.Contains(Convert.ToInt32(n.CredencialmotivoIDanterior)));
+                }
+                else
+                {
+                    result = objColaboradorCredencial.ListarColaboradorCredencialConcedidasView(colaboradorCredencial);
+                }
+
+
                 var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(result.OrderByDescending(n => n.ColaboradorCredencialId).ToList());
 
                 byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
                 var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
                 reportDoc.SetDataSource(resultMapeado);
 
-                mensagem += mensagemComplemento + mensagemPeriodo;
+                mensagem += mensagemComplemento + mensagemComplementoMotivoCredencial + mensagemPeriodo;
                 if (!string.IsNullOrWhiteSpace(mensagem))
                 {
                     TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
@@ -533,7 +565,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         codigoMotivoSelecionados.Add(credencialMotivo.CredencialMotivoId);
                     }
                     mensagemComplementoMotivoCredencial = " (" + mensagemComplementoMotivoCredencial.Substring(0, mensagemComplementoMotivoCredencial.Length - 1) + " ) ";
-                    
+
                 }
 
                 mensagem += mensagemComplementoTipo + mensagemComplemento + mensagemComplementoMotivoCredencial + mensagemPeriodo;
@@ -564,7 +596,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
                     txt.Text = mensagem;
                 }
-                
+
                 reportDoc.Refresh();
 
                 WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
@@ -721,7 +753,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         mensagemPeriodo = ", até a data " + dataFim + "";
                     }
-                    
+
                 }
 
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
@@ -847,9 +879,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_tipo"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnFiltroCredencialViasAdicionaisCommand(bool tipo, string empresa, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool ? flagAtivoInativo) 
+        public void OnFiltroCredencialViasAdicionaisCommand(bool tipo, string empresa, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool? flagAtivoInativo)
         {
-            try 
+            try
             {
                 string mensagem = "Todas as vias adicionais ";
                 string mensagemComplemento = string.Empty;
@@ -915,11 +947,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Faz a busca do registros de colaboradores credenciais vias adicionais:  2 - via adicional e por motivos selecionados
                 if (credencialMotivoSelecionados.Count() > 0)
                 {
-                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialViaAdicionaisView(colaboradorCredencial).Where(n => n.CredencialVia != null && n.CredencialVia > 0 && codigoMotivoSelecionados.Contains(n.CredencialmotivoViaAdicionalID.ToString())); 
+                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialViaAdicionaisView(colaboradorCredencial).Where(n => n.CredencialVia != null && n.CredencialVia > 0 && codigoMotivoSelecionados.Contains(n.CredencialmotivoViaAdicionalID.ToString()));
                 }
                 else
                 {
-                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialViaAdicionaisView(colaboradorCredencial).Where(n => n.CredencialVia != null && n.CredencialVia > 0); 
+                    resultLista = objColaboradorCredencial.ListarColaboradorCredencialViaAdicionaisView(colaboradorCredencial).Where(n => n.CredencialVia != null && n.CredencialVia > 0);
                 }
 
                 var resultMapeado = Mapper.Map<List<Views.Model.RelColaboradoresCredenciaisView>>(resultLista.OrderByDescending(n => n.ColaboradorCredencialId).ToList());
@@ -1203,7 +1235,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 }
                 mensagem += mensagemPeriodo;
-                
+
                 var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(2);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
 
@@ -1811,7 +1843,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="dataIni"></param> 
         /// <param name="dataFim"></param>
         /// <param name="flaSimNaoDevolucaoEntregaBO"></param>
-        public void OnRelatorioAutorizacoesExtraviadasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool ? flaSimNaoDevolucaoEntregaBO)
+        public void OnRelatorioAutorizacoesExtraviadasFiltroCommand(bool tipo, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool? flaSimNaoDevolucaoEntregaBO)
         {
             try
             {
@@ -1914,7 +1946,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #region Métodos privados 
 
-        private ReportDocument CarregaLogoMarcaEmpresa(ReportDocument reportDoc) 
+        private ReportDocument CarregaLogoMarcaEmpresa(ReportDocument reportDoc)
         {
             var configSistema = objConfiguraSistema.BuscarPelaChave(1);
             var tempArea = Path.GetTempPath();

@@ -742,7 +742,6 @@ namespace IMOD.Infra.Repositorios
                                 }
                             }
 
-
                             if (entity.Impressa != null && entity.Impressa)
                             {
                                 cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impressa", DbType.Boolean, entity.Impressa).Igual()));
