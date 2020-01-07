@@ -81,6 +81,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 _viewModel.AtualizarDados(entity, viewModelParent);
+                _viewModel.AtualizarConfiguracoes();
             }
             catch (Exception ex)
             {
@@ -251,6 +252,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 if (e.Key.ToString() == "F5")
                 {
                     _viewModel.AtualizarConfiguracoes();
+                    _viewModel.ListarEmpresaContratos();
+
                 }
             }
             catch (Exception ex)

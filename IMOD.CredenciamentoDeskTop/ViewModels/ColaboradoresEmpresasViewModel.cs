@@ -228,7 +228,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
 
         }
-
+       
         /// <summary>
         ///  Listar dados de empresa e contratos
         /// </summary>
@@ -237,6 +237,28 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             try
             {
+                if (Empresas.Count != 0) return;
+
+                //Empresas.Clear();
+                var l2 = _empresaService.Listar().ToList().OrderBy(m => m.Nome);
+                Empresas.AddRange(l2);
+                var l3 = _empresaContratoService.Listar().ToList();
+                Contratos = l3;
+                base.OnPropertyChanged("Entity");
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+        public void ListarEmpresaContratos()
+        {
+
+            try
+            {
+                //if (Empresas.Count != 0) return;
+
                 Empresas.Clear();
                 var l2 = _empresaService.Listar().ToList().OrderBy(m => m.Nome);
                 Empresas.AddRange(l2);

@@ -84,10 +84,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 if (_viewModel.Entity != null)
                     _viewModel.Entity.Cpf = _viewModel.Entity.Cpf.FormatarCpf();
 
-                ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
-                ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
-                AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
-                ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                //ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                //ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
+                //AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                //ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
                 ////////////////////////////////////////////////////////////// 
             }
             catch (SqlException ex)
@@ -433,6 +433,58 @@ namespace IMOD.CredenciamentoDeskTop.Views
             catch (Exception ex)
             {
                 WpfHelp.Mbox(ex.Message);
+            }
+        }
+
+        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void TextBlock_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void TextBlock_MouseLeftButtonDown_2(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void TextBlock_MouseLeftButtonDown_3(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }
