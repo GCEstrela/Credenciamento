@@ -144,7 +144,7 @@
                             <CheckBox VerticalAlignment="Center" x:Name="chkAuditado" Grid.Column="2" Grid.Row="1" Foreground="#FFD0D0D0" IsChecked="{Binding Entity.FlagAuditoria, UpdateSourceTrigger=PropertyChanged}"/>
 
                         </Grid>
-                        <GroupBox Margin="110,0,0,0" Grid.Row="0" Grid.Column="3" Header="Controle de Acesso" Padding="1" Width="200" Height="70" VerticalAlignment="Stretch">
+                        <GroupBox Margin="110,0,0,0" Grid.Row="0" Grid.Column="3" Visibility="{Binding VisibleGrupos}" Header="Controle de Acesso" Padding="1" Width="200" Height="70" VerticalAlignment="Stretch">
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="150" Height="30" Margin="22,10,0,0">
 

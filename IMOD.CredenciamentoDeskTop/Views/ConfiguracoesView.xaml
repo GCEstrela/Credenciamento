@@ -1115,7 +1115,7 @@
                                         <ComboBox  x:Name="Group_cb_" Margin="1" 
                                          ItemsSource="{Binding Entity.Grupos}"  
                                          SelectedValue="{Binding Entity.GrupoPadrao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                         Text="{Binding Entity.GrupoPadrao}"  
+                                         Text="{Binding Entity.GrupoPadrao}"
                                          IsEnabled="True" Height="24" Width="476" />
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,1,0,1" Width="590">
