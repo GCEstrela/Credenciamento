@@ -23,10 +23,11 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         public PopUpFiltrosAutorizacoesViasAdicionais()
         {
             InitializeComponent(); 
-            DataContext = new RelatoriosViewModel(); 
+            DataContext = new RelatoriosViewModel();
             MouseDown += Window_MouseDown;
             List<int> status = new List<int> { 2, 3 }; 
-            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciaisListaSelecionada(status); 
+            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciaisListaSelecionada(status);
+            ((RelatoriosViewModel)DataContext).CarregaColecaoEmpresas();
         } 
 
         #region  Metodos
@@ -43,9 +44,11 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         {
              
             int motivoTipo = 0;
+            var checkTipo = (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value ? false : true);
             IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView motivoCredencialSelecionado = null; 
             string dataIni = dp_dataInicial.Text;
             string dataFim = dp_dataFinal.Text;
+            string empresa;
 
             if (lstMotivoCredencial.SelectedItem != null) 
             {
@@ -53,7 +56,16 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 motivoTipo = ((IMOD.CredenciamentoDeskTop.Views.Model.CredencialMotivoView)lstMotivoCredencial.SelectedItem).CredencialMotivoId;
             }
 
-            ((RelatoriosViewModel) DataContext).OnFiltroAutorizacaoViasAdicionaisCommand (motivoTipo, dataIni, dataFim);
+            if (EmpresaRazaoSocial_cb.SelectedItem == null)
+            {
+                empresa = "0";
+            }
+            else
+            {
+                empresa = ((IMOD.CredenciamentoDeskTop.Views.Model.EmpresaView)EmpresaRazaoSocial_cb.SelectedItem).EmpresaId.ToString();
+            }
+
+            ((RelatoriosViewModel) DataContext).OnFiltroAutorizacaoViasAdicionaisCommand (checkTipo, motivoTipo, empresa, dataIni, dataFim);
 
             Close();
         }

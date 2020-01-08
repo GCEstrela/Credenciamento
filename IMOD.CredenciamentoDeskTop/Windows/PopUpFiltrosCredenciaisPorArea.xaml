@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
         mc:Ignorable="d"
-        Title="Procurar Empresa" Height="450" Width="409.935" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
+        Title="Procurar Empresa" Height="519" Width="409.935" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FF171717" Offset="0.984"/>
@@ -58,20 +58,30 @@
 
                 </StackPanel>
             </GroupBox>
-            <GroupBox x:Name="InformacoesTipo_gb" Header="Filtrar por Tipo" Margin="10,0" Height="75" Foreground="#FFD0D0D0">
+            <GroupBox x:Name="InformacoesTipo_gb" Header="Filtrar por Tipo" Margin="10,100,10,10" Height="75" Foreground="#FFD0D0D0">
                 <StackPanel x:Name="StpInformacoes"  Orientation="Horizontal" VerticalAlignment="Stretch"  HorizontalAlignment="Left" >
                     <RadioButton x:Name="RbtnPermanente" Content=" Permanentes" TextBlock.TextAlignment="Left" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True"/>
                     <RadioButton x:Name="RbtnTemporario" Content=" Temporárias" Margin="30,0" TextBlock.TextAlignment="Left" Height="25"  HorizontalContentAlignment="Left" Foreground="#FFD0D0D0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="151"/>
                 </StackPanel>
             </GroupBox>
-            <GroupBox x:Name="GpbStatus" Header="Filtrar Status"  Margin="10,10"  Foreground="#FFD0D0D0" Height="70"> 
+            <GroupBox x:Name="GpbStatus" Header="Filtrar Status"  Margin="10,0"  Foreground="#FFD0D0D0" Height="70">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left">
-                    <RadioButton  x:Name="RbtnTodosStatus" Content="Todas" GroupName="GpnStatus" Width="60" ></RadioButton>
-                    <RadioButton  x:Name="RbtnStatusAtiva" Content="Ativa" IsChecked="True" GroupName="GpnStatus" Width="60" ></RadioButton> 
-                    <RadioButton  x:Name="RbtnStatusInativa" Content="Inativa" GroupName="GpnStatus" Width="60" ></RadioButton> 
+                    <RadioButton  x:Name="RbtnTodosStatus" Content="Todas" GroupName="GpnStatus" Width="60" />
+                    <RadioButton  x:Name="RbtnStatusAtiva" Content="Ativa" IsChecked="True" GroupName="GpnStatus" Width="60" />
+                    <RadioButton  x:Name="RbtnStatusInativa" Content="Inativa" GroupName="GpnStatus" Width="60" />
                 </StackPanel>
             </GroupBox>
-            <Button x:Name="button" Content="Filtrar" Click="button_ClickFiltrar" Height="33"   Margin="122,20" />
+            <Button x:Name="button" Content="Filtrar" Click="button_ClickFiltrar" Height="33"   Margin="122,30" />
         </StackPanel>
+        <GroupBox x:Name="data_gb" Header="Filtrar por período" Margin="10,135,10,250" Foreground="#FFD0D0D0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch"  HorizontalAlignment="Left" Margin="0,5,-2,4" Height="48" Width="403">
+                <!--<TextBox CharacterCasing="Upper"  x:Name="Datafim_tb"   MaxLength="50" Text="Data Final"  IsEnabled="True"  Height="24"  Width="100" />-->
+                <Label Content="Data Inicial:" Height="28" Width="83" Margin="0,10,5,10" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                <DatePicker Margin="-10,3,0,0" Height="28" HorizontalAlignment="Left" x:Name="dp_dataInicial" Width="100" />
+                <!--<TextBox CharacterCasing="Upper"  x:Name="Dataini_tb"   MaxLength="50" Text="Data Inicial"  IsEnabled="True"  Height="24"  Width="100" Margin="0,12"/>-->
+                <Label Content="Data Final :" Height="28" Width="85" Margin="0,10,5,10" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                <DatePicker Margin="-10,3,0,0" Height="28" HorizontalAlignment="Left" x:Name="dp_dataFinal" Width="100" />
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </Window>
