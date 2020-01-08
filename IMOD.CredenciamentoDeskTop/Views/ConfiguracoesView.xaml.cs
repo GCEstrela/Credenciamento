@@ -30,12 +30,15 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         #region Inicializacao
         private readonly ConfiguracoesViewModel _viewModel;
+        private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
         public ConfiguracoesView()
         {
             InitializeComponent();
             _viewModel = new ConfiguracoesViewModel();
             DataContext = _viewModel;
-
+            _viewModel.CarregaConfiguracaoSistema();
+              var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar().FirstOrDefault();
+            Group_cb_.Text = config.GrupoPadrao.ToString();
         }
         #endregion
 
@@ -651,6 +654,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel.Entity.EmailSenha = this.Senha_tb_.Password;
             }
             ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_ConfiguracoesSistema();
+
+            _viewModel.CarregaConfiguracaoSistema();
+            var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar().FirstOrDefault();
+            Group_cb_.Text = config.GrupoPadrao.Trim();
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
             MessageBox.Show("Alteração realizada com sucesso!", "Credenciamento", MessageBoxButton.OK);

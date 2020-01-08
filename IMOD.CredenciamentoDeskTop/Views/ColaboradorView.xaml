@@ -756,7 +756,7 @@
                             </StackPanel>
                         </Button>
                         <StackPanel Width="170">
-                            <TextBlock Text="Empresas Vinculos" HorizontalAlignment="Center" />
+                            <TextBlock Text="Empresas Vinculos" HorizontalAlignment="Center" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" />
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
@@ -777,7 +777,7 @@
                             </StackPanel>
                         </Button>
                         <StackPanel Width="170">
-                            <TextBlock Text="Cursos e Treinamentos" HorizontalAlignment="Left" Margin="25,0,0,0" />
+                            <TextBlock Text="Cursos e Treinamentos" HorizontalAlignment="Left" Margin="25,0,0,0" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown_1" />
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
@@ -799,7 +799,7 @@
                             </StackPanel>
                         </Button>
                         <StackPanel Width="170">
-                            <TextBlock Text="Anexos" HorizontalAlignment="Center" />
+                            <TextBlock Text="Anexos" HorizontalAlignment="Center" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown_2" />
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
@@ -821,7 +821,7 @@
                             </StackPanel>
                         </Button>
                         <StackPanel Width="170" >
-                            <TextBlock Text="Credenciais" ToolTip="F5 para atualizar." HorizontalAlignment="Left" Margin="54,0,0,0" />
+                            <TextBlock Text="Credenciais" ToolTip="F5 para atualizar." HorizontalAlignment="Left" Margin="54,0,0,0" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown_3" />
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
