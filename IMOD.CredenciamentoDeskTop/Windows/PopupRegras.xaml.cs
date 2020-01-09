@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace WpfApp10
+namespace IMOD.CredenciamentoDeskTop.Windows
 {
     /// <summary>
     /// Lógica interna para PopupRegras.xaml
@@ -22,6 +22,15 @@ namespace WpfApp10
         public PopupRegras()
         {
             InitializeComponent();
+        }
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                DragMove();
+        }       
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

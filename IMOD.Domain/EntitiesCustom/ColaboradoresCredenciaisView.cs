@@ -110,6 +110,7 @@ namespace IMOD.Domain.EntitiesCustom
         public bool  grupoAlterado { get; set; }
         public bool Terceirizada { get; set; }
         public string TerceirizadaSigla { get; set; }
-       
+        public bool regraAlterado { get; set; }
+        public List<Guid> listadeRegras { get; set; }
     }
 }
