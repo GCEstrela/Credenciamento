@@ -147,7 +147,9 @@ namespace IMOD.Application.Service
                     Regras = entity.Regras,
                     GrupoPadrao = entity.GrupoPadrao,
                     ListaGrupos = entity.listadeGrupos,
-                    grupoAlterado = entity.grupoAlterado
+                    grupoAlterado = entity.grupoAlterado,
+                    listadeRegras=entity.listadeRegras,
+                    regraAlterado = entity.regraAlterado
                 };
                 return titularCartao;
             }
@@ -613,7 +615,9 @@ namespace IMOD.Application.Service
                 entityCardHolder.Email = cardHolderColaborador.Email;
                 entityCardHolder.Validade = entity.Validade;
                 entityCardHolder.listadeGrupos = entity.listadeGrupos;
+                entityCardHolder.listadeRegras = entity.listadeRegras;
                 entityCardHolder.grupoAlterado = entity.grupoAlterado;
+                entityCardHolder.regraAlterado = entity.regraAlterado;
                 entityCardHolder.Cnpj = "";
                 entityCardHolder.Cpf = cardHolderColaborador.Cpf;
                 //entityCardHolder.Cargo = entity.Cargo;
@@ -633,7 +637,7 @@ namespace IMOD.Application.Service
                 titularCartao.listadeGrupos = entityCardHolder.listadeGrupos;
                 titularCartao.grupoAlterado = entityCardHolder.grupoAlterado;
                 titularCartao.Cnpj = cardHolderEmpresa.Cnpj;
-                titularCartao.GrupoPadrao = entityCardHolder.GrupoPadrao;
+                titularCartao.GrupoPadrao = entityCardHolder.GrupoPadrao;                
                 titularCartao.Cargo = entityCardHolder.Cargo;
                 #region Setar o valor CardHolder GUID ao colaborador
 

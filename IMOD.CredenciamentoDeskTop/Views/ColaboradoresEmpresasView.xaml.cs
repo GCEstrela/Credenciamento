@@ -207,36 +207,44 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
             
         }
-        PopUpGrupos popup;
+        
         public System.Collections.Generic.List<Guid> cardholderGuids = new System.Collections.Generic.List<Guid>();
+        public System.Collections.Generic.List<Guid> accessRuleGuids = new System.Collections.Generic.List<Guid>();
         private void Bnt_Gupos_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 
                 _viewModel.Entity.grupoAlterado = true;
-                popup = new PopUpGrupos();
-                
-                if (cardholderGuids.Count != 0)
-                {
-                    popup.TCHG.CardHolderGroupGuid = cardholderGuids;
-                }
+               
+               
+                    PopUpGrupos popup;
+                    popup = new PopUpGrupos();
+                    if (cardholderGuids.Count != 0)
+                    {
+                        popup.TCHG.EntitiesGuids = cardholderGuids;
+                    }
 
-                _viewModel.Entity.CardHolderGuid =_viewModel.EncontrarCardHolderGuid(_viewModel.Entity.ColaboradorId, _viewModel.Entity.ColaboradorEmpresaId);
-                if (!string.IsNullOrEmpty(_viewModel.Entity.CardHolderGuid))
-                {
-                    popup.TCHG.CardHolderGroupGuid.Clear();
-                    popup.TCHG.CardHolderGuid = new Guid(_viewModel.Entity.CardHolderGuid); //
-                }
-                else
-                {
-                    popup.TCHG.CardHolderGroupGuid.Clear();
-                    popup.TCHG.CardHolderGuid = new Guid("ea3586f7-b6b7-42cc-8cca-04ef2ce7ebe8");
-                }
-                popup.TCHG.Initialize(Main.Engine);
-                popup.ShowDialog();
-                cardholderGuids = popup.TCHG.CardHolderGroupGuid;
-                _viewModel.Entity.listadeGrupos = cardholderGuids;
+                    _viewModel.Entity.CardHolderGuid = _viewModel.EncontrarCardHolderGuid(_viewModel.Entity.ColaboradorId, _viewModel.Entity.ColaboradorEmpresaId);
+                    if (!string.IsNullOrEmpty(_viewModel.Entity.CardHolderGuid))
+                    {
+                        popup.TCHG.EntitiesGuids.Clear();
+                        popup.TCHG.CardHolderGuid = new Guid(_viewModel.Entity.CardHolderGuid); //
+                    }
+                    else
+                    {
+                        popup.TCHG.EntitiesGuids.Clear();
+                        popup.TCHG.CardHolderGuid = new Guid("ea3586f7-b6b7-42cc-8cca-04ef2ce7ebe8");
+                    }
+                    popup.TCHG.Initialize(Main.Engine);
+                    popup.ShowDialog();
+                    cardholderGuids = popup.TCHG.EntitiesGuids;
+                    _viewModel.Entity.listadeGrupos = cardholderGuids;
+                
+                //////////////////////////////////////////////////////////////////
+
+                    
+               
 
             }
             catch (Exception ex)
@@ -252,7 +260,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 if (e.Key.ToString() == "F5")
                 {
                     _viewModel.AtualizarConfiguracoes();
-                    _viewModel.ListarEmpresaContratos();
+                    _viewModel.ListarEmpresa_e_Contratos();
 
                 }
             }
@@ -271,6 +279,41 @@ namespace IMOD.CredenciamentoDeskTop.Views
             catch (Exception)
             {
                 //throw;
+            }
+        }
+
+        private void Bnt_Regras_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _viewModel.Entity.regraAlterado = true;
+                PopupRegras popupRegras;
+                popupRegras = new PopupRegras();
+                if (accessRuleGuids.Count != 0)
+                {
+                    popupRegras.TAR.EntitiesGuids = accessRuleGuids;
+                }
+
+                _viewModel.Entity.CardHolderGuid = _viewModel.EncontrarCardHolderGuid(_viewModel.Entity.ColaboradorId, _viewModel.Entity.ColaboradorEmpresaId);
+                if (!string.IsNullOrEmpty(_viewModel.Entity.CardHolderGuid))
+                {
+                    popupRegras.TAR.EntitiesGuids.Clear();
+                    popupRegras.TAR.CardHolderGuid = new Guid(_viewModel.Entity.CardHolderGuid);
+                }
+                else
+                {
+                    popupRegras.TAR.EntitiesGuids.Clear();
+                    popupRegras.TAR.CardHolderGuid = new Guid("ea3586f7-b6b7-42cc-8cca-04ef2ce7ebe8");
+                }
+                popupRegras.TAR.Initialize(Main.Engine);
+                popupRegras.ShowDialog();
+                accessRuleGuids = popupRegras.TAR.EntitiesGuids;
+                _viewModel.Entity.listadeRegras = accessRuleGuids;
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }

@@ -343,7 +343,7 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
-                
+
                 if (string.IsNullOrWhiteSpace(entity.IdentificadorCredencialGuid)) throw new ArgumentNullException(nameof(entity.IdentificadorCredencialGuid));
                 // _sdk.TransactionManager.CreateTransaction();
 
@@ -434,17 +434,33 @@ namespace IMOD.Infra.Servicos
                         {
                             cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                         }
-
                         cardHolder.Picture = entity.Foto;
+
                         if (entity.grupoAlterado)
                         {
                             cardHolder.Groups.Clear();
                             if (entity.listadeGrupos != null)
-                                foreach (Guid cardholderGuid in entity.listadeGrupos)
+                                foreach (Guid grupoGuid in entity.listadeGrupos)
                                 {
-                                    cardHolder.Groups.Add(cardholderGuid);
+                                    cardHolder.Groups.Add(grupoGuid);
                                 }
                         }
+                        if (entity.GrupoPadrao != null)
+                        {
+                            Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
+                            if (grupo != null)
+                                cardHolder.Groups.Add(grupo);
+                        }
+
+                        if (entity.regraAlterado)
+                        {                            
+                            foreach (Guid regrasGuid in entity.listadeRegras)
+                            {
+                                AccessRule accesso_add = _sdk.GetEntity(regrasGuid) as AccessRule;
+                                accesso_add.Members.Add(cardHolder.Guid);
+                            }
+                        }
+
                         SetValorCamposCustomizados(entity, cardHolder);
 
                         _sdk.TransactionManager.CommitTransaction();
@@ -477,9 +493,9 @@ namespace IMOD.Infra.Servicos
                     {
                         cardHolder.Groups.Clear();
                         if (entity.listadeGrupos != null)
-                            foreach (Guid cardholderGuid in entity.listadeGrupos)
+                            foreach (Guid grupoGuid in entity.listadeGrupos)
                             {
-                                cardHolder.Groups.Add(cardholderGuid);
+                                cardHolder.Groups.Add(grupoGuid);
                             }
                     }
                     if (entity.GrupoPadrao != null)
@@ -488,6 +504,16 @@ namespace IMOD.Infra.Servicos
                         if (grupo != null)
                             cardHolder.Groups.Add(grupo);
                     }
+
+                    if (entity.regraAlterado)
+                    {
+                        foreach (Guid regrasGuid in entity.listadeRegras)
+                        {
+                            AccessRule accesso_add = _sdk.GetEntity(regrasGuid) as AccessRule;
+                            accesso_add.Members.Add(cardHolder.Guid);
+                        }
+                    }
+
 
                     if (entity.Validade > DateTime.Now)
                     {
@@ -894,7 +920,7 @@ namespace IMOD.Infra.Servicos
                     entity.IdentificadorCardHolderGuid = EncontraCardHolderPelaMatricula(entity, entity.Matricula);//Encontra Credencial pelo Numero da Matrícula
                     CriarCardHolder(entity);
                 }
-                
+
                 VerificaRegraAcesso(entity, true);
 
                 if (string.IsNullOrWhiteSpace(entity.IdentificadorCardHolderGuid)) throw new ArgumentNullException(nameof(entity.IdentificadorCardHolderGuid));
@@ -922,7 +948,7 @@ namespace IMOD.Infra.Servicos
 
                 if (credencial == null) throw new InvalidOperationException("Não foi possível criar uma credencial.");
                 credencial.Name = $"{entity.NumeroCredencial} - {entity.Nome}";
-                
+
                 SetValorFormatoCredencial(entity, credencial);
 
                 if (credencial.Format == null) throw new InvalidOperationException("Não foi possível criar credencial.");
@@ -938,7 +964,7 @@ namespace IMOD.Infra.Servicos
 
                 entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
                 entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
-                if(entity.Foto!=null)
+                if (entity.Foto != null)
                     cardHolder.Picture = entity.Foto;
                 SetValorCamposCustomizados(entity, cardHolder);
                 _sdk.TransactionManager.CommitTransaction();

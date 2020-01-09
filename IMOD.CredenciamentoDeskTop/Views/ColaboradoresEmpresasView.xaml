@@ -148,14 +148,16 @@
                             <CheckBox VerticalAlignment="Center" x:Name="chkAuditado" Grid.Column="2" Grid.Row="1" Foreground="#FFD0D0D0" IsChecked="{Binding Entity.FlagAuditoria, UpdateSourceTrigger=PropertyChanged}"/>
 
                         </Grid>
-                        <GroupBox Margin="110,0,0,0" Grid.Row="0" Grid.Column="3" Visibility="{Binding VisibleGrupos}" Header="Controle de Acesso" Padding="1" Width="200" Height="70" VerticalAlignment="Stretch">
+                        <GroupBox Margin="110,0,0,0" Grid.Row="0" Grid.Column="3" Visibility="{Binding VisibleGruposRegras}" Header="Controle de Acesso" Padding="1" Width="200" Height="70" VerticalAlignment="Stretch">
 
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="150" Height="30" Margin="22,10,0,0">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Width="188" Height="30" Margin="0,13,0,3">
 
                                 <Button x:Name="bnt_Gupos" IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                            Visibility="{Binding VisibleGrupos}" Margin="5,0,0,3" ToolTip="Selecione os grupos" 
-                                            VerticalAlignment="Center" Content="Grupos"  HorizontalAlignment="Center"  Width="141" Height="24" Click="Bnt_Gupos_Click">
-                                </Button>
+                                            Visibility="{Binding VisibleGrupo}" Margin="8,0,0,4" ToolTip="Selecione os grupos" 
+                                            Content="Grupos"  VerticalAlignment="{Binding Alignment}" HorizontalAlignment="{Binding Alignment}" Width="{Binding WidthGrupo}" Height="24" Click="Bnt_Gupos_Click"/>
+                                <Button x:Name="bnt_Regras" IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                            Visibility="{Binding VisibleRegra}" Margin="8,0,0,3" ToolTip="Selecione os grupos" 
+                                            Content="Regras"  VerticalAlignment="{Binding Alignment}"  HorizontalAlignment="{Binding Alignment}" Width="{Binding WidthRegra}" Height="24" Click="Bnt_Regras_Click" />
 
                             </StackPanel>
 

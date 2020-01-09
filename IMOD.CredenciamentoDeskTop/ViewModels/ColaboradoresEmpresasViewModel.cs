@@ -53,7 +53,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public List<Empresa> Empresas { get; private set; }
         public Empresa Empresa { get; set; }
         public ColaboradorEmpresaView Entity { get; set; }
-        public string VisibleGrupos { get; set; }
+        public string VisibleGruposRegras { get; set; }
+        public string VisibleGrupo { get; set; }
+        public int WidthGrupo { get; set; } = 80;
+        public string VisibleRegra { get; set; }
+        public int WidthRegra { get; set; } = 80;
+        public string Alignment { get; set; }
         public ObservableCollection<ColaboradorEmpresaView> EntityObserver { get; set; }
         /// <summary>
         ///     Seleciona indice da listview
@@ -178,7 +183,31 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 IsEnableColete = false;
             }
-            VisibleGrupos = Helper.ExibirCampo(_configuraSistema.AssociarGrupos);
+            _configuraSistema.VisibleGruposRegras = false;
+            if (_configuraSistema.AssociarGrupos==true || _configuraSistema.AssociarRegras == true)
+            {
+                _configuraSistema.VisibleGruposRegras = true;
+            }
+            VisibleGruposRegras = Helper.ExibirCampo(_configuraSistema.VisibleGruposRegras);
+            VisibleGrupo = Helper.CollapsedCampo(_configuraSistema.AssociarGrupos);
+            VisibleRegra = Helper.CollapsedCampo(_configuraSistema.AssociarRegras);
+            if (_configuraSistema.AssociarGrupos==true && _configuraSistema.AssociarRegras==true)
+            {
+                WidthGrupo = 85;
+                WidthRegra = 85;
+            }
+            else if (_configuraSistema.AssociarGrupos == true)
+            {
+                WidthGrupo = 180;
+                Alignment = "Stretch";
+            }
+            else if (_configuraSistema.AssociarRegras == true)
+            {
+
+                WidthRegra = 180;
+                Alignment = "Stretch";
+            }
+
         }
         public void AtualizarConfiguracoes()
         {
@@ -189,7 +218,31 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     IsEnableColete = false;
                 }
-                VisibleGrupos = Helper.ExibirCampo(_configuraSistema.AssociarGrupos);
+                _configuraSistema.VisibleGruposRegras = false;
+                if (_configuraSistema.AssociarGrupos == true || _configuraSistema.AssociarRegras == true)
+                {
+                    _configuraSistema.VisibleGruposRegras = true;
+                }
+
+                VisibleGruposRegras = Helper.ExibirCampo(_configuraSistema.VisibleGruposRegras);
+                VisibleGrupo = Helper.CollapsedCampo(_configuraSistema.AssociarGrupos);
+                VisibleRegra = Helper.CollapsedCampo(_configuraSistema.AssociarRegras);
+                if (_configuraSistema.AssociarGrupos == true && _configuraSistema.AssociarRegras == true)
+                {
+                    WidthGrupo = 85;
+                    WidthRegra = 85;
+                }
+                else if (_configuraSistema.AssociarGrupos == true)
+                {
+                    WidthGrupo = 180;
+                    Alignment = "Stretch";
+                }
+                else if (_configuraSistema.AssociarRegras == true)
+                {
+                    
+                    WidthRegra = 180;
+                    Alignment = "Stretch";
+                }
             }
             catch (Exception)
             {
@@ -252,7 +305,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException(ex);
             }
         }
-        public void ListarEmpresaContratos()
+        public void ListarEmpresa_e_Contratos()
         {
 
             try

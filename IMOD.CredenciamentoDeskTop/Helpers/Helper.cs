@@ -211,10 +211,14 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
                     Description = type.GetMember(e.ToString())[0].GetCustomAttributesData()[0].ConstructorArguments[0].Value }).ToList();
 
         }
-
+        //
         public static string ExibirCampo(bool visivel)
         {
             return (visivel) ? "Visible" : "Hidden" ;
+        }
+        public static string CollapsedCampo(bool visivel)
+        {
+            return (visivel) ? "Visible" : "Collapsed";
         }
 
     }

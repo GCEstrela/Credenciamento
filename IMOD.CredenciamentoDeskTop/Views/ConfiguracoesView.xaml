@@ -1101,13 +1101,17 @@
                                               Margin="0,7,0,0" VerticalAlignment="Top" Width="125"
                                               IsChecked="{Binding Entity.Colete, UpdateSourceTrigger=PropertyChanged}" />
                                         <CheckBox x:Name="Regra_" ToolTip="" 
-                                              Content="Enviar Regras para o CA" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
-                                              Margin="0,7,0,0" VerticalAlignment="Top" Width="155"
+                                              Content="Regras para o CA" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                              Margin="0,7,0,0" VerticalAlignment="Top" Width="114"
                                               IsChecked="{Binding Entity.Regras, UpdateSourceTrigger=PropertyChanged}" />
                                         <CheckBox x:Name="Grupos_" ToolTip="" 
-                                            Content="Associar a Grupos do CA" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
-                                            Margin="0,7,0,0" VerticalAlignment="Top" Width="155"
+                                            Content="Grupos do CA" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                            Margin="0,7,0,0" VerticalAlignment="Top" Width="99"
                                             IsChecked="{Binding Entity.AssociarGrupos, UpdateSourceTrigger=PropertyChanged}" />
+                                        <CheckBox x:Name="Regras_" ToolTip="" 
+                                            Content="Regras do CA" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                            Margin="0,7,0,0" VerticalAlignment="Top" Width="99"
+                                            IsChecked="{Binding Entity.AssociarRegras, UpdateSourceTrigger=PropertyChanged}" />
 
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"  Margin="1">

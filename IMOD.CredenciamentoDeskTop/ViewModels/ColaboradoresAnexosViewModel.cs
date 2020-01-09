@@ -76,6 +76,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             catch (Exception ex)
             {
+                
                 throw ex;
             }
             

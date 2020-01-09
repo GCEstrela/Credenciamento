@@ -40,6 +40,8 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool EnableSsl { get; set; }
         public bool UseDefaultCredentials { get; set; }
         public string Licenca { get; set; }
+        public bool AssociarRegras { get; set; }
+        public bool VisibleGruposRegras { get; set; }
         #endregion
     }
 }

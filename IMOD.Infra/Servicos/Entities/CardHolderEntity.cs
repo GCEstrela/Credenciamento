@@ -37,6 +37,7 @@ namespace IMOD.Infra.Servicos.Entities
         public int FacilityCode { get; set; }
         public  Image Foto { get; set; }
         public bool  grupoAlterado { get; set; }
+        public bool regraAlterado { get; set; }
         /// <summary>
         /// Numero do cartão da credencial
         /// </summary>
@@ -122,6 +123,7 @@ namespace IMOD.Infra.Servicos.Entities
         public string GrupoPadrao { get; set; }
         public List<Guid> listadeGrupos { get; set; }
         public List<Guid> ListaGrupos { get; set; }
+        public List<Guid> listadeRegras { get; set; }
         #endregion
 
     }

@@ -78,7 +78,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EnableSsl", entity.EnableSsl, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("UseDefaultCredentials", entity.UseDefaultCredentials, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Licenca", entity.Licenca, false)));
-
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("AssociarRegras", entity.AssociarRegras, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("VisibleGruposRegras", entity.VisibleGruposRegras, false)));
                         if (entity.GrupoPadrao != null)
                         {
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("GrupoPadrao", entity.GrupoPadrao.Trim(), false)));
