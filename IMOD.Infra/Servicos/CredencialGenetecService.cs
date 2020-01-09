@@ -445,7 +445,7 @@ namespace IMOD.Infra.Servicos
                                     cardHolder.Groups.Add(grupoGuid);
                                 }
                         }
-                        if (entity.GrupoPadrao != null)
+                        if (entity.GrupoPadrao != null && cardHolder.Groups.Count==0)
                         {
                             Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
                             if (grupo != null)
@@ -453,7 +453,9 @@ namespace IMOD.Infra.Servicos
                         }
 
                         if (entity.regraAlterado)
-                        {                            
+                        {
+                            RemoverRegrasCardHolder(entity);
+
                             foreach (Guid regrasGuid in entity.listadeRegras)
                             {
                                 AccessRule accesso_add = _sdk.GetEntity(regrasGuid) as AccessRule;
@@ -498,7 +500,7 @@ namespace IMOD.Infra.Servicos
                                 cardHolder.Groups.Add(grupoGuid);
                             }
                     }
-                    if (entity.GrupoPadrao != null)
+                    if (entity.GrupoPadrao != null && cardHolder.Groups.Count == 0)
                     {
                         Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
                         if (grupo != null)
@@ -507,6 +509,8 @@ namespace IMOD.Infra.Servicos
 
                     if (entity.regraAlterado)
                     {
+                        RemoverRegrasCardHolder(entity);
+
                         foreach (Guid regrasGuid in entity.listadeRegras)
                         {
                             AccessRule accesso_add = _sdk.GetEntity(regrasGuid) as AccessRule;
@@ -1058,7 +1062,7 @@ namespace IMOD.Infra.Servicos
                 var service = systemConfiguration.CustomFieldService;
                 if (result.Success)
                 {
-                    _sdk.TransactionManager.CreateTransaction();
+                    //_sdk.TransactionManager.CreateTransaction();
 
                     foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
                     {
@@ -1066,7 +1070,7 @@ namespace IMOD.Infra.Servicos
                         accesso.Members.Remove(cardHolder.Guid);
                     }
 
-                    _sdk.TransactionManager.CommitTransaction();
+                    //_sdk.TransactionManager.CommitTransaction();
                 }
 
             }
