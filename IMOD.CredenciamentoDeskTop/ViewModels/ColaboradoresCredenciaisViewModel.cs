@@ -35,6 +35,9 @@ using System.Text.RegularExpressions;
 using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using IMOD.CredenciamentoDeskTop.Funcoes;
+using System.Threading.Tasks;
+using System.Windows.Threading;
+using System.Threading;
 
 #endregion
 

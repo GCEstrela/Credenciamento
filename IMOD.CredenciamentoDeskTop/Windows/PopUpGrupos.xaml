@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:IMOD.CredenciamentoDeskTop.Windows"
             xmlns:tchg="clr-namespace:tchg;assembly=tchg"
              mc:Ignorable="d" Height="500" Width="430" 
-             Title="Grupos de CardHolder - Controle de acesso (Genetec)" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True" ResizeMode="NoResize">
+             Title="Grupos de CardHolder - Controle de acesso (Genetec)" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True" ResizeMode="NoResize" MouseDown="Window_MouseDown">
 
     <Window.Background>
         <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">

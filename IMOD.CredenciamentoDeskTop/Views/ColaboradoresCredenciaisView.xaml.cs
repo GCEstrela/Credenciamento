@@ -66,6 +66,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         public void AtualizarDados(Model.ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
             //if (entity == null) return;
+            
             _viewModel.AtualizarDados(entity, viewModelParent);
         }
 

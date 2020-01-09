@@ -37,5 +37,6 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         {
             this.Close();
         }
+
     }
 }

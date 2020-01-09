@@ -234,7 +234,7 @@
                     IsEnabled="{Binding Comportamento.IsEnableEditar}" Command="{Binding PrepareReprovaCommand}"
                     Width="25" Margin="0,0,5,0" Cursor="Hand">
                 <StackPanel>
-                    <Image Source="../Resources/reprovado.png" /> 
+                    <Image Source="../Resources/reprovado.png" />
                 </StackPanel>
             </Button>
 
@@ -743,7 +743,7 @@
             </TabItem>
 
 
-            <TabItem x:Name="Signatarios_ti" Width="200" Foreground="{Binding IsEnablePreCadastroColor}"  IsEnabled="{Binding IsEnableTabItemEmpresas}">
+            <TabItem x:Name="Signatarios_ti" MouseUp="Atualiza_MouseUp" Width="200" Foreground="{Binding IsEnablePreCadastroColor}"  IsEnabled="{Binding IsEnableTabItemEmpresas}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt" Click="OnPendenciaEmpresaVinculo_Click"
@@ -756,7 +756,7 @@
                             </StackPanel>
                         </Button>
                         <StackPanel Width="170">
-                            <TextBlock Text="Empresas Vinculos" HorizontalAlignment="Center" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" />
+                            <TextBlock Text="Empresas Vinculos" HorizontalAlignment="Center"  />
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
@@ -764,7 +764,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="CursosTreinamentos_ti" Width="200" Foreground="{Binding IsEnablePreCadastroColor}" IsEnabled="{Binding IsEnableTabItemCursos}">
+            <TabItem x:Name="CursosTreinamentos_ti" MouseUp="Atualiza_MouseUp" Width="200" Foreground="{Binding IsEnablePreCadastroColor}" IsEnabled="{Binding IsEnableTabItemCursos}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Curso_bt" Click="OnPendenciaTreinamentoCertificacao_Click"
@@ -777,7 +777,7 @@
                             </StackPanel>
                         </Button>
                         <StackPanel Width="170">
-                            <TextBlock Text="Cursos e Treinamentos" HorizontalAlignment="Left" Margin="25,0,0,0" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown_1" />
+                            <TextBlock Text="Cursos e Treinamentos" HorizontalAlignment="Left" Margin="25,0,0,0"  />
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
@@ -786,7 +786,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Anexos_ti" Width="200" Foreground="{Binding IsEnablePreCadastroColor}" IsEnabled="{Binding IsEnableTabItemAnexos}">
+            <TabItem x:Name="Anexos_ti" MouseUp="Atualiza_MouseUp" Width="200" Foreground="{Binding IsEnablePreCadastroColor}" IsEnabled="{Binding IsEnableTabItemAnexos}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Anexos_bt" Click="OnPendenciaAnexos_Click" Style="{StaticResource MenuStyle}"
@@ -799,7 +799,7 @@
                             </StackPanel>
                         </Button>
                         <StackPanel Width="170">
-                            <TextBlock Text="Anexos" HorizontalAlignment="Center" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown_2" />
+                            <TextBlock Text="Anexos" HorizontalAlignment="Center"  />
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
@@ -807,7 +807,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Tab5" ToolTip="F5 para atualizar." Width="200" IsEnabled="{Binding IsEnableTabItemCredenciais}" 
+            <TabItem x:Name="Credenciais_ti" MouseUp="Atualiza_MouseUp" ToolTip="F5 para atualizar." Width="200" IsEnabled="{Binding IsEnableTabItemCredenciais}" 
                                                Visibility="{Binding IsEnablePreCadastroCredenciamento,  Converter={StaticResource VisibleControl}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -820,8 +820,8 @@
                                     Width="16" Height="16" />
                             </StackPanel>
                         </Button>
-                        <StackPanel Width="170" >
-                            <TextBlock Text="Credenciais" ToolTip="F5 para atualizar." HorizontalAlignment="Left" Margin="54,0,0,0" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown_3" />
+                        <StackPanel Width="170">
+                            <TextBlock   HorizontalAlignment="Center" Text="Credenciais" ToolTip="F5 para atualizar."   />
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
