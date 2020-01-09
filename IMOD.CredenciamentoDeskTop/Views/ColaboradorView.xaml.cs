@@ -436,50 +436,26 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
-        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Atualiza_MouseUp(object sender, MouseButtonEventArgs e)
         {
             try
             {
-                ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        private void TextBlock_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        private void TextBlock_MouseLeftButtonDown_2(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        private void TextBlock_MouseLeftButtonDown_3(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                
+                switch (((System.Windows.FrameworkElement)sender).Name.ToString())
+                {
+                    case "Signatarios_ti":
+                        ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                        break;
+                    case "CursosTreinamentos_ti":
+                        ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
+                        break;
+                    case "Anexos_ti":
+                        AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                        break;
+                    case "Credenciais_ti":
+                        ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                        break;
+                }
             }
             catch (Exception)
             {
