@@ -445,12 +445,12 @@ namespace IMOD.Infra.Servicos
                                     cardHolder.Groups.Add(grupoGuid);
                                 }
                         }
-                        if (entity.GrupoPadrao != null)
-                        {
-                            Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
-                            if (grupo != null)
-                                cardHolder.Groups.Add(grupo);
-                        }
+                        //if (entity.GrupoPadrao != null)
+                        //{
+                        //    Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
+                        //    if (grupo != null)
+                        //        cardHolder.Groups.Add(grupo);
+                        //}
 
                         if (entity.regraAlterado)
                         {                            
@@ -498,12 +498,12 @@ namespace IMOD.Infra.Servicos
                                 cardHolder.Groups.Add(grupoGuid);
                             }
                     }
-                    if (entity.GrupoPadrao != null)
-                    {
-                        Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
-                        if (grupo != null)
-                            cardHolder.Groups.Add(grupo);
-                    }
+                    //if (entity.GrupoPadrao != null)
+                    //{
+                    //    Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
+                    //    if (grupo != null)
+                    //        cardHolder.Groups.Add(grupo);
+                    //}
 
                     if (entity.regraAlterado)
                     {
