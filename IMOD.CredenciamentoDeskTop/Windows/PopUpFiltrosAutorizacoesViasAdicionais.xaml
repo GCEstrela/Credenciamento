@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
         mc:Ignorable="d"
-        Title="Procurar Empresa" Height="470" Width="444.628" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
+        Title="Procurar Empresa" Height="549" Width="444.628" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FF171717" Offset="0.984"/>
@@ -38,8 +38,8 @@
                 </DockPanel>
             </Button>
         </StackPanel>
-        <StackPanel Grid.Column="0" Margin="0,0,0,10">
-            <GroupBox x:Name="InformacoesMotivo_gb" Header="Filtrar por Tipo" Height="170" Width="410" Foreground="#FFD0D0D0">
+        <StackPanel Grid.Column="0" Margin="0,105,0,10">
+            <GroupBox x:Name="InformacoesMotivo_gb" Header="Filtrar por Tipo" Height="170" Foreground="#FFD0D0D0" Margin="10,0">
                 <ListBox x:Name="lstMotivoCredencial"
                         ItemsSource="{Binding MotivosCredenciais}"
                         SelectedValue="{Binding MotivosCredenciais}"
@@ -71,5 +71,18 @@
             </GroupBox>
             <Button x:Name="button" Content="Filtrar" Click="button_ClickFiltrar" Height="33" HorizontalAlignment="Center" Width="100" Margin="166,20,167,20" />
         </StackPanel>
+        <GroupBox x:Name="Informacoes_gb_Copy" Header="Filtrar por Empresa" Margin="10,10,10,413" VerticalAlignment="Stretch" Foreground="#FFD0D0D0">
+            <StackPanel x:Name="Informacoes_sp1" Margin="0,10,8,0">
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+
+                    <Label Content="Empresa:" Height="28" Width="66" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                    <ComboBox  x:Name="EmpresaRazaoSocial_cb" IsEditable="True"  Width="312" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                        ItemsSource="{Binding Empresas}" DisplayMemberPath="Nome" SelectedValuePath="EmpresaID" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,-10,0" Width="401" />
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </Window>

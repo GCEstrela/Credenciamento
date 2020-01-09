@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.ViewModels;
 
@@ -14,6 +15,8 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             InitializeComponent();
             DataContext = new RelatoriosViewModel();
             MouseDown += Window_MouseDown;
+            ((RelatoriosViewModel)DataContext).CarregaColecaoEmpresas();
+            ((RelatoriosViewModel)DataContext).CarregaMotivoCredenciais(1);//Carregar os motivos do status 2 - ativo 
         }
 
 
@@ -31,9 +34,12 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
+            IEnumerable<object> motivoCredencialSelecionados = new List<object>();
+
             bool tipo;
             string DataIni = dp_dataInicial.Text;
             string DataFim = dp_dataFinal.Text;
+            string empresa;
 
             if (permanente_rb.IsChecked.Value)
             {
@@ -43,7 +49,24 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             {
                 tipo = false;
             }
-            ((RelatoriosViewModel)DataContext).OnFiltroRelatorioCredenciaisCommand(tipo, DataIni, DataFim);
+
+            if (lstMotivoCredencial.SelectedItems.Count > 0)
+            {
+                motivoCredencialSelecionados = (IEnumerable<object>)lstMotivoCredencial.SelectedItems;
+
+                var teste = lstMotivoCredencial.SelectedItems;
+            }
+
+            if (EmpresaRazaoSocial_cb.SelectedItem == null)
+            {
+                empresa = "0";
+            }
+            else
+            {
+                empresa = ((IMOD.CredenciamentoDeskTop.Views.Model.EmpresaView)EmpresaRazaoSocial_cb.SelectedItem).EmpresaId.ToString();
+            }
+
+            ((RelatoriosViewModel)DataContext).OnFiltroRelatorioCredenciaisCommand(tipo, empresa, (IEnumerable<object>)motivoCredencialSelecionados, DataIni, DataFim);
 
             Close();
         }

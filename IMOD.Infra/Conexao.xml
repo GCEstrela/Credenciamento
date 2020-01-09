@@ -17,8 +17,8 @@
     <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
   </Produto>
   <Produto>
-    <SystemID>DEM-191014-184238</SystemID>
-    <InstanciaSQL>SCVIRTUAL\SQLEXPRESS</InstanciaSQL>
+    <SystemID>DEM-190909-868692</SystemID>
+    <InstanciaSQL>SFLNA017</InstanciaSQL>
     <Banco>D_iModCredenciamento</Banco>
     <UsuarioDB>imod</UsuarioDB>
     <SenhaDB>c4RRamq1Ico=</SenhaDB>
