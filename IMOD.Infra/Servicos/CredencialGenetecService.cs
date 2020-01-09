@@ -434,19 +434,26 @@ namespace IMOD.Infra.Servicos
                         {
                             cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                         }
-
                         cardHolder.Picture = entity.Foto;
+
                         if (entity.grupoAlterado)
                         {
                             cardHolder.Groups.Clear();
                             if (entity.listadeGrupos != null)
-                                foreach (Guid cardholderGuid in entity.listadeGrupos)
+                                foreach (Guid grupoGuid in entity.listadeGrupos)
                                 {
-                                    cardHolder.Groups.Add(cardholderGuid);
+                                    cardHolder.Groups.Add(grupoGuid);
                                 }
                         }
-                        if (entity.regraAlterado)
+                        if (entity.GrupoPadrao != null)
                         {
+                            Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
+                            if (grupo != null)
+                                cardHolder.Groups.Add(grupo);
+                        }
+
+                        if (entity.regraAlterado)
+                        {                            
                             foreach (Guid regrasGuid in entity.listadeRegras)
                             {
                                 AccessRule accesso_add = _sdk.GetEntity(regrasGuid) as AccessRule;
@@ -486,11 +493,18 @@ namespace IMOD.Infra.Servicos
                     {
                         cardHolder.Groups.Clear();
                         if (entity.listadeGrupos != null)
-                            foreach (Guid cardholderGuid in entity.listadeGrupos)
+                            foreach (Guid grupoGuid in entity.listadeGrupos)
                             {
-                                cardHolder.Groups.Add(cardholderGuid);
+                                cardHolder.Groups.Add(grupoGuid);
                             }
                     }
+                    if (entity.GrupoPadrao != null)
+                    {
+                        Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
+                        if (grupo != null)
+                            cardHolder.Groups.Add(grupo);
+                    }
+
                     if (entity.regraAlterado)
                     {
                         foreach (Guid regrasGuid in entity.listadeRegras)
@@ -499,12 +513,7 @@ namespace IMOD.Infra.Servicos
                             accesso_add.Members.Add(cardHolder.Guid);
                         }
                     }
-                    //if (entity.GrupoPadrao != null)
-                    //{
-                    //    Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
-                    //    if (grupo != null)
-                    //        cardHolder.Groups.Add(grupo);
-                    //}
+
 
                     if (entity.Validade > DateTime.Now)
                     {
