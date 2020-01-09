@@ -436,32 +436,37 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
-        private void Atualiza_MouseUp(object sender, MouseButtonEventArgs e)
+        private void TabGeral_tc_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
-                
-                switch (((System.Windows.FrameworkElement)sender).Name.ToString())
+                if (e.Source is TabControl)
                 {
-                    case "Signatarios_ti":
-                        ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
-                        break;
-                    case "CursosTreinamentos_ti":
-                        ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
-                        break;
-                    case "Anexos_ti":
-                        AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
-                        break;
-                    case "Credenciais_ti":
-                        ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
-                        break;
+                    switch (((System.Windows.Controls.Primitives.Selector)e.Source).SelectedIndex)
+                    {
+                        case 1:
+                            ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                            break;
+                        case 2:
+                            ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
+                            break;
+                        case 3:
+                            AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                            break;
+                        case 4:
+                            ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                            break;
+                        default:
+                            break;
+                    }
                 }
-            }
-            catch (Exception)
-            {
 
-                throw;
             }
+            catch (Exception ex)
+            {
+                WpfHelp.Mbox(ex.Message);
+            }
+        
         }
     }
 }
