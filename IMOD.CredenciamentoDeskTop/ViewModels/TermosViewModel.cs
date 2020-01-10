@@ -562,8 +562,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 else
                 {
-                    filtroAutorizacao.DataStatus = DateTime.Now.AddDays(-periodo).Date;
-                    filtroAutorizacao.DataStatusFim = DateTime.Now;
+                    if (report == 18)
+                    {
+                        filtroAutorizacao.Baixa = DateTime.Now.AddDays(-periodo).Date;
+                        filtroAutorizacao.BaixaFim = DateTime.Now;
+                    }
+                    else
+                    {
+                        filtroAutorizacao.DataStatus = DateTime.Now.AddDays(-periodo).Date;
+                        filtroAutorizacao.DataStatusFim = DateTime.Now;
+                    }
                     if (periodo > 0)
                     {
                         mensagemPeriodo = "Durante o período de  " + periodo.ToString() + " dias";
