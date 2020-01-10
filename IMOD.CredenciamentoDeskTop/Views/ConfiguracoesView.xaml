@@ -1105,11 +1105,11 @@
                                               Margin="0,7,0,0" VerticalAlignment="Top" Width="114"
                                               IsChecked="{Binding Entity.Regras, UpdateSourceTrigger=PropertyChanged}" />
                                         <CheckBox x:Name="Grupos_" ToolTip="" 
-                                            Content="Grupos do CA" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                            Content="Exibir Grupos" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
                                             Margin="0,7,0,0" VerticalAlignment="Top" Width="99"
                                             IsChecked="{Binding Entity.AssociarGrupos, UpdateSourceTrigger=PropertyChanged}" />
                                         <CheckBox x:Name="Regras_" ToolTip="" 
-                                            Content="Regras do CA" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                            Content="Exibir Regras" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
                                             Margin="0,7,0,0" VerticalAlignment="Top" Width="99"
                                             IsChecked="{Binding Entity.AssociarRegras, UpdateSourceTrigger=PropertyChanged}" />
 
