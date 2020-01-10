@@ -1392,11 +1392,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 verificarcredencialAtiva = false;
                 // 
+
                 if (Entity.NumeroColete == "" & HabilitaImpressao == true)
                 {
-                    if (ColeteEnabled) // Se o campo Nº do colete estiver IsEnabled=false a menssagem não será exibiba
+                    if (!string.IsNullOrEmpty(Entity.EmpresaSigla))
                     {
-                        var podeCobrarResult = WpfHelp.MboxDialogYesNo($"Nº do Colete esta em branco, Continua.", true);
+                        var podeCobrarResult = WpfHelp.MboxDialogYesNo($"Nº do Colete está em branco, deseja continuar?", true);
                         if (podeCobrarResult == System.Windows.Forms.DialogResult.No)
                         {
                             return;

@@ -348,18 +348,22 @@ namespace IMOD.Infra.Servicos
                 // _sdk.TransactionManager.CreateTransaction();
 
                 var credencial = _sdk.GetEntity(new Guid(entity.IdentificadorCredencialGuid)) as Credential;
-                if (credencial == null) throw new InvalidOperationException("Não foi possível encontrar uma credencial.");
-                credencial.State = entity.Ativo ? CredentialState.Active : CredentialState.Inactive;
-                //RemoverRegrasCardHolder(entity);  //Remove todas as regras de aceso do cardholder
 
-                if (credencial.State != CredentialState.Active)
+                if (credencial != null) 
                 {
-                    VerificaRegraAcesso(entity, false);
-                }
-                else
-                {
-                    VerificaRegraAcesso(entity, true);
-                }
+                    credencial.State = entity.Ativo ? CredentialState.Active : CredentialState.Inactive;
+                    //RemoverRegrasCardHolder(entity);  //Remove todas as regras de aceso do cardholder
+
+                    if (credencial.State != CredentialState.Active)
+                    {
+                        VerificaRegraAcesso(entity, false);
+                    }
+                    else
+                    {
+                        VerificaRegraAcesso(entity, true);
+                    }
+                } //throw new InvalidOperationException("Não foi possível encontrar uma credencial.");
+                
 
                 //_sdk.TransactionManager.CommitTransaction();
             }
@@ -950,27 +954,32 @@ namespace IMOD.Infra.Servicos
 
                 #endregion
 
-                if (credencial == null) throw new InvalidOperationException("Não foi possível criar uma credencial.");
-                credencial.Name = $"{entity.NumeroCredencial} - {entity.Nome}";
-
-                SetValorFormatoCredencial(entity, credencial);
-
-                if (credencial.Format == null) throw new InvalidOperationException("Não foi possível criar credencial.");
-                credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
-
-                //Vincular Credencial ao CardHolder
-                cardHolder.Credentials.Remove(credencial);
-                cardHolder.Credentials.Add(credencial);
-                if (cardHolder.State != CardholderState.Active) //Quando uma credencial é criada o cardholder fica sempre ativo.
+                if (credencial != null)
                 {
-                    cardHolder.State = CardholderState.Active;
-                }
+                    credencial.Name = $"{entity.NumeroCredencial} - {entity.Nome}";
 
-                entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
-                entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
-                if (entity.Foto != null)
-                    cardHolder.Picture = entity.Foto;
-                SetValorCamposCustomizados(entity, cardHolder);
+                    SetValorFormatoCredencial(entity, credencial);
+
+                    if (credencial.Format == null) throw new InvalidOperationException("Não foi possível criar credencial.");
+                    credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
+
+                    //Vincular Credencial ao CardHolder
+                    cardHolder.Credentials.Remove(credencial);
+                    cardHolder.Credentials.Add(credencial);
+                    if (cardHolder.State != CardholderState.Active) //Quando uma credencial é criada o cardholder fica sempre ativo.
+                    {
+                        cardHolder.State = CardholderState.Active;
+                    }
+
+                    entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
+                    entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
+                    if (entity.Foto != null)
+                        cardHolder.Picture = entity.Foto;
+                    SetValorCamposCustomizados(entity, cardHolder);
+
+
+                    
+                }
                 _sdk.TransactionManager.CommitTransaction();
             }
             catch (Exception ex)
