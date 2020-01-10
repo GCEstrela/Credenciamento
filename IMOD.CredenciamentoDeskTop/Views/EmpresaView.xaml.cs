@@ -66,6 +66,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
+                Geral_ti.IsSelected = true;
                 //fake1.IsChecked = false;
                 if (_viewModel.Entity == null) return;
                 //Atualizar dados ao selecionar uma linha da listview
@@ -78,12 +79,12 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 if (_viewModel.Entity != null)
                     _viewModel.Entity.Cnpj = _viewModel.Entity.Cnpj.FormatarCnpj();
                 //Popular User Controls
-                //////////////////////////////////////////////////////////////
-                RepresentanteUs.AtualizarDados(_viewModel.Entity, _viewModel);
-                AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
-                EmpresaContratosUs.AtualizarDados(_viewModel.Entity, _viewModel);
-                EmpresaSeguroUs.AtualizarDados(_viewModel.Entity, _viewModel);
-                //////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////
+                //RepresentanteUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                //AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                //EmpresaContratosUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                //EmpresaSeguroUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                ////////////////////////////////////////////////////////////////
                 _viewModel.CarregarQuantidadeTipoCredencial();
                 //////////////////////////////////////////////////////////////
                 if (_viewModel.Entity.Cnpj == "00.000.000/0000-00")
@@ -431,6 +432,33 @@ namespace IMOD.CredenciamentoDeskTop.Views
             catch (Exception ex)
             {
                 WpfHelp.PopupBox(ex.Message,1);
+            }
+        }
+        private void Atualiza_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+
+                switch (((System.Windows.FrameworkElement)sender).Name.ToString())
+                {
+                    case "Signatarios_ti":
+                        RepresentanteUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                        break;
+                    case "Contrato_ti":
+                        EmpresaContratosUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                        break;
+                    case "Seguros_ti":
+                        AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                        break;
+                    case "Anexos_ti":
+                        EmpresaSeguroUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                        break;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }

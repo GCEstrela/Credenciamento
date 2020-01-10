@@ -481,7 +481,7 @@
             </TabItem>
 
 
-            <TabItem x:Name="Signatarios_ti" Width="200" IsEnabled="{Binding IsEnableTabRepresentantes}">
+            <TabItem x:Name="Signatarios_ti" MouseUp="Atualiza_MouseUp" Width="200" IsEnabled="{Binding IsEnableTabRepresentantes}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt" Click="OnPendenciaRepresentantes_Click"
@@ -502,7 +502,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Contrato_ti" Width="200" IsEnabled="{Binding IsEnableTabContratos}">
+            <TabItem x:Name="Contrato_ti"  MouseUp="Atualiza_MouseUp" Width="200" IsEnabled="{Binding IsEnableTabContratos}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Contratos_bt" Click="OnPendenciaGeralContratos_Click"
@@ -535,8 +535,8 @@
                 <views:UsEmpresaContratoView x:Name="EmpresaContratosUs" Margin="5,5,0,5" HorizontalAlignment="Left"
                                              Width="1141" />
             </TabItem>
-            
-            <TabItem x:Name="Seguros_ti" IsEnabled="{Binding IsEnableTabSeguros}">
+
+            <TabItem x:Name="Seguros_ti"  MouseUp="Atualiza_MouseUp" IsEnabled="{Binding IsEnableTabSeguros}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="btnEmpresaSeguro"
@@ -555,8 +555,8 @@
 
                 <views:EmpresasSegurosView x:Name="EmpresaSeguroUs" Margin="0,0,245,17" Height="474" VerticalAlignment="Bottom"/>
             </TabItem>
-            
-            <TabItem x:Name="Anexos_ti" Width="200" IsEnabled="{Binding IsEnableTabAnexo}">
+
+            <TabItem x:Name="Anexos_ti"  MouseUp="Atualiza_MouseUp" Width="200" IsEnabled="{Binding IsEnableTabAnexo}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Anexos_bt" Click="OnPendenciaGeralAnexos_Click"
