@@ -238,7 +238,7 @@
 
         </StackPanel>
 
-        <TabControl SelectedIndex="{Binding SelectedTabIndex, UpdateSourceTrigger=PropertyChanged }" Margin="1,1,-259,-281" Grid.Row="4">
+        <TabControl SelectedIndex="{Binding SelectedTabIndex, UpdateSourceTrigger=PropertyChanged }" Margin="1,1,-259,-281" Grid.Row="4"  SelectionChanged="TabGeral_tc_SelectionChanged">
 
             <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0" Foreground="{Binding IsEnablePreCadastroColor}" IsEnabled="{Binding IsEnableTabItemGeral}">
 

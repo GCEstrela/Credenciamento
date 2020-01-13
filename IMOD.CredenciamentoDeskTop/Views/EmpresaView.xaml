@@ -148,7 +148,8 @@
         <TabControl x:Name="TabGeral_tc"
                     SelectedIndex="{Binding SelectedTabIndex }"
                     Height="562"
-                    Width="1259" Margin="1,1,-259,-321" Grid.Row="4">
+                    Width="1259" Margin="1,1,-259,-321" Grid.Row="4" 
+                    SelectionChanged="TabGeral_tc_SelectionChanged">
 
 
             <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0" IsEnabled="{Binding IsEnableTabGeral}">
@@ -481,7 +482,7 @@
             </TabItem>
 
 
-            <TabItem x:Name="Signatarios_ti" MouseUp="Atualiza_MouseUp" Width="200" IsEnabled="{Binding IsEnableTabRepresentantes}">
+            <TabItem x:Name="Signatarios_ti" Width="200" IsEnabled="{Binding IsEnableTabRepresentantes}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt" Click="OnPendenciaRepresentantes_Click"
@@ -502,7 +503,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="Contrato_ti"  MouseUp="Atualiza_MouseUp" Width="200" IsEnabled="{Binding IsEnableTabContratos}">
+            <TabItem x:Name="Contrato_ti"  Width="200" IsEnabled="{Binding IsEnableTabContratos}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Contratos_bt" Click="OnPendenciaGeralContratos_Click"
@@ -536,7 +537,7 @@
                                              Width="1141" />
             </TabItem>
 
-            <TabItem x:Name="Seguros_ti"  MouseUp="Atualiza_MouseUp" IsEnabled="{Binding IsEnableTabSeguros}">
+            <TabItem x:Name="Seguros_ti" IsEnabled="{Binding IsEnableTabSeguros}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="btnEmpresaSeguro"
@@ -556,7 +557,7 @@
                 <views:EmpresasSegurosView x:Name="EmpresaSeguroUs" Margin="0,0,245,17" Height="474" VerticalAlignment="Bottom"/>
             </TabItem>
 
-            <TabItem x:Name="Anexos_ti"  MouseUp="Atualiza_MouseUp" Width="200" IsEnabled="{Binding IsEnableTabAnexo}">
+            <TabItem x:Name="Anexos_ti"  Width="200" IsEnabled="{Binding IsEnableTabAnexo}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Anexos_bt" Click="OnPendenciaGeralAnexos_Click"

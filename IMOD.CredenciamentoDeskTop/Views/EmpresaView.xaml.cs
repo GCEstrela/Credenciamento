@@ -461,5 +461,37 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 throw;
             }
         }
+
+        private void TabGeral_tc_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (e.Source is TabControl)
+                {
+                    switch (((System.Windows.Controls.Primitives.Selector)e.Source).SelectedIndex)
+                    {
+                        case 1:
+                            RepresentanteUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                            break;
+                        case 2:
+                            EmpresaContratosUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                            break;
+                        case 3:
+                            EmpresaSeguroUs.AtualizarDados(_viewModel.Entity, _viewModel); 
+                            break;
+                        case 4:
+                            AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.Mbox(ex.Message);
+            }
+        }
     }
 }

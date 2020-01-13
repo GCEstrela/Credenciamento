@@ -58,13 +58,13 @@ namespace IMOD.CredenciamentoDeskTop.Views
             if (_viewModel.Entity != null)
                 _viewModel.BucarFoto(_viewModel.Entity.EquipamentoVeiculoId);
             //Popular User Controls
-            //////////////////////////////////////////////////////////////
-            VeiculosEmpresasUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            EmpresaSeguroUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            VeiculoCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
-            /////////////////////////////////////////////////////////////
-            //_viewModel.IsEnableTabItem = true;
+            ////////////////////////////////////////////////////////////////
+            //VeiculosEmpresasUs.AtualizarDados(_viewModel.Entity, _viewModel);
+            //EmpresaSeguroUs.AtualizarDados(_viewModel.Entity, _viewModel);
+            //AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
+            //VeiculoCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
+            ///////////////////////////////////////////////////////////////
+            ////_viewModel.IsEnableTabItem = true;
         }
 
         private void OnSelecionaMunicipio_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -286,6 +286,37 @@ namespace IMOD.CredenciamentoDeskTop.Views
             catch (Exception)
             {
                 // throw;
+            }
+        }
+
+        private void TabGeral_tc_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (e.Source is TabControl)
+                {
+                    switch (((System.Windows.Controls.Primitives.Selector)e.Source).SelectedIndex)
+                    {
+                        case 1:
+                            VeiculosEmpresasUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                            break;
+                        case 2:
+                            EmpresaSeguroUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                            break;
+                        case 3:
+                            AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                            break;
+                        case 4:
+                            VeiculoCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                WpfHelp.Mbox(ex.Message);
             }
         }
     }
