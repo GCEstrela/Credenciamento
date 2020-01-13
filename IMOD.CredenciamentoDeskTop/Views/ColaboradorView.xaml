@@ -257,12 +257,11 @@
                     Width="25" Margin="0,0,5,0" />
 
         </StackPanel>
-        <TabControl x:Name="TabGeral_tc"
+        <TabControl x:Name="TabGeral_tc" 
                     SelectedIndex="{Binding SelectedTabIndex }"
                     Height="562"
                     Width="1259" Margin="1,1,-259,-321"
                     Grid.Row="4" SelectionChanged="TabGeral_tc_SelectionChanged">
-            
 
             <TabItem x:Name="Geral_ti" Background="{x:Null}" Margin="0,-2,0,0" Foreground="{Binding IsEnablePreCadastroColor}"  IsEnabled="{Binding IsEnableTabItemGeral}">
 
@@ -744,8 +743,8 @@
             </TabItem>
 
 
-            <TabItem x:Name="Signatarios_ti" Width="200" Foreground="{Binding IsEnablePreCadastroColor}"  IsEnabled="{Binding IsEnableTabItemEmpresas}">
-                <TabItem.Header>
+            <TabItem x:Name="Signatarios_ti"  Width="200" Foreground="{Binding IsEnablePreCadastroColor}"  IsEnabled="{Binding IsEnableTabItemEmpresas}">
+                <TabItem.Header >
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Signatarios_bt" Click="OnPendenciaEmpresaVinculo_Click"
                                 Style="{StaticResource MenuStyle}" IsEnabled="{Binding Comportamento.IsEnableEditar}">
@@ -756,7 +755,7 @@
                                     Width="16" Height="16" />
                             </StackPanel>
                         </Button>
-                        <StackPanel Width="170">
+                        <StackPanel Width="170" >
                             <TextBlock Text="Empresas Vinculos" HorizontalAlignment="Center"  />
                         </StackPanel>
                     </StackPanel>
@@ -765,7 +764,7 @@
 
             </TabItem>
 
-            <TabItem x:Name="CursosTreinamentos_ti" Width="200" Foreground="{Binding IsEnablePreCadastroColor}" IsEnabled="{Binding IsEnableTabItemCursos}">
+            <TabItem x:Name="CursosTreinamentos_ti"  Width="200" Foreground="{Binding IsEnablePreCadastroColor}" IsEnabled="{Binding IsEnableTabItemCursos}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Curso_bt" Click="OnPendenciaTreinamentoCertificacao_Click"

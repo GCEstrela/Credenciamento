@@ -25,7 +25,7 @@ using iModSCCredenciamento.Windows;
 using UserControl = System.Windows.Controls.UserControl;
 
 #endregion
-
+ 
 
 namespace IMOD.CredenciamentoDeskTop.Views
 {
@@ -110,7 +110,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             if (_viewModel.Entity == null) return;
             try
-            {
+            { 
                 var frm = new PopupPendencias();
                 frm.Inicializa(codigo, _viewModel.Entity.ColaboradorId, tipoPendecia);
                 frm.ShowDialog();
@@ -156,7 +156,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             var regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
-        }
+        } 
         private void OnSelecionaFoto_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -204,8 +204,8 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
             catch (Exception)
             {
-                _viewModel.Entity.SetMessageErro("Cpf", "CPF inválido");
-            }
+                 _viewModel.Entity.SetMessageErro ("Cpf", "CPF inválido");
+            }           
         }
         private void OnFormatDateNascimento_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -213,7 +213,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 var str = txtDateNascimento.Text;
-                if (string.IsNullOrWhiteSpace(str)) return;
+                if (string.IsNullOrWhiteSpace (str)) return;
                 txtDateNascimento.Text = str.FormatarData();
             }
             catch (SqlException ex)
@@ -225,7 +225,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 _viewModel.Entity.SetMessageErro("DataNascimento", "Data inválida");
             }
-
+            
         }
 
         private void OnFormatEmissao_LostFocus(object sender, RoutedEventArgs e)
@@ -246,7 +246,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 _viewModel.Entity.SetMessageErro("DataEmissao", "Data inválida");
             }
-
+           
         }
 
         private void OnFormatDateValidade_LostFocus(object sender, RoutedEventArgs e)
@@ -267,7 +267,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 _viewModel.Entity.SetMessageErro("CnhValidade", "Data inválida");
             }
-
+            
         }
 
         private void OnFormatDatePassaporteValidade_LostFocus(object sender, RoutedEventArgs e)
@@ -284,18 +284,18 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 WpfHelp.PopupBox(ex);
                 _viewModel.Comportamento.PrepareCancelar();
             }
-            catch (Exception)
+            catch (Exception )
             {
                 _viewModel.Entity.SetMessageErro("PassaporteValidade", "Data inválida");
             }
-
+            
         }
 
         private void WbeCam_bt_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-
+               
                 PopupWebCam _PopupWebCam = new PopupWebCam(_viewModel.IsResolucao);
                 _PopupWebCam.ShowDialog();
 
@@ -309,7 +309,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                         _viewModel.Entity.Foto = _imgstr;
                     }
                 }
-
+                
 
             }
             catch (SqlException ex)
@@ -436,34 +436,6 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
-        private void Atualiza_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-
-                switch (((System.Windows.FrameworkElement)sender).Name.ToString())
-                {
-                    case "Signatarios_ti":
-                        ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
-                        break;
-                    case "CursosTreinamentos_ti":
-                        ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
-                        break;
-                    case "Anexos_ti":
-                        AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
-                        break;
-                    case "Credenciais_ti":
-                        ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
-                        break;
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
         private void TabGeral_tc_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -494,7 +466,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 WpfHelp.Mbox(ex.Message);
             }
-
+        
         }
     }
 }
