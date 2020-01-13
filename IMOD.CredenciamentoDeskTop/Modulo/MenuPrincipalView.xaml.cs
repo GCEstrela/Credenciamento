@@ -39,10 +39,12 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
         {
             try
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 InitializeComponent();
                 txtVersao.Text = VersaoSoftware;
                 _viewSingleton = new ViewSingleton();
                 //var tt = UsuarioLogado.Nome;
+                
             }
             catch (Exception ex)
             {

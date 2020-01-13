@@ -63,6 +63,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 }
                 else if (expiracao <= 0)
                 {
+                    System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
                     UsuarioLogado.LicencaValida = false;                    
                     this.View = new AcessoNegado("Licença válida até " + Decryptada[1] + ". Licença Expirada...");
                     //this.View = _configuracoesView;
@@ -73,13 +74,14 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
                 
             if (UsuarioLogado.sdiLicenca != LicencaDecryptada)
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
                 UsuarioLogado.LicencaValida = false;
                 //WpfHelp.PopupBox("A Licença do credenciamento não é válida para este Security Center!", 1);
                 this.View = new AcessoNegado("A Licença do credenciamento não é válida para este Security Center!");
 
                 return;
             }
-            
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
             this.View = _view; 
         }
         string GetAppSetting(Configuration config, string key)
