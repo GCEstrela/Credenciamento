@@ -178,14 +178,31 @@ namespace IMOD.Infra.Repositorios
         {
             try
             {
+                //using (var conn = _dataBase.CreateOpenConnection())
+                //{
+                //    using (var cmd = _dataBase.DeleteText("ConfiguraSistema", conn))
+                //    {
+
+                //        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ConfiguraSistemaID", entity.ConfiguraSistemaId).Igual()));
+                //        cmd.ExecuteNonQuery();
+
+                //    }
+                //}
+
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.DeleteText("ConfiguraSistema", conn))
+                    using (var cmd = _dataBase.CreateCommand("[dbo].[Contencao]", conn))
                     {
+                        try
+                        {
+                            var returns = cmd.ExecuteScalar();
 
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ConfiguraSistemaID", entity.ConfiguraSistemaId).Igual()));
-                        cmd.ExecuteNonQuery();
-
+                        }
+                        catch (Exception ex)
+                        {
+                            Utils.TraceException(ex);
+                            throw;
+                        }
                     }
                 }
             }
@@ -194,7 +211,33 @@ namespace IMOD.Infra.Repositorios
                 throw ex;
             }
         }
+        private void Contencao(Domain.Entities.ConfiguraSistema entity)
+        {
+            try
+            {
+                using (var conn = _dataBase.CreateOpenConnection())
+                {
+                    using (var cmd = _dataBase.CreateCommand("Select dbo.Contencao", conn))
+                    {
+                        try
+                        {
+                            var returns = cmd.ExecuteScalar();
 
+                            //return true;
+                        }
+                        catch (Exception ex)
+                        {
+                            Utils.TraceException(ex);
+                            throw;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 }

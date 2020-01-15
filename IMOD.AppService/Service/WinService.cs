@@ -1,5 +1,12 @@
 ﻿using Common.Logging;
 using Genetec.Sdk;
+using Genetec.Sdk.Credentials;
+using Genetec.Sdk.Entities;
+using Genetec.Sdk.Entities.Activation;
+using Genetec.Sdk.Entities.CustomEvents;
+using Genetec.Sdk.Entities.CustomFields;
+using Genetec.Sdk.Events;
+using Genetec.Sdk.Queries;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.Domain.Enums;
@@ -21,6 +28,9 @@ using IMOD.Domain.Entities;
 using Genetec.Sdk.Entities;
 using System.Windows.Forms;
 using System.Configuration;
+using System.Reflection;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace IMOD.Service.Service
 {
@@ -36,6 +46,7 @@ namespace IMOD.Service.Service
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
         private ConfiguraSistema _configuraSistema;
         private IEngine _sdk;
+        //private Engine _sdk = new Engine();
 
         private System.Timers.Timer timer;
 
@@ -60,11 +71,13 @@ namespace IMOD.Service.Service
 
         }
         //var MyTimer = new Timer(RunTask, AutoEvent, 1000, 2000);
-
+        //private readonly IEngine _sdk;
         public bool Start(HostControl hostControl)
         {
             try
             {
+                //_sdk = new Genetec.Sdk.Engine();
+                //_sdk = sdk;
                 Genetec.Sdk.Engine _sdk = new Genetec.Sdk.Engine();
                 Logon_SC_th(_sdk);
                 CriarLog("Serviço Iniciado...: " + DateTime.Now);
@@ -88,12 +101,88 @@ namespace IMOD.Service.Service
             //_logando = true;
             try
             {
+                ////////////////////////////////////
+                string returnValue = null;
+                string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                XmlDocument xmlDoc = new XmlDocument();
+                ////////////////////
+                //string nodestring = "";
+                string instancia = "";
+                string banco = "";
+                string usuario = "";
+                string senha = "";
+                string complemento = "";
 
-                string strintsql = ConfigurationManager.AppSettings["Conexao"].ToString();
-                string certificado = ConfigurationManager.AppSettings["Certificado"].ToString();
-                string diretorio = ConfigurationManager.AppSettings["Diretorio"];
-                string usuariosc = ConfigurationManager.AppSettings["UsuarioSC"];
-                string senhasc = ConfigurationManager.AppSettings["SenhaSC"];
+                string Certificado = "";
+                string Diretorio = "";
+                string UsuarioSC = "";
+                string SenhaSC = "";
+
+                // cria a consulta
+                var prodsWEB = from p in XElement.Load(path + "\\ConexaoWEB.xml").Elements("Produto")
+                            where p.Element("ProdutoNome").Value == "SERVICO"
+                               select new
+                            {
+                                instancia = p.Element("InstanciaSQL").Value,
+                                banco = p.Element("Banco").Value,
+                                usuarioDB = p.Element("UsuarioDB").Value,
+                                SenhaDB = p.Element("SenhaDB").Value,
+                                complemento = p.Element("Complemento").Value,
+
+                                Certificado = p.Element("Certificado").Value,
+                                Diretorio = p.Element("Diretorio").Value,
+                                UsuarioSC = p.Element("UsuarioSC").Value,
+                                SenhaSC = p.Element("SenhaSC").Value,
+                            };
+
+                // Executa a consulta
+                foreach (var produto in prodsWEB)
+                {
+                    //lbProdutos.Items.Add(produto.NomeProduto);
+                    instancia = produto.instancia;
+                    banco = produto.banco;
+                    usuario = produto.usuarioDB;
+                    senha = produto.SenhaDB;
+                    complemento = produto.complemento;
+
+                    Certificado = produto.Certificado;
+                    Diretorio = produto.Diretorio;
+                    UsuarioSC = produto.UsuarioSC;
+                    SenhaSC = produto.SenhaSC;
+                }
+
+
+                ////Conexao no Temp
+                //xmlDoc.Load(path + "\\Conexao.xml");
+
+                //XmlNode nodestring = xmlDoc.SelectSingleNode("StringConexao");
+                //XmlNode instancia = nodestring.SelectSingleNode("InstanciaSQL");
+                //XmlNode banco = nodestring.SelectSingleNode("Banco");
+                //XmlNode usuario = nodestring.SelectSingleNode("UsuarioDB");
+                //XmlNode senha = nodestring.SelectSingleNode("SenhaDB");
+                //string senhaDecryptada = senha.InnerXml;
+
+                //EstrelaEncryparDecrypitar.Decrypt ESTRELA_EMCRYPTAR = new EstrelaEncryparDecrypitar.Decrypt();
+                //EstrelaEncryparDecrypitar.Variavel.key = "CREDENCIAMENTO2019";
+                //string senhaDecryptada = ESTRELA_EMCRYPTAR.EstrelaDecrypt(senha);
+
+                //XmlNode complemento = nodestring.SelectSingleNode("Complemento");
+                //returnValue = "Data Source=" + instancia + ";Initial Catalog=" + banco + ";User ID=" + usuario + ";Password=" + senhaDecryptada + ";" + complemento;
+                //UsuarioLogado.InstanciaSQL = returnValue;
+
+                //return returnValue;
+
+                ////////////////////////////////////
+                //string strintsql = ConfigurationManager.AppSettings["Conexao"].ToString();
+                //string certificado = ConfigurationManager.AppSettings["Certificado"].ToString();
+                //string diretorio = ConfigurationManager.AppSettings["Diretorio"];
+                //string usuariosc = ConfigurationManager.AppSettings["UsuarioSC"];
+                //string senhasc = ConfigurationManager.AppSettings["SenhaSC"];
+
+                string certificado = Certificado.ToString();
+                string diretorio = Diretorio.ToString();
+                string usuariosc = UsuarioSC.ToString();
+                string senhasc = SenhaSC.ToString();
 
                 _sdk.ClientCertificate = certificado;
                 if (_sdk.IsConnected)
@@ -115,7 +204,7 @@ namespace IMOD.Service.Service
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.ToString());
             }
             //_logando = false;
         }

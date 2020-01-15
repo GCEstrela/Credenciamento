@@ -1147,6 +1147,7 @@
                                         <TextBox x:Name="txtDiasContencao_" ToolTip="Dias de Contenção em Auditoria" HorizontalContentAlignment="Center"  Width="78" Margin="0,1,0,1"
                                                  Text="{Binding Entity.diasContencao, UpdateSourceTrigger=PropertyChanged}">
                                         </TextBox>
+                                        <Button x:Name="bntContencao" Content="Remover Regstros de Log" Margin="10,0,0,0" Width="161" Click="BntContencao_Click"></Button>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,20,0,1" Width="615">
                                         <Label Content="Importação:" Height="28" Width="110" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />

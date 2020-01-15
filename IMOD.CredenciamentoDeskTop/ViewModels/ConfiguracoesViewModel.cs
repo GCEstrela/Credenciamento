@@ -1458,6 +1458,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException(ex);
             }
         }
+        public void OnExcluirRegistroLogCommand_ConfiguracoesSistema()
+        {
+            try
+            {
+                var entity = Entity;
+                var entityConv = Mapper.Map<ConfiguraSistema>(entity);                
+                _serviceConfiguracoesSistema.Remover(entityConv);
+
+                CarregaConfiguracaoSistema();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
         public void OnSalvarEdicaoCommand_TiposAtividades()
         {
             try

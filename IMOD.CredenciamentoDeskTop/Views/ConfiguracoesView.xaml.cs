@@ -816,7 +816,20 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
+        private void BntContencao_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+               
+                ((ConfiguracoesViewModel)DataContext).OnExcluirRegistroLogCommand_ConfiguracoesSistema();
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
 
