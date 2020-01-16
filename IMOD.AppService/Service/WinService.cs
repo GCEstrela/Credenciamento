@@ -101,55 +101,55 @@ namespace IMOD.Service.Service
             //_logando = true;
             try
             {
-                ////////////////////////////////////
-                string returnValue = null;
-                string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                XmlDocument xmlDoc = new XmlDocument();
-                ////////////////////
-                //string nodestring = "";
-                string instancia = "";
-                string banco = "";
-                string usuario = "";
-                string senha = "";
-                string complemento = "";
+                //////////////////////////////////////
+                //string returnValue = null;
+                //string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                //XmlDocument xmlDoc = new XmlDocument();
+                //////////////////////
+                ////string nodestring = "";
+                //string instancia = "";
+                //string banco = "";
+                //string usuario = "";
+                //string senha = "";
+                //string complemento = "";
 
-                string Certificado = "";
-                string Diretorio = "";
-                string UsuarioSC = "";
-                string SenhaSC = "";
+                //string Certificado = "";
+                //string Diretorio = "";
+                //string UsuarioSC = "";
+                //string SenhaSC = "";
 
-                // cria a consulta
-                var prodsWEB = from p in XElement.Load(path + "\\ConexaoWEB.xml").Elements("Produto")
-                            where p.Element("ProdutoNome").Value == "SERVICO"
-                               select new
-                            {
-                                instancia = p.Element("InstanciaSQL").Value,
-                                banco = p.Element("Banco").Value,
-                                usuarioDB = p.Element("UsuarioDB").Value,
-                                SenhaDB = p.Element("SenhaDB").Value,
-                                complemento = p.Element("Complemento").Value,
+                //// cria a consulta
+                //var prodsWEB = from p in XElement.Load(path + "\\ConexaoWEB.xml").Elements("Produto")
+                //            where p.Element("ProdutoNome").Value == "SERVICO"
+                //               select new
+                //            {
+                //                instancia = p.Element("InstanciaSQL").Value,
+                //                banco = p.Element("Banco").Value,
+                //                usuarioDB = p.Element("UsuarioDB").Value,
+                //                SenhaDB = p.Element("SenhaDB").Value,
+                //                complemento = p.Element("Complemento").Value,
 
-                                Certificado = p.Element("Certificado").Value,
-                                Diretorio = p.Element("Diretorio").Value,
-                                UsuarioSC = p.Element("UsuarioSC").Value,
-                                SenhaSC = p.Element("SenhaSC").Value,
-                            };
+                //                Certificado = p.Element("Certificado").Value,
+                //                Diretorio = p.Element("Diretorio").Value,
+                //                UsuarioSC = p.Element("UsuarioSC").Value,
+                //                SenhaSC = p.Element("SenhaSC").Value,
+                //            };
 
-                // Executa a consulta
-                foreach (var produto in prodsWEB)
-                {
-                    //lbProdutos.Items.Add(produto.NomeProduto);
-                    instancia = produto.instancia;
-                    banco = produto.banco;
-                    usuario = produto.usuarioDB;
-                    senha = produto.SenhaDB;
-                    complemento = produto.complemento;
+                //// Executa a consulta
+                //foreach (var produto in prodsWEB)
+                //{
+                //    //lbProdutos.Items.Add(produto.NomeProduto);
+                //    instancia = produto.instancia;
+                //    banco = produto.banco;
+                //    usuario = produto.usuarioDB;
+                //    senha = produto.SenhaDB;
+                //    complemento = produto.complemento;
 
-                    Certificado = produto.Certificado;
-                    Diretorio = produto.Diretorio;
-                    UsuarioSC = produto.UsuarioSC;
-                    SenhaSC = produto.SenhaSC;
-                }
+                //    Certificado = produto.Certificado;
+                //    Diretorio = produto.Diretorio;
+                //    UsuarioSC = produto.UsuarioSC;
+                //    SenhaSC = produto.SenhaSC;
+                //}
 
 
                 ////Conexao no Temp
@@ -172,17 +172,17 @@ namespace IMOD.Service.Service
 
                 //return returnValue;
 
-                ////////////////////////////////////
-                //string strintsql = ConfigurationManager.AppSettings["Conexao"].ToString();
-                //string certificado = ConfigurationManager.AppSettings["Certificado"].ToString();
-                //string diretorio = ConfigurationManager.AppSettings["Diretorio"];
-                //string usuariosc = ConfigurationManager.AppSettings["UsuarioSC"];
-                //string senhasc = ConfigurationManager.AppSettings["SenhaSC"];
+                //////////////////////////////////
+                string strintsql = ConfigurationManager.AppSettings["Conexao"].ToString();
+                string certificado = ConfigurationManager.AppSettings["Certificado"].ToString();
+                string diretorio = ConfigurationManager.AppSettings["Diretorio"];
+                string usuariosc = ConfigurationManager.AppSettings["UsuarioSC"];
+                string senhasc = ConfigurationManager.AppSettings["SenhaSC"];
 
-                string certificado = Certificado.ToString();
-                string diretorio = Diretorio.ToString();
-                string usuariosc = UsuarioSC.ToString();
-                string senhasc = SenhaSC.ToString();
+                //string certificado = Certificado.ToString();
+                //string diretorio = Diretorio.ToString();
+                //string usuariosc = UsuarioSC.ToString();
+                //string senhasc = SenhaSC.ToString();
 
                 _sdk.ClientCertificate = certificado;
                 if (_sdk.IsConnected)
@@ -388,18 +388,18 @@ namespace IMOD.Service.Service
                                 break;
 
                             case diasAlerta1:
-                                messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta1 + " dias.";                                
+                                messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta1 + " dias.";
 
                                 break;
 
                             case diasAlerta2:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta2 + " dias.";
-                                
+
 
                                 break;
 
                             case diasAlerta3:
-                                messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta3 + " dias.";                                
+                                messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta3 + " dias.";
 
                                 break;
 
@@ -426,19 +426,19 @@ namespace IMOD.Service.Service
 
                         }
 
-                        string texto = "Impressa.:" + ev.Impressa + " Status.: " + ev.Ativa + " " + ev.IdentificacaoDescricao + ((ev.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ev.Validade;                        
+                        string texto = "Impressa.:" + ev.Impressa + " Status.: " + ev.Ativa + " " + ev.IdentificacaoDescricao + ((ev.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ev.Validade;
                     }
                     );
                 }
                 catch (Exception)
                 {
-                    
+
                 }
 
                 try
                 {
                     CriarLog("-----------------------------------------------");
-                    CriarLog("Iniciando Validade dos Contratos...");                    
+                    CriarLog("Iniciando Validade dos Contratos...");
                     Hashtable empresaContratoEmail = new Hashtable();
                     string nomeEmpresa = "";
                     string emailEmpresa = "";
@@ -446,27 +446,30 @@ namespace IMOD.Service.Service
                     var empresas = _serviceEmpresa.Listar().OrderByDescending(ec => ec.EmpresaId).ToList();
                     empresas.ForEach(e =>
                     {
-
                         emailEmpresa = e.Email1;
                         nomeEmpresa = e.Nome;
 
                         List<MessagemEmail> listMessagemEmail = new List<MessagemEmail>();
                         var empresaContratosAtivo = _serviceContrato.Listar().Where(ec => ec.StatusId == 0 && ec.EmpresaId == e.EmpresaId).ToList();
                         var AlartaList = new List<int>() { -1, 5, 15, 30 };
-                        empresaContratosAtivo.ForEach(ec =>
-                        {
-                            int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;
-
-                            if (AlartaList.Contains(dias))
+                            empresaContratosAtivo.ForEach(ec =>
                             {
-                                AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta0);
+                                int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;
 
-                                var messa1 = new MessagemEmail() { Contrato = ec.NumeroContrato, Dias = dias, DescricaoDoContrato = ec.Descricao, EmailDestino = emailEmpresa };
-                                listMessagemEmail.Add(messa1);
+                                if (AlartaList.Contains(dias))
+                                {
+                                    AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta0);
 
-                                CriarLog("Dias.: " + dias + " Contrato.: " + ec.NumeroContrato + " Descrição.: " + ec.Descricao);
+                                    var messa1 = new MessagemEmail() { Contrato = ec.NumeroContrato, Dias = dias, DescricaoDoContrato = ec.Descricao, EmailDestino = emailEmpresa };
+                                    listMessagemEmail.Add(messa1);
+
+                                    CriarLog("Dias.: " + dias + " Contrato.: " + ec.NumeroContrato + " Descrição.: " + ec.Descricao);
+                                }
+                                else
+                                {
+                                    AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, dias);
+                                }
                             }
-                        }
                         );
 
 
@@ -553,12 +556,12 @@ namespace IMOD.Service.Service
 
                 var contrato = _serviceContrato.BuscarPelaChave(empresacontratoID);
                 contrato.PraVencer = diasrestantes;
+                contrato.StatusId = 0;
 
                 if (diasrestantes == 0)
                 {
                     contrato.StatusId = 1;
                 }
-
                 _serviceContrato.Alterar(contrato);
             }
             catch (System.Exception erro)

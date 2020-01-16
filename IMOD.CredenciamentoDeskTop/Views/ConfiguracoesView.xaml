@@ -1012,6 +1012,7 @@
                                             <Label Content="Licença.:"  Width="100" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                             <TextBox CharacterCasing="Upper" FontSize="9" x:Name="txtLicenca" MaxLength="100"
                                              Text="{Binding Entity.Licenca, UpdateSourceTrigger=PropertyChanged}" Height="24" IsEnabled="True" Width="300" />
+
                                         </StackPanel>
 
                                     </StackPanel>
@@ -1030,9 +1031,9 @@
 
                                     </StackPanel>
 
-                                    <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
+                                    <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Center"  VerticalAlignment="Bottom"  Height="216" >
                                         <Button x:Name="btnSalvarConfiguracoesSistema_" Content="{StaticResource imgSave}" ToolTip="Salvar" Width="25"
-                                                    Margin="0,0,0,7" IsEnabled="True" Click="BtnSalvarConfiguracoesSistema_Click"/>
+                                                    Margin="0,190,0,7" IsEnabled="True" Click="BtnSalvarConfiguracoesSistema_Click"/>
 
                                     </StackPanel>
 
@@ -1085,6 +1086,12 @@
                                                   IsChecked="{Binding Entity.EnableSsl, UpdateSourceTrigger=PropertyChanged}"/>
                                         <CheckBox Margin="10,0,0,0" Content="UseDefaultCredentials" Foreground="#FFD0D0D0"
                                                   IsChecked="{Binding Entity.UseDefaultCredentials, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <Button x:Name="btnSalvarConfiguracoesSistemaEmail" ToolTip="Salvar" Width="25"
+                                                    Margin="205,0,0,7" IsEnabled="True" Click="BtnSalvarConfiguracoesSistema_Click">
+                                            <StackPanel>
+                                                <Image Source="../Resources/save.png"/>
+                                            </StackPanel>
+                                        </Button>
                                     </StackPanel>
                                 </StackPanel>
                             </GroupBox>
@@ -1143,16 +1150,22 @@
 
                                     </StackPanel>
                                     <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,1,0,1" Width="590">
-                                        <Label Content="Contenção" ToolTip="Dias de Contenção em Auditoria" Height="28" Margin="0,1,0,1" Foreground="#FFD0D0D0"  HorizontalContentAlignment="Right" Width="113" />
-                                        <TextBox x:Name="txtDiasContencao_" ToolTip="Dias de Contenção em Auditoria" HorizontalContentAlignment="Center"  Width="78" Margin="0,1,0,1"
+                                        <Label Content="Contenção" ToolTip="Dias de armazenamento de Logs" Height="28" Margin="0,1,0,1" Foreground="#FFD0D0D0"  HorizontalContentAlignment="Right" Width="113" />
+                                        <TextBox x:Name="txtDiasContencao_" ToolTip="Dias de armazenamento de Logs" HorizontalContentAlignment="Center"  Width="78" Margin="0,1,0,1"
                                                  Text="{Binding Entity.diasContencao, UpdateSourceTrigger=PropertyChanged}">
                                         </TextBox>
-                                        <Button x:Name="bntContencao" Content="Remover Regstros de Log" Margin="10,0,0,0" Width="161" Click="BntContencao_Click"></Button>
+                                        <Button x:Name="bntContencao" Content="Remover Registros de Log" ToolTip="Dias de armazenamento de Logs" Margin="10,0,0,0" Width="161" Click="BntContencao_Click"></Button>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,20,0,1" Width="615">
                                         <Label Content="Importação:" Height="28" Width="110" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                         <Button x:Name="emprasa_bt_" Content="Logo da Empresa" Margin="0,1,0,1" Width="139" Click="Emprasa_bt_Click" ></Button>
                                         <Button x:Name="colaborador_bt_" Content="Fotos dos Colaborador" Margin="90,1,0,1" Width="148" Click="Colaborador_bt_Click"></Button>
+                                        <Button x:Name="btnSalvarConfiguracoesSistemaAutomatica" ToolTip="Salvar" Width="25"
+                                                    Margin="100,0,0,7" IsEnabled="True" Click="BtnSalvarConfiguracoesSistema_Click">
+                                            <StackPanel>
+                                                <Image Source="../Resources/save.png"/>
+                                            </StackPanel>
+                                        </Button>
                                     </StackPanel>
 
                                 </StackPanel>
