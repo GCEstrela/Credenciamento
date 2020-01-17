@@ -71,20 +71,24 @@ namespace IMOD.Service.Service
             Log = logger;
 
         }
-        //var MyTimer = new Timer(RunTask, AutoEvent, 1000, 2000);
-        //private readonly IEngine _sdk;
+
         public bool Start(HostControl hostControl)
         {
             try
             {
-                //_sdk = new Genetec.Sdk.Engine();
-                //_sdk = sdk;
+
                 Genetec.Sdk.Engine _sdk = new Genetec.Sdk.Engine();
-                Logon_SC_th(_sdk);
+                if (!string.IsNullOrEmpty(UsuarioLogado.certificado))
+                {                    
+                    Logon_SC_th(_sdk);
+                }
                 CriarLog("Serviço Iniciado...: " + DateTime.Now);
                 //_serviceGenetec = new CredencialGenetecService(_sdk);
+
                 MetodoRealizaFuncao(true, _sdk);
+
                 CriarLog("Serviço Finalizado...: " + DateTime.Now);
+
                 Environment.Exit(1);
                 return true;
             }
@@ -127,6 +131,7 @@ namespace IMOD.Service.Service
                 }
                 else
                 {
+
                     _sdk.LogOff();
                     Thread.Sleep(500);
                     _sdk.LogOn(diretorio, usuariosc, senhasc);

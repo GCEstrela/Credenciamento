@@ -44,8 +44,14 @@ namespace IMOD.Infra.Ado
            
             ////////////////////////////////////////
             string returnValue = null;
-            //string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string path = @"C:\Users\renatomaximo\Source\Repos\GCEstrela\Credenciamento\IMOD.Infra";
+            ////////////////////////////////////////
+            /// Para o Projeto Credenciamento e WinService
+            string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            // Para o Projeto Pre-Cadastro
+            //string path = @"C:\Users\renatomaximo\Source\Repos\GCEstrela\Credenciamento\IMOD.Infra";
+            ////////////////////////////////////////
+
+
             XmlDocument xmlDoc = new XmlDocument();
             ////////////////////////////////////////
             string instancia = "";
@@ -64,7 +70,7 @@ namespace IMOD.Infra.Ado
             if (!string.IsNullOrEmpty(UsuarioLogado.sdiLicenca))
             {
                 var prods = from p in XElement.Load(path + "\\Conexao.xml").Elements("Produto")
-                            where p.Element("SystemID").Value == UsuarioLogado.sdiLicenca
+                            where p.Element("SystemID").Value == UsuarioLogado.sdiLicenca   // Quando esta sendo usudo pelo Credenciamento
                             select new
                             {
                                 instancia = p.Element("InstanciaSQL").Value,
@@ -74,7 +80,7 @@ namespace IMOD.Infra.Ado
                                 complemento = p.Element("Complemento").Value,
                             };
 
-                // Executa a consulta
+                //Executa a consulta
                 foreach (var produto in prods)
                 {
                     instancia = produto.instancia;
@@ -88,7 +94,7 @@ namespace IMOD.Infra.Ado
             {
                 UsuarioLogado.sdiLicenca = string.Empty;
                 var prods = from p in XElement.Load(path + "\\Conexao.xml").Elements("Produto")
-                            where p.Element("SystemID").Value == UsuarioLogado.sdiLicenca
+                            where p.Element("SystemID").Value == UsuarioLogado.sdiLicenca    // Quando esta sendo usudo pelo WinSevice e Pre-Cadastro
                             select new
                             {
                                 instancia = p.Element("InstanciaSQL").Value,
@@ -96,14 +102,15 @@ namespace IMOD.Infra.Ado
                                 usuarioDB = p.Element("UsuarioDB").Value,
                                 SenhaDB = p.Element("SenhaDB").Value,
                                 complemento = p.Element("Complemento").Value,
-
+                                
+                                //Informações necessárias para o WinSevice
                                 certificado = p.Element("certificado").Value,
                                 diretorio = p.Element("diretorio").Value,
                                 usuariosc = p.Element("usuariosc").Value,
                                 senhasc = p.Element("senhasc").Value,
                             };
 
-                // Executa a consulta
+                //Executa a consulta
                 foreach (var produto in prods)
                 {
                     instancia = produto.instancia;
@@ -112,6 +119,7 @@ namespace IMOD.Infra.Ado
                     senha = produto.SenhaDB;
                     complemento = produto.complemento;
 
+                    //Informações necessárias para o WinSevice
                     UsuarioLogado.certificado = produto.certificado;
                     UsuarioLogado.diretorio = produto.diretorio;
                     UsuarioLogado.usuariosc = produto.usuariosc;
