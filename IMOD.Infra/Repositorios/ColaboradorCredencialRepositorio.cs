@@ -119,7 +119,7 @@ namespace IMOD.Infra.Repositorios
                 throw ex;
             }
         }
-
+        
         /// <summary>
         ///     Obtem a data de validade de uma credencial
         ///     <para>

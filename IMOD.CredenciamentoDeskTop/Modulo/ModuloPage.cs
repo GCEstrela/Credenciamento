@@ -5,7 +5,7 @@
 // ***********************************************************************
 
 #region
-
+using Genetec.Sdk;
 using Genetec.Sdk.Workspace.Pages;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;

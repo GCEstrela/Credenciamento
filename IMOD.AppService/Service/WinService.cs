@@ -1,5 +1,12 @@
 ﻿using Common.Logging;
 using Genetec.Sdk;
+using Genetec.Sdk.Credentials;
+using Genetec.Sdk.Entities;
+using Genetec.Sdk.Entities.Activation;
+using Genetec.Sdk.Entities.CustomEvents;
+using Genetec.Sdk.Entities.CustomFields;
+using Genetec.Sdk.Events;
+using Genetec.Sdk.Queries;
 using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.Domain.Enums;
@@ -21,6 +28,10 @@ using IMOD.Domain.Entities;
 using Genetec.Sdk.Entities;
 using System.Windows.Forms;
 using System.Configuration;
+using System.Reflection;
+using System.Xml;
+using System.Xml.Linq;
+using IMOD.Domain.EntitiesCustom;
 
 namespace IMOD.Service.Service
 {
@@ -36,6 +47,7 @@ namespace IMOD.Service.Service
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
         private ConfiguraSistema _configuraSistema;
         private IEngine _sdk;
+        //private Engine _sdk = new Engine();
 
         private System.Timers.Timer timer;
 
@@ -59,18 +71,24 @@ namespace IMOD.Service.Service
             Log = logger;
 
         }
-        //var MyTimer = new Timer(RunTask, AutoEvent, 1000, 2000);
 
         public bool Start(HostControl hostControl)
         {
             try
             {
+
                 Genetec.Sdk.Engine _sdk = new Genetec.Sdk.Engine();
-                Logon_SC_th(_sdk);
+                if (!string.IsNullOrEmpty(UsuarioLogado.certificado))
+                {                    
+                    Logon_SC_th(_sdk);
+                }
                 CriarLog("Serviço Iniciado...: " + DateTime.Now);
-                _serviceGenetec = new CredencialGenetecService(_sdk);
+                //_serviceGenetec = new CredencialGenetecService(_sdk);
+
                 MetodoRealizaFuncao(true, _sdk);
+
                 CriarLog("Serviço Finalizado...: " + DateTime.Now);
+
                 Environment.Exit(1);
                 return true;
             }
@@ -85,37 +103,40 @@ namespace IMOD.Service.Service
         }
         private void Logon_SC_th(Genetec.Sdk.Engine _sdk)
         {
-            //_logando = true;
             try
             {
+                //_configuraSistema = ObterConfiguracao();
+               
+                //////////////////////////////////////////////////////////////////////
+                //string strintsql = ConfigurationManager.AppSettings["Conexao"].ToString();
+                //string certificado = ConfigurationManager.AppSettings["Certificado"].ToString();
+                //string diretorio = ConfigurationManager.AppSettings["Diretorio"];
+                //string usuariosc = ConfigurationManager.AppSettings["UsuarioSC"];
+                //string senhasc = ConfigurationManager.AppSettings["SenhaSC"];
+                //////////////////////////////////////////////////////////////////////                
 
-                string strintsql = ConfigurationManager.AppSettings["Conexao"].ToString();
-                string certificado = ConfigurationManager.AppSettings["Certificado"].ToString();
-                string diretorio = ConfigurationManager.AppSettings["Diretorio"];
-                string usuariosc = ConfigurationManager.AppSettings["UsuarioSC"];
-                string senhasc = ConfigurationManager.AppSettings["SenhaSC"];
-
-                _sdk.ClientCertificate = certificado;
+                _sdk.ClientCertificate = UsuarioLogado.certificado;
                 if (_sdk.IsConnected)
                 {
                     _sdk.LogOff();
                     Thread.Sleep(500);
                     if (!_sdk.IsConnected)
                     {
-                        _sdk.LogOn(diretorio, usuariosc, senhasc);
+                        _sdk.LogOn(UsuarioLogado.diretorio, UsuarioLogado.usuariosc, UsuarioLogado.senhasc);
                     }
                 }
                 else
                 {
+
                     _sdk.LogOff();
                     Thread.Sleep(500);
-                    _sdk.LogOn(diretorio, usuariosc, senhasc);
+                    _sdk.LogOn(UsuarioLogado.diretorio, UsuarioLogado.usuariosc, UsuarioLogado.senhasc);
 
                 }
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.ToString());
             }
             //_logando = false;
         }
@@ -299,18 +320,18 @@ namespace IMOD.Service.Service
                                 break;
 
                             case diasAlerta1:
-                                messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta1 + " dias.";                                
+                                messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta1 + " dias.";
 
                                 break;
 
                             case diasAlerta2:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta2 + " dias.";
-                                
+
 
                                 break;
 
                             case diasAlerta3:
-                                messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta3 + " dias.";                                
+                                messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta3 + " dias.";
 
                                 break;
 
@@ -337,19 +358,19 @@ namespace IMOD.Service.Service
 
                         }
 
-                        string texto = "Impressa.:" + ev.Impressa + " Status.: " + ev.Ativa + " " + ev.IdentificacaoDescricao + ((ev.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ev.Validade;                        
+                        string texto = "Impressa.:" + ev.Impressa + " Status.: " + ev.Ativa + " " + ev.IdentificacaoDescricao + ((ev.Validade < DateTime.Now) ? " Vencido em : " : " Válido até : ") + ev.Validade;
                     }
                     );
                 }
                 catch (Exception)
                 {
-                    
+
                 }
 
                 try
                 {
                     CriarLog("-----------------------------------------------");
-                    CriarLog("Iniciando Validade dos Contratos...");                    
+                    CriarLog("Iniciando Validade dos Contratos...");
                     Hashtable empresaContratoEmail = new Hashtable();
                     string nomeEmpresa = "";
                     string emailEmpresa = "";
@@ -357,27 +378,30 @@ namespace IMOD.Service.Service
                     var empresas = _serviceEmpresa.Listar().OrderByDescending(ec => ec.EmpresaId).ToList();
                     empresas.ForEach(e =>
                     {
-
                         emailEmpresa = e.Email1;
                         nomeEmpresa = e.Nome;
 
                         List<MessagemEmail> listMessagemEmail = new List<MessagemEmail>();
                         var empresaContratosAtivo = _serviceContrato.Listar().Where(ec => ec.StatusId == 0 && ec.EmpresaId == e.EmpresaId).ToList();
                         var AlartaList = new List<int>() { -1, 5, 15, 30 };
-                        empresaContratosAtivo.ForEach(ec =>
-                        {
-                            int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;
-
-                            if (AlartaList.Contains(dias))
+                            empresaContratosAtivo.ForEach(ec =>
                             {
-                                AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta0);
+                                int dias = ec.Validade.Subtract(DateTime.Now.Date).Days;
 
-                                var messa1 = new MessagemEmail() { Contrato = ec.NumeroContrato, Dias = dias, DescricaoDoContrato = ec.Descricao, EmailDestino = emailEmpresa };
-                                listMessagemEmail.Add(messa1);
+                                if (AlartaList.Contains(dias))
+                                {
+                                    AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta0);
 
-                                CriarLog("Dias.: " + dias + " Contrato.: " + ec.NumeroContrato + " Descrição.: " + ec.Descricao);
+                                    var messa1 = new MessagemEmail() { Contrato = ec.NumeroContrato, Dias = dias, DescricaoDoContrato = ec.Descricao, EmailDestino = emailEmpresa };
+                                    listMessagemEmail.Add(messa1);
+
+                                    CriarLog("Dias.: " + dias + " Contrato.: " + ec.NumeroContrato + " Descrição.: " + ec.Descricao);
+                                }
+                                else
+                                {
+                                    AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, dias);
+                                }
                             }
-                        }
                         );
 
 
@@ -447,7 +471,6 @@ namespace IMOD.Service.Service
             if (config == null) throw new InvalidOperationException("Não foi possivel obter dados de configuração do sistema.");
             return config.FirstOrDefault();
         }
-
         public void AlterarDados(int empresaID, int empresacontratoID, int diasrestantes)
         {
 
@@ -464,12 +487,12 @@ namespace IMOD.Service.Service
 
                 var contrato = _serviceContrato.BuscarPelaChave(empresacontratoID);
                 contrato.PraVencer = diasrestantes;
+                contrato.StatusId = 0;
 
                 if (diasrestantes == 0)
                 {
                     contrato.StatusId = 1;
                 }
-
                 _serviceContrato.Alterar(contrato);
             }
             catch (System.Exception erro)
