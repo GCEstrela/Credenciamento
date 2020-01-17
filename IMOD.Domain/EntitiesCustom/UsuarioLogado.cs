@@ -18,6 +18,10 @@ namespace IMOD.Domain.EntitiesCustom
         public static bool LicencaDataLimite { get; set; }
         public static bool LicencaValida { get; set; }
         public static string InstanciaSQL { get; set; }
+        public static string certificado { get; set; }
+        public static string diretorio { get; set; }
+        public static string usuariosc { get; set; }
+        public static string senhasc { get; set; }
         #endregion
     }
 }
