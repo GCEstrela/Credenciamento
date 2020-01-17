@@ -60,10 +60,10 @@ namespace IMOD.Infra.Ado
             string senha = "";
             string complemento = "";
 
-            string certificado = "";
-            string diretorio = "";
-            string usuariosc = "";
-            string senhasc = "";
+            //string certificado = "";
+            //string diretorio = "";
+            //string usuariosc = "";
+            //string senhasc = "";
 
             ////////////////////////////////////////
             // cria a consulta
