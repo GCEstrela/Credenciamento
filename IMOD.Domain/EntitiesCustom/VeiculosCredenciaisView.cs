@@ -71,6 +71,8 @@ namespace IMOD.Domain.EntitiesCustom
         public string Email { get; set; } 
         public string Lacre { get; set; }
         public string Usuario { get; set; }
-
+        public DateTime? DataImpressao { get; set; }
+        public string TiposCobrancaNome { get; set; }
+        public string EmpresasContratosNome { get; set; }
     }
 }

@@ -1601,7 +1601,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 mensagem += mensagemComplementoTipo + mensagemPeriodo;
 
-                relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(23);
+                relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(24);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
 
                 List<VeiculosCredenciaisView> result = new List<VeiculosCredenciaisView>();
