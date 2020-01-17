@@ -113,20 +113,16 @@ namespace IMOD.Service.Service
                 //string diretorio = ConfigurationManager.AppSettings["Diretorio"];
                 //string usuariosc = ConfigurationManager.AppSettings["UsuarioSC"];
                 //string senhasc = ConfigurationManager.AppSettings["SenhaSC"];
-                //////////////////////////////////////////////////////////////////////
-                string certificado = UsuarioLogado.certificado;
-                string diretorio = UsuarioLogado.diretorio;
-                string usuariosc = UsuarioLogado.usuariosc;
-                string senhasc = UsuarioLogado.senhasc;
+                //////////////////////////////////////////////////////////////////////                
 
-                _sdk.ClientCertificate = certificado;
+                _sdk.ClientCertificate = UsuarioLogado.certificado;
                 if (_sdk.IsConnected)
                 {
                     _sdk.LogOff();
                     Thread.Sleep(500);
                     if (!_sdk.IsConnected)
                     {
-                        _sdk.LogOn(diretorio, usuariosc, senhasc);
+                        _sdk.LogOn(UsuarioLogado.diretorio, UsuarioLogado.usuariosc, UsuarioLogado.senhasc);
                     }
                 }
                 else
@@ -134,7 +130,7 @@ namespace IMOD.Service.Service
 
                     _sdk.LogOff();
                     Thread.Sleep(500);
-                    _sdk.LogOn(diretorio, usuariosc, senhasc);
+                    _sdk.LogOn(UsuarioLogado.diretorio, UsuarioLogado.usuariosc, UsuarioLogado.senhasc);
 
                 }
             }
