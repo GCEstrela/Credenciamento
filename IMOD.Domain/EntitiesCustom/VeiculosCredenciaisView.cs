@@ -74,5 +74,6 @@ namespace IMOD.Domain.EntitiesCustom
         public DateTime? DataImpressao { get; set; }
         public string TiposCobrancaNome { get; set; }
         public string EmpresasContratosNome { get; set; }
+        public decimal Valor { get; set; }
     }
 }
