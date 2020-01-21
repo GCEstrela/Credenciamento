@@ -32,16 +32,4 @@
     <SenhaDB>c4RRamq1Ico=</SenhaDB>
     <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
   </Produto>
-  <Produto>
-    <SystemID></SystemID>
-    <InstanciaSQL>172.16.190.162\SQLEXPRESS</InstanciaSQL>
-    <Banco>D_iModCredenciamento</Banco>
-    <UsuarioDB>imod</UsuarioDB>
-    <SenhaDB>c4RRamq1Ico=</SenhaDB>
-    <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
-    <certificado>KxsD11z743Hf5Gq9mv3+5ekxzemlCiUXkTFY5ba1NOGcLCmGstt2n0zYE9NsNimv</certificado>
-    <diretorio>172.16.190.162</diretorio>
-    <usuariosc>Credenciamento</usuariosc>
-    <senhasc>Genetec@2020</senhasc>
-  </Produto>
 </Produtos>
