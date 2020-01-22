@@ -163,6 +163,10 @@
     <Compile Include="Util\SessionUsuario.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Conexao.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\bootstrap-datepicker.standalone.css" />

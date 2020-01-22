@@ -11,6 +11,7 @@ using IMOD.Infra.Entities;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
 using IMOD.Infra.Repositorios;
+using IMOD.Domain.Constantes;
 
 namespace IMOD.Infra.Servicos
 {
@@ -20,7 +21,7 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
-                EstrelaEncryparDecrypitar.Variavel.key = "CREDENCIAMENTO2019";
+                EstrelaEncryparDecrypitar.Variavel.key = Constante.CRIPTO_KEY;
                 EstrelaEncryparDecrypitar.Decrypt ESTRELA_EMCRYPTAR = new EstrelaEncryparDecrypitar.Decrypt();
                 email.Senha = ESTRELA_EMCRYPTAR.EstrelaDecrypt(email.Senha);
 

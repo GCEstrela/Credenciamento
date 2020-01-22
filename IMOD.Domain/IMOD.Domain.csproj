@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constantes\Constante.cs" />
     <Compile Include="EntitiesCustom\AutorizacaoView.cs" />
     <Compile Include="EntitiesCustom\ColaboradorEmpresaView.cs" />
     <Compile Include="EntitiesCustom\ColaboradoresCredenciaisView.cs" />

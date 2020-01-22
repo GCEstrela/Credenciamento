@@ -15,6 +15,7 @@ using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CredenciamentoDeskTop.Windows;
 using IMOD.CrossCutting;
+using IMOD.Domain.Constantes;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 
@@ -68,7 +69,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private string verbo;
         private string mensagem;
 
-        //private const string Constantes.Constantes.consNomeArquivoEmpresaOperadora = "logoEmpresaOperadora.png";
+        //private const string Constante.consNomeArquivoEmpresaOperadora = "logoEmpresaOperadora.png";
 
         private readonly IRelatorioService _relatorioService = new RelatorioService();
         private readonly IRelatorioGerencialService _relatorioGerencialServiceService = new RelatorioGerencialService();
@@ -1953,8 +1954,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (configSistema.EmpresaLOGO != null)
             {
                 byte[] testeArquivo = Convert.FromBase64String(configSistema.EmpresaLOGO);
-                System.IO.File.WriteAllBytes(tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora, testeArquivo);
-                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constantes.Constantes.consNomeArquivoEmpresaOperadora);
+                System.IO.File.WriteAllBytes(tempArea + Constante.consNomeArquivoEmpresaOperadora, testeArquivo);
+                reportDoc.SetParameterValue("MarcaEmpresa", tempArea + Constante.consNomeArquivoEmpresaOperadora);
             }
             return reportDoc;
         }

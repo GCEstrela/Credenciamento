@@ -152,7 +152,6 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constantes\Constantes.cs" />
     <Compile Include="Cracha\ATIV-FLORIPA.cs">
       <DependentUpon>ATIV-FLORIPA.rpt</DependentUpon>
       <SubType>Component</SubType>

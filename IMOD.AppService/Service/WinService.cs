@@ -234,18 +234,21 @@ namespace IMOD.Service.Service
                             case diasAlerta1:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta1 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
+                                CriarLog(messa);
 
                                 break;
 
                             case diasAlerta2:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta2 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
+                                CriarLog(messa);
 
                                 break;
 
                             case diasAlerta3:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta3 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
+                                CriarLog(messa);
 
                                 break;
 
@@ -321,18 +324,18 @@ namespace IMOD.Service.Service
 
                             case diasAlerta1:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta1 + " dias.";
-
+                                CriarLog(messaveiculo);
                                 break;
 
                             case diasAlerta2:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta2 + " dias.";
-
+                                CriarLog(messaveiculo);
 
                                 break;
 
                             case diasAlerta3:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta3 + " dias.";
-
+                                CriarLog(messaveiculo);
                                 break;
 
                             default:
@@ -400,6 +403,7 @@ namespace IMOD.Service.Service
                                 else
                                 {
                                     AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, dias);
+                                    CriarLog("Dias.: " + dias + " Contrato.: " + ec.NumeroContrato + " Descrição.: " + ec.Descricao);
                                 }
                             }
                         );
@@ -489,7 +493,7 @@ namespace IMOD.Service.Service
                 contrato.PraVencer = diasrestantes;
                 contrato.StatusId = 0;
 
-                if (diasrestantes == 0)
+                if (diasrestantes <= 0)
                 {
                     contrato.StatusId = 1;
                 }
@@ -573,10 +577,7 @@ namespace IMOD.Service.Service
                 vWriter.Flush();
                 vWriter.Close();
             }
-            catch (Exception ex)
-            {
-                CriarLog(ex.Message);
-            }
+            catch {}
 
         }
         public bool Stop(HostControl hostControl)

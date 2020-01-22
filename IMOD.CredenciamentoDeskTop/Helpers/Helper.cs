@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Security.Cryptography;
-using IMOD.CredenciamentoDeskTop.Constantes;
+using IMOD.Domain.Constantes;
 
 namespace IMOD.CredenciamentoDeskTop.Helpers
 {
@@ -72,7 +72,7 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
             }
 
             using (Rijndael algoritmo = CriarInstanciaRijndael(
-                Constantes.Constantes.chaveCriptografia, Constantes.Constantes.vetorInicializacao))
+                Constante.chaveCriptografia, Constante.vetorInicializacao))
             {
                 ICryptoTransform encryptor =
                     algoritmo.CreateEncryptor(
@@ -114,7 +114,7 @@ namespace IMOD.CredenciamentoDeskTop.Helpers
             }
 
             using (Rijndael algoritmo = CriarInstanciaRijndael(
-                Constantes.Constantes.chaveCriptografia, Constantes.Constantes.vetorInicializacao))
+                Constante.chaveCriptografia, Constante.vetorInicializacao))
             {
                 ICryptoTransform decryptor =
                     algoritmo.CreateDecryptor(
