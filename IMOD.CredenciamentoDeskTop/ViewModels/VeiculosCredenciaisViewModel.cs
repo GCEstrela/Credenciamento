@@ -739,7 +739,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Entity == null) return true;
             Entity.Validate();
-            if (ExisteLacre()) return true;
+            if (Entity.Lacre != null && !string.IsNullOrEmpty(Entity.Lacre))
+            {
+                if (ExisteLacre())
+                {
+                    WpfHelp.Mbox("Lacre já existente.", MessageBoxIcon.Information);
+                    return true;
+                }
+            }
             var hasErros = Entity.HasErrors;
             if (hasErros) return true;
 
