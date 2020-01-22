@@ -32,6 +32,7 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
 using IMOD.Domain.EntitiesCustom;
+using IMOD.Domain.Constantes;
 
 namespace IMOD.Service.Service
 {
@@ -45,10 +46,11 @@ namespace IMOD.Service.Service
         private IVeiculoCredencialService _serviceVeiculo = new VeiculoCredencialService();
         private IEmpresaContratosService _serviceContrato = new EmpresaContratoService();
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
+        private readonly IConfiguraSistemaService _serviceConfiguracoesSistema = new ConfiguraSistemaService();
         private ConfiguraSistema _configuraSistema;
         private IEngine _sdk;
         //private Engine _sdk = new Engine();
-
+       // public ConfiguraSistemaView Entity { get; set; }
         private System.Timers.Timer timer;
 
         public ILog Log { get; private set; }
@@ -87,6 +89,12 @@ namespace IMOD.Service.Service
 
                 MetodoRealizaFuncao(true, _sdk);
 
+                ///////////////////////////////////////////////////
+                ///Contenção das tabelas de LOG
+                //_configuraSistema = ObterConfiguracao();
+                //_serviceConfiguracoesSistema.Remover(_configuraSistema);
+                ///////////////////////////////////////////////////
+                
                 CriarLog("Serviço Finalizado...: " + DateTime.Now);
 
                 Environment.Exit(1);
