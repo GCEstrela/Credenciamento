@@ -160,7 +160,7 @@
                                                 <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom"  Content="Relatório de Impressões de Credenciais" Foreground="White" />
                                             </StackPanel>
                                         </Button>
-                                        <Button x:Name="BotaoImpressoesAutorizacoes_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                        <Button x:Name="BotaoImpressoesAutorizacoes_bt"  Style="{StaticResource MenuStyle}" Margin="0,0,20,0" Height="50" VerticalAlignment="Top"  Width="300"
                                                         Click="BotaoImpressoesAutorizacoesClick" >
                                             <StackPanel Orientation="Horizontal" Width="260">
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>

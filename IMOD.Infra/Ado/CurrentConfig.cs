@@ -19,6 +19,10 @@ using System.Xml.Linq;
 using System.Linq;
 using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Entities;
+using System.Web;
+using System.Diagnostics;
+using System.Net;
+using System.Collections.Generic;
 
 namespace IMOD.Infra.Ado
 {
@@ -29,26 +33,24 @@ namespace IMOD.Infra.Ado
     public static class CurrentConfig
     {
         #region  Propriedades
-        
+
         /// <summary>
         ///     String de conexao com o banco de dados
         /// </summary>
         //public static string ConexaoString => Settings.Default.Credenciamento;
         public static string ConexaoString => GetConnectionString();
-       
+
         // private readonly TripleDESCryptoServiceProvider TripleDES = new TripleDESCryptoServiceProvider();
         //private readonly MD5CryptoServiceProvider MD5 = new MD5CryptoServiceProvider();
         //private const string key = "iModEstrela2016";
         public static string GetConnectionString()
         {
-           
+
             ////////////////////////////////////////
             string returnValue = null;
             ////////////////////////////////////////
             /// Para o Projeto Credenciamento e WinService
             string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            // Para o Projeto Pre-Cadastro
-            //string path = @"C:\Users\renatomaximo\Source\Repos\GCEstrela\Credenciamento\IMOD.Infra";
             ////////////////////////////////////////
 
 
@@ -60,15 +62,11 @@ namespace IMOD.Infra.Ado
             string senha = "";
             string complemento = "";
 
-            //string certificado = "";
-            //string diretorio = "";
-            //string usuariosc = "";
-            //string senhasc = "";
-
             ////////////////////////////////////////
             // cria a consulta
             if (!string.IsNullOrEmpty(UsuarioLogado.sdiLicenca))
             {
+                path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 var prods = from p in XElement.Load(path + "\\Conexao.xml").Elements("Produto")
                             where p.Element("SystemID").Value == UsuarioLogado.sdiLicenca   // Quando esta sendo usudo pelo Credenciamento
                             select new
@@ -92,40 +90,61 @@ namespace IMOD.Infra.Ado
             }
             else
             {
-                UsuarioLogado.sdiLicenca = string.Empty;
-                var prods = from p in XElement.Load(path + "\\Conexao.xml").Elements("Produto")
-                            where p.Element("SystemID").Value == UsuarioLogado.sdiLicenca    // Quando esta sendo usudo pelo WinSevice e Pre-Cadastro
-                            select new
-                            {
-                                instancia = p.Element("InstanciaSQL").Value,
-                                banco = p.Element("Banco").Value,
-                                usuarioDB = p.Element("UsuarioDB").Value,
-                                SenhaDB = p.Element("SenhaDB").Value,
-                                complemento = p.Element("Complemento").Value,
-                                
-                                //Informações necessárias para o WinSevice
-                                certificado = p.Element("certificado").Value,
-                                diretorio = p.Element("diretorio").Value,
-                                usuariosc = p.Element("usuariosc").Value,
-                                senhasc = p.Element("senhasc").Value,
-                            };
-
-                //Executa a consulta
-                foreach (var produto in prods)
+                string processo = Process.GetCurrentProcess().ProcessName;
+                List<string> ipList = new List<string>();
+                foreach (IPAddress ip in Dns.GetHostAddresses(Dns.GetHostName()))
                 {
-                    instancia = produto.instancia;
-                    banco = produto.banco;
-                    usuario = produto.usuarioDB;
-                    senha = produto.SenhaDB;
-                    complemento = produto.complemento;
-
-                    //Informações necessárias para o WinSevice
-                    UsuarioLogado.certificado = produto.certificado;
-                    UsuarioLogado.diretorio = produto.diretorio;
-                    UsuarioLogado.usuariosc = produto.usuariosc;
-                    UsuarioLogado.senhasc = produto.senhasc;
+                    ipList.Add(ip.ToString());
                 }
-            }            
+
+
+                if (processo.Equals("IMOD.Service"))
+                {
+                         
+                    var prods = (from p in XElement.Load(path + "\\Conexao.xml").Elements("Produto")
+                                 where  ipList.Contains(p.Element("ServerCarga").Value)     // Quando esta sendo usudo pelo WinSevice e Pre-Cadastro
+                                 select new
+                                 {
+                                     instancia = p.Element("InstanciaSQL").Value,
+                                     banco = p.Element("Banco").Value,
+                                     usuarioDB = p.Element("UsuarioDB").Value,
+                                     SenhaDB = p.Element("SenhaDB").Value,
+                                     complemento = p.Element("Complemento").Value,
+                                 }).FirstOrDefault();
+                    if (prods != null)
+                    {
+                        instancia = prods.instancia;
+                        banco = prods.banco;
+                        usuario = prods.usuarioDB;
+                        senha = prods.SenhaDB;
+                        complemento = prods.complemento;
+                    }
+                }
+                else
+                {
+                    path = System.Web.HttpContext.Current.Server.MapPath("~");
+                   
+                    var prods = (from p in XElement.Load(path + "\\Conexao.xml").Elements("Produto")
+                                 where ipList.Contains(p.Element("ServerCarga").Value)    // Quando esta sendo usudo pelo WinSevice e Pre-Cadastro
+                                 select new
+                                 {
+                                     instancia = p.Element("InstanciaSQL").Value,
+                                     banco = p.Element("Banco").Value,
+                                     usuarioDB = p.Element("UsuarioDB").Value,
+                                     SenhaDB = p.Element("SenhaDB").Value,
+                                     complemento = p.Element("Complemento").Value,
+                                 }).FirstOrDefault();
+
+                    if (prods != null)
+                    {
+                        instancia = prods.instancia;
+                        banco = prods.banco;
+                        usuario = prods.usuarioDB;
+                        senha = prods.SenhaDB;
+                        complemento = prods.complemento;
+                    }
+                }
+            }
             ////////////////////////////////////////
             EstrelaEncryparDecrypitar.Decrypt ESTRELA_EMCRYPTAR = new EstrelaEncryparDecrypitar.Decrypt();
             EstrelaEncryparDecrypitar.Variavel.key = "CREDENCIAMENTO2019";
@@ -137,7 +156,7 @@ namespace IMOD.Infra.Ado
             return returnValue;
 
         }
-       
+
         #endregion
     }
 }
