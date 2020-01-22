@@ -22,8 +22,8 @@
   </Produto>
   <Produto>
     <SystemID>DEM-190909-868692</SystemID>
-    <ServerWeb></ServerWeb>
-    <ServerCarga></ServerCarga>
+    <ServerWeb>10.128.128.52</ServerWeb>
+    <ServerCarga>10.128.128.52</ServerCarga>
     <InstanciaSQL>SFLNA017</InstanciaSQL>
     <Banco>D_iModCredenciamento</Banco>
     <UsuarioDB>imod</UsuarioDB>
