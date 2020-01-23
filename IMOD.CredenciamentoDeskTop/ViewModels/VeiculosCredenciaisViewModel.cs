@@ -738,7 +738,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Entity == null) return true;
             Entity.Validate();
-            if (Entity.Lacre != null && !string.IsNullOrEmpty(Entity.Lacre))
+            if (!string.IsNullOrEmpty(Entity.Lacre))
             {
                 if (ExisteLacre())
                 {
