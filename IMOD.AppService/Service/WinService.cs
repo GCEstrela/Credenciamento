@@ -32,6 +32,7 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
 using IMOD.Domain.EntitiesCustom;
+using IMOD.Domain.Constantes;
 
 namespace IMOD.Service.Service
 {
@@ -45,10 +46,11 @@ namespace IMOD.Service.Service
         private IVeiculoCredencialService _serviceVeiculo = new VeiculoCredencialService();
         private IEmpresaContratosService _serviceContrato = new EmpresaContratoService();
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
+        private readonly IConfiguraSistemaService _serviceConfiguracoesSistema = new ConfiguraSistemaService();
         private ConfiguraSistema _configuraSistema;
         private IEngine _sdk;
         //private Engine _sdk = new Engine();
-
+       // public ConfiguraSistemaView Entity { get; set; }
         private System.Timers.Timer timer;
 
         public ILog Log { get; private set; }
@@ -87,6 +89,12 @@ namespace IMOD.Service.Service
 
                 MetodoRealizaFuncao(true, _sdk);
 
+                ///////////////////////////////////////////////////
+                ///Contenção das tabelas de LOG
+                //_configuraSistema = ObterConfiguracao();
+                //_serviceConfiguracoesSistema.Remover(_configuraSistema);
+                ///////////////////////////////////////////////////
+                
                 CriarLog("Serviço Finalizado...: " + DateTime.Now);
 
                 Environment.Exit(1);
@@ -234,18 +242,21 @@ namespace IMOD.Service.Service
                             case diasAlerta1:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta1 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
+                                CriarLog(messa);
 
                                 break;
 
                             case diasAlerta2:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta2 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
+                                CriarLog(messa);
 
                                 break;
 
                             case diasAlerta3:
                                 messa = "A credencial do colaborador.: " + ec.ColaboradorNome + " vencerá em " + diasAlerta3 + " dias.";
                                 //_serviceGenetec.DisparaAlarme(messa, 8);
+                                CriarLog(messa);
 
                                 break;
 
@@ -321,18 +332,18 @@ namespace IMOD.Service.Service
 
                             case diasAlerta1:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta1 + " dias.";
-
+                                CriarLog(messaveiculo);
                                 break;
 
                             case diasAlerta2:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta2 + " dias.";
-
+                                CriarLog(messaveiculo);
 
                                 break;
 
                             case diasAlerta3:
                                 messaveiculo = "A ATIV do veiculo.: " + ev.IdentificacaoDescricao + " vencerá em " + diasAlerta3 + " dias.";
-
+                                CriarLog(messaveiculo);
                                 break;
 
                             default:
@@ -400,6 +411,7 @@ namespace IMOD.Service.Service
                                 else
                                 {
                                     AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, dias);
+                                    CriarLog("Dias.: " + dias + " Contrato.: " + ec.NumeroContrato + " Descrição.: " + ec.Descricao);
                                 }
                             }
                         );
@@ -489,7 +501,7 @@ namespace IMOD.Service.Service
                 contrato.PraVencer = diasrestantes;
                 contrato.StatusId = 0;
 
-                if (diasrestantes == 0)
+                if (diasrestantes <= 0)
                 {
                     contrato.StatusId = 1;
                 }
@@ -573,10 +585,7 @@ namespace IMOD.Service.Service
                 vWriter.Flush();
                 vWriter.Close();
             }
-            catch (Exception ex)
-            {
-                CriarLog(ex.Message);
-            }
+            catch {}
 
         }
         public bool Stop(HostControl hostControl)

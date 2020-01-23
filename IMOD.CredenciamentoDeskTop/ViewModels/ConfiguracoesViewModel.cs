@@ -24,6 +24,7 @@ using IMOD.Infra.Servicos;
 using CrystalDecisions.CrystalReports.Engine;
 using IMOD.CredenciamentoDeskTop.Funcoes;
 using IMOD.CredenciamentoDeskTop.Windows;
+using IMOD.Domain.Constantes;
 
 #endregion
 
@@ -1446,7 +1447,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var entity = Entity;
                 var entityConv = Mapper.Map<ConfiguraSistema>(entity);
-                EstrelaEncryparDecrypitar.Variavel.key = "CREDENCIAMENTO2019";
+                EstrelaEncryparDecrypitar.Variavel.key = Constante.CRIPTO_KEY;
                 EstrelaEncryparDecrypitar.Decrypt ESTRELA_EMCRYPTAR = new EstrelaEncryparDecrypitar.Decrypt();
                 entityConv.EmailSenha = ESTRELA_EMCRYPTAR.EstrelaEncrypt(entity.EmailSenha);
                 _serviceConfiguracoesSistema.Alterar(entityConv);
@@ -2172,7 +2173,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var list2 = Mapper.Map<ConfiguraSistemaView>(list1);
                 Entity = list2;
 
-                EstrelaEncryparDecrypitar.Variavel.key = "CREDENCIAMENTO2019";
+                EstrelaEncryparDecrypitar.Variavel.key = Constante.CRIPTO_KEY;
                 EstrelaEncryparDecrypitar.Decrypt ESTRELA_EMCRYPTAR = new EstrelaEncryparDecrypitar.Decrypt();
                 if (Entity != null)
                 {
@@ -2526,7 +2527,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     return;
                 }
 
-                if (Constantes.Constantes.CREDENCIAL.Equals(layoutCracha.TipoCracha))
+                if (Constante.CREDENCIAL.Equals(layoutCracha.TipoCracha))
                 {
                     GerarCredencialModelo(rpt, layoutCracha);
                 }

@@ -11,6 +11,7 @@ using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.CredenciamentoDeskTop.Helpers;
 using IMOD.CredenciamentoDeskTop.Views;
+using IMOD.Domain.Constantes;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
 using System;
@@ -46,7 +47,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             {
                 myValue = _configuraSistema.Licenca.Trim();
             }
-            EstrelaEncryparDecrypitar.Variavel.key = "CREDENCIAMENTO2019";
+            EstrelaEncryparDecrypitar.Variavel.key = Constante.CRIPTO_KEY;
             EstrelaEncryparDecrypitar.Decrypt ESTRELA_EMCRYPTAR = new EstrelaEncryparDecrypitar.Decrypt();
             string[] Decryptada = ESTRELA_EMCRYPTAR.EstrelaDecrypt(myValue).Split('<');
             string LicencaDecryptada = Decryptada[0];

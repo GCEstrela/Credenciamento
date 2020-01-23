@@ -38,6 +38,7 @@ using IMOD.CredenciamentoDeskTop.Funcoes;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.Threading;
+using IMOD.Domain.Constantes;
 
 #endregion
 
@@ -538,7 +539,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             else
             {
                 //Comentado por Renato Maximo em 28-06-2019
-                Entity.Validade = credencialDias > (Constantes.Constantes.diasPorAno * 2) ? DateTime.Now.Date.AddDays((Constantes.Constantes.diasPorAno * 2)) : data;
+                Entity.Validade = credencialDias > (Constante.diasPorAno * 2) ? DateTime.Now.Date.AddDays((Constante.diasPorAno * 2)) : data;
                 OnPropertyChanged("Entity");
             }
 
@@ -966,7 +967,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Alterado por Maximo em 28/06/2019
                 //ObterValidadeAlteracao();
 
-                Entity.Ativa = Constantes.Constantes.ATIVO.Equals(Entity.CredencialStatusId);
+                Entity.Ativa = Constante.ATIVO.Equals(Entity.CredencialStatusId);
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
                 n1.Terceirizada = ColaboradorEmpresa.Terceirizada;
@@ -1443,7 +1444,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 else
                 {
-                    if (Constantes.Constantes.ATIVO.Equals(Entity.CredencialStatusId))
+                    if (Constante.ATIVO.Equals(Entity.CredencialStatusId))
                     {
                         Entity.CredencialVia = null;
                         Entity.CredencialmotivoViaAdicionalID = null;
