@@ -32,8 +32,12 @@
   </Produto>
   <Produto>
     <SystemID>DEM-191014-184238</SystemID>
-    <ServerWeb>172.16.100.73</ServerWeb>
-    <ServerCarga>172.16.100.73</ServerCarga>
+    <!--<ServerWeb>172.16.100.73</ServerWeb>
+    <ServerCarga>172.16.100.73</ServerCarga>-->
+    <ServerWeb>172.16.100.74</ServerWeb>
+    <ServerCarga>172.16.100.74</ServerCarga>
+    <!--<ServerWeb>172.16.100.76</ServerWeb>
+    <ServerCarga>172.16.100.76</ServerCarga>-->
     <InstanciaSQL>172.16.190.162\SQLEXPRESS</InstanciaSQL>
     <Banco>D_iModCredenciamento</Banco>
     <UsuarioDB>imod</UsuarioDB>

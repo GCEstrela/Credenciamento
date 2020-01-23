@@ -213,7 +213,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
              var lst7 = _auxiliaresService.AreaAcessoService.Listar();
             VeiculoPrivilegio = new List<AreaAcesso>();
-            VeiculoPrivilegio.AddRange (lst7.OrderBy(n => n.Descricao));
+            VeiculoPrivilegio.AddRange (lst7.OrderBy(n => n.Identificacao));
 
             _credencialMotivo = new List<CredencialMotivo>();
             var lst8 = _auxiliaresService.CredencialMotivoService.Listar();
