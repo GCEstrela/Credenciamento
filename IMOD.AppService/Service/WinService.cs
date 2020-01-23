@@ -91,10 +91,10 @@ namespace IMOD.Service.Service
 
                 ///////////////////////////////////////////////////
                 ///Contenção das tabelas de LOG
-                //_configuraSistema = ObterConfiguracao();
-                //_serviceConfiguracoesSistema.Remover(_configuraSistema);
+                _configuraSistema = ObterConfiguracao();
+                _serviceConfiguracoesSistema.Remover(_configuraSistema);
                 ///////////////////////////////////////////////////
-                
+
                 CriarLog("Serviço Finalizado...: " + DateTime.Now);
 
                 Environment.Exit(1);
