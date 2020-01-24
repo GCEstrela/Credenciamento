@@ -397,6 +397,7 @@ namespace IMOD.Infra.Servicos
             try
             {
                 #region Existindo CardHolder, não criar
+                entity.IdentificadorCardHolderGuid = EncontraCardHolderPelaMatricula(entity, entity.Matricula);
 
                 if (!string.IsNullOrWhiteSpace(entity.IdentificadorCardHolderGuid))
                 {
@@ -409,6 +410,7 @@ namespace IMOD.Infra.Servicos
                         //SetValorCamposCustomizados(entity, existEntity);
 
                         var cardHolder = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
+                       
                         if (cardHolder.State != CardholderState.Active)
                         {
                             cardHolder.State = CardholderState.Active;
