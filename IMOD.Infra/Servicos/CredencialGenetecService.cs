@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Windows.Forms;
 using Genetec.Sdk;
 using Genetec.Sdk.Credentials;
 using Genetec.Sdk.Entities;
@@ -21,6 +22,7 @@ using IMOD.CrossCutting;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
 using IMOD.Infra.Servicos.Entities;
+
 
 #endregion
 
@@ -827,6 +829,7 @@ namespace IMOD.Infra.Servicos
                 query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
                 query.EntityTypeFilter.Add(EntityType.Credential);
                 query.NameSearchMode = StringSearchMode.StartsWith;
+
                 result = query.Query();
                 SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
                 var service = systemConfiguration.CustomFieldService;
@@ -835,7 +838,16 @@ namespace IMOD.Infra.Servicos
                     //_sdk.TransactionManager.CreateTransaction();
                     foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
                     {
+
                         Credential cred = _sdk.GetEntity((Guid)dr[0]) as Credential;
+                        var credencialnumero = cred.Format.UniqueId.Split('|')[0];
+                        long decValue = long.Parse(credencialnumero, System.Globalization.NumberStyles.HexNumber);
+                        if (entity.NumeroCredencial == decValue.ToString())
+                        {
+                            return cred.Guid.ToString();
+                        }
+
+
                         var numeroCredencial = cred.Name.Split('-');
                         string number = numeroCredencial[0].ToString();
                         if (number.Trim() == credencialNumero.Trim())
@@ -940,8 +952,10 @@ namespace IMOD.Infra.Servicos
                 Credential credencial;
 
                 #region Criar ou obter uma credencial
+
                 if (entity.IdentificadorCredencialGuid == null)
                     entity.IdentificadorCredencialGuid = EncontraCredencialPeloNumero(entity, entity.NumeroCredencial);//Encontra Credencial pelo Numero da Credencial
+
 
                 if (!string.IsNullOrWhiteSpace(entity.IdentificadorCredencialGuid))
                     credencial = _sdk.GetEntity(new Guid(entity.IdentificadorCredencialGuid)) as Credential;
@@ -959,22 +973,43 @@ namespace IMOD.Infra.Servicos
                 credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
 
                 //Vincular Credencial ao CardHolder
-                cardHolder.Credentials.Remove(credencial);
-                cardHolder.Credentials.Add(credencial);
-                if (cardHolder.State != CardholderState.Active) //Quando uma credencial é criada o cardholder fica sempre ativo.
+                if (credencial.Cardholder == null || credencial.Cardholder.Guid == cardHolder.Guid)
                 {
-                    cardHolder.State = CardholderState.Active;
-                }
+                    cardHolder.Credentials.Remove(credencial);
+                    cardHolder.Credentials.Add(credencial);
 
-                entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
-                entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
-                if (entity.Foto != null)
-                    cardHolder.Picture = entity.Foto;
-                SetValorCamposCustomizados(entity, cardHolder);
-                _sdk.TransactionManager.CommitTransaction();
+                    if (cardHolder.State != CardholderState.Active) //Quando uma credencial é criada o cardholder fica sempre ativo.
+                    {
+                        cardHolder.State = CardholderState.Active;
+                    }
+
+                    //var ccc = ((Genetec.Sentinel.DSProxy.BO.TBOEntity)credencial.InternalEntity).m_iUniqueTempID;
+                    entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
+                    entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
+                    if (entity.Foto != null)
+                        cardHolder.Picture = entity.Foto;
+                    SetValorCamposCustomizados(entity, cardHolder);
+
+                    _sdk.TransactionManager.CommitTransaction();
+                }
+                else
+                {
+                    entity.NumeroCredencial = null;
+                    entity.TecnologiaCredencialId = 0;
+                    entity.FormatoCredencialId = 0;
+                    entity.Fc = 0;
+                    entity.IdentificadorCredencialGuid= null;
+
+                    string cardname = credencial.Cardholder.Name;
+                    MessageBox.Show("Credencial já esta associada a um CardHoldr: " + cardname);
+                    
+                }
+                
+               
             }
             catch (Exception ex)
             {
+                
                 _sdk.TransactionManager.RollbackTransaction();
                 Utils.TraceException(ex);
                 throw ex;
@@ -1040,6 +1075,8 @@ namespace IMOD.Infra.Servicos
                 throw;
             }
         }
+        
+
         /// <summary>
         ///     Verifica Regras de Acesso 
         ///     <para>Add/Remove Regras de Acesso de um CardHolder se nao existir</para>

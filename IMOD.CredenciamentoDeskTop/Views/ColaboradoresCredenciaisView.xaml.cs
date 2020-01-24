@@ -390,18 +390,18 @@ namespace IMOD.CredenciamentoDeskTop.Views
             if (_viewModel.Entity == null) return;
             try
             {
-                var nCredencial = _viewModel.Entity.NumeroCredencial;
-                if (_viewModel.ExisteNumeroCredencial())
-                {
-                    _viewModel.Entity.SetMessageErro("NumeroCredencial", "Nº da Credencial já existe");
-                    NumeroCredencial_tb.Text = nCredencial;
-                }
-                else
-                {
-                    _viewModel.Entity.ClearMessageErro();
-                    //NumeroCredencial_tb.Background = Brushes.;
-                    NumeroCredencial_tb.Text = nCredencial;
-                }
+                //var nCredencial = _viewModel.Entity.NumeroCredencial;
+                //if (_viewModel.ExisteNumeroCredencial())
+                //{
+                //    _viewModel.Entity.SetMessageErro("NumeroCredencial", "Nº da Credencial já existe");
+                //    NumeroCredencial_tb.Text = nCredencial;
+                //}
+                //else
+                //{
+                //    _viewModel.Entity.ClearMessageErro();
+                //    //NumeroCredencial_tb.Background = Brushes.;
+                //    NumeroCredencial_tb.Text = nCredencial;
+                //}
 
 
 

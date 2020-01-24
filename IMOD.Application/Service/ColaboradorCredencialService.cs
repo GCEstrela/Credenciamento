@@ -546,12 +546,20 @@ namespace IMOD.Application.Service
             //var n1 = new ColaboradorCredencial();
             n1.ColaboradorCredencialId = entity.ColaboradorCredencialId;
             n1.ColaboradorEmpresaId = entity.ColaboradorEmpresaId;
-            n1.TecnologiaCredencialId = entity.TecnologiaCredencialId;
+            
             n1.TipoCredencialId = entity.TipoCredencialId;
             n1.LayoutCrachaId = entity.LayoutCrachaId;
-            n1.FormatoCredencialId = entity.FormatoCredencialId;
-            n1.NumeroCredencial = entity.NumeroCredencial;
-            n1.Fc = entity.Fc;
+            //n1.TecnologiaCredencialId = entity.TecnologiaCredencialId;
+            //n1.FormatoCredencialId = entity.FormatoCredencialId;
+            //n1.NumeroCredencial = entity.NumeroCredencial;
+            //n1.Fc = entity.Fc;
+            ////////////////////////////////////////////////////////////////
+            n1.TecnologiaCredencialId = titularCartao.TecnologiaCredencialId;
+            n1.FormatoCredencialId = titularCartao.FormatoCredencialId;
+            n1.NumeroCredencial = titularCartao.NumeroCredencial;
+            n1.Fc = titularCartao.Fc;
+            n1.CredencialGuid = titularCartao.IdentificadorCredencialGuid;
+            ////////////////////////////////////////////////////////////////
             n1.Emissao = entity.Emissao;
             n1.Validade = entity.Validade;
             n1.CredencialStatusId = entity.CredencialStatusId;

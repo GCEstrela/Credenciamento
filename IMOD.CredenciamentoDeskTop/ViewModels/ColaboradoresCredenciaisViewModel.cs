@@ -1074,7 +1074,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         n1.CredencialGuid = entity.CredencialGuid;
                         n1.listadeGrupos = Entity.listadeGrupos;
 
-                        _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
+                        n1.FormatoCredencialId = entity.FormatoCredencialId;
+                        n1.TecnologiaCredencialId = entity.TecnologiaCredencialId;
+                        n1.Fc = entity.Fc;
+                        n1.NumeroCredencial = entity.NumeroCredencial;
+                        n1.CredencialGuid = entity.CredencialGuid;
+
+                       _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
                         _service.Alterar(n1);
                     }
                     else
