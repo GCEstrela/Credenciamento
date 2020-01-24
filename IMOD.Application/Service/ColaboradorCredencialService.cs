@@ -549,6 +549,7 @@ namespace IMOD.Application.Service
             
             n1.TipoCredencialId = entity.TipoCredencialId;
             n1.LayoutCrachaId = entity.LayoutCrachaId;
+            ////////////////////////////////////////////////////////////////
             //n1.TecnologiaCredencialId = entity.TecnologiaCredencialId;
             //n1.FormatoCredencialId = entity.FormatoCredencialId;
             //n1.NumeroCredencial = entity.NumeroCredencial;

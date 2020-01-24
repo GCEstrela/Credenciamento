@@ -19,9 +19,11 @@ using Genetec.Sdk.Entities.CustomFields;
 using Genetec.Sdk.Events;
 using Genetec.Sdk.Queries;
 using IMOD.CrossCutting;
+using IMOD.Domain.Entities;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
 using IMOD.Infra.Servicos.Entities;
+using IMOD.Domain.Enums;
 
 
 #endregion
@@ -228,53 +230,31 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
-                //if (string.IsNullOrWhiteSpace(entity.FormatoCredencial))
-                //entity.FormatoCredencial = "CSN";
-
-                //string credecnailFormato = entity.FormatoCredencial.ToLower().Trim();
-                string credecnailFormato = entity.FormatoCredencial.Trim();
+                int credecnailFormato = entity.FormatoCredencialId;
                 switch (credecnailFormato)
                 {
-                    case "Standard 26 bits":
+                    case (int)Tecnologia.Standard_26_bits:
                         credencial.Format = new WiegandStandardCredentialFormat(entity.FacilityCode, Convert.ToInt16(entity.NumeroCredencial));
                         break;
-                    case "HID H10302 37 Bits":
+                    case (int)Tecnologia.HID_H10302_37_Bits:
                         credencial.Format = new WiegandH10302CredentialFormat(Convert.ToInt16(entity.NumeroCredencial));
                         break;
-                    case "HID H10304 37 Bits":
+                    case (int)Tecnologia.HID_H10304_37_Bits:
                         credencial.Format = new WiegandH10304CredentialFormat(Convert.ToInt16(entity.FacilityCode), Convert.ToInt16(entity.NumeroCredencial));
                         break;
-                    case "HID H10306 34 Bits":
+                    case (int)Tecnologia.HID_H10306_34_Bits:
                         credencial.Format = new WiegandH10306CredentialFormat(entity.FacilityCode, Convert.ToInt32(entity.NumeroCredencial));
                         break;
-                    case "HID Corporate 1000 - 35 bits":
+                    case (int)Tecnologia.HID_Corporate_1000_35_bits:
                         credencial.Format = new WiegandCorporate1000CredentialFormat(entity.FacilityCode, Convert.ToInt32(entity.NumeroCredencial));
                         break;
-                    case "HID Corporate 1000 48 Bits":
+                    case (int)Tecnologia.HID_Corporate_1000_48_Bits:
                         credencial.Format = new WiegandCorporate1000CredentialFormat(entity.FacilityCode, Convert.ToInt32(entity.NumeroCredencial));
                         break;
-                    case "CSN":
+                    case (int)Tecnologia.CSN:
                         credencial.Format = new WiegandCsn32CredentialFormat(long.Parse(entity.NumeroCredencial.ToString()));
                         break;
                     default:
-
-                        //var sysConfig = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
-                        //CustomCredentialFormat mifareCsn;
-                        //if (sysConfig != null)
-
-                        //    foreach (var cardFormat in sysConfig.CredentialFormats)
-
-                        //        if (cardFormat.Name == "CSN" || cardFormat.Name == "CSN (32 bits)")
-                        //        {
-                        //            mifareCsn = cardFormat as CustomCredentialFormat;
-                        //            if (mifareCsn != null)
-                        //            {
-                        //                credencial.Format = new WiegandCsn32CredentialFormat(long.Parse(entity.NumeroCredencial.ToString()));
-                        //            }
-
-                        //            break;
-                        //        }
-
                         break;
                 }
             }
@@ -841,6 +821,7 @@ namespace IMOD.Infra.Servicos
 
                         Credential cred = _sdk.GetEntity((Guid)dr[0]) as Credential;
                         var credencialnumero = cred.Format.UniqueId.Split('|')[0];
+                        //string decValue = (long.Parse(credencialnumero, System.Globalization.NumberStyles.HexNumber)).ToString();
                         long decValue = long.Parse(credencialnumero, System.Globalization.NumberStyles.HexNumber);
                         if (entity.NumeroCredencial == decValue.ToString())
                         {
@@ -940,7 +921,6 @@ namespace IMOD.Infra.Servicos
                 VerificaRegraAcesso(entity, true);
 
                 if (string.IsNullOrWhiteSpace(entity.IdentificadorCardHolderGuid)) throw new ArgumentNullException(nameof(entity.IdentificadorCardHolderGuid));
-                //if (string.IsNullOrWhiteSpace (entity.IdentificadorLayoutCrachaGuid)) throw new ArgumentNullException (nameof (entity.IdentificadorLayoutCrachaGuid));
                 if (string.IsNullOrWhiteSpace(entity.NumeroCredencial)) throw new ArgumentNullException(nameof(entity.NumeroCredencial));
 
                 var guid = new Guid(entity.IdentificadorCardHolderGuid);
@@ -983,7 +963,6 @@ namespace IMOD.Infra.Servicos
                         cardHolder.State = CardholderState.Active;
                     }
 
-                    //var ccc = ((Genetec.Sentinel.DSProxy.BO.TBOEntity)credencial.InternalEntity).m_iUniqueTempID;
                     entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
                     entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
                     if (entity.Foto != null)
@@ -994,22 +973,14 @@ namespace IMOD.Infra.Servicos
                 }
                 else
                 {
-                    entity.NumeroCredencial = null;
-                    entity.TecnologiaCredencialId = 0;
-                    entity.FormatoCredencialId = 0;
-                    entity.Fc = 0;
-                    entity.IdentificadorCredencialGuid= null;
-
                     string cardname = credencial.Cardholder.Name;
-                    MessageBox.Show("Credencial já esta associada a um CardHoldr: " + cardname);
-                    
+                    throw new InvalidOperationException("Credencial já esta associada a um CardHoldr: " + cardname);
                 }
                 
                
             }
             catch (Exception ex)
             {
-                
                 _sdk.TransactionManager.RollbackTransaction();
                 Utils.TraceException(ex);
                 throw ex;

@@ -739,43 +739,29 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity == null) return;
                 Entity.Terceirizada = ColaboradorEmpresa.Terceirizada;
-                //Entity.TerceirizadaSigla = ColaboradorEmpresa.TerceirizadaSigla;
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-                //Alterado por Máximo em 28-06-2019
-                //ObterValidade();
-                
+                                
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
                 n1.Terceirizada = Entity.Terceirizada;
                 n1.TerceirizadaSigla = Entity.TerceirizadaSigla;
-                n1.CredencialMotivoId = Entity.CredencialMotivoId;
-                n1.CredencialStatusId = Entity.CredencialStatusId;
-                n1.FormatoCredencialId = Entity.FormatoCredencialId;
-                n1.LayoutCrachaId = Entity.LayoutCrachaId;
-                n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
-                n1.TipoCredencialId = Entity.TipoCredencialId;
-                n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
-                n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
-                n1.Identificacao1 = Entity.Identificacao1;
-                n1.Identificacao2 = Entity.Identificacao2;
                 n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);  //Sempre Add 23:59:59 horas à credencial nova.
-                n1.CredencialmotivoViaAdicionalID = Entity.CredencialmotivoViaAdicionalID;
                 n1.CredencialmotivoIDanterior = Entity.CredencialMotivoId;
                 n1.listadeGrupos = Entity.listadeGrupos;
                 n1.Usuario = UsuarioLogado.Nome;
-                //n1.NumeroColete = Entity.NumeroColete;
-
-                //_configuraSistema = ObterConfiguracao();
+                ///////////////////////////////
+                n1.NumeroCredencial = null;
+                n1.FormatoCredencialId = 0;
+                n1.TecnologiaCredencialId = 0;
                 n1.Regras = _configuraSistema.Regras;
                 Entity.Regras = _configuraSistema.Regras;
                 if (n1.Validade <= DateTime.Now)
                 {
                     WpfHelp.Mbox("Data de Validade da Credencial é inferior à data atual.", MessageBoxIcon.Information);
                     MensagemAlerta = "";
-
                     Comportamento.PrepareCriarSegundaTentativa();
                     return;
                 }
-                //{IMOD.Domain.EntitiesCustom.ColaboradoresCredenciaisView}
+                
                 if (_configuraSistema.Colete)
                 {
                     Entity.NumeroColete = Convert.ToString(_colaboradorView.ColaboradorId);
@@ -811,22 +797,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _prepareCriarCommandAcionado = false;
                 _service.Criar(n1);
                 IsEnableLstView = true;
-                //SelectListViewIndex = 0; saio dessa linha e foi colocado na linha depois (Verificar se pode gerar CardHolder)
                 
                 #region Verificar se pode gerar CardHolder
-                var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(n1.TecnologiaCredencialId);
+                var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(Entity.TecnologiaCredencialId);
                 if (tecCredencial.PodeGerarCardHolder)
                 {
                     var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
-                    //entity.grupoAlterado = true;
-                    entity.listadeGrupos = n1.listadeGrupos;
 
+                    entity.NumeroCredencial = Entity.NumeroCredencial;
+                    entity.FormatoCredencialId = Entity.FormatoCredencialId;
+                    entity.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
+                    entity.listadeGrupos = n1.listadeGrupos;
+                    
                     IColaboradorService _serviceColaborador = new ColaboradorService();
                     var cardHolderColaborador = _serviceColaborador.BuscarPelaChave(entity.ColaboradorId);
                     entity.ColaboradorFoto = cardHolderColaborador.Foto;
 
                     var colaboradorEmpresa = _colaboradorEmpresaService.BuscarPelaChave(entity.ColaboradorEmpresaId);
                     entity.CardHolderGuid = colaboradorEmpresa.CardHolderGuid;
+                    
 
 
                     GerarCardHolder(n1.ColaboradorCredencialId, entity);
@@ -834,27 +823,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 #endregion
-                /// Atualiza Observer
-                SelectListViewIndex = 0;
-                ListarColaboradoresCredenciais(_colaboradorView);
-
-                //var list1 = _service.ListarView(null, null, null, null, _colaboradorView.ColaboradorId).ToList();                
-                //var list2 = Mapper.Map<List<ColaboradoresCredenciaisView>>(list1.OrderByDescending(n => n.ColaboradorCredencialId));
-                //Comportamento.IsEnableCriar = !list2.Any(c => c.Ativa == true);
-                //EntityObserver = new ObservableCollection<ColaboradoresCredenciaisView>();
-                //list2.ForEach(n => { EntityObserver.Add(n); });
-
-                MensagemAlerta = "";
-                Entity = null;
-                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
-
-                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
+               
             }
             catch (Exception ex)
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
                 Utils.TraceException(ex);
                 WpfHelp.PopupBox(ex);
+            }
+            finally
+            {
+                SelectListViewIndex = 0;
+                ListarColaboradoresCredenciais(_colaboradorView);
+                MensagemAlerta = "";
+                Entity = null;
+                _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
+
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.IBeam;
             }
         }
 
@@ -961,34 +946,24 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 
                 if (Entity == null) return;     //IdentificacaoDescricao = null
-                //Entity.Terceirizada = ColaboradorEmpresa.Terceirizada;
-                //Entity.TerceirizadaSigla = ColaboradorEmpresa.TerceirizadaSigla;
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-                //Alterado por Maximo em 28/06/2019
-                //ObterValidadeAlteracao();
 
                 Entity.Ativa = Constante.ATIVO.Equals(Entity.CredencialStatusId);
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
-                n1.Terceirizada = ColaboradorEmpresa.Terceirizada;
-                n1.TerceirizadaSigla = ColaboradorEmpresa.TerceirizadaSigla;
-                n1.CredencialMotivoId = Entity.CredencialMotivoId;
-                n1.CredencialStatusId = Entity.CredencialStatusId;
-                n1.FormatoCredencialId = Entity.FormatoCredencialId;
-                n1.LayoutCrachaId = Entity.LayoutCrachaId;
-                
-                n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
-                n1.TipoCredencialId = Entity.TipoCredencialId;
-                n1.ColaboradorPrivilegio1Id = Entity.ColaboradorPrivilegio1Id;
-                n1.ColaboradorPrivilegio2Id = Entity.ColaboradorPrivilegio2Id;
-                n1.Identificacao1 = Entity.Identificacao1;
-                n1.Identificacao2 = Entity.Identificacao2;
+
+                n1.Terceirizada = Entity.Terceirizada;
+                n1.TerceirizadaSigla = Entity.TerceirizadaSigla;
                 n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);  //Sempre Add 23:59:59 horas à credencial nova.
-                n1.CredencialmotivoViaAdicionalID = Entity.CredencialmotivoViaAdicionalID;
                 n1.CredencialmotivoIDanterior = Entity.CredencialMotivoId;
                 n1.listadeGrupos = Entity.listadeGrupos;
                 n1.Usuario = UsuarioLogado.Nome;
-                //n1.NumeroColete = Entity.NumeroColete;
+                ///////////////////////////////
+                n1.NumeroCredencial = null;
+                n1.FormatoCredencialId = 0;
+                n1.TecnologiaCredencialId = 0;
+                n1.Regras = _configuraSistema.Regras;
+                Entity.Regras = _configuraSistema.Regras;
                 Entity.Usuario= UsuarioLogado.Nome;
                 
                 if (Entity.ColaboradorPrivilegio1Id != 0)
@@ -1013,7 +988,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     n1.Identificacao2 = null;
                 }
 
-                n1.NumeroCredencial = Entity.NumeroCredencial;
+
                 n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59); //Sempre Add 23:59:59 horas à credencial nova.
                 n1.CredencialVia = Entity.CredencialVia;
                 n1.CredencialmotivoViaAdicionalID = Entity.CredencialmotivoViaAdicionalID;
@@ -1054,13 +1029,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 dados.AtualizarDadosPendencias();
 
                 #region Verificar se pode gerar CardHolder
-                var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(n1.TecnologiaCredencialId);
+                var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(Entity.TecnologiaCredencialId);
                 if (tecCredencial.PodeGerarCardHolder)
                 {
                     
                     //Alterar o status do titular do cartão
                     if(n1.Validade > DateTime.Now || n1.CredencialStatusId == 1)
                     {
+
                         var formatocredencialdescricao = _auxiliaresService.FormatoCredencialService.BuscarPelaChave(n1.FormatoCredencialId);
                         Entity.FormatoCredencialDescricao = formatocredencialdescricao.Descricao;
 
@@ -1074,11 +1050,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         n1.CredencialGuid = entity.CredencialGuid;
                         n1.listadeGrupos = Entity.listadeGrupos;
 
-                        n1.FormatoCredencialId = entity.FormatoCredencialId;
-                        n1.TecnologiaCredencialId = entity.TecnologiaCredencialId;
-                        n1.Fc = entity.Fc;
-                        n1.NumeroCredencial = entity.NumeroCredencial;
-                        n1.CredencialGuid = entity.CredencialGuid;
+                        n1.FormatoCredencialId = Entity.FormatoCredencialId;
+                        n1.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
+                        n1.Fc = Entity.Fc;
+                        n1.NumeroCredencial = Entity.NumeroCredencial;
+                        n1.CredencialGuid = Entity.CredencialGuid;
 
                        _service.AlterarStatusTitularCartao(new CredencialGenetecService(Main.Engine), Entity, n1);
                         _service.Alterar(n1);
