@@ -325,23 +325,26 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
-
-                if (string.IsNullOrWhiteSpace(entity.IdentificadorCredencialGuid)) throw new ArgumentNullException(nameof(entity.IdentificadorCredencialGuid));
-                // _sdk.TransactionManager.CreateTransaction();
-
-                var credencial = _sdk.GetEntity(new Guid(entity.IdentificadorCredencialGuid)) as Credential;
-                if (credencial == null) throw new InvalidOperationException("Não foi possível encontrar uma credencial.");
-                credencial.State = entity.Ativo ? CredentialState.Active : CredentialState.Inactive;
-                //RemoverRegrasCardHolder(entity);  //Remove todas as regras de aceso do cardholder
-
-                if (credencial.State != CredentialState.Active)
+                if (entity.IdentificadorCredencialGuid != null)
                 {
-                    VerificaRegraAcesso(entity, false);
+                    if (string.IsNullOrWhiteSpace(entity.IdentificadorCredencialGuid)) throw new ArgumentNullException(nameof(entity.IdentificadorCredencialGuid));
+                    // _sdk.TransactionManager.CreateTransaction();
+
+                    var credencial = _sdk.GetEntity(new Guid(entity.IdentificadorCredencialGuid)) as Credential;
+                    if (credencial == null) throw new InvalidOperationException("Não foi possível encontrar uma credencial.");
+                    credencial.State = entity.Ativo ? CredentialState.Active : CredentialState.Inactive;
+                    //RemoverRegrasCardHolder(entity);  //Remove todas as regras de aceso do cardholder
+
+                    if (credencial.State != CredentialState.Active)
+                    {
+                        VerificaRegraAcesso(entity, false);
+                    }
+                    else
+                    {
+                        VerificaRegraAcesso(entity, true);
+                    }
                 }
-                else
-                {
-                    VerificaRegraAcesso(entity, true);
-                }
+
 
                 //_sdk.TransactionManager.CommitTransaction();
             }
@@ -427,7 +430,7 @@ namespace IMOD.Infra.Servicos
                                     cardHolder.Groups.Add(grupoGuid);
                                 }
                         }
-                        if (entity.GrupoPadrao != null && cardHolder.Groups.Count==0)
+                        if (entity.GrupoPadrao != null && cardHolder.Groups.Count == 0)
                         {
                             Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
                             if (grupo != null)
@@ -838,6 +841,7 @@ namespace IMOD.Infra.Servicos
                     }
                     //_sdk.TransactionManager.CommitTransaction();
                 }
+                // entity.IdentificadorCredencialGuid = null;
                 return "";
             }
             catch (Exception ex)
@@ -944,40 +948,49 @@ namespace IMOD.Infra.Servicos
 
                 #endregion
 
-                if (credencial == null) throw new InvalidOperationException("Não foi possível criar uma credencial.");
-                credencial.Name = $"{entity.NumeroCredencial} - {entity.Nome}";
-
-                SetValorFormatoCredencial(entity, credencial);
-
-                if (credencial.Format == null) throw new InvalidOperationException("Não foi possível criar credencial.");
-                credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
-
-                //Vincular Credencial ao CardHolder
-                if (credencial.Cardholder == null || credencial.Cardholder.Guid == cardHolder.Guid)
+                if (credencial != null)
                 {
-                    cardHolder.Credentials.Remove(credencial);
-                    cardHolder.Credentials.Add(credencial);
+                    credencial.Name = $"{entity.NumeroCredencial} - {entity.Nome}";
 
-                    if (cardHolder.State != CardholderState.Active) //Quando uma credencial é criada o cardholder fica sempre ativo.
+                    SetValorFormatoCredencial(entity, credencial);
+
+                    if (credencial.Format == null) throw new InvalidOperationException("Não foi possível criar credencial.");
+                    credencial.InsertIntoPartition(Partition.DefaultPartitionGuid);
+
+                    //Vincular Credencial ao CardHolder
+                    if (credencial.Cardholder == null || credencial.Cardholder.Guid == cardHolder.Guid)
                     {
-                        cardHolder.State = CardholderState.Active;
+                        cardHolder.Credentials.Remove(credencial);
+                        cardHolder.Credentials.Add(credencial);
+
+                        if (cardHolder.State != CardholderState.Active) //Quando uma credencial é criada o cardholder fica sempre ativo.
+                        {
+                            cardHolder.State = CardholderState.Active;
+                        }
+
+                        entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
+                        entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
+                        if (entity.Foto != null)
+                            cardHolder.Picture = entity.Foto;
+                        SetValorCamposCustomizados(entity, cardHolder);
+
+                        _sdk.TransactionManager.CommitTransaction();
                     }
-
-                    entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
-                    entity.IdentificadorCredencialGuid = credencial.Guid.ToString();
-                    if (entity.Foto != null)
-                        cardHolder.Picture = entity.Foto;
-                    SetValorCamposCustomizados(entity, cardHolder);
-
-                    _sdk.TransactionManager.CommitTransaction();
+                    else
+                    {
+                        string cardname = credencial.Cardholder.Name;
+                        throw new InvalidOperationException("Credencial já esta associada a um CardHoldr: " + cardname);
+                    }
                 }
                 else
                 {
-                    string cardname = credencial.Cardholder.Name;
-                    throw new InvalidOperationException("Credencial já esta associada a um CardHoldr: " + cardname);
+                    entity.IdentificadorCredencialGuid = null;
+
                 }
-                
-               
+
+
+
+
             }
             catch (Exception ex)
             {
@@ -1046,7 +1059,7 @@ namespace IMOD.Infra.Servicos
                 throw;
             }
         }
-        
+
 
         /// <summary>
         ///     Verifica Regras de Acesso 
