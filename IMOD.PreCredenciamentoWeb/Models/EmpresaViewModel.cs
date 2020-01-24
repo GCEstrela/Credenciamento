@@ -89,10 +89,9 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [ScaffoldColumn(true)]
         [StringLength(3, ErrorMessage = "A Sigla não pode ser superior a 3 caracteres. ")]
         public string Sigla { get; set; }
+        [Display(Name = "Permanente")]
         public int TotalPermanente { get; set; }
+        [Display(Name = "Temporária")]
         public int TotalTemporaria { get; set; }
-
-
-
     }
 }

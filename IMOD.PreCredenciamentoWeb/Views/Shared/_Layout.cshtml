@@ -13,7 +13,6 @@
     @*<link rel="stylesheet" href="~/Content/bootstrap.min.css" />"*@
     <link rel="stylesheet" href="~/Content/bootstrap-datepicker.css" />"
     <link rel="stylesheet" href="~/Content/wizard.css" />"
-
     <link href="~/Content/bootstrap.min.css" rel="stylesheet">
     <link href="~/Content/nifty.css" rel="stylesheet">
     <link href="~/Content/dataTables.bootstrap.css" rel="stylesheet">
@@ -311,7 +310,9 @@
                 @*@if (Request.IsAuthenticated)
                     {}*@
                 <ul class="nav navbar-nav">
-                    <li style="padding-right:410px">.</li>
+                    
+                    <li style="padding-right:300px">.</li>
+                    <li><a href='~/Empresa'><i class="fa fa-industry" style="font-size:30px;padding-top:0px;color:#566787;"></i> Empresa </a></li>
                     <li><a href='~/Colaborador'><i class="fa fa-fw fa-users" style="font-size:30px;padding-top:0px;color:#566787;"></i> Colaboradores </a></li>
                     <li><a href='~/Veiculo'><i class="fa fa-fw fa-car" style="font-size:30px;padding-top:0px;color:#566787;"></i> Veiculos </a></li>
                     @*<li><a href='~/Equipamento'><i class="fa fa-fw fa-car" style="font-size:30px;padding-top:0px;color:#566787;"></i> Equipamentos </a></li>*@
@@ -358,6 +359,7 @@
     <script>
         $(document).ready(function () {
             $("#Cpf").mask("999.999.999-99");
+            $("#Cnpj").mask("99.999.999/9999-99");
             $("#Cep").mask("99999-999");
             $("#telefone").mask("(99) 99999-9999");
             $("#TelefoneEmergencia").mask("(99) 99999-9999");
