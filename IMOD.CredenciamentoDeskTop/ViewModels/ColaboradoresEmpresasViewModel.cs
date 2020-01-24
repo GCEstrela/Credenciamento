@@ -451,7 +451,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.PrepareCriar();
             IsEnableLstView = false;
             _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false);
-            ListarDadosEmpresaContratos();
+            //ListarDadosEmpresaContratos();
+            ListarEmpresa_e_Contratos();
         }
 
         /// <summary>
@@ -590,6 +591,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.PrepareAlterar();
             IsEnableLstView = false;
             _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false);
+            ListarEmpresa_e_Contratos();
         }
 
         /// <summary>
