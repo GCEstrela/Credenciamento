@@ -1070,9 +1070,11 @@ namespace IMOD.Infra.Servicos
 
                 if (!string.IsNullOrWhiteSpace(entity.IdentificadorCredencialGuid))
                 {
+                    //entity.IdentificadorCredencialGuid = EncontraCredencialPeloNumero(entity, entity.NumeroCredencial);
 
                     Credential credencial = _sdk.GetEntity(new Guid(entity.IdentificadorCredencialGuid)) as Credential;
-                    if (credencial != null)
+                    //if (credencial != null)
+                    if (credencial.Cardholder == null || credencial.Cardholder.Guid.ToString() == entity.IdentificadorCardHolderGuid)
                     {
                         _sdk.TransactionManager.CreateTransaction();
 
@@ -1080,7 +1082,13 @@ namespace IMOD.Infra.Servicos
 
                         _sdk.TransactionManager.CommitTransaction();
                     }
+                    else
+                    {
+                        string cardname = credencial.Cardholder.Name;
+                        throw new InvalidOperationException("Credencial já esta associada a um CardHoldr: " + cardname);
+                    }
                 }
+                
 
                 #endregion
             }
