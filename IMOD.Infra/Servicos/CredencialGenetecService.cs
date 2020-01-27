@@ -396,158 +396,55 @@ namespace IMOD.Infra.Servicos
             //VerificaRegraAcesso(entity);
             try
             {
-                #region Existindo CardHolder, não criar
-                entity.IdentificadorCardHolderGuid = EncontraCardHolderPelaMatricula(entity, entity.Matricula);
 
-                if (!string.IsNullOrWhiteSpace(entity.IdentificadorCardHolderGuid))
+                Cardholder cardHolder = ObterCardHolder(entity);
+
+                _sdk.TransactionManager.CreateTransaction();
+
+                CardholderState Status = CardholderState.Active;
+                if (cardHolder == null)
                 {
-                    //Encontra Credencial pelo Guid
-                    var existEntity = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
-                    if (existEntity != null)
-                    {
-                        _sdk.TransactionManager.CreateTransaction();
-                        //Atualizar dados
-                        //SetValorCamposCustomizados(entity, existEntity);
-
-                        var cardHolder = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
-                       
-                        if (cardHolder.State != CardholderState.Active)
-                        {
-                            cardHolder.State = CardholderState.Active;
-                            cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
-                            cardHolder.State = CardholderState.Inactive;
-                        }
-                        else if (cardHolder.State == CardholderState.Active)
-                        {
-                            cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
-                        }
-                        cardHolder.Picture = entity.Foto;
-
-                        if (entity.grupoAlterado)
-                        {
-                            cardHolder.Groups.Clear();
-                            if (entity.listadeGrupos != null)
-                                foreach (Guid grupoGuid in entity.listadeGrupos)
-                                {
-                                    cardHolder.Groups.Add(grupoGuid);
-                                }
-                        }
-                        if (entity.GrupoPadrao != null && cardHolder.Groups.Count == 0)
-                        {
-                            Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
-                            if (grupo != null)
-                                cardHolder.Groups.Add(grupo);
-                        }
-
-                        if (entity.regraAlterado)
-                        {
-                            RemoverRegrasCardHolder(entity);
-
-                            foreach (Guid regrasGuid in entity.listadeRegras)
-                            {
-                                AccessRule accesso_add = _sdk.GetEntity(regrasGuid) as AccessRule;
-                                accesso_add.Members.Add(cardHolder.Guid);
-                            }
-                        }
-
-                        SetValorCamposCustomizados(entity, cardHolder);
-
-                        _sdk.TransactionManager.CommitTransaction();
-                        return;
-                    }
-                    //entity.IdentificadorCardHolderGuid = null;
-                    entity.IdentificadorCardHolderGuid = EncontraCardHolderPelaMatricula(entity, entity.Matricula);
-                }
-                else
-                {
-                    //Encontra Credencial pelo Numero da Matrícula
-                    entity.IdentificadorCardHolderGuid = EncontraCardHolderPelaMatricula(entity, entity.Matricula);
-                }
-
-                #endregion
-                if (entity.IdentificadorCardHolderGuid == null)
-                {
-                    _sdk.TransactionManager.CreateTransaction();
-
-                    var cardHolder = _sdk.CreateEntity(entity.Nome, EntityType.Cardholder) as Cardholder;
-                    if (cardHolder == null) throw new InvalidOperationException("Não foi possível criar uma credencial.");
-
+                    cardHolder = _sdk.CreateEntity(entity.Nome, EntityType.Cardholder) as Cardholder;
                     cardHolder.State = CardholderState.Inactive;
-                    entity.IdentificadorCardHolderGuid = cardHolder.Guid.ToString(); //Set identificador Guid
-
-                    SetValorCamposCustomizados(entity, cardHolder);
-
-                    cardHolder.Picture = entity.Foto;
-                    if (entity.grupoAlterado)
-                    {
-                        cardHolder.Groups.Clear();
-                        if (entity.listadeGrupos != null)
-                            foreach (Guid grupoGuid in entity.listadeGrupos)
-                            {
-                                cardHolder.Groups.Add(grupoGuid);
-                            }
-                    }
-                    if (entity.GrupoPadrao != null && cardHolder.Groups.Count == 0)
-                    {
-                        Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
-                        if (grupo != null)
-                            cardHolder.Groups.Add(grupo);
-                    }
-
-                    if (entity.regraAlterado)
-                    {
-                        RemoverRegrasCardHolder(entity);
-
-                        foreach (Guid regrasGuid in entity.listadeRegras)
-                        {
-                            AccessRule accesso_add = _sdk.GetEntity(regrasGuid) as AccessRule;
-                            accesso_add.Members.Add(cardHolder.Guid);
-                        }
-                    }
-
-
-                    if (entity.Validade > DateTime.Now)
-                    {
-                        cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
-                    }
-                    //cardHolder.Picture = entity.Foto;
-
-                    _sdk.TransactionManager.CommitTransaction();
                 }
-                else
+                Status = cardHolder.State;
+
+                cardHolder.State = CardholderState.Active;
+                cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                cardHolder.State = Status;
+                cardHolder.Picture = entity.Foto;
+
+                if (entity.grupoAlterado)
                 {
-                    //Foi encontrado um CardHolder para a Matrícula especificada.
-                    //O CardHolder será atualizado
-                    var cardHolder = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
-                    _sdk.TransactionManager.CreateTransaction();
-
-                    SetValorCamposCustomizados(entity, cardHolder);
-                    if (cardHolder.State != CardholderState.Active)
-                    {
-                        cardHolder.State = CardholderState.Active;
-                        cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
-                        cardHolder.State = CardholderState.Inactive;
-                    }
-                    else if (cardHolder.State == CardholderState.Active)
-                    {
-                        cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
-                    }
-                    cardHolder.Picture = entity.Foto;
-
-                    if (entity.grupoAlterado)
-                    {
-                        cardHolder.Groups.Clear();
-                        if (entity.listadeGrupos != null)
-                            foreach (Guid cardholderGuid in entity.listadeGrupos)
-                            {
-                                cardHolder.Groups.Add(cardholderGuid);
-                            }
-                    }
-
-                    _sdk.TransactionManager.CommitTransaction();
+                    cardHolder.Groups.Clear();
+                    if (entity.listadeGrupos != null)
+                        foreach (Guid grupoGuid in entity.listadeGrupos)
+                        {
+                            cardHolder.Groups.Add(grupoGuid);
+                        }
+                }
+                if (entity.GrupoPadrao != null && cardHolder.Groups.Count == 0)
+                {
+                    Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
+                    if (grupo != null)
+                        cardHolder.Groups.Add(grupo);
                 }
 
-                //VerificaRegraAcesso(entity);
+                if (entity.regraAlterado)
+                {
+                    RemoverRegrasCardHolder(entity);
+
+                    foreach (Guid regrasGuid in entity.listadeRegras)
+                    {
+                        AccessRule accesso_add = _sdk.GetEntity(regrasGuid) as AccessRule;
+                        accesso_add.Members.Add(cardHolder.Guid);
+                    }
+                }
+
+                SetValorCamposCustomizados(entity, cardHolder);
+
+                _sdk.TransactionManager.CommitTransaction();
+
             }
             catch (Exception ex)
             {
@@ -555,6 +452,27 @@ namespace IMOD.Infra.Servicos
                 throw;
             }
         }
+
+        public Cardholder ObterCardHolder(CardHolderEntity entity)
+        {
+            try
+            {
+
+                Cardholder cardHolder = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
+                if (cardHolder == null)
+                {
+                    cardHolder = EncontraCardHolderPelaMatricula(entity, entity.Matricula, true);
+                }
+                return cardHolder;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
         public void CriarCardHolder(CardHolderEntity entity, List<Guid> cardholderGuids)
         {
 
@@ -880,6 +798,42 @@ namespace IMOD.Infra.Servicos
                         if (cardholder.CustomFields["Matricula"].ToString() == cardholderMatricula.Trim())
                         {
                             return cardholder.Guid.ToString();
+                        }
+                    }
+
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
+
+        public Cardholder EncontraCardHolderPelaMatricula(CardHolderEntity entity, string cardholderMatricula, Boolean encontrado = true)
+        {
+
+            EntityConfigurationQuery query;
+            QueryCompletedEventArgs result;
+            try
+            {
+
+                query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
+                query.EntityTypeFilter.Add(EntityType.Cardholder);
+                query.NameSearchMode = StringSearchMode.StartsWith;
+                result = query.Query();
+                SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+                var service = systemConfiguration.CustomFieldService;
+                if (result.Success)
+                {
+
+                    foreach (DataRow dr in result.Data.Rows)
+                    {
+                        Cardholder cardholder = _sdk.GetEntity((Guid)dr[0]) as Cardholder;
+                        if (cardholder.CustomFields["Matricula"].ToString() == cardholderMatricula.Trim())
+                        {
+                            return cardholder;
                         }
                     }
 
