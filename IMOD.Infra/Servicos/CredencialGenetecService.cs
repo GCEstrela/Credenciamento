@@ -415,9 +415,16 @@ namespace IMOD.Infra.Servicos
                         cardHolder.Groups.Add(grupo);
                 }
 
+                SetValorCamposCustomizados(entity, cardHolder);
+
                 if (entity.regraAlterado)
                 {
-                    RemoverRegrasCardHolder(entity);
+                    //RemoverRegrasCardHolder(entity);
+                    foreach (Guid regrasGuid in entity.listadeRegras)
+                    {
+                        AccessRule accesso_add = _sdk.GetEntity(regrasGuid) as AccessRule;
+                        accesso_add.Members.Remove(cardHolder.Guid);
+                    }
 
                     foreach (Guid regrasGuid in entity.listadeRegras)
                     {
@@ -426,7 +433,7 @@ namespace IMOD.Infra.Servicos
                     }
                 }
 
-                SetValorCamposCustomizados(entity, cardHolder);
+                entity.IdentificadorCardHolderGuid = cardHolder.Guid.ToString();
 
                 _sdk.TransactionManager.CommitTransaction();
 
@@ -442,13 +449,23 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
+                Cardholder cardHolder;
 
-                Cardholder cardHolder = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
-                if (cardHolder == null)
+                if (entity.IdentificadorCardHolderGuid != null)
+                {
+                    cardHolder = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
+                    if (cardHolder == null)
+                    {
+                        cardHolder = EncontraCardHolderPelaMatricula(entity, entity.Matricula, true);
+                    }
+                    return cardHolder;
+                }
+                else
                 {
                     cardHolder = EncontraCardHolderPelaMatricula(entity, entity.Matricula, true);
+                    return cardHolder;
                 }
-                return cardHolder;
+                
             }
             catch (Exception)
             {
@@ -1013,8 +1030,10 @@ namespace IMOD.Infra.Servicos
             QueryCompletedEventArgs result;
             try
             {
-                var guid = new Guid(entity.IdentificadorCardHolderGuid);
-                var cardHolder = _sdk.GetEntity(guid) as Cardholder;
+                Cardholder cardHolder = ObterCardHolder(entity);
+                //var guid = new Guid(entity.IdentificadorCardHolderGuid);
+                //var cardHolder = _sdk.GetEntity(crdHolderGuid) as Cardholder;
+
 
                 query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
                 query.EntityTypeFilter.Add(EntityType.AccessRule);
@@ -1072,7 +1091,7 @@ namespace IMOD.Infra.Servicos
                         throw new InvalidOperationException("Credencial já esta associada a um CardHoldr: " + cardname);
                     }
                 }
-                
+
 
                 #endregion
             }
