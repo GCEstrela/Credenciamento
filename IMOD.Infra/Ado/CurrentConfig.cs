@@ -91,14 +91,18 @@ namespace IMOD.Infra.Ado
                 {
                     ipList.Add(ip.ToString());
                 }
-                
-                //verifica se o ip utilizado será o da carga ou do servidor web
-                if (!processo.Equals("IMOD.Service")) 
+
+                //verifica se o ip utilizado será o da carga ou do servidor web - IMOD.ImodApp
+                if (processo.Equals("IMOD.ImodApp")) 
+                {
+
+                }
+                else if (!processo.Equals("IMOD.Service"))
                 {
                     campoPesquisa = "ServerWeb";
                     path = HttpContext.Current.Server.MapPath("~");
                 }
-                    
+                
 
                 var prods = (from p in XElement.Load(path + "\\Conexao.xml").Elements("Produto")
                              where ipList.Contains(p.Element(campoPesquisa).Value)     // Quando esta sendo usudo pelo WinSevice e Pre-Cadastro

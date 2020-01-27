@@ -49,17 +49,19 @@
       <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Genetec.Sdk">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Genetec Security Center 5.8\Genetec.Sdk.dll</HintPath>
+    <Reference Include="Genetec.Sdk, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\IMOD.CredenciamentoDeskTop\Dlls\Genetec.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="Genetec.Sdk.Controls">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Genetec Security Center 5.8\Genetec.Sdk.Controls.dll</HintPath>
+      <HintPath>..\IMOD.CredenciamentoDeskTop\Dlls\Genetec.Sdk.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Genetec.Sdk.Maps">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Genetec Security Center 5.8\Genetec.Sdk.Maps.dll</HintPath>
+      <HintPath>..\IMOD.CredenciamentoDeskTop\Dlls\Genetec.Sdk.Maps.dll</HintPath>
     </Reference>
-    <Reference Include="Genetec.Sdk.Workspace">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Genetec Security Center 5.8\Genetec.Sdk.Workspace.dll</HintPath>
+    <Reference Include="Genetec.Sdk.Workspace, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\IMOD.CredenciamentoDeskTop\Dlls\Genetec.Sdk.Workspace.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Expression.Encoder, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
       <HintPath>..\packages\Microsoft.Expression.Encoder.4.0.4276.3\lib\net45\Microsoft.Expression.Encoder.dll</HintPath>
