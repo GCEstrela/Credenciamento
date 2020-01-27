@@ -273,7 +273,7 @@ namespace IMOD.Infra.Servicos
         {
             try
             {
-                //_sdk.ReportManager.CreateReportQuery(ReportType.AssetAreaPresence);
+
                 bool ativo = false;
                 if (string.IsNullOrWhiteSpace(entity.IdentificadorCardHolderGuid)) throw new ArgumentNullException(nameof(entity.IdentificadorCardHolderGuid));
                 _sdk.TransactionManager.CreateTransaction();
@@ -328,13 +328,10 @@ namespace IMOD.Infra.Servicos
                 if (entity.IdentificadorCredencialGuid != null)
                 {
                     if (string.IsNullOrWhiteSpace(entity.IdentificadorCredencialGuid)) throw new ArgumentNullException(nameof(entity.IdentificadorCredencialGuid));
-                    // _sdk.TransactionManager.CreateTransaction();
 
                     var credencial = _sdk.GetEntity(new Guid(entity.IdentificadorCredencialGuid)) as Credential;
                     if (credencial == null) throw new InvalidOperationException("Não foi possível encontrar uma credencial.");
                     credencial.State = entity.Ativo ? CredentialState.Active : CredentialState.Inactive;
-                    //RemoverRegrasCardHolder(entity);  //Remove todas as regras de aceso do cardholder
-
                     if (credencial.State != CredentialState.Active)
                     {
                         VerificaRegraAcesso(entity, false);
@@ -345,8 +342,6 @@ namespace IMOD.Infra.Servicos
                     }
                 }
 
-
-                //_sdk.TransactionManager.CommitTransaction();
             }
             catch (Exception ex)
             {
@@ -360,21 +355,11 @@ namespace IMOD.Infra.Servicos
             try
             {
                 if (string.IsNullOrWhiteSpace(entity.IdentificadorCredencialGuid)) throw new ArgumentNullException(nameof(entity.IdentificadorCredencialGuid));
-                // _sdk.TransactionManager.CreateTransaction();
 
                 var credencial = _sdk.GetEntity(new Guid(entity.IdentificadorCredencialGuid)) as Credential;
                 if (credencial == null) throw new InvalidOperationException("Não foi possível encontrar uma credencial.");
                 credencial.State = entity.Ativo ? CredentialState.Active : CredentialState.Inactive;
-                //RemoverRegrasCardHolder(entity);  //Remove todas as regras de aceso do cardholder
-                //if (credencial.State != CredentialState.Active)
-                //{
-                //    VerificaRegraAcesso(entity, false);
-                //}
-                //else
-                //{
-                //    VerificaRegraAcesso(entity, true);
-                //}
-                //_sdk.TransactionManager.CommitTransaction();
+
             }
             catch (Exception ex)
             {
@@ -1070,7 +1055,6 @@ namespace IMOD.Infra.Servicos
 
                 if (!string.IsNullOrWhiteSpace(entity.IdentificadorCredencialGuid))
                 {
-                    //entity.IdentificadorCredencialGuid = EncontraCredencialPeloNumero(entity, entity.NumeroCredencial);
 
                     Credential credencial = _sdk.GetEntity(new Guid(entity.IdentificadorCredencialGuid)) as Credential;
                     //if (credencial != null)
