@@ -947,7 +947,7 @@ namespace IMOD.Infra.Servicos
                     else
                     {
                         string cardname = credencial.Cardholder.Name;
-                        throw new InvalidOperationException("Credencial já esta associada a um CardHoldr: " + cardname);
+                        throw new InvalidOperationException("Credencial já esta associada a um CardHoldr:" + "\n" + cardname);
                     }
                 }
                 else

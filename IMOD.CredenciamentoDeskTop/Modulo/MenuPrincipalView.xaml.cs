@@ -41,6 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 InitializeComponent();
+                txtVersao.Text = "";
                 txtVersao.Text = VersaoSoftware;
                 _viewSingleton = new ViewSingleton();
                 //var tt = UsuarioLogado.Nome;

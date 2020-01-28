@@ -1580,11 +1580,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             if (hasErros) return true;
 
-            if (ExisteNumeroCredencial())
-            {
-                Entity.SetMessageErro("NumeroCredencial", "Número de credencial já existente.");
-                return true;
-            }
+            //if (ExisteNumeroCredencial())
+            //{
+            //    Entity.SetMessageErro("NumeroCredencial", "Número de credencial já existente.");
+            //    return true;
+            //}
+
             if (Entity.NumeroColete != "")
             {
                 var colaboradorcredencial = ExisteNumeroColete();
