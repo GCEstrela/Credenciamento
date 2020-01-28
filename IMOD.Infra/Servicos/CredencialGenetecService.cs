@@ -465,7 +465,7 @@ namespace IMOD.Infra.Servicos
                     cardHolder = EncontraCardHolderPelaMatricula(entity, entity.Matricula, true);
                     return cardHolder;
                 }
-                
+
             }
             catch (Exception)
             {
@@ -779,6 +779,10 @@ namespace IMOD.Infra.Servicos
         /// <param name="entity"></param>
         public string EncontraCardHolderPelaMatricula(CardHolderEntity entity, string cardholderMatricula)
         {
+            if (!EncontrarCustonField("Matricula"))
+            {
+                throw new InvalidOperationException("Problemas para acessar o CustomFieds [ Matricula ]." + "\n" + "Entre em contato com o ADM do Genetec Security Center.");
+            }
 
             EntityConfigurationQuery query;
             QueryCompletedEventArgs result;
@@ -816,6 +820,11 @@ namespace IMOD.Infra.Servicos
         public Cardholder EncontraCardHolderPelaMatricula(CardHolderEntity entity, string cardholderMatricula, Boolean encontrado = true)
         {
 
+            if (!EncontrarCustonField("Matricula"))
+            {
+                throw new InvalidOperationException("Problemas para acessar o CustomFieds [ Matricula ]." + "\n" + "Entre em contato com o ADM do Genetec Security Center.");
+            }
+
             EntityConfigurationQuery query;
             QueryCompletedEventArgs result;
             try
@@ -823,6 +832,7 @@ namespace IMOD.Infra.Servicos
 
                 query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
                 query.EntityTypeFilter.Add(EntityType.Cardholder);
+                //query.EntityTypeFilter.Add(EntityType.CustomEntity);
                 query.NameSearchMode = StringSearchMode.StartsWith;
                 result = query.Query();
                 SystemConfiguration systemConfiguration = _sdk.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
