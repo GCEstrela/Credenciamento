@@ -184,14 +184,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsEnableColete = false;
             }
             _configuraSistema.VisibleGruposRegras = false;
-            if (_configuraSistema.AssociarGrupos==true || _configuraSistema.AssociarRegras == true)
+            if (_configuraSistema.AssociarGrupos == true || _configuraSistema.AssociarRegras == true)
             {
                 _configuraSistema.VisibleGruposRegras = true;
             }
             VisibleGruposRegras = Helper.ExibirCampo(_configuraSistema.VisibleGruposRegras);
             VisibleGrupo = Helper.CollapsedCampo(_configuraSistema.AssociarGrupos);
             VisibleRegra = Helper.CollapsedCampo(_configuraSistema.AssociarRegras);
-            if (_configuraSistema.AssociarGrupos==true && _configuraSistema.AssociarRegras==true)
+            if (_configuraSistema.AssociarGrupos == true && _configuraSistema.AssociarRegras == true)
             {
                 WidthGrupo = 85;
                 WidthRegra = 85;
@@ -239,7 +239,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 else if (_configuraSistema.AssociarRegras == true)
                 {
-                    
+
                     WidthRegra = 180;
                     Alignment = "Stretch";
                 }
@@ -281,7 +281,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
 
         }
-       
+
         /// <summary>
         ///  Listar dados de empresa e contratos
         /// </summary>
@@ -358,6 +358,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 if (Entity == null) return;
+                var empresa = _empresaService.BuscarPelaChave(Entity.EmpresaId);
+                Entity.EmpresaNome = empresa.Nome;
+
                 if (Validar()) return;
                 if (ExisteColaboradoContratoAtivo(_colaboradorid)) return;
 
@@ -367,8 +370,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     n1.EmpresaContratoId = Contratos[0].EmpresaContratoId;
                 }
+
                 //n1.DataFim = DateTime.Today.Date;
                 n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
+
+
+
+                //n1.EmpresaNome = Entity.EmpresaNome;
                 //if (Entity.Validade != null)
                 //{
                 //    n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
@@ -393,7 +401,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     //if (n1.Validade < DateTime.Now)
                     //{
-                        _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+                    _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
                     //}
                     Entity.grupoAlterado = false;
                 }
@@ -402,7 +410,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     WpfHelp.PopupBox(ex);
                 }
 
-               
+
 
                 #endregion
                 //Adicionar no inicio da lista um item a coleção
@@ -497,7 +505,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     //if (n1.Validade < DateTime.Now)
                     //{
-                        _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+                    _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
                     //}
                     Entity.CardHolderGuid = n1.CardHolderGuid;
                 }
@@ -629,11 +637,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
-                var list1 = _service.Listar(colaboradorid, null, null, null, null, null, null, colaboradorEmpresaid).FirstOrDefault();
-                if (list1 != null)
+                if (colaboradorEmpresaid > 0)
                 {
-                    return list1.CardHolderGuid;
+                    var list1 = _service.BuscarPelaChave(colaboradorEmpresaid);
+                    if (list1 != null)
+                    {
+                        return list1.CardHolderGuid;
+                    }
                 }
+                //var list1 = _service.Listar(colaboradorid, null, null, null, null, null, null, colaboradorEmpresaid).FirstOrDefault();
+                
                 return "";
             }
             catch (Exception ex)
