@@ -37,7 +37,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             _viewModel = new ConfiguracoesViewModel();
             DataContext = _viewModel;
             _viewModel.CarregaConfiguracaoSistema();
-              var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar().FirstOrDefault();
+            var config = _auxiliaresServiceConfiguraSistema.ConfiguraSistemaService.Listar().FirstOrDefault();
             Group_cb_.Text = config.GrupoPadrao.ToString();
         }
         #endregion
@@ -820,7 +820,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-               
+
                 ((ConfiguracoesViewModel)DataContext).OnExcluirRegistroLogCommand_ConfiguracoesSistema();
 
             }
@@ -828,6 +828,21 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
 
                 throw;
+            }
+        }
+
+        private void ColaboradorCardHolder_bt__Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                ((ConfiguracoesViewModel)DataContext).AtualizarCustomFieldCarHolderExistentes();
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                MessageBox.Show(ex.Message, "Credenciamento", MessageBoxButton.OK);
             }
         }
     }

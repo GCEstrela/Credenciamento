@@ -320,16 +320,25 @@ namespace IMOD.Infra.Ado.Interfaces.ParamSql
             return textoSemAcento.ToString();
         }
         /// <summary>
+        ///     Monta instrução [Where] da clausula SQL pesquisando pelo valor nulo informado no respestivo campo
+        ///     <para>Ex: is @CampoA null </para>
+        /// </summary>
+        /// <returns></returns>
+        public ParamSelect IsNull()
+        {
+            var sintaxe = " is null ".ToLower();
+            return Fill(sintaxe);
+        }
+        /// <summary>
         ///     Monta instrução [Where] da clausula SQL pesquisando pelo valor não nulo informado no respestivo campo
         ///     <para>Ex: is @CampoA not null </para>
         /// </summary>
         /// <returns></returns>
         public ParamSelect IsNotNull()
         {
-            var sintaxe = " is @{0} not null ".ToLower();
+            var sintaxe = " is not null ".ToLower();
             return Fill(sintaxe);
         }
-
         /// <summary>
         ///     Monta instrução [Where] da clausula SQL pesquisando pelo valor aproximado informado no respestivo campo
         ///     <para>Ex: CampoA ILike (@CampoA), caracteres curinga devem ser concatenado com o valor informado </para>
@@ -361,7 +370,7 @@ namespace IMOD.Infra.Ado.Interfaces.ParamSql
         public ParamSelect MenorIgual()
         {
             var sintaxe = " {0} <=@{0} ".ToLower();
-            return Fill(sintaxe); 
+            return Fill(sintaxe);
         }
 
         /// <summary>

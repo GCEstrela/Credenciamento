@@ -283,6 +283,30 @@ namespace IMOD.Infra.Repositorios
                 throw ex;
             }
         }
+        public ICollection<ColaboradorEmpresa> BuscarListaIntegracao()
+        {
+            try
+            {
+                using (var conn = _dataBase.CreateOpenConnection())
+                {
+
+                    var select = "Select * From ColaboradorEmpresaView Where CardHolderGUID is null And UsuarioDB is not null";
+                    using (var cmd = _dataBase.SelectSQL(select, conn))
+                    {
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<ColaboradorEmpresa>();
+
+                        return d1;
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 }

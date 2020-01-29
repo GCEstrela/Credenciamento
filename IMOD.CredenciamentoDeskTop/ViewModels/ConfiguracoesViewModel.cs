@@ -25,6 +25,12 @@ using CrystalDecisions.CrystalReports.Engine;
 using IMOD.CredenciamentoDeskTop.Funcoes;
 using IMOD.CredenciamentoDeskTop.Windows;
 using IMOD.Domain.Constantes;
+using Genetec.Sdk;
+using IMOD.Infra.Repositorios;
+using Genetec.Sdk.Queries;
+using Genetec.Sdk.Entities;
+using System.Data;
+using System.IO;
 
 #endregion
 
@@ -1473,6 +1479,89 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 Utils.TraceException(ex);
             }
+        }
+        private IEngine _sdknew;
+        public void CredencialGenetecService(IEngine sdk)
+        {
+            _sdknew = sdk;
+        }
+        public void AtualizarCustomFieldCarHolderExistentes()
+        {
+            try
+            {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+
+                ColaboradorEmpresaRepositorio colaboradorEmpresaService = new ColaboradorEmpresaRepositorio();
+                CredencialGenetecService(Main.Engine);
+                EntityConfigurationQuery query;
+                QueryCompletedEventArgs result;
+                query = _sdknew.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
+                query.EntityTypeFilter.Add(EntityType.Cardholder);
+                query.NameSearchMode = StringSearchMode.StartsWith;
+                result = query.Query();
+                SystemConfiguration systemConfiguration = _sdknew.GetEntity(SdkGuids.SystemConfiguration) as SystemConfiguration;
+                var service = systemConfiguration.CustomFieldService;
+                var cardHolderList = new List<Cardholder>();
+                if (result.Success)
+                {
+                    foreach (DataRow dr in result.Data.Rows)
+                    {
+                        Cardholder cardholder = _sdknew.GetEntity((Guid)dr[0]) as Cardholder;
+                        cardHolderList.Add(cardholder);
+                    }
+                }
+
+                var cardHolderListDuplicado = new List<string>();
+                //ColaboradorEmpresa cardholderBanco;
+                var cardholderBancoList = colaboradorEmpresaService.BuscarListaIntegracao();
+                foreach (ColaboradorEmpresa colaboradorEmpresa in cardholderBancoList)
+                {
+                    string nomeDB = colaboradorEmpresa.ColaboradorNome;
+                    var cardholderEncontrados = (List<Cardholder>)cardHolderList.Where(c => c.FirstName == nomeDB).ToList();
+                    if (cardholderEncontrados.Count == 1)
+                    {
+                        cardholderEncontrados[0].CustomFields["Matricula"] = colaboradorEmpresa.Matricula;
+                        //cardholderEncontrados[0].CustomFields["Cpf"] = colaboradorEmpresa.Cpf;
+                        cardholderEncontrados[0].CustomFields["Cargo"] = colaboradorEmpresa.Cargo;
+                        //cardholderEncontrados[0].CustomFields["Empresa"] = colaboradorEmpresa.Empresa;
+                        //cardholderEncontrados[0].CustomFields["Identificador"] = colaboradorEmpresa.Identificador;
+                    }
+                    else
+                    {
+                        //cardHolderListDuplicado.Add(cardholderEncontrados[0].FirstName);
+                        CriarLog("Nome..: " + cardholderEncontrados[0].FirstName + "Quantidade..:" + cardholderEncontrados.Count);
+
+
+                    }
+
+
+                    //_sdknew.TransactionManager.CreateTransaction();
+                    //Cardholder cardholderNew = _sdknew.CreateEntity(nomeDB,EntityType.Cardholder) as Cardholder;
+                    //cardholderNew.FirstName = nomeDB;
+                    ////cardholderNew.LastName = "";
+                    //_sdknew.TransactionManager.CommitTransaction();
+
+                }
+
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                throw ex;
+            }
+        }
+        private void CriarLog(object state)
+        {
+            try
+            {
+                StreamWriter vWriter = new StreamWriter(@"C:\Tmp\logCardHolderDuplicado.txt", true);
+                vWriter.WriteLine(state.ToString());
+                vWriter.Flush();
+                vWriter.Close();
+            }
+            catch { }
+
         }
         public void OnSalvarEdicaoCommand_TiposAtividades()
         {

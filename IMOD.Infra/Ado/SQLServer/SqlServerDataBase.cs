@@ -47,7 +47,7 @@ namespace IMOD.Infra.Ado.SQLServer
         {
             try
             {
-                var connection = (SqlConnection) CreateConnection();
+                var connection = (SqlConnection)CreateConnection();
                 connection.Open();
                 return connection;
             }
@@ -88,7 +88,7 @@ namespace IMOD.Infra.Ado.SQLServer
                 Utils.TraceException(ex);
                 return null;
             }
-          
+
         }
 
         /// <summary>
@@ -99,9 +99,9 @@ namespace IMOD.Infra.Ado.SQLServer
         /// <returns>Um objeto command</returns>
         public IDbCommand CreateCommand(string commandText, IDbConnection connection)
         {
-            var command = (SqlCommand) CreateCommand();
+            var command = (SqlCommand)CreateCommand();
             command.CommandText = commandText;
-            command.Connection = (SqlConnection) connection;
+            command.Connection = (SqlConnection)connection;
             command.CommandType = CommandType.Text;
             //Set command
             _dbCommand = command;
@@ -116,9 +116,9 @@ namespace IMOD.Infra.Ado.SQLServer
         /// <returns>Um objeto Command</returns>
         public IDbCommand CreateStoredProcCommand(string procName, IDbConnection connection)
         {
-            var command = (SqlCommand) CreateCommand();
+            var command = (SqlCommand)CreateCommand();
             command.CommandText = procName;
-            command.Connection = (SqlConnection) connection;
+            command.Connection = (SqlConnection)connection;
             command.CommandType = CommandType.StoredProcedure;
             return command;
         }
@@ -224,6 +224,8 @@ namespace IMOD.Infra.Ado.SQLServer
             _dbCommand.CommandType = CommandType.Text;
             return _dbCommand;
         }
+
+
 
         /// <summary>
         ///     Monta sintaxe SQL Update
@@ -522,6 +524,21 @@ namespace IMOD.Infra.Ado.SQLServer
             _pksInsert.Clear(); //armazena um array de campos chaves do insert
             _pksUpdate.Clear(); //armazena um array de campos chaves do update
             _valorInsert.Clear(); //armazena um array de campos do insert
+        }
+
+        public IDbCommand SelectSQL(string sqlQuery, IDbConnection connection)
+        {
+            //Reset parametros
+            Clear();
+            SqlText = TipoInstrucao.SelectText;
+            //Set parametros            
+            _sintaxeSql = sqlQuery; //sintaxe sql
+            _dbCommand = CreateCommand();
+            _dbCommand.Connection = connection; //atribuição objeto de conexao ao objeto command
+
+            _dbCommand.CommandText = _sintaxeSql.Trim() + ";";
+            _dbCommand.CommandType = CommandType.Text;
+            return _dbCommand;
         }
 
         #endregion

@@ -132,7 +132,7 @@ namespace IMOD.Infra.Ado.Interfaces
         /// <param name="connection">Um objeto connection</param>
         /// <returns></returns>
         IDbCommand SelectText(string tabela, IDbConnection connection);
-
+        IDbCommand SelectSQL(string sqlQuery, IDbConnection connection);
         /// <summary>
         ///     Monta sintaxe SQL Update
         /// </summary>

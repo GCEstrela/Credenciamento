@@ -1027,7 +1027,7 @@
                                             </Image>
 
                                         </Border>
-                                        <Button Content="Selecionar Logo" HorizontalAlignment="Center" Margin="0,10,0,0" Height="30" Width="100" Click="Button_Click"/>
+                                        <Button Content="Selecionar Logo" HorizontalAlignment="Center" Margin="0,10,0,0" Height="30" Width="100"  Cursor="Hand" Click="Button_Click"/>
 
                                     </StackPanel>
 
@@ -1082,9 +1082,9 @@
 
                                     </StackPanel>
                                     <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,7,0,1" Width="578">
-                                        <CheckBox Margin="110,0,0,0" Content="EnableSSL" Foreground="#FFD0D0D0"
+                                        <CheckBox Margin="110,0,0,0" Content="EnableSSL" Foreground="#FFD0D0D0" Cursor="Hand" 
                                                   IsChecked="{Binding Entity.EnableSsl, UpdateSourceTrigger=PropertyChanged}"/>
-                                        <CheckBox Margin="10,0,0,0" Content="UseDefaultCredentials" Foreground="#FFD0D0D0"
+                                        <CheckBox Margin="10,0,0,0" Content="UseDefaultCredentials" Foreground="#FFD0D0D0" Cursor="Hand" 
                                                   IsChecked="{Binding Entity.UseDefaultCredentials, UpdateSourceTrigger=PropertyChanged}"/>
                                         <!--<Button x:Name="btnSalvarConfiguracoesSistemaEmail" ToolTip="Salvar" Width="25"
                                                     Margin="205,0,0,7" IsEnabled="True" Click="BtnSalvarConfiguracoesSistema_Click">
@@ -1109,17 +1109,17 @@
                                              
                                                 <CheckBox x:Name="Regra_" ToolTip="Envia os designativos selecionados na criação da credencial para o controle de acesso (R, R1, T...)" 
                                                 Content="Enviar Regras das Credenciais (Designativos)" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
-                                                Margin="30,7,0,0" VerticalAlignment="Top" Width="350"
+                                                Margin="30,7,0,0" VerticalAlignment="Top" Width="350"  Cursor="Hand" 
                                                 IsChecked="{Binding Entity.Regras, UpdateSourceTrigger=PropertyChanged}" />
 
                                                 <CheckBox x:Name="Grupos_" ToolTip="Exibe/Oculta botão que permite associação do CardHolder ao(s) grupo(s) do controle de acesso." 
                                                 Content="Habilitar Botão de Associação do Colaborador aos Grupos" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
-                                                Margin="30,7,0,0" VerticalAlignment="Top" Width="350"
+                                                Margin="30,7,0,0" VerticalAlignment="Top" Width="350"  Cursor="Hand" 
                                                 IsChecked="{Binding Entity.AssociarGrupos, UpdateSourceTrigger=PropertyChanged}" />
 
                                                 <CheckBox x:Name="Regras_" ToolTip="Exibe/Oculta botão que permite associação do CardHolder a(s) regra(s) do controle de acesso." 
                                                 Content="Habilitar Botão de Associação do Colaborador às Regras" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
-                                                Margin="30,7,0,0" VerticalAlignment="Top" Width="350"
+                                                Margin="30,7,0,0" VerticalAlignment="Top" Width="350"  Cursor="Hand" 
                                                 IsChecked="{Binding Entity.AssociarRegras, UpdateSourceTrigger=PropertyChanged}" />
                                                 
                                             </StackPanel>
@@ -1134,11 +1134,11 @@
 
                                         <CheckBox x:Name="Contrato_" ToolTip="Essa opção habilita contratos automático." 
                                               Content="Gerar Contrato Automático" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
-                                              Margin="152,7,0,0" VerticalAlignment="Top" Width="170"
+                                              Margin="152,7,0,0" VerticalAlignment="Top" Width="170"  Cursor="Hand" 
                                               IsChecked="{Binding Entity.Contrato, UpdateSourceTrigger=PropertyChanged}" />
                                         <CheckBox x:Name="Colete_" ToolTip="" 
                                               Content="Gerar nº de Colete Automático" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
-                                              Margin="30,7,0,0" VerticalAlignment="Top" Width="200"
+                                              Margin="30,7,0,0" VerticalAlignment="Top" Width="200"  Cursor="Hand" 
                                               IsChecked="{Binding Entity.Colete, UpdateSourceTrigger=PropertyChanged}" />
 
 
@@ -1150,7 +1150,7 @@
                                          ItemsSource="{Binding Entity.Grupos}"  
                                          SelectedValue="{Binding Entity.GrupoPadrao, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                          Text="{Binding Entity.GrupoPadrao}"
-                                         IsEnabled="True" Height="24" Width="476" />
+                                         IsEnabled="True" Height="24" Width="476"  Cursor="Hand"  />
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,1,0,1" Width="590">
 
@@ -1177,12 +1177,13 @@
                                         <TextBox x:Name="txtDiasContencao_" ToolTip="Dias de armazenamento de Logs" HorizontalContentAlignment="Center"  Width="78" Margin="0,1,0,1"
                                                  Text="{Binding Entity.diasContencao, UpdateSourceTrigger=PropertyChanged}">
                                         </TextBox>
-                                        <Button x:Name="bntContencao" Content="Remover Registros de Log" ToolTip="Dias de armazenamento de Logs" Margin="10,0,0,0" Width="161" Click="BntContencao_Click"></Button>
+                                        <Button x:Name="bntContencao" Content="Remover Registros de Log" ToolTip="Dias de armazenamento de Logs" Margin="10,0,0,0" Width="161" Cursor="Hand" Click="BntContencao_Click"></Button>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,20,0,1" Width="615">
                                         <Label Content="Importação:" Height="28" Width="110" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                                        <Button x:Name="emprasa_bt_" Content="Logo da Empresa" Margin="0,1,0,1" Width="139" Click="Emprasa_bt_Click" ></Button>
-                                        <Button x:Name="colaborador_bt_" Content="Fotos dos Colaborador" Margin="90,1,0,1" Width="148" Click="Colaborador_bt_Click"></Button>
+                                        <Button x:Name="emprasa_bt_" Content="Logo da Empresa" Margin="0,1,0,1" Width="139"  Cursor="Hand" Click="Emprasa_bt_Click" ></Button>
+                                        <Button x:Name="colaborador_bt_" Content="Fotos dos Colaborador" Margin="15,1,0,1" Width="148"  Cursor="Hand" Click="Colaborador_bt_Click"></Button>
+                                        <Button x:Name="colaboradorCardHolder_bt_" Content="CardHolder/Colaborador" ToolTip="Atualizar os CustomFieds dos CardHolders" Margin="20,1,0,1" Cursor="Hand"  Width="170" Click="ColaboradorCardHolder_bt__Click"></Button>
                                         <!--<Button x:Name="btnSalvarConfiguracoesSistemaAutomatica" ToolTip="Salvar" Width="25"
                                                     Margin="100,0,0,7" IsEnabled="True" Click="BtnSalvarConfiguracoesSistema_Click">
                                             <StackPanel>
@@ -1196,8 +1197,8 @@
                             <StackPanel Margin="0,0,0,0" Grid.Row="1" Grid.Column="2">
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,1,0,1" Width="580">
-
-                                    <Button VerticalAlignment="Center" Content="{StaticResource imgSave}" ToolTip="Salvando Configurações do Sistema" Margin="500,240,0,0"  Width="75" Height="75" Click="BtnSalvarConfiguracoesSistema_Click">
+                                    
+                                    <Button VerticalAlignment="Center" Content="{StaticResource imgSave}" ToolTip="Salvando Configurações do Sistema" Margin="500,240,0,0"  Width="75" Height="75" Cursor="Hand" Click="BtnSalvarConfiguracoesSistema_Click">
                                         <!--<StackPanel >
                                             <Image Source="../Resources/save.png"/>
                                         </StackPanel>-->

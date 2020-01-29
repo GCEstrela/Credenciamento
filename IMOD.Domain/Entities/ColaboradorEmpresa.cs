@@ -62,6 +62,7 @@ namespace IMOD.Domain.Entities
         public List<Guid> listadeRegras { get; set; }
         public bool grupoAlterado { get; set; }
         public bool regraAlterado { get; set; }
+        public string ColaboradorNome { get; set; }
         #endregion
 
 
