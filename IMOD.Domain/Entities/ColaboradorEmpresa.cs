@@ -67,4 +67,12 @@ namespace IMOD.Domain.Entities
 
 
     }
+
+    public static class TipoSelectColaboradorEmpresa
+    {
+        public const int integracao = 1;
+        public const int insercao = 2;
+        public const int delecao = 3;
+
+    }
 }

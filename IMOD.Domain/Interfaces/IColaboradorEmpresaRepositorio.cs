@@ -29,7 +29,7 @@ namespace IMOD.Domain.Interfaces
         /// <returns></returns>
         void CriarNumeroMatricula(ColaboradorEmpresa entity);
 
-
+        ICollection<ColaboradorEmpresa> BuscarListaIntegracao(int nomedaTabela);
         ICollection<RelatorioColaboradorEmpresaView> ListarColaboradorEmpresaView(params object[] o);
     }
 }
