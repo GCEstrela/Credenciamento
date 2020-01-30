@@ -173,16 +173,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         ModelState.AddModelError("FileUpload", "Permitida Somente Extensão  .pdf");
                 }
 
-                int count = 0;
-                if ((List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS] != null)
-                {
-                    foreach (var item in (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS])
-                    {
-                        count++;
-                    }
-                }
-                if (count == 0)
-                {
+               
+                if (!((List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS]).Any())
+                { 
                     ModelState.AddModelError("EmpresaContratoId", "Necessário adicionar pelo menos um contrato!");
                 }
 

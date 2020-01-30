@@ -8,6 +8,8 @@ namespace IMOD.Domain.Entities
 {
     public class LayoutCracha
     {
+     
+
         #region  Propriedades
 
         public int LayoutCrachaId { get; set; }
@@ -19,6 +21,20 @@ namespace IMOD.Domain.Entities
         public int TipoCracha { get; set; }
         public int TipoValidade { get; set; }
         public string Cor { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is LayoutCracha cracha &&
+                   LayoutCrachaId == cracha.LayoutCrachaId;
+        }
+
+        public override int GetHashCode()
+        {
+            return -1486030884 + LayoutCrachaId.GetHashCode();
+        }
         #endregion
+
+
+
     }
 }

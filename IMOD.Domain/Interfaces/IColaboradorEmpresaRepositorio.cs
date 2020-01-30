@@ -28,6 +28,8 @@ namespace IMOD.Domain.Interfaces
         /// <param name="o">Arrays de Parametros</param>
         /// <returns></returns>
         void CriarNumeroMatricula(ColaboradorEmpresa entity);
-        ICollection<ColaboradorEmpresa> BuscarListaIntegracao(string nomedaTabela);
+
+
+        ICollection<RelatorioColaboradorEmpresaView> ListarColaboradorEmpresaView(params object[] o);
     }
 }

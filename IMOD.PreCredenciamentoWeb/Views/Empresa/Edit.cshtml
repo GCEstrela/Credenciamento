@@ -26,8 +26,8 @@
                 <section>
                     <div class="wizard">
                         <div class="wizard-inner" style="text-align:center">
-                            <div class="connecting-line" style="width:45%"></div>
-                            <ul class="nav nav-tabs" role="tablist">
+                            <div class="connecting-line" style="width:35%"></div>
+                            <ul class="nav nav-tabs" role="tablist" style="padding-left: 75px;">
                                 <li class="nav-item" style="width:250px" data-toggle="tab" href="#" role="tab">
                                     &nbsp&nbsp
                                 </li>
@@ -65,13 +65,6 @@
                                         </span>
                                     </a>
                                 </li>
-                                <li role="presentation" class="disabled" style="padding-left: 10px">
-                                    <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
-                                        <span class="round-tab">
-                                            <i class="glyphicon glyphicon-ok"></i>
-                                        </span>
-                                    </a>
-                                </li>
                             </ul>
                         </div>
 
@@ -87,45 +80,41 @@
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Cnpj, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10" contenteditable="false">
+                                    <div class="col-md-2" contenteditable="false">
                                         @Html.EditorFor(model => model.Cnpj, new { htmlAttributes = new { @class = "form-control text-uppercase", @readonly = "readonly" } })
                                         @*@Html.TextBoxFor(model => model.Cnpj, new { @disabled = "disabled" })*@
                                         @Html.ValidationMessageFor(model => model.Cnpj, "", new { @class = "text-danger" })
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
+                                
+                                    @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-1" })
+                                    <div class="col-md-7">
                                         @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Nome", @readonly = "readonly" } })
                                         @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Apelido, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
+                                    <div class="col-md-8">
                                         @Html.EditorFor(model => model.Apelido, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Apelido", @readonly = "readonly" } })
                                         @Html.ValidationMessageFor(model => model.Apelido, "", new { @class = "text-danger" })
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Sigla, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10" , Height="22" Width="45">
-                                        @Html.EditorFor(model => model.Sigla, new { htmlAttributes = new { @class = "form-control text-uppercase", @readonly = "readonly", @style = "width: 100px;" } })
-                                        @*@Html.TextBoxFor(model => model.Sigla, new { @disabled = "disabled",style="width: 50px;" })*@
+                                
+                                    @Html.LabelFor(model => model.Sigla, htmlAttributes: new { @class = "control-label col-md-1" })
+                                    <div class="col-md-1" Height="22" Width="45">
+                                        @Html.EditorFor(model => model.Sigla, new { htmlAttributes = new { @class = "form-control text-uppercase", @readonly = "readonly" } })
                                         @Html.ValidationMessageFor(model => model.Sigla, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.InsEst, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.InsEst, "", new { htmlAttributes = new { @class = "form-control text-uppercase", style = "width: 100px;", @readonly = "readonly" } })
+                                    <div class="col-md-3">
+                                        @Html.EditorFor(model => model.InsEst, "", new { htmlAttributes = new { @class = "form-control text-uppercase", @readonly = "readonly" } })
                                         @Html.ValidationMessageFor(model => model.InsEst, "", new { @class = "text-danger" })
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.InsMun, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.InsMun, "", new { htmlAttributes = new { @class = "form-control text-uppercase", style = "width: 100px;", @readonly = "readonly" } })
+                                
+                                    @Html.LabelFor(model => model.InsMun, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-3">
+                                        @Html.EditorFor(model => model.InsMun, "", new { htmlAttributes = new { @class = "form-control text-uppercase", @readonly = "readonly" } })
                                         @Html.ValidationMessageFor(model => model.InsMun, "", new { @class = "text-danger" })
                                     </div>
                                 </div>

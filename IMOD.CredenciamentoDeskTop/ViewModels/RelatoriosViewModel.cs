@@ -81,6 +81,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IColaboradorCredencialService objColaboradorCredencial = new ColaboradorCredencialService();
         private readonly IVeiculoCredencialService objVeiculoCredencial = new VeiculoCredencialService();
         private readonly IConfiguraSistemaService objConfiguraSistema = new ConfiguraSistemaService();
+        private readonly IColaboradorEmpresaService colaboradorEmpresaService = new ColaboradorEmpresaService();
 
 
         #endregion
@@ -442,7 +443,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(empresa))
                 {
-                    colaboradorCredencial.EmpresaId = Convert.ToInt16(empresa);
+                    colaboradorCredencial.EmpresaId = Convert.ToInt32(empresa);
                 }
 
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
@@ -552,7 +553,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(empresa))
                 {
-                    colaboradorCredencial.EmpresaId = Convert.ToInt16(empresa);
+                    colaboradorCredencial.EmpresaId = Convert.ToInt32(empresa);
                 }
 
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
@@ -665,7 +666,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (area != string.Empty)
                 {
-                    colaboradorCredencial.AreaAcessoId = Convert.ToInt16(area);
+                    colaboradorCredencial.AreaAcessoId = Convert.ToInt32(area);
                 }
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(7);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
@@ -770,7 +771,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(empresa))
                 {
-                    colaboradorCredencial.EmpresaId = Convert.ToInt16(empresa);
+                    colaboradorCredencial.EmpresaId = Convert.ToInt32(empresa);
                 }
 
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(9);
@@ -840,7 +841,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 }
 
-                colaboradorCredencial.EmpresaId = Convert.ToInt16(empresa);
+                colaboradorCredencial.EmpresaId = Convert.ToInt32(empresa);
 
                 colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
                 mensagemComplemento = tipo ? " Permanentes " : " Temporárias ";
@@ -939,7 +940,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(empresa))
                 {
-                    colaboradorCredencial.EmpresaId = Convert.ToInt16(empresa);
+                    colaboradorCredencial.EmpresaId = Convert.ToInt32(empresa);
                 }
 
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(21);
@@ -1021,7 +1022,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(empresa))
                 {
-                    colaboradorCredencial.EmpresaId = Convert.ToInt16(empresa);
+                    colaboradorCredencial.EmpresaId = Convert.ToInt32(empresa);
                 }
 
                 if (!string.IsNullOrEmpty(dataFim))
@@ -1305,7 +1306,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(empresa))
                 {
-                    veiculoCredencial.EmpresaId = Convert.ToInt16(empresa);
+                    veiculoCredencial.EmpresaId = Convert.ToInt32(empresa);
                 }
 
                 if (!string.IsNullOrEmpty(dataFim))
@@ -1429,7 +1430,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (area != string.Empty)
                 {
-                    veiculoCredencial.AreaAcessoId = Convert.ToInt16(area);
+                    veiculoCredencial.AreaAcessoId = Convert.ToInt32(area);
                 }
 
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(8);
@@ -1527,7 +1528,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(empresa))
                 {
-                    veiculoCredencial.EmpresaId = Convert.ToInt16(empresa);
+                    veiculoCredencial.EmpresaId = Convert.ToInt32(empresa);
                 }
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(10);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
@@ -1595,7 +1596,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 }
 
-                veiculoCredencial.EmpresaId = Convert.ToInt16(empresa);
+                veiculoCredencial.EmpresaId = Convert.ToInt32(empresa);
 
                 veiculoCredencial.TipoCredencialId = tipo ? 1 : 2;
                 mensagemComplementoTipo = tipo ? " Permanentes " : " Temporárias ";
@@ -1695,7 +1696,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(empresa))
                 {
-                    veiculoCredencial.EmpresaId = Convert.ToInt16(empresa);
+                    veiculoCredencial.EmpresaId = Convert.ToInt32(empresa);
                 }
 
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(22);
@@ -1770,7 +1771,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(empresa))
                 {
-                    veiculoCredencial.EmpresaId = Convert.ToInt16(empresa);
+                    veiculoCredencial.EmpresaId = Convert.ToInt32(empresa);
                 }
 
                 if (!string.IsNullOrEmpty(dataFim))
@@ -1938,6 +1939,81 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
+
+
+
+
+        #endregion
+
+
+        #region COLABORADOR
+        public void OnRelatorioFiltroColaboradorPorEmpresaCommand(string empresa, string dataIni, string dataFim)
+        {
+            try
+            {
+                string mensagem = string.Empty;
+                string mensagemTipo = string.Empty;
+                string mensagemPeriodo = string.Empty;
+                string mensagemComplemento = string.Empty;
+                ColaboradorEmpresa colaboradoresEmpresa = new ColaboradorEmpresa();
+
+                if (!string.IsNullOrEmpty(empresa))
+                {
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+
+                        if (string.IsNullOrEmpty(dataFim))
+                        {
+                            mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
+                        }
+                        else
+                        {
+                            mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
+                        }
+                    }
+                    else
+                    {
+                        dataIni = null;
+                        dataFim = null;
+                    }
+                }
+                else
+                {
+                    dataIni = null;
+                    dataFim = null;
+                }
+                           
+                mensagem = String.Format("Todos Colaboradores por empresa {0} ",  mensagemPeriodo);
+               
+
+                relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(27);
+                if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
+
+
+                //Faz a busca do registros de colaboradores por empresa
+                var result = colaboradorEmpresaService.ListarColaboradorEmpresaView(empresa, dataIni, dataFim);
+                //var result = colaboradorEmpresaService.Listar();
+                var resultMapeado = Mapper.Map<List<IMOD.CredenciamentoDeskTop.Views.Model.RelatorioColaboradorEmpresaView>>(result.OrderBy(n => n.ColaboradorNome).ToList());
+
+                byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
+                var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
+                reportDoc.SetDataSource(resultMapeado);
+
+                ////if (!string.IsNullOrWhiteSpace(mensagem))
+                ////{
+                ////    TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
+                ////    txt.Text = mensagem;
+                ////}
+                reportDoc.Refresh();
+
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
         #endregion
 
         #endregion
