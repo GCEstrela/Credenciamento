@@ -626,6 +626,12 @@
       <DependentUpon>RelatorioAutorizacaoInvalidas_6.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Relatorio\RelatorioHabilitacaoColaboradorPorEmpresa_28 .cs">
+      <DependentUpon>RelatorioHabilitacaoColaboradorPorEmpresa_28 .rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Relatorio\RelatorioConcessaoAutorizacaoValidas_2.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -953,6 +959,12 @@
     <Compile Include="Windows\PopUpFiltrosAutorizacoesViasAdicionais.xaml.cs">
       <DependentUpon>PopUpFiltrosAutorizacoesViasAdicionais.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PopUpFiltrosColaboradorPorEmpresa .xaml.cs">
+      <DependentUpon>PopUpFiltrosColaboradorPorEmpresa .xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopUpFiltrosColaboradorPorEmpresaPeriodo.xaml.cs">
+      <DependentUpon>PopUpFiltrosColaboradorPorEmpresaPeriodo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PopUpFiltrosCredenciais.xaml.cs">
       <DependentUpon>PopUpFiltrosCredenciais.xaml</DependentUpon>
     </Compile>
@@ -967,9 +979,6 @@
     </Compile>
     <Compile Include="Windows\PopUpFiltrosCredenciaisPorArea.xaml.cs">
       <DependentUpon>PopUpFiltrosCredenciaisPorArea.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\PopUpFiltrosColaboradorPorEmpresa .xaml.cs">
-      <DependentUpon>PopUpFiltrosColaboradorPorEmpresa .xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\PopUpFiltrosCredenciaisPorEmpresa.xaml.cs">
       <DependentUpon>PopUpFiltrosCredenciaisPorEmpresa.xaml</DependentUpon>
@@ -1152,6 +1161,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Windows\PopUpFiltrosColaboradorPorEmpresa .xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Windows\PopUpFiltrosColaboradorPorEmpresaPeriodo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\PopUpFiltrosCredenciais.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1169,10 +1186,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\PopUpFiltrosCredenciaisPorArea.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Windows\PopUpFiltrosColaboradorPorEmpresa .xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1740,6 +1753,10 @@
     <EmbeddedResource Include="Relatorio\RelatorioAutorizacaoInvalidas_6.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>RelatorioAutorizacaoInvalidas_6.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioHabilitacaoColaboradorPorEmpresa_28 .rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioHabilitacaoColaboradorPorEmpresa_28 .cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Relatorio\RelatorioConcessaoAutorizacaoValidas_2.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
