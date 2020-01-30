@@ -88,6 +88,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         //Configuracao
         private readonly IConfiguraSistemaService _serviceConfiguracoesSistema = new ConfiguraSistemaService();
+
+        private readonly IColaboradorEmpresaService colaboradorEmpresaService = new ColaboradorEmpresaService();
+
         private ObservableCollection<ConfiguraSistemaView> _congiracaoSistema;
         private ConfiguraSistemaView _configuracaosistemaSelecionado;
         private int _configuracaosistemaSelectedIndex;
@@ -1491,7 +1494,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
-                ColaboradorEmpresaRepositorio colaboradorEmpresaService = new ColaboradorEmpresaRepositorio();
+                //ColaboradorEmpresaRepositorio colaboradorEmpresaService = new ColaboradorEmpresaRepositorio();
                 CredencialGenetecService(Main.Engine);
                 EntityConfigurationQuery query;
                 QueryCompletedEventArgs result;
@@ -1513,7 +1516,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var cardHolderListDuplicado = new List<string>();
                 //ColaboradorEmpresa cardholderBanco;
-                var cardholderBancoList = colaboradorEmpresaService.BuscarListaIntegracao();
+                
+                var cardholderBancoList = colaboradorEmpresaService.BuscarListaIntegracao("ColaboradorEmpresaView");
                 foreach (ColaboradorEmpresa colaboradorEmpresa in cardholderBancoList)
                 {
                     string nomeDB = colaboradorEmpresa.ColaboradorNome;

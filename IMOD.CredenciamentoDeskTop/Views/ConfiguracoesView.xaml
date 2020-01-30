@@ -1136,7 +1136,7 @@
                                               Content="Gerar Contrato Automático" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
                                               Margin="152,7,0,0" VerticalAlignment="Top" Width="170"  Cursor="Hand" 
                                               IsChecked="{Binding Entity.Contrato, UpdateSourceTrigger=PropertyChanged}" />
-                                        <CheckBox x:Name="Colete_" ToolTip="" 
+                                        <CheckBox x:Name="Colete_" ToolTip="Essa opção carrega automático nº do Colete" 
                                               Content="Gerar nº de Colete Automático" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
                                               Margin="30,7,0,0" VerticalAlignment="Top" Width="200"  Cursor="Hand" 
                                               IsChecked="{Binding Entity.Colete, UpdateSourceTrigger=PropertyChanged}" />
@@ -1183,7 +1183,7 @@
                                         <Label Content="Importação:" Height="28" Width="110" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                                         <Button x:Name="emprasa_bt_" Content="Logo da Empresa" Margin="0,1,0,1" Width="139"  Cursor="Hand" Click="Emprasa_bt_Click" ></Button>
                                         <Button x:Name="colaborador_bt_" Content="Fotos dos Colaborador" Margin="90,1,0,1" Width="148"  Cursor="Hand" Click="Colaborador_bt_Click"></Button>
-                                        <Button x:Name="colaboradorCardHolder_bt_" Content="CardHolder/Colaborador" ToolTip="Atualizar os CustomFieds dos CardHolders" Margin="20,1,0,1" Cursor="Hand"  Width="170" Click="ColaboradorCardHolder_bt__Click" Visibility="Collapsed"></Button>
+                                        <Button x:Name="colaboradorCardHolder_bt_" Content="CardHolder/Colaborador" ToolTip="Atualizar os CustomFieds dos CardHolders" Margin="20,1,0,1" Cursor="Hand"  Width="170" Click="ColaboradorCardHolder_bt__Click" Visibility="Hidden"></Button>
                                         <!--<Button x:Name="btnSalvarConfiguracoesSistemaAutomatica" ToolTip="Salvar" Width="25"
                                                     Margin="100,0,0,7" IsEnabled="True" Click="BtnSalvarConfiguracoesSistema_Click">
                                             <StackPanel>

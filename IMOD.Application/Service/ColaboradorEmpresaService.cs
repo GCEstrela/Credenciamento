@@ -110,6 +110,19 @@ namespace IMOD.Application.Service
         {
             _repositorio.CriarNumeroMatricula(entity);
         }
+        /// <summary>
+        /// Criar numero de matricula
+        /// </summary>
+        /// <param name="entity"></param>
+        //public void BuscarListaIntegracao()
+        //{
+        //    _repositorio.BuscarListaIntegracao();
+        //}
+
+        ICollection<ColaboradorEmpresa> IColaboradorEmpresaRepositorio.BuscarListaIntegracao(string nomedaTabela)
+        {
+            return _repositorio.BuscarListaIntegracao(nomedaTabela);
+        }
         #endregion
     }
 }

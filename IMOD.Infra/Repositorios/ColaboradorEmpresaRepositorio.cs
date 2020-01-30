@@ -283,14 +283,14 @@ namespace IMOD.Infra.Repositorios
                 throw ex;
             }
         }
-        public ICollection<ColaboradorEmpresa> BuscarListaIntegracao()
+        public ICollection<ColaboradorEmpresa> BuscarListaIntegracao(string nomedaTabela)
         {
             try
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
 
-                    var select = "Select * From ColaboradorEmpresaView Where CardHolderGUID is null And UsuarioDB is not null";
+                    var select = "Select * From " + nomedaTabela + " Where CardHolderGUID is null And UsuarioDB is not null";
                     using (var cmd = _dataBase.SelectSQL(select, conn))
                     {
 
