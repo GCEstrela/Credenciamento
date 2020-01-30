@@ -16,14 +16,14 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class RelatorioHamilitacaoColaboradorPorEmpresa_28_ : ReportClass {
+    public class RelatorioHabilitacaoColaboradorPorEmpresa_28_ : ReportClass {
         
-        public RelatorioHamilitacaoColaboradorPorEmpresa_28_() {
+        public RelatorioHabilitacaoColaboradorPorEmpresa_28_() {
         }
         
         public override string ResourceName {
             get {
-                return "RelatorioHamilitacaoColaboradorPorEmpresa_28 .rpt";
+                return "RelatorioHabilitacaoColaboradorPorEmpresa_28 .rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         
         public override string FullResourceName {
             get {
-                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioHamilitacaoColaboradorPorEmpresa_28" +
+                return "IMOD.CredenciamentoDeskTop.Relatorio.RelatorioHabilitacaoColaboradorPorEmpresa_28" +
                     " .rpt";
             }
             set {
@@ -131,9 +131,9 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedRelatorioHamilitacaoColaboradorPorEmpresa_28_ : Component, ICachedReport {
+    public class CachedRelatorioHabilitacaoColaboradorPorEmpresa_28_ : Component, ICachedReport {
         
-        public CachedRelatorioHamilitacaoColaboradorPorEmpresa_28_() {
+        public CachedRelatorioHabilitacaoColaboradorPorEmpresa_28_() {
         }
         
         [Browsable(false)]
@@ -170,7 +170,7 @@ namespace IMOD.CredenciamentoDeskTop.Relatorio {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            RelatorioHamilitacaoColaboradorPorEmpresa_28_ rpt = new RelatorioHamilitacaoColaboradorPorEmpresa_28_();
+            RelatorioHabilitacaoColaboradorPorEmpresa_28_ rpt = new RelatorioHabilitacaoColaboradorPorEmpresa_28_();
             rpt.Site = this.Site;
             return rpt;
         }
