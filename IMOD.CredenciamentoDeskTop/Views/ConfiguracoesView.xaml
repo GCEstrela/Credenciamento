@@ -1180,9 +1180,9 @@
                                         <Button x:Name="bntContencao" Content="Remover Registros de Log" ToolTip="Dias de armazenamento de Logs" Margin="10,0,0,0" Width="161" Cursor="Hand" Click="BntContencao_Click"></Button>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,20,0,1" Width="615">
-                                        <Label Content="Importação:" Height="28" Width="110" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
-                                        <Button x:Name="emprasa_bt_" Content="Logo da Empresa" Margin="0,1,0,1" Width="139"  Cursor="Hand" Click="Emprasa_bt_Click" ></Button>
-                                        <Button x:Name="colaborador_bt_" Content="Fotos dos Colaborador" Margin="90,1,0,1" Width="148"  Cursor="Hand" Click="Colaborador_bt_Click"></Button>
+                                        <Label Content="Importação:" Height="28" Width="110" Margin="1" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"  />
+                                        <Button x:Name="emprasa_bt_" Content="Logo da Empresa" Margin="0,1,0,1" Width="139"  Cursor="Hand" Click="Emprasa_bt_Click" ToolTip="Importação das Log(s) das Empresa(s). Obs: os nomes dos arquivos deverão ser o ID da empresa no SICOA"/>
+                                        <Button x:Name="colaborador_bt_" Content="Fotos dos Colaborador" Margin="90,1,0,1" Width="148"  Cursor="Hand" Click="Colaborador_bt_Click" ToolTip="Importação das Foto(s) dos Colaboradore(s). Obs: os nomes dos arquivos deverão ser o ID do colaborador no SICOA"/>
                                         <Button x:Name="colaboradorCardHolder_bt_" Content="CardHolder/Colaborador" ToolTip="Atualizar os CustomFieds dos CardHolders" Margin="20,1,0,1" Cursor="Hand"  Width="170" Click="ColaboradorCardHolder_bt__Click" Visibility="Hidden"></Button>
                                         <!--<Button x:Name="btnSalvarConfiguracoesSistemaAutomatica" ToolTip="Salvar" Width="25"
                                                     Margin="100,0,0,7" IsEnabled="True" Click="BtnSalvarConfiguracoesSistema_Click">
