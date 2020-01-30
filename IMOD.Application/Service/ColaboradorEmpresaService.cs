@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
 
@@ -109,6 +110,11 @@ namespace IMOD.Application.Service
         public void CriarNumeroMatricula(ColaboradorEmpresa entity)
         {
             _repositorio.CriarNumeroMatricula(entity);
+        }
+
+        public ICollection<RelatorioColaboradorEmpresaView> ListarColaboradorEmpresaView(params object[] o)
+        {
+           return  _repositorio.ListarColaboradorEmpresaView(o);
         }
         #endregion
     }

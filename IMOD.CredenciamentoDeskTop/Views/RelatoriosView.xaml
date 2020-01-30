@@ -226,7 +226,7 @@
                                         </Button>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,0,0,0" >
-                                        <Button x:Name="BtnAtutorizacaoExtraviadas"  Style="{StaticResource MenuStyle}" Margin="330,-50,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                        <Button x:Name="BtnAtutorizacaoExtraviadas"  Style="{StaticResource MenuStyle}" Margin="325,-50,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
                                                         Click="BotaoAutorizacaoExtraviadasClick">
                                             <StackPanel Orientation="Horizontal" Width="260">
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
@@ -234,7 +234,16 @@
                                             </StackPanel>
                                         </Button>
                                     </StackPanel>
-                                    
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,0,0,0" >
+                                        <Button x:Name="BtnColaboradorEmpresa"  Style="{StaticResource MenuStyle}" Margin="645,-50,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                        Click="BotaoColaboradorEmpresaClick">
+                                            <StackPanel Orientation="Horizontal" Width="260">
+                                                <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom"  Content="Relatório Colaboradores por Empresa" Foreground="White" Width="230" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+
                                 </StackPanel>
 
                             </GroupBox>

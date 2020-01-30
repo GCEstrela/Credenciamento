@@ -560,6 +560,12 @@
       <DependentUpon>RelatorioCredenciaisEmitidasPorArea_7.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Relatorio\RelatorioColaboradorPorEmpresa_27.cs">
+      <DependentUpon>RelatorioColaboradorPorEmpresa_27.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Relatorio\RelatorioCredenciaisEmitidasPorEmpresa_9.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -713,6 +719,7 @@
     <Compile Include="Views\Model\LayoutCrachaView.cs" />
     <Compile Include="Views\Model\MunicipioView.cs" />
     <Compile Include="Views\Model\PendenciaView.cs" />
+    <Compile Include="Views\Model\RelatorioColaboradorEmpresaView.cs" />
     <Compile Include="Views\Model\RelatorioView.cs" />
     <Compile Include="Views\Model\RelatorioGerencialView.cs" />
     <Compile Include="Views\Model\RelColaboradoresCredenciaisView.cs" />
@@ -876,6 +883,9 @@
     </Compile>
     <Compile Include="Windows\PopUpFiltrosCredenciaisPorArea.xaml.cs">
       <DependentUpon>PopUpFiltrosCredenciaisPorArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PopUpFiltrosColaboradorPorEmpresa .xaml.cs">
+      <DependentUpon>PopUpFiltrosColaboradorPorEmpresa .xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\PopUpFiltrosCredenciaisPorEmpresa.xaml.cs">
       <DependentUpon>PopUpFiltrosCredenciaisPorEmpresa.xaml</DependentUpon>
@@ -1075,6 +1085,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\PopUpFiltrosCredenciaisPorArea.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopUpFiltrosColaboradorPorEmpresa .xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1598,6 +1612,10 @@
     <EmbeddedResource Include="Relatorio\RelatorioCredenciaisEmitidasPorArea_7.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>RelatorioCredenciaisEmitidasPorArea_7.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioColaboradorPorEmpresa_27.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioColaboradorPorEmpresa_27.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Relatorio\RelatorioCredenciaisEmitidasPorEmpresa_9.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

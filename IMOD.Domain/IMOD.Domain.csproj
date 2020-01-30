@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Constantes\Constante.cs" />
     <Compile Include="EntitiesCustom\AutorizacaoView.cs" />
+    <Compile Include="EntitiesCustom\RelatorioColaboradorEmpresaView.cs" />
     <Compile Include="EntitiesCustom\ColaboradorEmpresaView.cs" />
     <Compile Include="EntitiesCustom\ColaboradoresCredenciaisView.cs" />
     <Compile Include="EntitiesCustom\CredencialView.cs" />

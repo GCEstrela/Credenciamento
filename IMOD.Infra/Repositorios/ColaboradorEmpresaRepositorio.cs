@@ -224,6 +224,40 @@ namespace IMOD.Infra.Repositorios
             }
         }
 
+
+        /// <summary>
+        ///     Listar
+        /// </summary>
+        /// <returns></returns>
+        public ICollection<RelatorioColaboradorEmpresaView> ListarColaboradorEmpresaView(params object[] o)
+        {
+            try
+            {
+                using (var conn = _dataBase.CreateOpenConnection())
+                {
+                    using (var cmd = _dataBase.SelectText("ColaboradorEmpresaRelatorioView", conn))
+                    {
+
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, o, 0).Igual()));
+                        //cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataInicio", DbType.DateTime, o, 1).MaiorIgual()));
+                        //cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataFim", DbType.DateTime, o, 1).MenorIgual()));
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<RelatorioColaboradorEmpresaView>();
+
+                        return d1;
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
         /// <summary>
         ///     Deletar registro
         /// </summary>
