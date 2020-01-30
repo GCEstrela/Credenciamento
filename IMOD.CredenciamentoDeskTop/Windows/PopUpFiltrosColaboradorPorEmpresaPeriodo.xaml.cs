@@ -41,8 +41,15 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 empresa = ((IMOD.CredenciamentoDeskTop.Views.Model.EmpresaView)EmpresaRazaoSocial_cb.SelectedItem).EmpresaId.ToString();
             }
 
-            ((RelatoriosViewModel)DataContext).OnRelatorioFiltroColaboradorPorEmpresaCommand(empresa, null, null);
-
+            switch (tipoRelatorio)
+            {
+                case 28:
+                    ((RelatoriosViewModel)DataContext).OnRelatorioFiltroHabilitacaoColaboradorPorEmpresaCommand(empresa, dataInicio, dataFim);
+                    break;
+                default:
+                    break;
+            }
+            
             Close();
         }
     }

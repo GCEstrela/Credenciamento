@@ -1997,6 +1997,68 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
                 reportDoc.SetDataSource(resultMapeado);
 
+                reportDoc.Refresh();
+
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
+
+        public void OnRelatorioFiltroHabilitacaoColaboradorPorEmpresaCommand(string empresa, string dataIni, string dataFim)
+        {
+            try
+            {
+                string mensagem = string.Empty;
+                string mensagemTipo = string.Empty;
+                string mensagemPeriodo = string.Empty;
+                string mensagemComplemento = string.Empty;
+                ColaboradorEmpresa colaboradoresEmpresa = new ColaboradorEmpresa();
+
+                if (!string.IsNullOrEmpty(empresa))
+                {
+                    if (!string.IsNullOrEmpty(dataIni))
+                    {
+
+                        if (string.IsNullOrEmpty(dataFim))
+                        {
+                            mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
+                        }
+                        else
+                        {
+                            mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
+                        }
+                    }
+                    else
+                    {
+                        dataIni = null;
+                        dataFim = null;
+                    }
+                }
+                else
+                {
+                    dataIni = null;
+                    dataFim = null;
+                }
+
+                mensagem = String.Format("Todos Colaboradores por empresa {0} ", mensagemPeriodo);
+
+
+                relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(27);
+                if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
+
+
+                //Faz a busca do registros de colaboradores por empresa
+                var result = colaboradorEmpresaService.ListarColaboradorEmpresaView(empresa, dataIni, dataFim);
+                var resultMapeado = Mapper.Map<List<IMOD.CredenciamentoDeskTop.Views.Model.RelatorioColaboradorEmpresaView>>(result.OrderBy(n => n.ColaboradorNome).ToList());
+                byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
+                var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
+                reportDoc.SetDataSource(resultMapeado);
+
                 ////if (!string.IsNullOrWhiteSpace(mensagem))
                 ////{
                 ////    TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
