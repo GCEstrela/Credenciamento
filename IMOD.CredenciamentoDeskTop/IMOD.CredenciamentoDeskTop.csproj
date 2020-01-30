@@ -692,6 +692,12 @@
       <DependentUpon>RelatorioImpressaoCredencial_23.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Relatorio\RelatorioVencimentoCursos_29.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelatorioVencimentoCursos_29.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Relatorio\RelatorioViasAdicionaisAutorizacao_22.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1797,6 +1803,10 @@
     <EmbeddedResource Include="Relatorio\RelatorioImpressaoCredencial_23.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>RelatorioImpressaoCredencial_23.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioVencimentoCursos_29.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioVencimentoCursos_29.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Relatorio\RelatorioViasAdicionaisAutorizacao_22.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
