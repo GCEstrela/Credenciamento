@@ -26,6 +26,8 @@ namespace IMOD.Domain.EntitiesCustom
         public DateTime CNHValidade { get; set; }
         public string Matricula { get; set; }
         public string Cargo { get; set; }
+        public int CursoId { get; set; }
+        public string Descricao { get; set; }
 
     }
 }
