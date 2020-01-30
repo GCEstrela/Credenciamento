@@ -1980,7 +1980,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
                 
                 var result = colaboradorEmpresaService.ListarColaboradorEmpresaView(empresa, true);
-                var resultMapeado = Mapper.Map<List<IMOD.CredenciamentoDeskTop.Views.Model.RelatorioColaboradorEmpresaView>>(result.OrderBy(n => n.ColaboradorNome).ToList());
+                if (!string.IsNullOrEmpty(dataIni))
+                {
+                    var dataInicio = Convert.ToDateTime(dataIni);
+                    result = result.Where(c => c.CNHValidade >= dataInicio).ToList();                    
+                }
+                if (!string.IsNullOrEmpty(dataFim))
+                {
+                    var dataFinal = Convert.ToDateTime(dataFim);
+                    result = result.Where(a => a.CNHValidade <= dataFinal).ToList();
+                }
+
+                    var resultMapeado = Mapper.Map<List<IMOD.CredenciamentoDeskTop.Views.Model.RelatorioColaboradorEmpresaView>>(result.OrderBy(n => n.ColaboradorNome).ToList());
                 byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
                 var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
                 reportDoc.SetDataSource(resultMapeado);
