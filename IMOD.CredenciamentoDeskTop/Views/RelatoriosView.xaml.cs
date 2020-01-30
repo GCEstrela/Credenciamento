@@ -27,6 +27,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private PopUpFiltrosCredenciaisExtraviadas popupFiltrosCredenciaisExtraviadas;
         private PopUpFiltrosAutorizacoesExtraviadas popupFiltrosAutorizacaoExtraviadas;
         private PopUpFiltrosColaboradorPorEmpresa popupFiltrosColaboradorPorEmpresa;
+        private PopUpFiltrosColaboradorPorEmpresaPeriodo popupFiltrosColaboradorPorEmpresaPeriodo;
 
         public RelatoriosView()
         {
@@ -258,8 +259,24 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
+        private void BotaoHabilicataoColaboradorEmpresaClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                popupFiltrosColaboradorPorEmpresaPeriodo = new PopUpFiltrosColaboradorPorEmpresaPeriodo(28);
+                popupFiltrosColaboradorPorEmpresaPeriodo.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
 
         
+
+
+
 
         #endregion
 
