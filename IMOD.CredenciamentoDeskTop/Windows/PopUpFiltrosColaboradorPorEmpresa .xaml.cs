@@ -30,8 +30,6 @@ namespace IMOD.CredenciamentoDeskTop.Windows
 
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
         {
-            string dataIni = Dataini_tb.Text;
-            string dataFim = Datafim_tb.Text;            
             string empresa = null;
 
             if (EmpresaRazaoSocial_cb.SelectedItem != null)
@@ -39,7 +37,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 empresa = ((IMOD.CredenciamentoDeskTop.Views.Model.EmpresaView)EmpresaRazaoSocial_cb.SelectedItem).EmpresaId.ToString();
             }
 
-            ((RelatoriosViewModel)DataContext).OnRelatorioFiltroColaboradorPorEmpresaCommand(empresa, dataIni, dataFim);
+            ((RelatoriosViewModel)DataContext).OnRelatorioFiltroColaboradorPorEmpresaCommand(empresa, null, null);
 
             Close();
         }

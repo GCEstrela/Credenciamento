@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
         mc:Ignorable="d"
-        Title="Procurar Empresa" Height="372.38" Width="550.991" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
+        Title="Procurar Empresa" Height="239.043" Width="550.991" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None" BorderThickness="6,30,6,6" Topmost="True">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FF171717" Offset="0.984"/>
@@ -47,20 +47,6 @@
                         <Label Content="Empresa:" Height="28" Width="66" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                         <ComboBox  x:Name="EmpresaRazaoSocial_cb" IsEditable="True"  Width="410" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
                                               ItemsSource="{Binding Empresas}" DisplayMemberPath="Nome" SelectedValuePath="EmpresaID" />
-                    </StackPanel>
-                </StackPanel>
-            </GroupBox>
-            <GroupBox x:Name="Periodo_gb" Header="Filtrar por Período" Grid.Column="0" Margin="10,0,8,10" VerticalAlignment="Stretch"  Height="127" Foreground="#FFD0D0D0">
-                <StackPanel x:Name="Periodo_sp" Margin="0,10,10,0">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="7,8,0,0" />
-
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,0,0,0" >
-                        <Label Content="Data Inicial:" Height="28" Width="74" Margin="0,10,5,10" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                        <DatePicker Margin="-5,3,0,0" Height="24" HorizontalAlignment="Left" x:Name="Dataini_tb" Width="150" />
-                        <!--<TextBox CharacterCasing="Upper"  x:Name="Datafim_tb"   MaxLength="50" Text=""  IsEnabled="True"  Height="24"  Width="150" />-->
-                        <!--<TextBox CharacterCasing="Upper"  x:Name="Dataini_tb"   MaxLength="50" Text=""  IsEnabled="True"  Height="24"  Width="150" Margin="0,12"/>-->
-                        <Label Content="Data Final :" Height="28" Width="98" Margin="0,10,5,10" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                        <DatePicker Margin="-5,3,0,0" Height="24" HorizontalAlignment="Left" x:Name="Datafim_tb" Width="150" />
                     </StackPanel>
                 </StackPanel>
             </GroupBox>

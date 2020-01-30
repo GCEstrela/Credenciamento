@@ -626,6 +626,12 @@
       <DependentUpon>RelatorioAutorizacaoInvalidas_6.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Relatorio\RelatorioHamilitacaoColaboradorPorEmpresa_28 .cs">
+      <DependentUpon>RelatorioHamilitacaoColaboradorPorEmpresa_28 .rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Relatorio\RelatorioConcessaoAutorizacaoValidas_2.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1740,6 +1746,10 @@
     <EmbeddedResource Include="Relatorio\RelatorioAutorizacaoInvalidas_6.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>RelatorioAutorizacaoInvalidas_6.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioHamilitacaoColaboradorPorEmpresa_28 .rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioHamilitacaoColaboradorPorEmpresa_28 .cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Relatorio\RelatorioConcessaoAutorizacaoValidas_2.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

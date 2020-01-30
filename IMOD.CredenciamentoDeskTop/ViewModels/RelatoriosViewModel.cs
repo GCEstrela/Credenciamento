@@ -1992,9 +1992,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 //Faz a busca do registros de colaboradores por empresa
                 var result = colaboradorEmpresaService.ListarColaboradorEmpresaView(empresa, dataIni, dataFim);
-                //var result = colaboradorEmpresaService.Listar();
                 var resultMapeado = Mapper.Map<List<IMOD.CredenciamentoDeskTop.Views.Model.RelatorioColaboradorEmpresaView>>(result.OrderBy(n => n.ColaboradorNome).ToList());
-
                 byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
                 var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
                 reportDoc.SetDataSource(resultMapeado);
