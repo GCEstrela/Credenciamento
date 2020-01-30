@@ -1517,7 +1517,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var cardHolderListDuplicado = new List<string>();
                 //ColaboradorEmpresa cardholderBanco;
                 
-                var cardholderBancoList = colaboradorEmpresaService.BuscarListaIntegracao("ColaboradorEmpresaView");
+                var cardholderBancoList = colaboradorEmpresaService.BuscarListaIntegracao(TipoSelectColaboradorEmpresa.integracao);
                 foreach (ColaboradorEmpresa colaboradorEmpresa in cardholderBancoList)
                 {
                     string nomeDB = colaboradorEmpresa.ColaboradorNome;

@@ -317,14 +317,31 @@ namespace IMOD.Infra.Repositorios
                 throw ex;
             }
         }
-        public ICollection<ColaboradorEmpresa> BuscarListaIntegracao(string nomedaTabela)
+        public ICollection<ColaboradorEmpresa> BuscarListaIntegracao(int nomedaTabela)
         {
             try
             {
+                var select = string.Empty;                
+                switch (nomedaTabela)
+                {
+                    case TipoSelectColaboradorEmpresa.integracao:
+                        select = "Select * From ColaboradorEmpresaView Where CardHolderGUID is null And UsuarioDB is not null";
+                        break;
+                    case TipoSelectColaboradorEmpresa.insercao:
+                        select = "Select * From ColaboradorEmpresaView Where CardHolderGUID is null And UsuarioDB is not null";
+                        break;
+                    case TipoSelectColaboradorEmpresa.delecao:
+                        select = "Select * From ColaboradorEmpresaView Where CardHolderGUID is null And UsuarioDB is not null";
+                        break;
+                    default:
+                        break;
+                }
+                
+
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-
-                    var select = "Select * From " + nomedaTabela + " Where CardHolderGUID is null And UsuarioDB is not null";
+                   
+                    
                     using (var cmd = _dataBase.SelectSQL(select, conn))
                     {
 
