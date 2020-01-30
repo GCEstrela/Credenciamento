@@ -326,7 +326,7 @@ namespace IMOD.Infra.Ado.Interfaces.ParamSql
         /// <returns></returns>
         public ParamSelect IsNull()
         {
-            var sintaxe = " is null ".ToLower();
+            var sintaxe = "  {0} is null ".ToLower();
             return Fill(sintaxe);
         }
         /// <summary>
@@ -336,7 +336,7 @@ namespace IMOD.Infra.Ado.Interfaces.ParamSql
         /// <returns></returns>
         public ParamSelect IsNotNull()
         {
-            var sintaxe = " is not null ".ToLower();
+            var sintaxe = " {0}  is not null ".ToLower();
             return Fill(sintaxe);
         }
         /// <summary>
