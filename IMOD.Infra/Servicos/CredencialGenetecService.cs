@@ -207,9 +207,10 @@ namespace IMOD.Infra.Servicos
                 //var compareData = DateTime.Compare(DateTime.Now, entity.Validade);
                 //if (compareData >= 0) throw new InvalidOperationException("A data de validade deve ser maior que a data corrente.");
 
+                entityCardholder.State = CardholderState.Active;
                 if (entity.Validade > DateTime.Now)
                 {
-                    if (entity.Ativo && entityCardholder.State == CardholderState.Active)
+                    //if (entity.Ativo && entityCardholder.State == CardholderState.Active)
                         entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                 }
                 else
@@ -955,10 +956,6 @@ namespace IMOD.Infra.Servicos
                     entity.IdentificadorCredencialGuid = null;
 
                 }
-
-
-
-
             }
             catch (Exception ex)
             {
