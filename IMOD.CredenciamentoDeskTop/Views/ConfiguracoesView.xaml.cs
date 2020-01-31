@@ -836,7 +836,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
 
-                ((ConfiguracoesViewModel)DataContext).AtualizarCustomFieldCarHolderExistentes();
+                //((ConfiguracoesViewModel)DataContext).AtualizarCustomFieldCarHolderExistentes();
 
             }
             catch (Exception ex)
