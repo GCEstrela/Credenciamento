@@ -2005,6 +2005,41 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException(ex);
             }
         }
+
+        public void OnRelatorioFiltroVencimentoCursosPorEmpresaPeriodoCommand(string empresa, string dataIni, string dataFim)
+        {
+            try
+            {
+                relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(29);
+                if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
+
+                var result = colaboradorEmpresaService.ListarColaboradorValidadeCursosEmpresaView(empresa);
+                if (!string.IsNullOrEmpty(dataIni))
+                {
+                    var dataInicio = Convert.ToDateTime(dataIni);
+                    result = result.Where(c => c.Validade >= dataInicio).ToList();
+                }
+                if (!string.IsNullOrEmpty(dataFim))
+                {
+                    var dataFinal = Convert.ToDateTime(dataFim);
+                    result = result.Where(a => a.Validade <= dataFinal).ToList();
+                }
+
+                var resultMapeado = Mapper.Map<List<IMOD.CredenciamentoDeskTop.Views.Model.RelatorioColaboradorEmpresaView>>(result.OrderBy(n => n.EmpresaNome).ToList());
+                byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
+                var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
+                reportDoc.SetDataSource(resultMapeado);
+                reportDoc.Refresh();
+
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+        
         #endregion
 
         #endregion

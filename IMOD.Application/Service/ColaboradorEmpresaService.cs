@@ -116,6 +116,12 @@ namespace IMOD.Application.Service
         {
            return  _repositorio.ListarColaboradorEmpresaView(o);
         }
+
+        public ICollection<RelatorioColaboradorEmpresaView> ListarColaboradorValidadeCursosEmpresaView(params object[] o)
+        {
+            return _repositorio.ListarColaboradorValidadeCursosEmpresaView(o);
+        }
+
         ICollection<ColaboradorEmpresa> IColaboradorEmpresaRepositorio.BuscarListaIntegracao(int nomedaTabela)
         {
             return _repositorio.BuscarListaIntegracao(nomedaTabela);

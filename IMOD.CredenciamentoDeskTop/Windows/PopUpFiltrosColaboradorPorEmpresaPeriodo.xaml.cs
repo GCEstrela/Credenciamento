@@ -46,6 +46,9 @@ namespace IMOD.CredenciamentoDeskTop.Windows
                 case 28:
                     ((RelatoriosViewModel)DataContext).OnRelatorioFiltroHabilitacaoColaboradorPorEmpresaCommand(empresa, dataInicio, dataFim);
                     break;
+                case 29:
+                    ((RelatoriosViewModel)DataContext).OnRelatorioFiltroVencimentoCursosPorEmpresaPeriodoCommand(empresa, dataInicio, dataFim);
+                    break;
                 default:
                     break;
             }
