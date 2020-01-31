@@ -31,5 +31,6 @@ namespace IMOD.Domain.Interfaces
 
         ICollection<ColaboradorEmpresa> BuscarListaIntegracao(int nomedaTabela);
         ICollection<RelatorioColaboradorEmpresaView> ListarColaboradorEmpresaView(params object[] o);
+        ICollection<RelatorioColaboradorEmpresaView> ListarColaboradorValidadeCursosEmpresaView(params object[] o);
     }
 }

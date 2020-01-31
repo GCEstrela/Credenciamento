@@ -101,7 +101,7 @@
                 <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto"   >
                     <Grid >
                         <StackPanel Grid.Row="0">
-                            <GroupBox    x:Name="RelatoriosGerenciais_gb" Header="Relatórios Gerenciais" Margin="0,20,0,0" Height="312"  >
+                            <GroupBox    x:Name="RelatoriosGerenciais_gb" Header="Relatórios Gerenciais" Margin="0,20,0,0" Height="375"  >
                                 <StackPanel>
                                     <StackPanel>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,30,0,20" >
@@ -224,27 +224,34 @@
                                                 <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom"  Content="Relatório de Credenciais Extraviadas" Foreground="White" Width="230" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                             </StackPanel>
                                         </Button>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,0,0,0" >
-                                        <Button x:Name="BtnAtutorizacaoExtraviadas"  Style="{StaticResource MenuStyle}" Margin="325,-50,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                        
+                                        <Button x:Name="BtnAtutorizacaoExtraviadas"  Style="{StaticResource MenuStyle}" Margin="0,20,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
                                                         Click="BotaoAutorizacaoExtraviadasClick">
                                             <StackPanel Orientation="Horizontal" Width="260">
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
                                                 <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom"  Content="Relatório de Autorizações Extraviadas" Foreground="White" Width="230" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                             </StackPanel>
                                         </Button>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,0,0,0" >
-                                        <Button x:Name="BtnColaboradorEmpresa"  Style="{StaticResource MenuStyle}" Margin="640,-50,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                        
+                                        <Button x:Name="BtnColaboradorEmpresa"  Style="{StaticResource MenuStyle}" Margin="0,20,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
                                                         Click="BotaoColaboradorEmpresaClick">
                                             <StackPanel Orientation="Horizontal" Width="260">
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
                                                 <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom"  Content="Relatório Colaboradores por Empresa" Foreground="White" Width="230" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                             </StackPanel>
                                         </Button>
+                                        
+                                        <Button x:Name="BtnColaboradorValidadeCursosEmpresa"  Style="{StaticResource MenuStyle}" Margin="0,20,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                                        Click="BotaoColaboradorValidadeCursosEmpresaClick">
+                                            <StackPanel Orientation="Horizontal" Width="260">
+                                                <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
+                                                <Label HorizontalContentAlignment="Center" DockPanel.Dock="Bottom"  Content="Relatório de Validade de Cursos" Foreground="White" Width="230" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </Button>
                                     </StackPanel>
+
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,0,0,0" >
-                                        <Button x:Name="BtnHabilitacaoColaboradorEmpresa"  Style="{StaticResource MenuStyle}" Margin="950,-50,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
+                                        <Button x:Name="BtnHabilitacaoColaboradorEmpresa"  Style="{StaticResource MenuStyle}" Margin="5,20,20,0" Height="50" VerticalAlignment="Top"  Width="300" 
                                                         Click="BotaoHabilicataoColaboradorEmpresaClick">
                                             <StackPanel Orientation="Horizontal" Width="260">
                                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Relatorio.png" Height="24" Width="24" Margin="0,0,5,0"/>
@@ -252,8 +259,6 @@
                                             </StackPanel>
                                         </Button>
                                     </StackPanel>
-
-
                                 </StackPanel>
 
                             </GroupBox>

@@ -273,7 +273,21 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
-        
+        private void BotaoColaboradorValidadeCursosEmpresaClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                popupFiltrosColaboradorPorEmpresaPeriodo = new PopUpFiltrosColaboradorPorEmpresaPeriodo(29);
+                popupFiltrosColaboradorPorEmpresaPeriodo.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+                throw;
+            }
+        }
+
+
 
 
 
