@@ -1945,7 +1945,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         #endregion
 
-
         #region COLABORADOR
         public void OnRelatorioFiltroColaboradorPorEmpresaCommand(string empresa, string dataIni, string dataFim)
         {
@@ -1971,7 +1970,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
-
         public void OnRelatorioFiltroHabilitacaoColaboradorPorEmpresaCommand(string empresa, string dataIni, string dataFim)
         {
             try
@@ -1995,6 +1993,32 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
                 var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
                 reportDoc.SetDataSource(resultMapeado);
+                reportDoc.Refresh();
+
+                WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
+
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+        #endregion
+
+        #region "EMPRESA"
+        public void OnRelatorioEmpresaArea(string empresa, string dataIni, string dataFim)
+        {
+            try
+            {
+                relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(27);
+                if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
+
+                var result = colaboradorEmpresaService.ListarColaboradorEmpresaView(empresa, dataIni, dataFim);
+                var resultMapeado = Mapper.Map<List<IMOD.CredenciamentoDeskTop.Views.Model.RelatorioColaboradorEmpresaView>>(result.OrderBy(n => n.ColaboradorNome).ToList());
+                byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
+                var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
+                reportDoc.SetDataSource(resultMapeado);
+
                 reportDoc.Refresh();
 
                 WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
