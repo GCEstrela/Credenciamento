@@ -7,6 +7,7 @@
 #region
 
 using Genetec.Sdk.Entities;
+using IMOD.Domain.Entities;
 using IMOD.Infra.Servicos.Entities;
 
 #endregion
@@ -60,6 +61,8 @@ namespace IMOD.Infra.Servicos
         void RemoverCredencial(CardHolderEntity entity);
         void DisparaAlarme(string menssagem, int IdAlarme);
         void GerarEvento(string _evento, Entity _entidade = null, string _mensagem = "mensagem custom event");
+        void RemoverCardHolder(CardHolderEntity entity);
+        void RemoverCardHolder(ColaboradorEmpresa entity);
         #endregion
     }
 }

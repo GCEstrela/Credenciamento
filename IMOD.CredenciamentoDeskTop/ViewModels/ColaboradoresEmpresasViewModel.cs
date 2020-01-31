@@ -38,6 +38,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IColaboradorCredencialService _serviceCredencial = new ColaboradorCredencialService();
         private readonly IColaboradorService _serviceColaborador = new ColaboradorService();
 
+        private readonly IColaboradorCredencialService _serviceColaboradorCredencial = new ColaboradorCredencialService();
 
         //private readonly object _auxiliaresService;
         private ColaboradorView _colaboradorView;
@@ -48,6 +49,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private ConfiguraSistema _configuraSistema;
 
         #region  Propriedades
+        public string ExcluirVisivel { get; set; }
         private int _colaboradorid;
         public List<EmpresaContrato> Contratos { get; private set; }
         public List<Empresa> Empresas { get; private set; }
@@ -99,6 +101,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                if (!Domain.EntitiesCustom.UsuarioLogado.Adm)
+                {
+                    ExcluirVisivel = "Collapsed";
+                }
+                else
+                {
+                    ExcluirVisivel = "Visible";
+                }
                 ListarDadosAuxiliares();
 
                 Comportamento = new ComportamentoBasico(false, true, true, false, false);
@@ -565,10 +575,31 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (result != DialogResult.Yes)
                     return;
 
-                var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
-                _service.Remover(n1);
-                //Retirar empresa da coleção
-                EntityObserver.Remove(Entity);
+                var verificarCredencialExistente = _serviceColaboradorCredencial.Listar(null, null, null, null, null, null, null, null, null, null, null, Entity.EmpresaContratoId);
+                if (verificarCredencialExistente.Count == 0)
+                {
+                    var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
+                    _service.Remover(n1);
+
+                    
+                    _serviceCredencial.RemoverCardHolder(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+
+                    //Retirar empresa da coleção
+                    EntityObserver.Remove(Entity);
+                }
+                else
+                {
+                    if (verificarCredencialExistente.Count == 1)
+                    {
+                        WpfHelp.PopupBox("Este vínculo não pode ser DELETADO, pois existe " + verificarCredencialExistente.Count + " credencial vinculada." + "\n" + "Remova a credencial associada na aba Credenciais" + "\n" + "Ação cancelada pelo sistema.", 1);
+                    }
+                    else
+                    {
+                        WpfHelp.PopupBox("Este vínculo não pode ser DELETADO, pois existem " + verificarCredencialExistente.Count + " credenciais vinculadas." + "\n" + "Remova todas as credenciais associadas na aba Credenciais" + "\n" + "Ação cancelada pelo sistema.", 1);
+                    }
+                    
+                }
+                 
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)

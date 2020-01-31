@@ -451,7 +451,7 @@ namespace IMOD.Infra.Servicos
             {
                 Cardholder cardHolder;
 
-                if (entity.IdentificadorCardHolderGuid != null)
+                if (!string.IsNullOrWhiteSpace(entity.IdentificadorCardHolderGuid))
                 {
                     cardHolder = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
                     if (cardHolder == null)
@@ -1075,7 +1075,32 @@ namespace IMOD.Infra.Servicos
         {
 
         }
+        public void RemoverCardHolder(CardHolderEntity entity)
+        {
+            //try
+            //{
+            //    if (!string.IsNullOrWhiteSpace(entity.IdentificadorCardHolderGuid))
+            //    {
+            //        Cardholder credencial = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
+            //        if (credencial == null)
+            //        {
+            //            _sdk.TransactionManager.CreateTransaction();
+            //            _sdk.DeleteEntity(credencial.Guid);
+            //            _sdk.TransactionManager.CommitTransaction();
+            //        }
+            //        else
+            //        {
+            //            throw new InvalidOperationException("CardHolder não encontrado.");
+            //        }
+                    
+            //    }
+            //}
+            //catch (Exception)
+            //{
 
+            //    throw;
+            //}
+        }
         public void RemoverCredencial(CardHolderEntity entity)
         {
             try
@@ -1181,6 +1206,33 @@ namespace IMOD.Infra.Servicos
             //    sysConfig.CustomFields.Add(descricao, EntityType.Cardholder,customType, string.Empty);
             //}
             return false;
+        }
+
+        public void RemoverCardHolder(ColaboradorEmpresa entity)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(entity.CardHolderGuid))
+                {
+                    Cardholder credencial = _sdk.GetEntity(new Guid(entity.CardHolderGuid)) as Cardholder;
+                    if (credencial != null)
+                    {
+                        _sdk.TransactionManager.CreateTransaction();
+                        _sdk.DeleteEntity(credencial.Guid);
+                        _sdk.TransactionManager.CommitTransaction();
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("CardHolder não encontrado.");
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         //public  List<CardholderGroup> ObterGruposCardHolder(string cardHolder)
         //{

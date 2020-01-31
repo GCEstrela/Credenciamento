@@ -794,7 +794,21 @@ namespace IMOD.Application.Service
                 throw;
             }
         }
+        public void RemoverCardHolder(ICredencialService geradorCredencialService, IColaboradorService colaboradorService, CardHolderEntity entity)
+        {
+            try
+            {
+                if (entity == null) throw new ArgumentNullException(nameof(entity));
 
+                geradorCredencialService.RemoverCardHolder(entity);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+        }
 
         /// <summary>
         ///     Criar registro credencial e obter data de validade da credencial
@@ -928,6 +942,19 @@ namespace IMOD.Application.Service
         {
             return _repositorio.ObterCursosColaboradorView(colaboradorCredencialId);
         }
+
+        public void RemoverCardHolder(ICredencialService geradorCredencialService, IColaboradorService colaboradorService, ColaboradorEmpresa entity)
+        {
+            geradorCredencialService.RemoverCardHolder(entity);
+            //throw new NotImplementedException();
+        }
+
+        //public void RemoverCardHolder(ICredencialService geradorCredencialService, IColaboradorService colaboradorService, ColaboradoresCredenciaisView entity)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+
 
         #endregion
     }
