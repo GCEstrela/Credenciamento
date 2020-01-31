@@ -256,7 +256,30 @@ namespace IMOD.Infra.Repositorios
             }
         }
 
+        public ICollection<RelatorioColaboradorEmpresaView> ListarColaboradorValidadeCursosEmpresaView(params object[] o)
+        {
+            try
+            {
+                using (var conn = _dataBase.CreateOpenConnection())
+                {
+                    using (var cmd = _dataBase.SelectText("ColaboradorValidadeCursoRelatorioView", conn))
+                    {
 
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, o, 0).Igual()));
+
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<RelatorioColaboradorEmpresaView>();
+
+                        return d1;
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         /// <summary>
         ///     Deletar registro
