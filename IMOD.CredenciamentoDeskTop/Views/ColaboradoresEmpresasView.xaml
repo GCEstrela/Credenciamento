@@ -170,19 +170,22 @@
                               IsEnabled="{Binding Comportamento.isEnableCancelar}" Height="28" Margin="0,5,0,0" Width="745" >
 
                         <Label Content="Nome do Arquivo:" Height="30" Width="142" Margin="1" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                        
                         <!-- Campo nome ddo Arquivo Anexo deve sempre esta Enabled, quem informa é a seleção do arquivo-->
                         <TextBox x:Name="txtNomeAnexo" MaxLength="100" CharacterCasing="Upper" Height="24" Width="527"  
                                  Text="{Binding Entity.NomeAnexo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  IsEnabled="False" Margin="5,0,0,4"
                                  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"/>
-                        <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="10,0,0,0"
+                        
+                        <Button x:Name="BuscarContratoArquivo_bt" Height="24" Margin="10,-2,0,0"
                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                 VerticalAlignment="Center" Width="24" Click="OnUpLoad_Click">
                             <StackPanel>
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Pasta.ico" />
                             </StackPanel>
                         </Button>
-                        <Button x:Name="AbrirContratoArquivo_bt" Height="24" Margin="5,0,0,0"
+                        
+                        <Button x:Name="AbrirContratoArquivo_bt" Height="24" Margin="5,-2,0,0"
                                 VerticalAlignment="Center" Width="24" Click="OnDownload_Click">
                             <StackPanel>
                                 <Image Source="/IMOD.CredenciamentoDeskTop;component/Resources/Olho.png" />
@@ -194,7 +197,7 @@
             </GroupBox>
 
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Height="190" Margin="0,0,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="795" Height="190" Margin="0,10,0,0">
 
                 <ListView x:Name="ListaSegnatarios_lv"
                           IsEnabled="{Binding IsEnableLstView}"
@@ -222,9 +225,9 @@
 
                 <StackPanel Orientation="Vertical"   HorizontalAlignment="Right" Width="30" Margin="10,0,10,21" Height="159" VerticalAlignment="Bottom">
 
-                    <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,10,0,7" />
+                    <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"    IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"    Width="25" Margin="0,0,0,7" />
-                    <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"   IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7"  Visibility="Collapsed"/>
+                    <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"   IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7"  Visibility="{Binding ExcluirVisivel}"/>
                     <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar"  IsEnabled="{Binding Comportamento.isEnableCancelar}"    Command="{Binding PrepareCancelarCommand}"   Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar"    IsEnabled="{Binding Comportamento.isEnableSalvar}"      Command="{Binding PrepareSalvarCommand}"     Width="25" Margin="0,0,0,7" />
 
