@@ -1193,11 +1193,10 @@ namespace IMOD.Infra.Servicos
                     }
                 }
             }
-            //if (criargrupo)
-            //{
-            //    sysConfig.CustomFields.Add(descricao, EntityType.Cardholder,customType, string.Empty);
-            //}
+
+            //sysConfig.CustomFields.Add"CAMPO-TESTE", EntityType.Cardholder, CustomFieldValueType.Text, string.Empty);
             return false;
+
         }
 
         public void RemoverCardHolder(ColaboradorEmpresa entity)
