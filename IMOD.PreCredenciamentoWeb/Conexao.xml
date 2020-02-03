@@ -1,49 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<Produtos>
-  <Produto>
-    <SystemID>GSC-181029-183484</SystemID>
-    <InstanciaSQL>WSFOR-SQL-DB\GNTC</InstanciaSQL>
-    <ServerWeb></ServerWeb>
-    <ServerCarga></ServerCarga>
-    <Banco>D_iModCredenciamento</Banco>
-    <UsuarioDB>imod</UsuarioDB>
-    <SenhaDB>c4RRamq1Ico=</SenhaDB>
-    <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
-  </Produto>
-  <Produto>
-    <SystemID>GSC-181029-133679</SystemID>   
-    <InstanciaSQL>10.51.254.91</InstanciaSQL>
-    <ServerWeb></ServerWeb>
-    <ServerCarga></ServerCarga>
-    <Banco>D_iModCredenciamento</Banco>
-    <UsuarioDB>imod</UsuarioDB>
-    <SenhaDB>c4RRamq1Ico=</SenhaDB>
-    <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
-  </Produto>
-  <Produto>
-    <SystemID>DEM-190909-868692</SystemID>
-    <ServerWeb></ServerWeb>
-    <ServerCarga></ServerCarga>
-    <InstanciaSQL>SFLNA017</InstanciaSQL>
-    <Banco>D_iModCredenciamento</Banco>
-    <UsuarioDB>imod</UsuarioDB>
-    <SenhaDB>c4RRamq1Ico=</SenhaDB>
-    <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
-  </Produto>
-  <Produto>
-    <SystemID>DEM-191014-184238</SystemID>
-    <!--<ServerWeb>172.16.100.73</ServerWeb>
-    <ServerCarga>172.16.100.73</ServerCarga>-->
-    <!--<ServerWeb>172.16.100.74</ServerWeb>
-    <ServerCarga>172.16.100.74</ServerCarga>-->
-    <ServerWeb>172.16.100.76</ServerWeb>
-    <ServerCarga>172.16.100.76</ServerCarga>
-    <InstanciaSQL>172.16.190.162\SQLEXPRESS</InstanciaSQL>
-    <Banco>D_iModCredenciamento</Banco>
-    <UsuarioDB>imod</UsuarioDB>
-    <SenhaDB>c4RRamq1Ico=</SenhaDB>
-    <certificado>y+BiIiYO5VxBax6/HNi7/ZcXWuvlnEemfaMhoQS1RMkfOGvEBWdUV7zQN272yHVG</certificado>    
-    <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
-    <teste></teste>
-  </Produto>  
-</Produtos>
+  <Produtos>
+    <Produto>
+      <SystemID>GSC-181029-183484</SystemID>
+      <InstanciaSQL>WSFOR-SQL-DB\GNTC</InstanciaSQL>
+      <ServerWeb>10.85.254.226</ServerWeb>
+      <ServerCarga>10.85.254.227</ServerCarga>
+      <Banco>D_iModCredenciamento</Banco>
+      <UsuarioDB>imod</UsuarioDB>
+      <SenhaDB>c4RRamq1Ico=</SenhaDB>
+      <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
+    </Produto>
+    <Produto>
+      <SystemID>GSC-181029-133679</SystemID>
+      <InstanciaSQL>10.51.254.91</InstanciaSQL>
+      <ServerWeb>10.51.254.89</ServerWeb>
+      <ServerCarga>10.51.254.91</ServerCarga>
+      <Banco>D_iModCredenciamento</Banco>
+      <UsuarioDB>imod</UsuarioDB>
+      <SenhaDB>c4RRamq1Ico=</SenhaDB>
+      <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
+    </Produto>
+    <Produto>
+      <SystemID>DEM-190909-868692</SystemID>
+      <ServerWeb>10.128.128.52</ServerWeb>
+      <ServerCarga>10.128.128.52</ServerCarga>
+      <InstanciaSQL>SFLNA017</InstanciaSQL>
+      <Banco>D_iModCredenciamento</Banco>
+      <UsuarioDB>imod</UsuarioDB>
+      <SenhaDB>c4RRamq1Ico=</SenhaDB>
+      <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
+    </Produto>
+    <Produto>
+      <SystemID>DEM-191014-184238</SystemID>
+      <ServerWeb></ServerWeb>
+      <ServerCarga></ServerCarga>
+      <InstanciaSQL>172.16.190.162\SQLEXPRESS</InstanciaSQL>
+      <Banco>D_iModCredenciamento</Banco>
+      <UsuarioDB>imod</UsuarioDB>
+      <SenhaDB>c4RRamq1Ico=</SenhaDB>
+      <certificado>y+BiIiYO5VxBax6/HNi7/ZcXWuvlnEemfaMhoQS1RMkfOGvEBWdUV7zQN272yHVG</certificado>
+      <Complemento>Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True</Complemento>
+      <teste></teste>
+    </Produto>
+  </Produtos>
