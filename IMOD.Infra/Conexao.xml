@@ -3,8 +3,8 @@
   <Produto>
     <SystemID>GSC-181029-183484</SystemID>
     <InstanciaSQL>WSFOR-SQL-DB\GNTC</InstanciaSQL>
-    <ServerWeb></ServerWeb>
-    <ServerCarga></ServerCarga>
+    <ServerWeb>10.85.254.226</ServerWeb>
+    <ServerCarga>10.85.254.227</ServerCarga>
     <Banco>D_iModCredenciamento</Banco>
     <UsuarioDB>imod</UsuarioDB>
     <SenhaDB>c4RRamq1Ico=</SenhaDB>
@@ -13,8 +13,8 @@
   <Produto>
     <SystemID>GSC-181029-133679</SystemID>   
     <InstanciaSQL>10.51.254.91</InstanciaSQL>
-    <ServerWeb></ServerWeb>
-    <ServerCarga></ServerCarga>
+    <ServerWeb>10.51.254.89</ServerWeb>
+    <ServerCarga>10.51.254.91</ServerCarga>
     <Banco>D_iModCredenciamento</Banco>
     <UsuarioDB>imod</UsuarioDB>
     <SenhaDB>c4RRamq1Ico=</SenhaDB>
@@ -32,12 +32,8 @@
   </Produto>
   <Produto>
     <SystemID>DEM-191014-184238</SystemID>
-    <ServerWeb>172.16.100.73</ServerWeb>
-    <ServerCarga>172.16.100.73</ServerCarga>
-    <!--<ServerWeb>172.16.100.74</ServerWeb>
-    <ServerCarga>172.16.100.74</ServerCarga>-->
-    <!--<ServerWeb>172.16.100.76</ServerWeb>
-    <ServerCarga>172.16.100.76</ServerCarga>-->
+    <ServerWeb></ServerWeb>
+    <ServerCarga></ServerCarga>
     <InstanciaSQL>172.16.190.162\SQLEXPRESS</InstanciaSQL>
     <Banco>D_iModCredenciamento</Banco>
     <UsuarioDB>imod</UsuarioDB>

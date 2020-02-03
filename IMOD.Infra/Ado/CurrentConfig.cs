@@ -93,11 +93,11 @@ namespace IMOD.Infra.Ado
                 }
 
                 //verifica se o ip utilizado será o da carga ou do servidor web - IMOD.ImodApp
-                if (processo.Equals("IMOD.ImodApp")) 
+                if (processo.Equals("IMOD.ImodApp"))
                 {
 
                 }
-                else if (!processo.Equals("IMOD.Service"))
+                else if(!processo.Equals("IMOD.Service"))
                 {
                     campoPesquisa = "ServerWeb";
                     path = HttpContext.Current.Server.MapPath("~");
@@ -114,6 +114,20 @@ namespace IMOD.Infra.Ado
                                  SenhaDB = p.Element("SenhaDB").Value,
                                  complemento = p.Element("Complemento").Value,
                              }).FirstOrDefault();
+                if (prods == null)               
+                {
+                    prods = (from p in XElement.Load(path + "\\Conexao.xml").Elements("Produto")
+                             where p.Element(campoPesquisa).Value == string.Empty     // Quando esta sendo usudo pelo WinSevice e Pre-Cadastro
+                             select new
+                             {
+                                 instancia = p.Element("InstanciaSQL").Value,
+                                 banco = p.Element("Banco").Value,
+                                 usuarioDB = p.Element("UsuarioDB").Value,
+                                 SenhaDB = p.Element("SenhaDB").Value,
+                                 complemento = p.Element("Complemento").Value,
+                             }).FirstOrDefault();
+                }
+
                 if (prods != null)
                 {
                     instancia = prods.instancia;
