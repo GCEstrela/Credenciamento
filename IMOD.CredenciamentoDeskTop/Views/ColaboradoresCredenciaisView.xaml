@@ -347,7 +347,7 @@
                             <GridViewColumn Width="220" Header="Modelo" >
                                 <GridViewColumn.CellTemplate  >
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding  LayoutCrachaNome}"  Foreground="{Binding   Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}" TextAlignment="Center"/>
+                                        <TextBlock Text="{Binding  Modelo}"  Foreground="{Binding   Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}" TextAlignment="Center"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

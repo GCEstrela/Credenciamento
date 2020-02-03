@@ -420,13 +420,8 @@ namespace IMOD.Infra.Servicos
 
                 if (entity.regraAlterado)
                 {
-                    //RemoverRegrasCardHolder(entity);
-                    foreach (Guid regrasGuid in entity.listadeRegras)
-                    {
-                        AccessRule accesso_add = _sdk.GetEntity(regrasGuid) as AccessRule;
-                        accesso_add.Members.Remove(cardHolder.Guid);
-                    }
-
+                    RemoverRegrasCardHolder(entity);
+                    
                     foreach (Guid regrasGuid in entity.listadeRegras)
                     {
                         AccessRule accesso_add = _sdk.GetEntity(regrasGuid) as AccessRule;

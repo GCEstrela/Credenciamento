@@ -63,6 +63,8 @@ namespace IMOD.Domain.Entities
         public string TerceirizadaSigla { get; set; }
         //public string NumeroColete { get; set; }
         public List<Guid> listadeRegras { get; set; }
+        public string Modelo { get; set; }
+        
         #endregion
     }
 }

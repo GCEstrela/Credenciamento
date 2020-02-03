@@ -575,7 +575,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (result != DialogResult.Yes)
                     return;
 
-                var verificarCredencialExistente = _serviceColaboradorCredencial.Listar(null, null, null, null, null, null, null, null, null, null, null, Entity.EmpresaContratoId);
+                var verificarCredencialExistente = _serviceColaboradorCredencial.Listar(null, null, null, null, Entity.ColaboradorId, null, null, null, null, null, null, Entity.EmpresaContratoId);
                 if (verificarCredencialExistente.Count == 0)
                 {
                     var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
