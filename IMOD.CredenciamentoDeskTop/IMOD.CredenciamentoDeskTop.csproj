@@ -188,12 +188,6 @@
       <DependentUpon>BHCinzaCiaAereas.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\Estrela\BHMarromCargas.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BHMarromCargas.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Cracha\CRACHA ESTRELA .cs">
       <DependentUpon>CRACHA ESTRELA .rpt</DependentUpon>
       <SubType>Component</SubType>
@@ -650,8 +644,14 @@
       <DependentUpon>RelatorioAutorizacaoInvalidas_6.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Relatorio\RelatorioHabilitacaoColaboradorPorEmpresa_28 .cs">
-      <DependentUpon>RelatorioHabilitacaoColaboradorPorEmpresa_28 .rpt</DependentUpon>
+    <Compile Include="Relatorio\RelatorioEmpresasAreaDeAcesso_30.cs">
+      <DependentUpon>RelatorioEmpresasAreaDeAcesso_30.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Relatorio\RelatorioHabilitacaoColaboradorPorEmpresa_28.cs">
+      <DependentUpon>RelatorioHabilitacaoColaboradorPorEmpresa_28.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
@@ -1007,6 +1007,9 @@
     <Compile Include="Windows\PopUpFiltrosCredenciaisInvalidas.xaml.cs">
       <DependentUpon>PopUpFiltrosCredenciaisInvalidas.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PopUpFiltrosEmpresaPorArea.xaml.cs">
+      <DependentUpon>PopUpFiltrosEmpresaPorArea.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PopUpFiltrosCredenciaisPorArea.xaml.cs">
       <DependentUpon>PopUpFiltrosCredenciaisPorArea.xaml</DependentUpon>
     </Compile>
@@ -1212,6 +1215,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\PopUpFiltrosCredenciaisInvalidas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PopUpFiltrosEmpresaPorArea.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1512,10 +1519,6 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BHCinzaCiaAereas.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\Estrela\BHMarromCargas.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>BHMarromCargas.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Cracha\CRACHA ESTRELA .rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CRACHA ESTRELA .cs</LastGenOutput>
@@ -1800,9 +1803,13 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>RelatorioAutorizacaoInvalidas_6.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Relatorio\RelatorioHabilitacaoColaboradorPorEmpresa_28 .rpt">
+    <EmbeddedResource Include="Relatorio\RelatorioEmpresasAreaDeAcesso_30.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>RelatorioHabilitacaoColaboradorPorEmpresa_28 .cs</LastGenOutput>
+      <LastGenOutput>RelatorioEmpresasAreaDeAcesso_30.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Relatorio\RelatorioHabilitacaoColaboradorPorEmpresa_28.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RelatorioHabilitacaoColaboradorPorEmpresa_28.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Relatorio\RelatorioConcessaoAutorizacaoValidas_2.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

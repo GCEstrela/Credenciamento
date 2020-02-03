@@ -1,15 +1,16 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using IMOD.CredenciamentoDeskTop.ViewModels;
+using IMOD.CredenciamentoDeskTop.Views.Model;
 
 namespace IMOD.CredenciamentoDeskTop.Windows
 {
     /// <summary>
-    /// Lógica interna para PopUpFiltrosCredenciaisPorArea.xaml
+    /// Lógica interna para PopUpFiltrosEmpresaPorArea.xaml
     /// </summary>
-    public partial class PopUpFiltrosCredenciaisPorArea : Window
+    public partial class PopUpFiltrosEmpresaPorArea : Window
     {
-        public PopUpFiltrosCredenciaisPorArea()
+        public PopUpFiltrosEmpresaPorArea()
         {
             InitializeComponent();
             DataContext = new RelatoriosViewModel();
@@ -24,45 +25,16 @@ namespace IMOD.CredenciamentoDeskTop.Windows
         }
 
         private void button_ClickFiltrar(object sender, RoutedEventArgs e)
-        {
-            bool check;
-            string area;
-            IMOD.CredenciamentoDeskTop.Views.Model.AreaAcessoView objAreaSelecionado = new IMOD.CredenciamentoDeskTop.Views.Model.AreaAcessoView();
-            var checkTipo = (RbtnPermanente.IsChecked.Value ? true : RbtnTemporario.IsChecked.Value ? false : true);
-            bool? flaAtivoInativo;
-            string DataIni = dp_dataInicial.Text;
-            string DataFim = dp_dataFinal.Text;
-
-            if (RbtnTodosStatus != null && RbtnTodosStatus.IsChecked.Value)
+        {            
+            IMOD.CredenciamentoDeskTop.Views.Model.EmpresaAreaAcessoView objAreaSelecionado = null;
+            if (AreaAcesso_cb.SelectedItem != null)
             {
-                flaAtivoInativo = null;
-            } else
-            {
-               flaAtivoInativo = (bool)RbtnStatusAtiva.IsChecked.Value ? true : (bool)RbtnStatusInativa.IsChecked.Value ? false : true;
+             AreaAcessoView area = (AreaAcessoView)AreaAcesso_cb.SelectedItem;
+             objAreaSelecionado = new IMOD.CredenciamentoDeskTop.Views.Model.EmpresaAreaAcessoView();
+             objAreaSelecionado.Area = area.Identificacao;
             }
 
-            if (AreaAcesso_cb.SelectedItem == null)
-            {
-                area = "";
-            }
-            else
-            {
-                area = ((IMOD.CredenciamentoDeskTop.Views.Model.AreaAcessoView)AreaAcesso_cb.SelectedItem).AreaAcessoId.ToString();
-                objAreaSelecionado = (IMOD.CredenciamentoDeskTop.Views.Model.AreaAcessoView)AreaAcesso_cb.SelectedItem;
-            }
-
-            if (credenciais_rb.IsChecked.Value)
-            {
-                check = true;
-                ((RelatoriosViewModel)DataContext).OnRelatorioCredencialPorAreaCommand(checkTipo, area, check, objAreaSelecionado, flaAtivoInativo, DataIni, DataFim);
-            }
-            else
-            {
-                check = false;
-                ((RelatoriosViewModel)DataContext).OnRelatorioAutorizacoesPorAreaCommand(checkTipo, area, check, objAreaSelecionado, flaAtivoInativo, DataIni, DataFim);
-            }
-
-
+           ((RelatoriosViewModel)DataContext).OnRelatorioEmpresaPorAreaCommand(objAreaSelecionado);
             Close();
         }
 

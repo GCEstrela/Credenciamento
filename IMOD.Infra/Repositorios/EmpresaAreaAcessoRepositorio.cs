@@ -116,19 +116,13 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.SelectText("EmpresasAreasAcessos", conn))
-
+                    using (var cmd = _dataBase.SelectText("EmpresasAreasView", conn))
                     {
-
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaAreaAcessoID", DbType.Int32, objects, 0).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaID", DbType.Int32, objects, 1).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("AreaAcessoID", DbType.Int32, objects, 2).Igual()));
-
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Area", DbType.String, objects, 0).Igual()));
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<EmpresaAreaAcesso>();
 
                         return d1;
-
                     }
                 }
             }

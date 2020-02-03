@@ -43,7 +43,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private ObservableCollection<CredencialMotivoView> _CredencialMotivo;
 
         private ObservableCollection<AreaAcessoView> _AreasAcessos;
-
+        
         private ObservableCollection<EmpresaView> _Empresas;
 
 
@@ -82,6 +82,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IVeiculoCredencialService objVeiculoCredencial = new VeiculoCredencialService();
         private readonly IConfiguraSistemaService objConfiguraSistema = new ConfiguraSistemaService();
         private readonly IColaboradorEmpresaService colaboradorEmpresaService = new ColaboradorEmpresaService();
+        private readonly IEmpresaAreaAcessoService empresaAreaAcessoService = new EmpresaAreaAcessoService();
 
 
         #endregion
@@ -2037,19 +2038,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException(ex);
             }
         }
-        
+
         #endregion
 
         #region "EMPRESA"
-        public void OnRelatorioEmpresaArea(string empresa, string dataIni, string dataFim)
+        public void OnRelatorioEmpresaPorAreaCommand(EmpresaAreaAcessoView objAreaSelecionado)
         {
             try
             {
-                relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(27);
+                relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(30);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
-
-                var result = colaboradorEmpresaService.ListarColaboradorEmpresaView(empresa, dataIni, dataFim);
-                var resultMapeado = Mapper.Map<List<IMOD.CredenciamentoDeskTop.Views.Model.RelatorioColaboradorEmpresaView>>(result.OrderBy(n => n.ColaboradorNome).ToList());
+                var areaSelecionada = (objAreaSelecionado != null) ? objAreaSelecionado.Area : null;
+                var result = empresaAreaAcessoService.Listar(objAreaSelecionado);
+                var resultMapeado = Mapper.Map<List<IMOD.CredenciamentoDeskTop.Views.Model.EmpresaAreaAcessoView>>(result);
                 byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
                 var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
                 reportDoc.SetDataSource(resultMapeado);
@@ -2057,13 +2058,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 reportDoc.Refresh();
 
                 WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
-
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Utils.TraceException(ex);
+
+                throw;
             }
         }
+
         #endregion
 
         #endregion
