@@ -736,30 +736,28 @@ namespace IMOD.Infra.Servicos
                 var service = systemConfiguration.CustomFieldService;
                 if (result.Success)
                 {
-                    //_sdk.TransactionManager.CreateTransaction();
-                    foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
+                    foreach (DataRow dr in result.Data.Rows)
                     {
-
                         Credential cred = _sdk.GetEntity((Guid)dr[0]) as Credential;
-                        var credencialnumero = cred.Format.UniqueId.Split('|')[0];
-                        //string decValue = (long.Parse(credencialnumero, System.Globalization.NumberStyles.HexNumber)).ToString();
-                        long decValue = long.Parse(credencialnumero, System.Globalization.NumberStyles.HexNumber);
-                        if (entity.NumeroCredencial == decValue.ToString())
+                        var credencialnumero = string.Empty;
+                        try
                         {
-                            return cred.Guid.ToString();
-                        }
+                            credencialnumero = cred.Format.UniqueId.Split('|')[0];
+                            long decValue = 0;
+                            if (long.TryParse(credencialnumero, out decValue) && decValue > 0)
+                            {
+                                decValue = long.Parse(decValue.ToString(), System.Globalization.NumberStyles.HexNumber);
+                                if (entity.NumeroCredencial == decValue.ToString())
+                                {
+                                    return cred.Guid.ToString();
+                                }
+                            }
 
-
-                        var numeroCredencial = cred.Name.Split('-');
-                        string number = numeroCredencial[0].ToString();
-                        if (number.Trim() == credencialNumero.Trim())
-                        {
-                            return cred.Guid.ToString();
                         }
+                        catch { }
+
                     }
-                    //_sdk.TransactionManager.CommitTransaction();
                 }
-                // entity.IdentificadorCredencialGuid = null;
                 return "";
             }
             catch (Exception ex)
