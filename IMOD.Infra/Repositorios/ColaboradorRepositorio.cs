@@ -324,7 +324,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cpf", DbType.String, o, 1).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, o, 2).Like()));
 
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Precadastro", DbType.Boolean, o, 3).IsNotNull()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Precadastro", DbType.Boolean, o, 3).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("IdColaboradorSICOA", DbType.Int32, o, 4).IsNotNull()));
 
                         var reader = cmd.ExecuteReaderSelect();

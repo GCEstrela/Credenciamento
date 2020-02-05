@@ -29,6 +29,7 @@ using IMOD.CredenciamentoDeskTop.ViewModels.Comportamento;
 using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using IMOD.Infra.Servicos;
 
 #endregion
 
@@ -41,6 +42,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IColaboradorEmpresaService _serviceColaboradorEmpresa = new ColaboradorEmpresaService();
         private readonly IColaboradorCredencialService _serviceColaboradorCredencial = new ColaboradorCredencialService();
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
+
+        private readonly IColaboradorCredencialService _serviceCredencialSC = new ColaboradorCredencialService();
+
         private ConfiguraSistema _configuraSistema;
         private bool isReprovacao = false;
 
@@ -781,6 +785,29 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n1 = Mapper.Map<Colaborador>(Entity);
                 n1.Nome = n1.Nome.TrimStart().TrimEnd();
                 _service.Alterar(n1);
+
+
+                #region Gerar CardHolder
+                try
+                {
+                    var colamoradorEmpresasContratos = _serviceColaboradorEmpresa.ListarView(Entity.ColaboradorId).ToList();
+                    foreach (var item in colamoradorEmpresasContratos)
+                    {
+                        var colamoradorContrato = _serviceColaboradorEmpresa.ListarView(item.ColaboradorId,null,null,item.Matricula).ToList().FirstOrDefault();
+                        colamoradorContrato.Ativo = false;
+
+                        _serviceCredencialSC.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), colamoradorContrato);
+                    }
+                    
+                }
+                catch (Exception ex)
+                {
+                    WpfHelp.PopupBox(ex);
+                }
+                #endregion
+
+
+
                 HabilitaControle(true, true);
                 isReprovacao = false;
             }
