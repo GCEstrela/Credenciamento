@@ -24,6 +24,7 @@ using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
 using IMOD.Infra.Servicos.Entities;
 using IMOD.Domain.Enums;
+using System.Diagnostics;
 
 
 #endregion
@@ -727,6 +728,8 @@ namespace IMOD.Infra.Servicos
                 var guid = new Guid(entity.IdentificadorCardHolderGuid);
                 var credencial = _sdk.GetEntity(guid) as Credential;
 
+                int credecnailFormato = entity.FormatoCredencialId;
+
                 query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
                 query.EntityTypeFilter.Add(EntityType.Credential);
                 query.NameSearchMode = StringSearchMode.StartsWith;
@@ -741,6 +744,14 @@ namespace IMOD.Infra.Servicos
                     {
 
                         Credential cred = _sdk.GetEntity((Guid)dr[0]) as Credential;
+
+                        var formatocredencial = cred.Format.Name;
+                     
+                        Debug.WriteLine(formatocredencial);
+                        var formatocredencialnumero = cred.Format.FormatId.ToString();
+                        formatocredencialnumero = formatocredencialnumero.Split('-')[4];
+                        Debug.WriteLine(Convert.ToInt32(formatocredencialnumero));
+
                         var credencialnumero = cred.Format.UniqueId.Split('|')[0];
                         //string decValue = (long.Parse(credencialnumero, System.Globalization.NumberStyles.HexNumber)).ToString();
                         long decValue = long.Parse(credencialnumero, System.Globalization.NumberStyles.HexNumber);
