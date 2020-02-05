@@ -154,7 +154,6 @@
     </Compile>
     <Compile Include="Helper\CriptografiaHelper.cs" />
     <Compile Include="Models\AutorizacaoViewModel.cs" />
-    <Compile Include="Models\EmpresaRepresentanteViewModel.cs" />
     <Compile Include="Models\VeiculoEmpresaViewModel.cs" />
     <Compile Include="Models\ColaboradorEmpresaViewModel.cs" />
     <Compile Include="Models\ColaboradorViewModel.cs" />
