@@ -409,10 +409,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 #region Gerar CardHolder
                 try
                 {
-                    //if (n1.Validade < DateTime.Now)
-                    //{
+
                     _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
-                    //}
+
                     Entity.grupoAlterado = false;
                 }
                 catch (Exception ex)

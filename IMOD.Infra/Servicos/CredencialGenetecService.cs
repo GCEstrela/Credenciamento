@@ -281,22 +281,21 @@ namespace IMOD.Infra.Servicos
                 _sdk.TransactionManager.CreateTransaction();
 
                 var cardholder = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
-                foreach (Guid element in cardholder.Credentials)
+
+                if (ativo)
                 {
-                    Credential credencialTMP = _sdk.GetEntity(new Guid(element.ToString())) as Credential;
-                    var state = credencialTMP.State.ToString();
-                    if (state == "Active")
+                    foreach (Guid element in cardholder.Credentials)
                     {
-                        ativo = true;
-                        break;
+                        Credential credencialTMP = _sdk.GetEntity(new Guid(element.ToString())) as Credential;
+                        var state = credencialTMP.State.ToString();
+                        if (state == "Active")
+                        {
+                            ativo = true;
+                            break;
+                        }
                     }
                 }
 
-                if (!ativo)
-                {
-                    if (cardholder == null) throw new InvalidOperationException("Não foi possível encontrar o titular do cartão.");
-                    cardholder.State = entity.Ativo ? CardholderState.Active : CardholderState.Inactive;
-                }
                 if (entity.Validade > DateTime.Now)
                 {
                     if (entity.Ativo)
@@ -309,6 +308,13 @@ namespace IMOD.Infra.Servicos
                 }
 
                 SetValorCamposCustomizados(entity, cardholder);
+
+
+                if (!ativo)
+                {
+                    if (cardholder == null) throw new InvalidOperationException("Não foi possível encontrar o titular do cartão.");
+                    cardholder.State = entity.Ativo ? CardholderState.Active : CardholderState.Inactive;
+                }
 
                 _sdk.TransactionManager.CommitTransaction();
             }
@@ -430,6 +436,10 @@ namespace IMOD.Infra.Servicos
                     }
                 }
 
+                if (!entity.Ativo)
+                {
+                    cardHolder.State = CardholderState.Inactive;
+                }
                 entity.IdentificadorCardHolderGuid = cardHolder.Guid.ToString();
 
                 _sdk.TransactionManager.CommitTransaction();
