@@ -377,7 +377,7 @@ namespace IMOD.Infra.Servicos
         /// <param name="entity"></param>
         public void CriarCardHolder(CardHolderEntity entity)
         {
-
+            
             //Validar dados
             ValidarCriarCardHolder(entity);
             //VerificaRegraAcesso(entity);

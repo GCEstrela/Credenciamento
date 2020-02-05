@@ -295,15 +295,17 @@
                             <StackPanel.Resources>
                             </StackPanel.Resources>
                             <StackPanel Margin="1,1,1,0" Height="166" VerticalAlignment="Top" Width="416">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
-                                            HorizontalAlignment="Left" Margin="1">
-                                    <Label Content="Estrangeiro:" Foreground="#FFD0D0D0" Height="28" Width="100"
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
+
+                                    <Label Content=" Habilitato" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" Width="100" />
+                                    <CheckBox x:Name="colaboradorHabilitado_cb" Height="11" Foreground="#FFD0D0D0"/>
+                                    <Label Content="Estrangeiro:" Foreground="#FFD0D0D0" Height="28" Width="87"
                                        HorizontalContentAlignment="Right" Margin="0,0,0,0"/>
                                     <CheckBox x:Name="Estrangeiro_cb" VerticalContentAlignment="Bottom" Margin="3,0,0,0"
                                           Height="11" Foreground="#FFD0D0D0"
                                           IsChecked="{Binding Entity.Estrangeiro, UpdateSourceTrigger=PropertyChanged}" 
                                             />
-                                    <Label Content="CPF:" Height="28" Width="165" Margin="1" Foreground="#FFD0D0D0"
+                                    <Label Content="CPF:" Height="28" Width="59" Margin="1" Foreground="#FFD0D0D0"
                                            HorizontalContentAlignment="Right" />
                                     <TextBox x:Name="txtCpf"
                                              MaxLength="20"
