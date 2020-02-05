@@ -145,7 +145,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ColaboradorController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
-    <Compile Include="Controllers\EmpresaRepresentanteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\VeiculoController.cs" />
@@ -154,7 +153,6 @@
     </Compile>
     <Compile Include="Helper\CriptografiaHelper.cs" />
     <Compile Include="Models\AutorizacaoViewModel.cs" />
-    <Compile Include="Models\EmpresaRepresentanteViewModel.cs" />
     <Compile Include="Models\VeiculoEmpresaViewModel.cs" />
     <Compile Include="Models\ColaboradorEmpresaViewModel.cs" />
     <Compile Include="Models\ColaboradorViewModel.cs" />
