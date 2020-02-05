@@ -298,7 +298,8 @@
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
 
                                     <Label Content=" Habilitato" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" Width="100" />
-                                    <CheckBox x:Name="colaboradorHabilitado_cb" Height="11" Foreground="#FFD0D0D0"/>
+                                    <CheckBox x:Name="colaboradorHabilitado_cb" Height="11" Foreground="#FFD0D0D0"
+                                              IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}" />
                                     <Label Content="Estrangeiro:" Foreground="#FFD0D0D0" Height="28" Width="87"
                                        HorizontalContentAlignment="Right" Margin="0,0,0,0"/>
                                     <CheckBox x:Name="Estrangeiro_cb" VerticalContentAlignment="Bottom" Margin="3,0,0,0"

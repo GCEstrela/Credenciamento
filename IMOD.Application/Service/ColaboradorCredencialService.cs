@@ -663,6 +663,10 @@ namespace IMOD.Application.Service
                     titularCartao.Validade = DateTime.Now.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
                 }
 
+
+
+
+
                 if (!entity.Ativo && !string.IsNullOrWhiteSpace(entity.CardHolderGuid))
                 {
                     geradorCredencialService.AlterarStatusCardHolder(titularCartao);

@@ -409,10 +409,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 #region Gerar CardHolder
                 try
                 {
-
-                    _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
-
-                    Entity.grupoAlterado = false;
+                    var colaboradorAtivo = _serviceColaborador.Listar(n1.ColaboradorId).FirstOrDefault();
+                    if (colaboradorAtivo.Ativo)
+                    {
+                        _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+                        Entity.grupoAlterado = false;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -491,20 +493,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (n1.Matricula == null)
                     _service.CriarNumeroMatricula(n1);
 
-                //if (Entity.Validade != null)
-                //{
-                //    n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                //    if (n1.Validade < DateTime.Now)
-                //    {
-                //        WpfHelp.PopupBox("Data de Validade [ " + n1.Validade + " ] do CardHolder é Inválida", 1);
-                //        return;
-                //    }
-                //}
-                //else
-                //{
-                //    //var validadeContrato = _empresaContratoService.Listar(null, null, null, null, null, null, null, null, Entity.EmpresaContratoId).FirstOrDefault();
-                //    //n1.Validade = validadeContrato.Validade.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                //}
 
                 n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
                 Entity.Matricula = n1.Matricula;
@@ -512,11 +500,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 #region Gerar CardHolder
                 try
                 {
-                    //if (n1.Validade < DateTime.Now)
-                    //{
-                    _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
-                    //}
-                    Entity.CardHolderGuid = n1.CardHolderGuid;
+                    var colaboradorAtivo = _serviceColaborador.Listar(n1.ColaboradorId).FirstOrDefault();
+                    if (colaboradorAtivo.Ativo)
+                    {
+                        _serviceCredencial.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
+                        Entity.CardHolderGuid = n1.CardHolderGuid;
+                    }
+
                 }
                 catch (Exception ex)
                 {
