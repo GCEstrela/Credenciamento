@@ -794,7 +794,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     foreach (var item in colamoradorEmpresasContratos)
                     {
                         var colamoradorContrato = _serviceColaboradorEmpresa.ListarView(item.ColaboradorId,null,null,item.Matricula).ToList().FirstOrDefault();
-                        colamoradorContrato.Ativo = false;
+                        //colamoradorContrato.Ativo = false;
 
                         _serviceCredencialSC.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), colamoradorContrato);
                     }
