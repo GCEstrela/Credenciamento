@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Constantes\Constante.cs" />
     <Compile Include="EntitiesCustom\AutorizacaoView.cs" />
+    <Compile Include="EntitiesCustom\CursoAreaAcessoView.cs" />
     <Compile Include="EntitiesCustom\RelatorioColaboradorEmpresaView.cs" />
     <Compile Include="EntitiesCustom\ColaboradorEmpresaView.cs" />
     <Compile Include="EntitiesCustom\ColaboradoresCredenciaisView.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="EntitiesCustom\VeiculoEmpresaView.cs" />
     <Compile Include="EntitiesCustom\VeiculosCredenciaisView.cs" />
     <Compile Include="EntitiesCustom\VeiculoTipoServicoView.cs" />
+    <Compile Include="Entities\CursosAreasAcessos.cs" />
     <Compile Include="Entities\AreaAcesso.cs" />
     <Compile Include="Entities\Colaborador.cs" />
     <Compile Include="Entities\ColaboradorAnexo.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="Enums\StatusCadastro.cs" />
     <Compile Include="Enums\Status.cs" />
     <Compile Include="Enums\Motivo.cs" />
+    <Compile Include="Interfaces\ICursoAreaAcessoRepositorio .cs" />
     <Compile Include="Interfaces\IAreaAcessoRepositorio.cs" />
     <Compile Include="Interfaces\IColaboradorAnexoRepositorio.cs" />
     <Compile Include="Interfaces\IColaboradorCredencialimpresssaoRepositorio.cs" />
