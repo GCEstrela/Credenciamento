@@ -5,6 +5,9 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using Foolproof;
+using IMOD.Domain.Enums;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace IMOD.PreCredenciamentoWeb.Models
 {
@@ -160,9 +163,9 @@ namespace IMOD.PreCredenciamentoWeb.Models
         {
             get
             {
-                if (Precadastro)
+                if (StatusCadastro != null)
                 {
-                    return (string.IsNullOrEmpty(Observacao)) ? "Aguardando Aprovação": "Reprovado" ;
+                    return Funcoes.GetDescription((StatusCadastro)StatusCadastro); 
                 }
                 else
                 {
@@ -170,8 +173,8 @@ namespace IMOD.PreCredenciamentoWeb.Models
                 }
             }
         }
-
-
+        public int? StatusCadastro { get; set; }
+        
         #endregion
     }
 }
