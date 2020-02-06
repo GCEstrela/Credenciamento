@@ -271,9 +271,7 @@
                                 IsEnabled="{Binding Comportamento.IsEnableEditar}">
                             <StackPanel>
                                 <Image
-                                    Source="{Binding Pendencia21,
-                                        Converter={StaticResource ConvertBoolToImage},
-                                        UpdateSourceTrigger=Explicit, Mode=TwoWay}"
+                                    Source="{Binding Pendencia21, Converter={StaticResource ConvertBoolToImage},  UpdateSourceTrigger=Explicit, Mode=TwoWay}"
                                     Width="16" Height="16" RenderTransformOrigin="1,1" />
                             </StackPanel>
                         </Button>
@@ -295,18 +293,27 @@
                             <StackPanel.Resources>
                             </StackPanel.Resources>
                             <StackPanel Margin="1,1,1,0" Height="166" VerticalAlignment="Top" Width="416">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,1,0,1" Width="405"
+                                            Visibility="{Binding IsEnablePreCadastroCredenciamento,  Converter={StaticResource VisibleControl}}">
+                                    <Label Content="Status:" Foreground="#FFD0D0D0" Margin="40,0,0,0"/>
+
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" BorderThickness="1" Width="220" Background="#FF2B2727">
+                                        <Label x:Name="lbl_ativodesativo" Content="{Binding IsLabelAtivoInativo}" FontFamily="Bold"  Foreground="{Binding IsLabelCorAtivoInativo}" Margin="9,0,95,0" FontWeight="Bold"/>
+                                    </Border>
+
+                                    <Button x:Name="bt_ativodesativo" Content="{Binding IsBotaoAtivoInativo}" Background="{Binding IsBotaoCorAtivoInativo}"
+                                                HorizontalContentAlignment="Center" Margin="0,0,0,0" Width="100" Click="Bt_ativodesativo_Click"></Button>
+                                </StackPanel>
+
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
 
-                                    <Label Content=" Habilitato" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" Width="100" />
-                                    <CheckBox x:Name="colaboradorHabilitado_cb" Height="11" Foreground="#FFD0D0D0"
-                                              IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}" />
-                                    <Label Content="Estrangeiro:" Foreground="#FFD0D0D0" Height="28" Width="87"
+                                    <Label Content="Estrangeiro:" Foreground="#FFD0D0D0" Height="28" Width="97"
                                        HorizontalContentAlignment="Right" Margin="0,0,0,0"/>
                                     <CheckBox x:Name="Estrangeiro_cb" VerticalContentAlignment="Bottom" Margin="3,0,0,0"
                                           Height="11" Foreground="#FFD0D0D0"
-                                          IsChecked="{Binding Entity.Estrangeiro, UpdateSourceTrigger=PropertyChanged}" 
-                                            />
-                                    <Label Content="CPF:" Height="28" Width="59" Margin="1" Foreground="#FFD0D0D0"
+                                          IsChecked="{Binding Entity.Estrangeiro, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                    <Label Content="CPF:" Height="28" Width="52" Margin="1" Foreground="#FFD0D0D0"
                                            HorizontalContentAlignment="Right" />
                                     <TextBox x:Name="txtCpf"
                                              MaxLength="20"
@@ -398,7 +405,7 @@
                     </GroupBox>
 
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Brown"
-                              Grid.Column="0" Header="Endereço" Margin="0,192,0,0" Height="130" VerticalAlignment="Top"
+                              Grid.Column="0" Header="Endereço" Margin="0,192,0,0" Height="175" VerticalAlignment="Top"
                               Grid.ColumnSpan="2">
                         <StackPanel Margin="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -453,16 +460,28 @@
                                           IsEditable="true" 
                                           SelectedIndex="0" Width="167"/>
                             </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="569">
+
+                                <Label Content="Ativo" HorizontalContentAlignment="Right" FontSize="20" ToolTip="lksdfjlsajf lsajf çlsjfçsalfj laçsj"
+                                       Width="280" Foreground="{Binding IsEnablePreCadastroColor}" Margin="0,5,0,0" Visibility="Hidden"
+                                       />
+
+                                <CheckBox x:Name="colaboradorHabilitado_cb" HorizontalContentAlignment="Center" FontSize="20"
+                                          Height="11" Foreground="{Binding IsEnablePreCadastroColor}" Visibility="Hidden"
+                                          IsChecked="{Binding Entity.Ativo, UpdateSourceTrigger=PropertyChanged}" Margin="10,11,0,0" 
+                                           Checked="ColaboradorHabilitado_cb_Checked"/>
+                            </StackPanel>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Brown" 
-                              Grid.Column="0" Header="Observação da Reprovação" Margin="0,315,0,0" Height="117" VerticalAlignment="Top"
+                              Grid.Column="0" Header="Observação da Reprovação" Margin="0,350,0,0" Height="91" VerticalAlignment="Top"
                               Grid.ColumnSpan="2" Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}">
                         <StackPanel Margin="60,5,0,0" >
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                 <TextBox MinLines="5"  x:Name="obs_tb" Text="{Binding Entity.Observacao,  UpdateSourceTrigger=PropertyChanged}" 
-                                         Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}" Width="497" Height="56"></TextBox>
+                                         Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}" Width="497" Height="45"></TextBox>
                             </StackPanel>
+
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Crimson"
