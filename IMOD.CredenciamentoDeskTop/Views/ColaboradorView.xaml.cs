@@ -91,6 +91,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                         _viewModel.IsLabelAtivoInativo = "Ativo";
                         _viewModel.IsBotaoAtivoInativo = "Inativar";
                         _viewModel.IsBotaoCorAtivoInativo = "#FFFF0000";
+                        _viewModel.IsLabelCorAtivoInativo = "#FF008000";
                     }
                     else
                     {
@@ -98,6 +99,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                         _viewModel.IsLabelAtivoInativo = "Inativo";
                         _viewModel.IsBotaoAtivoInativo = "Ativar";
                         _viewModel.IsBotaoCorAtivoInativo = "#FF008000";
+                        _viewModel.IsLabelCorAtivoInativo = "#FFFF0000";
                     }
                 }
                 //ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);

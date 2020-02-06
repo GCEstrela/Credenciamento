@@ -429,7 +429,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     if (Entity.Ativo)
                     {
                         IsLabelAtivoInativo = "Ativo";
-                        IsBotaoAtivoInativo = "Inativar";
+                        IsBotaoAtivoInativo = "Desativar";
                     }
                     else
                     {

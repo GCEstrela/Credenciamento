@@ -298,11 +298,14 @@
                                     <Label Content="Status:" Foreground="#FFD0D0D0" Margin="40,0,0,0"/>
 
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" BorderThickness="1" Width="220" Background="#FF2B2727">
-                                        <Label x:Name="lbl_ativodesativo" Content="{Binding IsLabelAtivoInativo}" FontFamily="Bold"  Foreground="{Binding IsLabelCorAtivoInativo}" Margin="9,0,95,0" FontWeight="Bold"/>
+                                        <Label x:Name="lbl_ativodesativo" Content="{Binding IsLabelAtivoInativo}" FontFamily="Bold"  
+                                               ToolTip="Status atual dos acessos do colaborador selecionado."
+                                               Foreground="{Binding IsLabelCorAtivoInativo}" Margin="9,0,95,0" FontWeight="Bold"/>
                                     </Border>
 
                                     <Button x:Name="bt_ativodesativo" Content="{Binding IsBotaoAtivoInativo}" Background="{Binding IsBotaoCorAtivoInativo}"
-                                                HorizontalContentAlignment="Center" Margin="0,0,0,0" Width="100" Click="Bt_ativodesativo_Click"></Button>
+                                            ToolTip="Ativa/Desativa todos os acessos do colaborador selecionado."
+                                                HorizontalContentAlignment="Center" Margin="0,0,0,0" Width="100" Click="Bt_ativodesativo_Click"/>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
