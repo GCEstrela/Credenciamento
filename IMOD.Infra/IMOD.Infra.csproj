@@ -94,6 +94,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Repositorios\CursoAreaAcessoRepositorio.cs" />
     <Compile Include="Repositorios\AreaAcessoRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorAnexoRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorCredencialimpresssaoRepositorio.cs" />
