@@ -83,7 +83,25 @@ namespace IMOD.CredenciamentoDeskTop.Views
                     _viewModel.BucarFoto(_viewModel.Entity.ColaboradorId);
                 if (_viewModel.Entity != null)
                     _viewModel.Entity.Cpf = _viewModel.Entity.Cpf.FormatarCpf();
-
+                if (_viewModel.Entity != null)
+                {
+                    if (_viewModel.Entity.Ativo)
+                    {
+                        _viewModel.Entity.Ativo = true;
+                        _viewModel.IsLabelAtivoInativo = "Ativo";
+                        _viewModel.IsBotaoAtivoInativo = "Inativar";
+                        _viewModel.IsBotaoCorAtivoInativo = "#FFFF0000";
+                        _viewModel.IsLabelCorAtivoInativo = "#FF008000";
+                    }
+                    else
+                    {
+                        _viewModel.Entity.Ativo = false;
+                        _viewModel.IsLabelAtivoInativo = "Inativo";
+                        _viewModel.IsBotaoAtivoInativo = "Ativar";
+                        _viewModel.IsBotaoCorAtivoInativo = "#FF008000";
+                        _viewModel.IsLabelCorAtivoInativo = "#FFFF0000";
+                    }
+                }
                 //ColaboradorEmpresaUs.AtualizarDados(_viewModel.Entity, _viewModel);
                 //ColaboradorCurso.AtualizarDados(_viewModel.Entity, _viewModel);
                 //AnexoUs.AtualizarDados(_viewModel.Entity, _viewModel);
@@ -380,6 +398,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel.IsEnablePreCadastro = true;
                 _viewModel.IsEnablePreCadastroCredenciamento = false;
                 _viewModel.IsEnablePreCadastroColor = "Orange";
+                
                 _importarBNT = "Visible";
             }
             catch (SqlException ex)
@@ -467,6 +486,55 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 WpfHelp.Mbox(ex.Message);
             }
         
+        }
+
+        private void ColaboradorHabilitado_cb_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (_viewModel == null) return;
+                if (_viewModel.Entity.Ativo)
+                {
+                    _viewModel.Entity.Ativo = true;
+                    _viewModel.IsLabelAtivoInativo = "Ativo";
+                    _viewModel.IsBotaoAtivoInativo = "Inativar";
+                    _viewModel.IsBotaoCorAtivoInativo = "#FFFF0000";    //
+                    _viewModel.IsLabelCorAtivoInativo = "#FF008000";
+                }
+                else
+                {
+                    _viewModel.Entity.Ativo = false;
+                    _viewModel.IsLabelAtivoInativo = "Inativo";
+                    _viewModel.IsBotaoAtivoInativo = "Ativar";
+                    _viewModel.IsBotaoCorAtivoInativo = "#FF008000";
+                    _viewModel.IsLabelCorAtivoInativo = "#FFFF0000";
+                }
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
+        }
+
+        private void Bt_ativodesativo_Click(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel == null) return;
+            if (!_viewModel.Entity.Ativo)
+            {
+                _viewModel.Entity.Ativo = true;
+                _viewModel.IsLabelAtivoInativo = "Ativo";
+                _viewModel.IsBotaoAtivoInativo = "Inativar";
+                _viewModel.IsBotaoCorAtivoInativo = "#FFFF0000";
+                _viewModel.IsLabelCorAtivoInativo = "#FF008000";
+            }
+            else
+            {
+                _viewModel.Entity.Ativo = false;
+                _viewModel.IsLabelAtivoInativo = "Inativo";
+                _viewModel.IsBotaoAtivoInativo = "Ativar";
+                _viewModel.IsBotaoCorAtivoInativo = "#FF008000";
+                _viewModel.IsLabelCorAtivoInativo = "#FFFF0000";
+            }
         }
     }
 }

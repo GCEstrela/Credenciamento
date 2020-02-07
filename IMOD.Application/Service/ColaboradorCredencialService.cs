@@ -148,7 +148,7 @@ namespace IMOD.Application.Service
                     GrupoPadrao = entity.GrupoPadrao,
                     ListaGrupos = entity.listadeGrupos,
                     grupoAlterado = entity.grupoAlterado,
-                    listadeRegras=entity.listadeRegras,
+                    listadeRegras = entity.listadeRegras,
                     regraAlterado = entity.regraAlterado
                 };
                 return titularCartao;
@@ -157,7 +157,7 @@ namespace IMOD.Application.Service
             {
                 throw ex;
             }
-            
+
         }
 
         /// <summary>
@@ -476,7 +476,7 @@ namespace IMOD.Application.Service
             ////Alterar status de um titual do cartao
             //var titularCartao = CardHolderEntity (entity); 
             titularCartao.Ativo = entity2.Ativa;
-            titularCartao.listadeGrupos= entity2.listadeGrupos;
+            titularCartao.listadeGrupos = entity2.listadeGrupos;
             //titularCartao = CardHolderEntity(entity);
             //Alterar o status do cartao do titular, se houver
             if (string.IsNullOrWhiteSpace(titularCartao.IdentificadorCardHolderGuid)
@@ -546,7 +546,7 @@ namespace IMOD.Application.Service
             //var n1 = new ColaboradorCredencial();
             n1.ColaboradorCredencialId = entity.ColaboradorCredencialId;
             n1.ColaboradorEmpresaId = entity.ColaboradorEmpresaId;
-            
+
             n1.TipoCredencialId = entity.TipoCredencialId;
             n1.LayoutCrachaId = entity.LayoutCrachaId;
             ////////////////////////////////////////////////////////////////
@@ -615,6 +615,7 @@ namespace IMOD.Application.Service
                 var cardHolderColaborador = _serviceColaborador.BuscarPelaChave(entity.ColaboradorId);
 
                 ColaboradoresCredenciaisView entityCardHolder = new ColaboradoresCredenciaisView();
+                entityCardHolder.Ativa = entity.Ativo;
                 entityCardHolder.ColaboradorNome = cardHolderColaborador.Nome;
                 entityCardHolder.ColaboradorFoto = cardHolderColaborador.Foto;
                 entityCardHolder.Cnpj = cardHolderEmpresa.Cnpj;
@@ -646,7 +647,7 @@ namespace IMOD.Application.Service
                 titularCartao.listadeGrupos = entityCardHolder.listadeGrupos;
                 titularCartao.grupoAlterado = entityCardHolder.grupoAlterado;
                 titularCartao.Cnpj = cardHolderEmpresa.Cnpj;
-                titularCartao.GrupoPadrao = entityCardHolder.GrupoPadrao;                
+                titularCartao.GrupoPadrao = entityCardHolder.GrupoPadrao;
                 titularCartao.Cargo = entityCardHolder.Cargo;
                 #region Setar o valor CardHolder GUID ao colaborador
 
@@ -659,10 +660,22 @@ namespace IMOD.Application.Service
                 //Gerar titular do cartão no sub-sistema de credenciamento (Genetec)
                 if (titularCartao.Validade < DateTime.Now)
                 {
-                    titularCartao.Validade= DateTime.Now.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                    titularCartao.Validade = DateTime.Now.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                }
+
+
+
+
+
+                if (!entity.Ativo && !string.IsNullOrWhiteSpace(entity.CardHolderGuid))
+                {
+                    geradorCredencialService.AlterarStatusCardHolder(titularCartao);
+                }
+                else
+                {
+                    geradorCredencialService.CriarCardHolder(titularCartao);
                 }
                 
-                geradorCredencialService.CriarCardHolder(titularCartao);
                 co1.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
                 colaboradorService.Empresa.Alterar(co1);
                 entity.CardHolderGuid = titularCartao.IdentificadorCardHolderGuid;
@@ -674,10 +687,10 @@ namespace IMOD.Application.Service
             }
             catch (Exception ex)
             {
-                
+
                 throw ex;
             }
-            
+
         }
         /// <summary>
         ///     Obtem configuração de sistema
@@ -807,7 +820,7 @@ namespace IMOD.Application.Service
 
                 throw;
             }
-            
+
         }
 
         /// <summary>

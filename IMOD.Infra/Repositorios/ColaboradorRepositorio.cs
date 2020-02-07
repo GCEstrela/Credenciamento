@@ -324,16 +324,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cpf", DbType.String, o, 1).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, o, 2).Like()));
 
-                        if (o.Length > 3 &&  (bool)o.GetValue(3))
-                        {
-                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("StatusCadastro", DbType.Boolean, o, 3).IsNotNull())); 
-                        }
-                        else
-                        {
-                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("StatusCadastro", DbType.Boolean, o, 3).IsNull()));
-                        }
-                        
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("IdColaboradorSICOA", DbType.Int32, o, 4).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Precadastro", DbType.Boolean, o, 3).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("IdColaboradorSICOA", DbType.Int32, o, 4).IsNotNull()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Colaborador>();

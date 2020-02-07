@@ -585,6 +585,7 @@
     <Compile Include="Funcoes\CheckImpressao.cs" />
     <Compile Include="Funcoes\CheckTeste.cs" />
     <Compile Include="Funcoes\ChildControls.cs" />
+    <Compile Include="Funcoes\ContertBolleanoToAtivoInativo.cs" />
     <Compile Include="Funcoes\ConvertBoolToImage.cs" />
     <Compile Include="Funcoes\ConvertDescToBool.cs" />
     <Compile Include="Funcoes\ConvertIntToImage.cs" />
@@ -821,6 +822,7 @@
     <Compile Include="Views\Model\CredencialMotivoView.cs" />
     <Compile Include="Views\Model\CredencialStatusView.cs" />
     <Compile Include="Views\Model\CredencialViewCracha.cs" />
+    <Compile Include="Views\Model\CursoAreaAcessoView.cs" />
     <Compile Include="Views\Model\CursoView.cs" />
     <Compile Include="Views\Model\EmpresaTipoCredencialView.cs" />
     <Compile Include="Views\Model\EmpresaVeiculoView.cs" />
