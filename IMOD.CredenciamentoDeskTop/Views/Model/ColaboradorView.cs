@@ -123,7 +123,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
                 }
             }
         }
-        
+        public int? StatusCadastro { get; set; }
 
 
         #endregion

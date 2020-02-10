@@ -974,6 +974,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Entity == null) return;
             isReprovacao = true;
+            /*
+             * Aguardando Aprovação Revisão
+             * ENUM StatusCadastro
+             */
+            Entity.StatusCadastro = 2;
             if (string.IsNullOrEmpty(Entity.Observacao))
             {
                 WpfHelp.PopupBox("Informe no campo observação o motivo da reprovação", 1);
@@ -983,6 +988,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var n1 = Mapper.Map<Colaborador>(Entity);
                 _service.Alterar(n1);
+
+                WpfHelp.PopupBox("Cadastro Reprovado e enviado de volta para Revisão.", 1);
             }
         }
         #endregion

@@ -67,7 +67,7 @@ namespace IMOD.Domain.Entities
         public bool Segurancatrabalho { get; set; }
         public bool Precadastro { get; set; }
         public string Observacao { get; set; }
-
+        public int? StatusCadastro { get; set; }
         #endregion
     }
 }
