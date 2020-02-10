@@ -468,7 +468,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             btnAdicionarTiposCursos.IsEnabled = true;
             btnSalvarTiposCursos.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).CarregaColecaoCursos();
+            ((ConfiguracoesViewModel)DataContext).CarregaColecaoCursos();            
         }
         #endregion
 
@@ -509,32 +509,35 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void btnAdicionarTiposStatus_Click(object sender, RoutedEventArgs e)
         {
-            DescricaoStatus_tb.Focus();
+            btnAdicionarTiposStatus.IsEnabled = false;
             btnSalvarTiposStatus.IsEnabled = true;
-            btnCancelarTiposStatus.IsEnabled = true;
-            ((ConfiguracoesViewModel)DataContext).OnAdicionarCommand_TiposStatus();
+            ((ConfiguracoesViewModel)DataContext).HabilitarColecaoCursos(true);
+            ((ConfiguracoesViewModel)DataContext).OnCarregarCursosDaAreaAcesso();
+            //ListaCursoAcesso.IsEnabled = true;
         }
 
         private void btnSalvarTiposStatus_Click(object sender, RoutedEventArgs e)
         {
             btnAdicionarTiposStatus.IsEnabled = true;
             btnSalvarTiposStatus.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposStatus();
+            ((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_CursosAcesso();
+            ((ConfiguracoesViewModel)DataContext).HabilitarColecaoCursos(false);
+            ((ConfiguracoesViewModel)DataContext).OnCarregarCursosDaAreaAcesso();
+            //ListaCursoAcesso.IsEnabled = false;
+            //((ConfiguracoesViewModel)DataContext).OnSalvarEdicaoCommand_TiposStatus();
         }
-
-        private void btnDeletarTiposStatus_Click(object sender, RoutedEventArgs e)
-        {
-            btnAdicionarTiposStatus.IsEnabled = true;
-            btnSalvarTiposStatus.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).OnExcluirCommand_TiposStatus();
-        }
-
+        
         private void btnCancelarTiposStatus_Click(object sender, RoutedEventArgs e)
         {
             btnAdicionarTiposStatus.IsEnabled = true;
             btnSalvarTiposStatus.IsEnabled = false;
-            ((ConfiguracoesViewModel)DataContext).CarregaColecaoStatus();
+            ((ConfiguracoesViewModel)DataContext).HabilitarColecaoCursos(false);
+            ((ConfiguracoesViewModel)DataContext).OnCarregarCursosDaAreaAcesso();
+            //ListaCursoAcesso.IsEnabled = false;
+            //((ConfiguracoesViewModel)DataContext).CarregaColecaoStatus();
         }
+
+   
 
 
         #endregion
@@ -844,6 +847,11 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 Utils.TraceException(ex);
                 MessageBox.Show(ex.Message, "Credenciamento", MessageBoxButton.OK);
             }
+        }
+
+        private void AreaAcesso_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ((ConfiguracoesViewModel)DataContext).OnCarregarCursosDaAreaAcesso();
         }
     }
 }

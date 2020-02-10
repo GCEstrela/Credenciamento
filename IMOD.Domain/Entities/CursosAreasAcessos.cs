@@ -14,5 +14,7 @@ namespace IMOD.Domain.Entities
         public int CursoId { get; set; }
 
         #endregion
+
+
     }
 }
