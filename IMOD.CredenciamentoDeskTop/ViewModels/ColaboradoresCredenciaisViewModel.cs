@@ -378,7 +378,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     Entity.EmpresaSigla = "---";
                 }
                 numColete = Entity.EmpresaSigla + Entity.NumeroColete;
-
+                
                 //Verificar dados antes de salvar uma criação
                 var statusID = _auxiliaresService.CredencialStatusService.Listar(null, "ATIVA").FirstOrDefault();
                 if (Entity.CredencialStatusId == statusID.CredencialStatusId)

@@ -63,13 +63,14 @@
 
                                     <span class="glyphicon glyphicon-search"></span>
                                 </a>
-                                @if (item.Precadastro)
-                                {
-                                    <a href='@Url.Action("Edit", "Colaborador", new { id = item.ColaboradorId })'>
-                                        @*<img src="~/images/edit.png" />*@
-                                        <span class="glyphicon glyphicon-edit"></span>
-                                    </a>
 
+                                <a href='@Url.Action("Edit", "Colaborador", new { id = item.ColaboradorId })'>
+                                    @*<img src="~/images/edit.png" />*@
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </a>
+
+                                @if (item.Precadastro == 0)
+                                {
                                     <a href='@Url.Action("Delete", "Colaborador", new { id = item.ColaboradorId })'>
                                         @*<img src="~/images/remove.png" />*@
                                         <span class="glyphicon glyphicon-trash"></span>
@@ -94,7 +95,7 @@
                                     }
                                 }
 
-                                <img class="resize" id="FotoUpload"  src="@imgSrc" alt="Imagem" style="width: 35px" />
+                                <img class="resize" id="FotoUpload" src="@imgSrc" alt="Imagem" style="width: 35px" />
                             </td>
                             @*<td>
                                     @Html.DisplayFor(modelItem => item.TelefoneFixo)

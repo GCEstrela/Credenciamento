@@ -9,23 +9,20 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Windows.Forms;
 using Genetec.Sdk;
 using Genetec.Sdk.Credentials;
 using Genetec.Sdk.Entities;
 using Genetec.Sdk.Entities.Activation;
 using Genetec.Sdk.Entities.CustomEvents;
-using Genetec.Sdk.Entities.CustomFields;
 using Genetec.Sdk.Events;
 using Genetec.Sdk.Queries;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
-using IMOD.Domain.Interfaces;
-using IMOD.Infra.Repositorios;
 using IMOD.Infra.Servicos.Entities;
 using IMOD.Domain.Enums;
 using System.Diagnostics;
-
+using IMOD.Infra.Repositorios;
+using System.Linq;
 
 #endregion
 
@@ -33,7 +30,7 @@ namespace IMOD.Infra.Servicos
 {
     public class CredencialGenetecService : ICredencialService
     {
-        // private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();
+        private readonly FormatoCredencialRepositorio _auxiliaresService = new FormatoCredencialRepositorio();
 
         private readonly IEngine _sdk;
 
@@ -212,7 +209,7 @@ namespace IMOD.Infra.Servicos
                 if (entity.Validade > DateTime.Now)
                 {
                     //if (entity.Ativo && entityCardholder.State == CardholderState.Active)
-                        entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                 }
                 else
                 {
@@ -383,7 +380,7 @@ namespace IMOD.Infra.Servicos
         /// <param name="entity"></param>
         public void CriarCardHolder(CardHolderEntity entity)
         {
-            
+
             //Validar dados
             ValidarCriarCardHolder(entity);
             //VerificaRegraAcesso(entity);
@@ -428,7 +425,7 @@ namespace IMOD.Infra.Servicos
                 if (entity.regraAlterado)
                 {
                     RemoverRegrasCardHolder(entity);
-                    
+
                     foreach (Guid regrasGuid in entity.listadeRegras)
                     {
                         AccessRule accesso_add = _sdk.GetEntity(regrasGuid) as AccessRule;
@@ -738,7 +735,8 @@ namespace IMOD.Infra.Servicos
                 var guid = new Guid(entity.IdentificadorCardHolderGuid);
                 var credencial = _sdk.GetEntity(guid) as Credential;
 
-                int credecnailFormato = entity.FormatoCredencialId;
+                //int credecnailFormato = entity.FormatoCredencialId;
+
 
                 query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
                 query.EntityTypeFilter.Add(EntityType.Credential);
@@ -749,34 +747,92 @@ namespace IMOD.Infra.Servicos
                 var service = systemConfiguration.CustomFieldService;
                 if (result.Success)
                 {
+
                     //_sdk.TransactionManager.CreateTransaction();
                     foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
                     {
 
                         Credential cred = _sdk.GetEntity((Guid)dr[0]) as Credential;
-
-                        var formatocredencial = cred.Format.Name;
-                     
-                        Debug.WriteLine(formatocredencial);
-                        var formatocredencialnumero = cred.Format.FormatId.ToString();
-                        formatocredencialnumero = formatocredencialnumero.Split('-')[4];
-                        Debug.WriteLine(Convert.ToInt32(formatocredencialnumero));
-
-                        var credencialnumero = cred.Format.UniqueId.Split('|')[0];
-                        //string decValue = (long.Parse(credencialnumero, System.Globalization.NumberStyles.HexNumber)).ToString();
-                        long decValue = long.Parse(credencialnumero, System.Globalization.NumberStyles.HexNumber);
-                        if (entity.NumeroCredencial == decValue.ToString())
+                        var formatocredencialNm = cred.Format.Name;
+                        var formatocredencialGuid = cred.Format.FormatId.ToString();
+                        var formatocrdencial = _auxiliaresService.Listar(null, formatocredencialGuid).FirstOrDefault();
+                        if (formatocrdencial != null)
                         {
-                            return cred.Guid.ToString();
+                            //Debug.WriteLine(formatocredencialNm + " " + formatocredencialId);
+                            var formatocredencialnumero = cred.Format.FormatId.ToString();
+                            var credencialnumero = cred.Format.UniqueId;
+                            long credencialValue =0;
+                            switch (formatocrdencial.FormatoCredencialId)
+                            {
+                                case (int)Tecnologia.Standard_26_bits:
+                                    //credencialnumero = cred.Format.UniqueId.Split('|')[0];
+                                    //var faciliteValue = long.Parse(cred.Format.UniqueId.Split('|')[1], System.Globalization.NumberStyles.HexNumber);
+                                    //credencialValue = long.Parse(cred.Format.UniqueId.Split('|')[0], System.Globalization.NumberStyles.HexNumber);
+                                    break;
+                                case (int)Tecnologia.HID_H10302_37_Bits:
+                                    //credencialnumero = cred.Format.UniqueId.Split('|')[0];
+                                    break;
+                                case (int)Tecnologia.HID_H10304_37_Bits:
+                                    //credencialnumero = cred.Format.UniqueId.Split('|')[0];
+                                    break;
+                                case (int)Tecnologia.HID_H10306_34_Bits:
+                                    //credencialnumero = cred.Format.UniqueId.Split('|')[0];
+                                    break;
+                                case (int)Tecnologia.HID_Corporate_1000_35_bits:
+                                    //credencialnumero = cred.Format.UniqueId.Split('|')[0];
+                                    break;
+                                case (int)Tecnologia.HID_Corporate_1000_48_Bits:
+                                    //credencialnumero = cred.Format.UniqueId.Split('|')[0];
+                                    break;
+                                case (int)Tecnologia.CSN:
+                                    credencialnumero = cred.Format.UniqueId.Split('|')[0];
+                                    long decValue = long.Parse(credencialnumero, System.Globalization.NumberStyles.HexNumber);
+                                    long credencialNum = Convert.ToInt64(entity.NumeroCredencial);
+                                    //long myLong = long.Parse(entity.NumeroCredencial);
+                                    if (credencialNum == credencialValue)
+                                    {
+                                        return cred.Guid.ToString();
+                                    }
+
+
+                                    var numeroCredencial = cred.Name.Split('-');
+                                    string number = numeroCredencial[0].ToString();
+                                    if (number.Trim() == credencialNumero.Trim())
+                                    {
+                                        return cred.Guid.ToString();
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                            //var credencialnumero = cred.Format.UniqueId.Split('|')[0];
+                            //string decValue = (long.Parse(credencialnumero, System.Globalization.NumberStyles.HexNumber)).ToString();
+                            try
+                            {
+                                //long decValue = long.Parse(credencialnumero, System.Globalization.NumberStyles.HexNumber);                                
+                                //long credencialNum = Convert.ToInt64(entity.NumeroCredencial);
+                                ////long myLong = long.Parse(entity.NumeroCredencial);
+                                //if (credencialNum == credencialValue)
+                                //{
+                                //    return cred.Guid.ToString();
+                                //}
+
+
+                                //var numeroCredencial = cred.Name.Split('-');
+                                //string number = numeroCredencial[0].ToString();
+                                //if (number.Trim() == credencialNumero.Trim())
+                                //{
+                                //    return cred.Guid.ToString();
+                                //}
+                            }
+                            catch (Exception ex)
+                            {
+
+                                throw;
+                            }
+
                         }
 
-
-                        var numeroCredencial = cred.Name.Split('-');
-                        string number = numeroCredencial[0].ToString();
-                        if (number.Trim() == credencialNumero.Trim())
-                        {
-                            return cred.Guid.ToString();
-                        }
                     }
                     //_sdk.TransactionManager.CommitTransaction();
                 }
@@ -1105,7 +1161,7 @@ namespace IMOD.Infra.Servicos
             //        {
             //            throw new InvalidOperationException("CardHolder não encontrado.");
             //        }
-                    
+
             //    }
             //}
             //catch (Exception)

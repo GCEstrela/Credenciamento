@@ -61,6 +61,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool IsEnablePreCadastro { get; set; } = false;
         public bool IsEnablePreCadastroCredenciamento { get; set; } = true;
         public string IsEnablePreCadastroColor { get; set; } = "#FFD0D0D0";
+        public string IsLabelAtivoInativo { get; set; } = "Ativo";
+        public string IsBotaoAtivoInativo { get; set; } = "Inativar";
+        public string IsBotaoCorAtivoInativo { get; set; } = "#FF008000";
+        public string IsLabelCorAtivoInativo { get; set; } = "#FF008000";
         /// <summary>
         ///     Pendência serviços
         /// </summary>
@@ -406,7 +410,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     pesquisa.RetirarCaracteresEspeciais();
                     if (string.IsNullOrWhiteSpace(pesquisa)) return;
                     var l1 = _service.Listar(null, null, $"%{pesquisa}%", IsEnablePreCadastro);
-                    
+
                     PopularObserver(l1);
 
                 }
@@ -420,14 +424,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 IsEnableLstView = true;
-                VerificaPreCadastroAprovacao();                
+                VerificaPreCadastroAprovacao();
+                if (Entity != null)
+                    if (Entity.Ativo)
+                    {
+                        IsLabelAtivoInativo = "Ativo";
+                        IsBotaoAtivoInativo = "Desativar";
+                    }
+                    else
+                    {
+                        IsLabelAtivoInativo = "Inativo";
+                        IsBotaoAtivoInativo = "Ativar";
+                    }
             }
             catch (Exception ex)
             {
                 WpfHelp.PopupBox(ex.Message, 1);
                 Utils.TraceException(ex);
             }
-        }        
+        }
         public void BucarFoto(int colaborador)
         {
             try
@@ -762,6 +777,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<Colaborador>(Entity);
                 _service.Criar(n1);
+                if (Entity.Ativo)
+                {
+                    IsLabelAtivoInativo = "Ativo";
+                    IsBotaoAtivoInativo = "Inativar";
+                }
+                else
+                {
+                    IsLabelAtivoInativo = "Inativo";
+                    IsBotaoAtivoInativo = "Ativar";
+                }
                 var n2 = Mapper.Map<ColaboradorView>(n1);
                 EntityObserver.Insert(0, n2);
                 HabilitaControle(true, true);
@@ -785,7 +810,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var n1 = Mapper.Map<Colaborador>(Entity);
                 n1.Nome = n1.Nome.TrimStart().TrimEnd();
                 _service.Alterar(n1);
-
+                if (Entity.Ativo)
+                {
+                    IsLabelAtivoInativo = "Ativo";
+                    IsBotaoAtivoInativo = "Inativar";
+                }
+                else
+                {
+                    IsLabelAtivoInativo = "Inativo";
+                    IsBotaoAtivoInativo = "Ativar";
+                }
 
                 #region Gerar CardHolder
                 try
@@ -793,14 +827,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     var colamoradorEmpresasContratos = _serviceColaboradorEmpresa.ListarView(Entity.ColaboradorId).ToList();
                     foreach (var item in colamoradorEmpresasContratos)
                     {
-                        var colamoradorContrato = _serviceColaboradorEmpresa.ListarView(item.ColaboradorId,null,null,item.Matricula).ToList().FirstOrDefault();
+                        var colamoradorContrato = _serviceColaboradorEmpresa.ListarView(item.ColaboradorId, null, null, item.Matricula).ToList().FirstOrDefault();
                         if (!Entity.Ativo)
                         {
                             colamoradorContrato.Ativo = Entity.Ativo;
                         }
                         _serviceCredencialSC.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), colamoradorContrato);
                     }
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -940,6 +974,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (Entity == null) return;
             isReprovacao = true;
+            /*
+             * Aguardando Aprovação Revisão
+             * ENUM StatusCadastro
+             */
+            Entity.StatusCadastro = 2;
             if (string.IsNullOrEmpty(Entity.Observacao))
             {
                 WpfHelp.PopupBox("Informe no campo observação o motivo da reprovação", 1);
@@ -949,6 +988,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 var n1 = Mapper.Map<Colaborador>(Entity);
                 _service.Alterar(n1);
+
+                WpfHelp.PopupBox("Cadastro Reprovado e enviado de volta para Revisão.", 1);
             }
         }
         #endregion
