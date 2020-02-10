@@ -295,17 +295,19 @@
                             <StackPanel Margin="1,1,1,0" Height="166" VerticalAlignment="Top" Width="416">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,1,0,1" Width="405"
                                             Visibility="{Binding IsEnablePreCadastroCredenciamento,  Converter={StaticResource VisibleControl}}">
-                                    <Label Content="Status:" Foreground="#FFD0D0D0" Margin="40,0,0,0"/>
+                                    <Label Content="Status:" Foreground="#FFD0D0D0" Margin="40,0,0,0" Width="55"/>
 
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" BorderThickness="1" Width="220" Background="#FF2B2727">
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" BorderThickness="1" Width="209" Background="#FF2B2727">
+                                        
                                         <Label x:Name="lbl_ativodesativo" Content="{Binding IsLabelAtivoInativo}" FontFamily="Bold"  
                                                ToolTip="Status atual dos acessos do colaborador selecionado."
-                                               Foreground="{Binding IsLabelCorAtivoInativo}" Margin="9,0,95,0" FontWeight="Bold"/>
+                                               Foreground="{Binding IsLabelCorAtivoInativo}" Margin="0,0,102,0" FontWeight="Bold"/>
+                                        
                                     </Border>
 
                                     <Button x:Name="bt_ativodesativo" Content="{Binding IsBotaoAtivoInativo}" Background="{Binding IsBotaoCorAtivoInativo}"
                                             ToolTip="Ativa/Desativa todos os acessos do colaborador selecionado."
-                                                HorizontalContentAlignment="Center" Margin="0,0,0,0" Width="100" Click="Bt_ativodesativo_Click"/>
+                                                HorizontalContentAlignment="Center" Margin="1,0,0,0" Width="100" Click="Bt_ativodesativo_Click"/>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1">
@@ -316,7 +318,7 @@
                                           Height="11" Foreground="#FFD0D0D0"
                                           IsChecked="{Binding Entity.Estrangeiro, UpdateSourceTrigger=PropertyChanged}"/>
 
-                                    <Label Content="CPF:" Height="28" Width="52" Margin="1" Foreground="#FFD0D0D0"
+                                    <Label Content="CPF:" Height="28" Width="167" Margin="1" Foreground="#FFD0D0D0"
                                            HorizontalContentAlignment="Right" />
                                     <TextBox x:Name="txtCpf"
                                              MaxLength="20"

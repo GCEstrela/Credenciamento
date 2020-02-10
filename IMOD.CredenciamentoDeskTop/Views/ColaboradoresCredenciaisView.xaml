@@ -344,7 +344,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="220" Header="Modelo" >
+                            <GridViewColumn Width="152" Header="Modelo" >
                                 <GridViewColumn.CellTemplate  >
                                     <DataTemplate>
                                         <TextBlock Text="{Binding  Modelo}"  Foreground="{Binding   Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}" TextAlignment="Center"/>
@@ -359,10 +359,17 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="88" Header="Emitida">
+                            <GridViewColumn Width="60" Header="Emitida">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <CheckBox HorizontalAlignment="Center" IsChecked="{Binding Path= Impressa}" IsHitTestVisible="False" Background="{Binding   Impressa,  Converter={StaticResource CheckImpressao}, ConverterParameter='Impressa_tw'}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="88" Header="Ativo no CA">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox HorizontalAlignment="Center" IsChecked="{Binding AtivoCredenciamento}" IsHitTestVisible="False" Background="{Binding   Impressa,  Converter={StaticResource CheckImpressao}, ConverterParameter='Impressa_tw'}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

@@ -113,5 +113,35 @@ namespace IMOD.Domain.EntitiesCustom
         public bool regraAlterado { get; set; }
         public List<Guid> listadeRegras { get; set; }
         public string Modelo { get; set; }
+        //public bool AtivoCredenciamento
+        //{
+        //    get
+        //    {
+        //        return ()
+        //    }
+        //    ; set; }
+
+        private bool _ativoControleAcesso;
+
+        public bool AtivoCredenciamento
+        {
+            get
+            {
+                if (_ativoControleAcesso)
+                {
+                    return (CredencialStatusId == 1);
+                }
+                return _ativoControleAcesso;
+            }
+            set
+            {
+                _ativoControleAcesso = value;
+            }
+        }
+
+
     }
+
+
+
 }
