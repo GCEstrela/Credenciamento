@@ -505,7 +505,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         #endregion
 
-        #region Tipos Status
+        #region Cursos Area de Acesso
 
         private void btnAdicionarTiposStatus_Click(object sender, RoutedEventArgs e)
         {
@@ -851,7 +851,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void AreaAcesso_cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ((ConfiguracoesViewModel)DataContext).OnCarregarCursosDaAreaAcesso();
+            btnCancelarTiposStatus_Click(sender, e);
         }
     }
 }
