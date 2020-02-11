@@ -1549,7 +1549,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (Entity == null) return true;
             Entity.Validate();
             var hasErros = Entity.HasErrors;
-
+            
             int rangefc = 0;
             if(!ValidaFC(Entity.TipoCredencialId, Entity.FormatoCredencialId, Entity.Fc, out rangefc))
             {
@@ -1679,6 +1679,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 return true;
             }
         }
+       
         public bool ValidaNumeroCredencial(int tipocreencial, int formatocredencial, string numerocredencial, out long rengecrecencial)
         {
             long NumeroCredencialvalidade = 0;

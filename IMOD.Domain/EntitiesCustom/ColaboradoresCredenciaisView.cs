@@ -129,7 +129,7 @@ namespace IMOD.Domain.EntitiesCustom
             {
                 if (_ativoControleAcesso)
                 {
-                    return (CredencialStatusId == 1);
+                    return (CredencialStatusId == 1 && TecnologiaCredencialId > 0);
                 }
                 return _ativoControleAcesso;
             }

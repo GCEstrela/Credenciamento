@@ -734,7 +734,8 @@ namespace IMOD.Infra.Servicos
             {
                 var guid = new Guid(entity.IdentificadorCardHolderGuid);
                 var credencial = _sdk.GetEntity(guid) as Credential;
-
+                long decValue = 0;
+                long credencialNum = 0;
                 //int credecnailFormato = entity.FormatoCredencialId;
 
 
@@ -761,13 +762,27 @@ namespace IMOD.Infra.Servicos
                             //Debug.WriteLine(formatocredencialNm + " " + formatocredencialId);
                             var formatocredencialnumero = cred.Format.FormatId.ToString();
                             var credencialnumero = cred.Format.UniqueId;
-                            long credencialValue =0;
+                            
+                            //long credencialValue =0;
                             switch (formatocrdencial.FormatoCredencialId)
                             {
                                 case (int)Tecnologia.Standard_26_bits:
-                                    //credencialnumero = cred.Format.UniqueId.Split('|')[0];
-                                    //var faciliteValue = long.Parse(cred.Format.UniqueId.Split('|')[1], System.Globalization.NumberStyles.HexNumber);
-                                    //credencialValue = long.Parse(cred.Format.UniqueId.Split('|')[0], System.Globalization.NumberStyles.HexNumber);
+
+                                    credencialnumero = cred.Format.UniqueId.Split('|')[0];
+                                    decValue = long.Parse(credencialnumero, System.Globalization.NumberStyles.HexNumber);
+                                    credencialNum = Convert.ToInt64(entity.NumeroCredencial);
+                                    if (credencialNum == decValue)
+                                    {
+                                        return cred.Guid.ToString();
+                                    }
+
+
+                                    //var numeroCredencial2 = cred.Name.Split('-');
+                                    //string number2 = numeroCredencial2[0].ToString();
+                                    //if (number2.Trim() == credencialNumero.Trim())
+                                    //{
+                                    //    return cred.Guid.ToString();
+                                    //}
                                     break;
                                 case (int)Tecnologia.HID_H10302_37_Bits:
                                     //credencialnumero = cred.Format.UniqueId.Split('|')[0];
@@ -786,10 +801,9 @@ namespace IMOD.Infra.Servicos
                                     break;
                                 case (int)Tecnologia.CSN:
                                     credencialnumero = cred.Format.UniqueId.Split('|')[0];
-                                    long decValue = long.Parse(credencialnumero, System.Globalization.NumberStyles.HexNumber);
-                                    long credencialNum = Convert.ToInt64(entity.NumeroCredencial);
-                                    //long myLong = long.Parse(entity.NumeroCredencial);
-                                    if (credencialNum == credencialValue)
+                                    decValue = long.Parse(credencialnumero, System.Globalization.NumberStyles.HexNumber);
+                                    credencialNum = Convert.ToInt64(entity.NumeroCredencial);                                    
+                                    if (credencialNum == decValue)
                                     {
                                         return cred.Guid.ToString();
                                     }
