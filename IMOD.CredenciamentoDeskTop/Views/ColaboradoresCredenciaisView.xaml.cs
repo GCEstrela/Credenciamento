@@ -485,5 +485,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
+        private void Privilegio1_tb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _viewModel.ValidaCursosDoColaboradorParaAreaSelecionada();
+        }
     }
 }

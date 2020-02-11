@@ -7,7 +7,7 @@
              xmlns:funcoes="clr-namespace:IMOD.CredenciamentoDeskTop.Funcoes"
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="1000" 
+             d:DesignHeight="450" d:DesignWidth="1180" 
              Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <funcoes:BooleanToVisibilityConverter x:Key="VisibleControl" />
@@ -197,7 +197,7 @@
                                        ItemsSource="{Binding ColaboradorPrivilegio, Mode=TwoWay}" 
                                        DisplayMemberPath="Identificacao" 
                                        SelectedValue="{Binding Entity.ColaboradorPrivilegio1Id,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"                                        
-                                       SelectedValuePath="AreaAcessoId"/>
+                                       SelectedValuePath="AreaAcessoId" SelectionChanged="Privilegio1_tb_SelectionChanged"/>
 
                             <ComboBox  x:Name="Privilegio2_tb"  IsEditable="false"
                                        Margin="5,0,0,0"  
@@ -209,7 +209,7 @@
                                        ItemsSource="{Binding ColaboradorPrivilegio}" 
                                        DisplayMemberPath="Identificacao" 
                                        SelectedValue="{Binding Entity.ColaboradorPrivilegio2Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                       SelectedValuePath="AreaAcessoId"  />
+                                       SelectedValuePath="AreaAcessoId" SelectionChanged="Privilegio1_tb_SelectionChanged" />
                             <!--IsEnabled="{Binding Habilitar}"-->
                         </StackPanel>
                         <Border  Margin="5" Padding="1" BorderBrush="Gray"  BorderThickness="1,1,1,1" CornerRadius="3"  VerticalAlignment="Top">
@@ -285,7 +285,7 @@
 
                             <Label Content="Baixa:" Width="50" Margin="30,2,1,4" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right"/>
                             <TextBlock Text="{Binding Entity.Baixa, StringFormat=\{0:d\}, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Center" Width="70"  Margin="0,8.02,0,9.98"  />
-                            
+
                             <Label Content="Usuário:" Foreground="#FFD0D0D0" Margin="100,2,0,0" ></Label>
                             <Label x:Name="credencialusuario" FontSize="12" Foreground="#FFD0D0D0"  Content="{Binding Entity.Usuario}" Width="219" Margin="0,2,0,0"></Label>
 
@@ -302,6 +302,24 @@
                                      TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"
                                      Text="{Binding Entity.Obs,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="430" Margin="5,2,0,0" />
                         </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0">
+                        <ListView x:Name="ListaCursoAcesso" Margin="10,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Cursos, Mode=TwoWay}" IsEnabled="True"
+                                                          Height="167" Width="235" >
+                            <ListView.View>
+                                <GridView FrameworkElement.FlowDirection="RightToLeft">
+                                    <GridViewColumn Width="185" Header="Cursos Obrigatórios"  DisplayMemberBinding="{Binding Descricao}"/>
+                                    <GridViewColumn Width="25" Header=""  >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox  IsChecked="{Binding Ativo}" IsHitTestVisible="True" x:Name="cbxCurosAcesso" IsEnabled="{Binding Habilitado}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+
+                        </ListView>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
