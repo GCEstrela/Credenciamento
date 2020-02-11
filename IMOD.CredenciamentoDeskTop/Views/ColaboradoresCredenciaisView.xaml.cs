@@ -46,6 +46,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel = new ColaboradoresCredenciaisViewModel();
                 DataContext = _viewModel;
                 _viewModel.HabilitarVias = "Collapsed";
+                _viewModel.ExibeCursosArea = "Collapsed";
             }
             catch (Exception ex)
             {
@@ -485,5 +486,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
             }
         }
 
+        private void Privilegio1_tb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _viewModel.ValidaCursosDoColaboradorParaAreaSelecionada();
+        }
     }
 }

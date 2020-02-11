@@ -46,54 +46,33 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 {
     public class ColaboradoresCredenciaisViewModel : ViewModelBase, IComportamento
     {
+        #region Instâncias Services
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IColaboradorEmpresaService _colaboradorEmpresaService = new ColaboradorEmpresaService();
-
         private readonly IEmpresaContratosService _contratosService = new EmpresaContratoService();
-        private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();
-        private ColaboradorView _colaboradorView;
-        /// <summary>
-        ///     Lista de todos os contratos disponíveis
-        /// </summary>
+        private readonly IColaboradorCredencialService _service = new ColaboradorCredencialService();        
         private readonly List<ColaboradorEmpresa> _todosContratosEmpresas = new List<ColaboradorEmpresa>();
-
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
+        private readonly IEmpresaService _serviceEmpresa = new EmpresaService();
+        private readonly IColaboradorCursoService _serviceColaboradorCurso = new ColaboradorCursosService();
+        private readonly ICursoAreaAcessoService _serviceCursoAreaAcesso = new CursoAreaAcessoService();
+        private readonly ICursoService _serviceCurso = new CursoService();
+        #endregion
 
-        private readonly IEmpresaService serviceEmpresa = new EmpresaService();
-
+        #region  Propriedades da Classe
+        private ColaboradorView _colaboradorView;
         private ConfiguraSistema _configuraSistema;
-
-        private Boolean verificarcredencialAtiva = false; // Testa se é prara verificar a exectencia de credencial ativa para o colaborador.
+        private ObservableCollection<CursoView> _cursos;
+        private Boolean verificarcredencialAtiva = false;
         private int _count;
-        public int? _viaAdicional;
         private List<CredencialMotivo> _credencialMotivo;
         private bool _coleteEnabled;
-
-        /// <summary>
-        ///     True, Comando de alteração acionado
-        /// </summary>
         private bool _prepareAlterarCommandAcionado;
-
-        /// <summary>
-        ///     True, Comando de criação acionado
-        /// </summary>
         private bool _prepareCriarCommandAcionado;
-
         private ColaboradorViewModel _viewModelParent;
-
-        #region  Propriedades
-
-        /// <summary>
-        ///     Habilitar Controles
-        /// </summary>
-        public bool Habilitar { get; set; }
-        /// <summary>
-        ///     Habilitar Controles de Vias Adicionais
-        /// </summary>
-        public string HabilitarVias { get; set; }
-        /// <summary>
-        /// Permite criar uma credencial, se não existir.
-        /// </summary>
+        public int? _viaAdicional;        
+        public bool Habilitar { get; set; }        
+        public string HabilitarVias { get; set; }        
         public bool HabilitarOpcoesCredencial { get; set; }
         public string ExcluirVisivel { get; set; }
         public bool AlterarDataValidade { get; set; }
@@ -112,7 +91,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
         public CredencialStatus StatusCredencial { get; set; }
         public List<CredencialStatus> CredencialStatus { get; set; }
-
         public List<CredencialMotivo> CredenciaisMotivo
         {
             get
@@ -123,7 +101,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
             set { _credencialMotivo = value; }
         }
-
         public List<FormatoCredencial> FormatoCredencial { get; set; }
         public List<TipoCredencial> TipoCredencial { get; set; }
         public List<EmpresaLayoutCracha> EmpresaLayoutCracha { get; set; }
@@ -131,52 +108,39 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public ObservableCollection<ColaboradorEmpresa> ColaboradoresEmpresas { get; set; }
         public ColaboradorEmpresa ColaboradorEmpresa { get; set; }
         public List<AreaAcesso> ColaboradorPrivilegio { get; set; }
-        public ColaboradoresCredenciaisView Entity { get; set; }
-        public List<Curso> Cursos { get; private set; }
+        public ColaboradoresCredenciaisView Entity { get; set; }        
         public List<CredencialMotivo> ColaboradorMotivoViaAdcional { get; set; }
-
-        /// <summary>
-        ///     Mensagem de alerta
-        /// </summary>
+        public List<ColaboradorCurso> CursosColaborador { get; set; }
         public string MensagemAlerta { get; private set; }
-        /// <summary>
-        ///     Mensagem de alerta
-        /// </summary>
-        public string ContentImprimir { get; set; }
-        /// <summary>
-        ///     Habilitar impressao de credencial com base no status da credencial
-        ///     e condição de pendencia impeditiva
-        /// </summary>
-        public bool HabilitaImpressao { get; set; }
-
-        public ObservableCollection<ColaboradoresCredenciaisView> EntityObserver { get; set; }
-
-        /// <summary>
-        ///     Habilita listView
-        /// </summary>
+        public string ContentImprimir { get; set; }        
+        public bool HabilitaImpressao { get; set; }           
         public bool IsEnableLstView { get; set; } = true;
-
-        /// <summary>
-        ///     Seleciona indice da listview
-        /// </summary>
         public short SelectListViewIndex { get; set; }
-        ///// <summary>
-        /////     Habilita Concatenação da Combo Empresa e Contratos
-        ///// </summary>
-        public bool IsEnableComboContrato { get; set; } = true;
-        /// <summary>
-        ///     Habilita Combo de Contratos
-        /// </summary>
+        public bool IsEnableComboContrato { get; set; } = true;        
         public bool IsEnableColete { get; set; } = true;
         public int WidthColete { get; set; } = 48;
         public int indTecnologiaCredencial { get; set; } = 1;
-
         public bool HabilitaImprimir { get; set; }
-
         public string VisibleGrupos { get; set; }
+        public string ExibeCursosArea { get; set; }
+        public ObservableCollection<ColaboradoresCredenciaisView> EntityObserver { get; set; }
+        public ObservableCollection<CursoView> Cursos
+        {
+            get { return _cursos; }
+
+            set
+            {
+                if (_cursos != value)
+                {
+                    _cursos = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         #endregion
 
+        #region Construtor
         public ColaboradoresCredenciaisViewModel()
         {
             try
@@ -211,6 +175,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
 
         }
+        #endregion
 
         #region  Metodos
 
@@ -232,7 +197,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             #region Habilitar botão de impressao e mensagem ao usuario
             bool impeditivaEmpresa = false;
             string mensagemPendencias = "";
-            var pendenciaImpeditivaEmpresa = serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true && n.Ativo == true && n.DataLimite <= DateTime.Now).ToList();
+            var pendenciaImpeditivaEmpresa = _serviceEmpresa.Pendencia.ListarPorEmpresa(entity.EmpresaId).Where(n => n.Impeditivo == true && n.Ativo == true && n.DataLimite <= DateTime.Now).ToList();
             if (pendenciaImpeditivaEmpresa != null && pendenciaImpeditivaEmpresa.Count > 0)
             {
                 impeditivaEmpresa = true;
@@ -247,7 +212,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             bool impeditivaColaborador = false;
             string mensagemPendenciasColaborador = "";
-            var pendenciaImpeditivaColaborador = serviceEmpresa.Pendencia.ListarPorColaborador(entity.ColaboradorId).Where(n => n.Impeditivo == true && n.Ativo == true && n.DataLimite <= DateTime.Now).ToList();
+            var pendenciaImpeditivaColaborador = _serviceEmpresa.Pendencia.ListarPorColaborador(entity.ColaboradorId).Where(n => n.Impeditivo == true && n.Ativo == true && n.DataLimite <= DateTime.Now).ToList();
             if (pendenciaImpeditivaColaborador != null && pendenciaImpeditivaColaborador.Count > 0)
             {
                 impeditivaColaborador = true;
@@ -428,6 +393,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var lst9 = _auxiliaresService.CredencialMotivoService.Listar(null, null, null, true);
                 ColaboradorMotivoViaAdcional = new List<CredencialMotivo>();
                 ColaboradorMotivoViaAdcional.AddRange(lst9.OrderBy(n => n.Descricao));
+
+                if (Entity != null)
+                {
+                    CursosColaborador = _serviceColaboradorCurso.Listar(Entity.ColaboradorId).ToList();
+                }
 
                 _configuraSistema = ObterConfiguracao();
                 if (_configuraSistema.Contrato) //Se contrato for automático for true a combo sera removida do formulário
@@ -1168,6 +1138,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity != null) Entity.ClearMessageErro();
                 Entity = null;
                 HabilitaImprimir = (IsEnableLstView && SelectListViewIndex > -1);
+                ExibeCursosArea = Visibility.Collapsed.ToString();
             }
             catch (Exception ex)
             {
@@ -1339,11 +1310,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             //Listar Colaboradores Ativos
             //OnAtualizarDadosContratosAtivos();
-
-
-
-
-           
+            
             verificarcredencialAtiva = true;
             if (Entity == null)
             {
@@ -1642,6 +1609,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     return true;
                 }
             }
+
+            if (Entity.CredencialStatusId == 1)
+            {
+                if (Cursos.Any(c=> c.Ativo == false))
+                {
+                    WpfHelp.PopupBox("O Colaborador não possui os CURSOS obrigatórios para a(s) área(s) selecionada(s)!", 1);
+                    return true;
+                }
+            }
+
             return Entity.HasErrors;
         }
         public bool ValidaFC(int tipocreencial,int formatocredencial,int numerofc, out int rengefc)
@@ -1721,6 +1698,35 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
+        public void ValidaCursosDoColaboradorParaAreaSelecionada()
+        {            
+            CursosColaborador = _serviceColaboradorCurso.Listar(_colaboradorView.ColaboradorId).ToList();
+            var cursosArea = new List<CursosAreasAcessos>();
+            if (Entity != null && Entity.ColaboradorPrivilegio1Id > 0)            
+                cursosArea.AddRange(_serviceCursoAreaAcesso.Listar(Entity.ColaboradorPrivilegio1Id).ToList());
+            
+            if (Entity != null && Entity.ColaboradorPrivilegio2Id > 0)
+                cursosArea.AddRange(_serviceCursoAreaAcesso.Listar(Entity.ColaboradorPrivilegio2Id).ToList());
+
+
+            var observer = new ObservableCollection<CursoView>();
+            cursosArea.ForEach(c =>
+            {
+                var cursoObrigatorio = Mapper.Map<CursoView>(_serviceCurso.BuscarPelaChave(c.CursoId));
+                if (CursosColaborador.Any(a=> a.CursoId == c.CursoId))
+                {
+                    cursoObrigatorio.Ativo = true;                    
+                }
+                if (!observer.Contains(cursoObrigatorio))
+                {
+                    observer.Add(cursoObrigatorio);
+                }
+            });
+
+            Cursos = observer;
+            ExibeCursosArea = (Cursos.Any())? Visibility.Visible.ToString()  : Visibility.Collapsed.ToString();
+        }
+
 
         #endregion
 
@@ -1778,9 +1784,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         //public ICommand PesquisarCommand => new CommandBase(Motivacao_Select, true);
 
         public ICommand ImprimirCommand => new CommandBase(OnImprimirCredencial, true);
-
-
-
+        
         #endregion
     }
 }
