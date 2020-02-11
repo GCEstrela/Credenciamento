@@ -304,7 +304,7 @@
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0">
-                        <ListView x:Name="ListaCursoAcesso" Margin="10,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Cursos, Mode=TwoWay}" IsEnabled="True"
+                        <ListView x:Name="ListaCursoAcesso" Margin="10,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Cursos, Mode=TwoWay}" IsEnabled="True" Visibility="{Binding ExibeCursosArea}"
                                                           Height="167" Width="235" >
                             <ListView.View>
                                 <GridView FrameworkElement.FlowDirection="RightToLeft">

@@ -46,6 +46,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel = new ColaboradoresCredenciaisViewModel();
                 DataContext = _viewModel;
                 _viewModel.HabilitarVias = "Collapsed";
+                _viewModel.ExibeCursosArea = "Collapsed";
             }
             catch (Exception ex)
             {

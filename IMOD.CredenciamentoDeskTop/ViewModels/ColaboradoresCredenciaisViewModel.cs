@@ -121,7 +121,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public int WidthColete { get; set; } = 48;
         public int indTecnologiaCredencial { get; set; } = 1;
         public bool HabilitaImprimir { get; set; }
-        public string VisibleGrupos { get; set; }        
+        public string VisibleGrupos { get; set; }
+        public string ExibeCursosArea { get; set; }
         public ObservableCollection<ColaboradoresCredenciaisView> EntityObserver { get; set; }
         public ObservableCollection<CursoView> Cursos
         {
@@ -1137,6 +1138,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity != null) Entity.ClearMessageErro();
                 Entity = null;
                 HabilitaImprimir = (IsEnableLstView && SelectListViewIndex > -1);
+                ExibeCursosArea = Visibility.Collapsed.ToString();
             }
             catch (Exception ex)
             {
@@ -1308,11 +1310,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             //Listar Colaboradores Ativos
             //OnAtualizarDadosContratosAtivos();
-
-
-
-
-           
+            
             verificarcredencialAtiva = true;
             if (Entity == null)
             {
@@ -1611,6 +1609,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     return true;
                 }
             }
+
+            if (Entity.CredencialStatusId == 1)
+            {
+                if (Cursos.Any(c=> c.Ativo == false))
+                {
+                    WpfHelp.PopupBox("O Colaborador não possui os CURSOS obrigatórios para a(s) área(s) selecionada(s)!", 1);
+                    return true;
+                }
+            }
+
             return Entity.HasErrors;
         }
         public bool ValidaFC(int tipocreencial,int formatocredencial,int numerofc, out int rengefc)
@@ -1690,13 +1698,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         public void ValidaCursosDoColaboradorParaAreaSelecionada()
-        {
+        {            
             CursosColaborador = _serviceColaboradorCurso.Listar(_colaboradorView.ColaboradorId).ToList();
             var cursosArea = new List<CursosAreasAcessos>();
-            if (Entity.ColaboradorPrivilegio1Id > 0)            
+            if (Entity != null && Entity.ColaboradorPrivilegio1Id > 0)            
                 cursosArea.AddRange(_serviceCursoAreaAcesso.Listar(Entity.ColaboradorPrivilegio1Id).ToList());
             
-            if (Entity.ColaboradorPrivilegio2Id > 0)
+            if (Entity != null && Entity.ColaboradorPrivilegio2Id > 0)
                 cursosArea.AddRange(_serviceCursoAreaAcesso.Listar(Entity.ColaboradorPrivilegio2Id).ToList());
 
 
@@ -1715,6 +1723,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             });
 
             Cursos = observer;
+            ExibeCursosArea = (Cursos.Any())? Visibility.Visible.ToString()  : Visibility.Collapsed.ToString();
         }
 
 
