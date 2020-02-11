@@ -734,10 +734,7 @@ namespace IMOD.Infra.Servicos
             {
                 var guid = new Guid(entity.IdentificadorCardHolderGuid);
                 var credencial = _sdk.GetEntity(guid) as Credential;
-                long decValue = 0;
                 long credencialNum = 0;
-                //int credecnailFormato = entity.FormatoCredencialId;
-
 
                 query = _sdk.ReportManager.CreateReportQuery(ReportType.EntityConfiguration) as EntityConfigurationQuery;
                 query.EntityTypeFilter.Add(EntityType.Credential);
@@ -752,69 +749,68 @@ namespace IMOD.Infra.Servicos
                     //_sdk.TransactionManager.CreateTransaction();
                     foreach (DataRow dr in result.Data.Rows)    //sempre remove todas as regras de um CardHolder
                     {
-
                         Credential cred = _sdk.GetEntity((Guid)dr[0]) as Credential;
-                        var formatocredencialNm = cred.Format.Name;
-                        var formatocredencialGuid = cred.Format.FormatId.ToString();
-                        var formatocrdencial = _auxiliaresService.Listar(null, formatocredencialGuid).FirstOrDefault();
+                        var formatocrdencial = _auxiliaresService.Listar(null, cred.Format.FormatId.ToString()).FirstOrDefault();
                         if (formatocrdencial != null)
                         {
-                            //Debug.WriteLine(formatocredencialNm + " " + formatocredencialId);
-                            var formatocredencialnumero = cred.Format.FormatId.ToString();
-                            var credencialnumero = cred.Format.UniqueId;
-                            
-                            //long credencialValue =0;
+                            //var formatocredencialnumero = cred.Format.FormatId.ToString();
                             switch (formatocrdencial.FormatoCredencialId)
                             {
                                 case (int)Tecnologia.Standard_26_bits:
-
-                                    credencialnumero = cred.Format.UniqueId.Split('|')[0];
-                                    decValue = long.Parse(credencialnumero, System.Globalization.NumberStyles.HexNumber);
+                                    WiegandStandardCredentialFormat credentialFormat_26 = (WiegandStandardCredentialFormat)cred.Format;
                                     credencialNum = Convert.ToInt64(entity.NumeroCredencial);
-                                    if (credencialNum == decValue)
+                                    if (credencialNum == credentialFormat_26.CardId && entity.Fc == credentialFormat_26.Facility)
                                     {
                                         return cred.Guid.ToString();
                                     }
-
-
-                                    //var numeroCredencial2 = cred.Name.Split('-');
-                                    //string number2 = numeroCredencial2[0].ToString();
-                                    //if (number2.Trim() == credencialNumero.Trim())
-                                    //{
-                                    //    return cred.Guid.ToString();
-                                    //}
                                     break;
                                 case (int)Tecnologia.HID_H10302_37_Bits:
-                                    //credencialnumero = cred.Format.UniqueId.Split('|')[0];
+                                    WiegandH10302CredentialFormat credentialFormat_302 = (WiegandH10302CredentialFormat)cred.Format;
+                                    credencialNum = Convert.ToInt64(entity.NumeroCredencial);
+                                    if (credencialNum == credentialFormat_302.CardId)
+                                    {
+                                        return cred.Guid.ToString();
+                                    }
                                     break;
                                 case (int)Tecnologia.HID_H10304_37_Bits:
-                                    //credencialnumero = cred.Format.UniqueId.Split('|')[0];
+                                    WiegandH10304CredentialFormat credentialFormat_304 = (WiegandH10304CredentialFormat)cred.Format;
+                                    credencialNum = Convert.ToInt64(entity.NumeroCredencial);
+                                    if (credencialNum == credentialFormat_304.CardId && entity.Fc == credentialFormat_304.Facility)
+                                    {
+                                        return cred.Guid.ToString();
+                                    }
                                     break;
                                 case (int)Tecnologia.HID_H10306_34_Bits:
-                                    //credencialnumero = cred.Format.UniqueId.Split('|')[0];
+                                    WiegandH10306CredentialFormat credentialFormat_306 = (WiegandH10306CredentialFormat)cred.Format;
+                                    credencialNum = Convert.ToInt64(entity.NumeroCredencial);
+                                    if (credencialNum == credentialFormat_306.CardId && entity.Fc == credentialFormat_306.Facility)
+                                    {
+                                        return cred.Guid.ToString();
+                                    }
                                     break;
                                 case (int)Tecnologia.HID_Corporate_1000_35_bits:
-                                    //credencialnumero = cred.Format.UniqueId.Split('|')[0];
+                                    WiegandCorporate1000CredentialFormat credentialFormat_35 = (WiegandCorporate1000CredentialFormat)cred.Format;
+                                    credencialNum = Convert.ToInt64(entity.NumeroCredencial);
+                                    if (credencialNum == credentialFormat_35.CardId && entity.Fc == credentialFormat_35.Facility)
+                                    {
+                                        return cred.Guid.ToString();
+                                    }
                                     break;
                                 case (int)Tecnologia.HID_Corporate_1000_48_Bits:
-                                    //credencialnumero = cred.Format.UniqueId.Split('|')[0];
+                                    Wiegand48BitCorporate1000CredentialFormat credentialFormat_48 = (Wiegand48BitCorporate1000CredentialFormat)cred.Format;
+                                    credencialNum = Convert.ToInt64(entity.NumeroCredencial);
+                                    if (credencialNum == credentialFormat_48.CardId && entity.Fc == credentialFormat_48.Facility)
+                                    {
+                                        return cred.Guid.ToString();
+                                    }
                                     break;
                                 case (int)Tecnologia.CSN:
-                                    credencialnumero = cred.Format.UniqueId.Split('|')[0];
-                                    decValue = long.Parse(credencialnumero, System.Globalization.NumberStyles.HexNumber);
+                                    WiegandCsn32CredentialFormat credentialFormat_CSN = (WiegandCsn32CredentialFormat)cred.Format;
                                     credencialNum = Convert.ToInt64(entity.NumeroCredencial);                                    
-                                    if (credencialNum == decValue)
+                                    if (credencialNum == credentialFormat_CSN.CardId)
                                     {
                                         return cred.Guid.ToString();
-                                    }
-
-
-                                    var numeroCredencial = cred.Name.Split('-');
-                                    string number = numeroCredencial[0].ToString();
-                                    if (number.Trim() == credencialNumero.Trim())
-                                    {
-                                        return cred.Guid.ToString();
-                                    }
+                                    }                                   
                                     break;
                                 default:
                                     break;
@@ -859,6 +855,7 @@ namespace IMOD.Infra.Servicos
                 throw;
             }
         }
+        
         /// <summary>
         ///     CardHolder
         ///     <para>Encontra um CardHolder se existir</para>
