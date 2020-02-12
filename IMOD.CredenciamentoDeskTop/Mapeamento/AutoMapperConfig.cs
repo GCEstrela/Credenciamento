@@ -40,6 +40,7 @@ namespace IMOD.CredenciamentoDeskTop.Mapeamento
                     m.CreateMap<ColaboradorCursoView, ColaboradorCurso>().ReverseMap();
                     m.CreateMap<ColaboradorCredencial, ColaboradoresCredenciaisView>().ReverseMap();
                     m.CreateMap<ColaboradorAnexo, ColaboradorAnexoView>().ReverseMap();
+                    m.CreateMap<ColaboradorObservacao, ColaboradorObservacaoView>().ReverseMap();
                     m.CreateMap<CredencialView, CredencialViewCracha>()
                         .ForMember (n => n.Foto2, opt => opt.MapFrom (c => c.Foto == null ? null : Convert.FromBase64String (c.Foto)))
                         .ForMember (n => n.Logo2, opt => opt.MapFrom (c => c.Logo == null ? null : Convert.FromBase64String (c.Logo)))
