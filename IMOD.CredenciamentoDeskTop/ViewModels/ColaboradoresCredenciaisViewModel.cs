@@ -1084,6 +1084,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             entity.GrupoPadrao = _configuraSistema.GrupoPadrao;
 
             _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), entity);
+            
 
         }
         /// <summary>
@@ -1659,6 +1660,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
        
         public bool ValidaNumeroCredencial(int tipocreencial, int formatocredencial, string numerocredencial, out long rengecrecencial)
         {
+            
             long NumeroCredencialvalidade = 0;
             long.TryParse(numerocredencial, out NumeroCredencialvalidade);
             if (tipocreencial > 0)

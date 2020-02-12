@@ -35,6 +35,7 @@
         </ControlTemplate>
         <funcoes:FormatCpf x:Key="FormatCpf" />
         <funcoes:FormatCep x:Key="FormatCep" />
+        <funcoes:CheckTeste x:Key="CheckTeste" />
         <funcoes:StringToImageConverter x:Key="ImageConverter" />
         <Style TargetType="{x:Type DatePickerTextBox}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
@@ -207,13 +208,69 @@
                 <ListView.View>
 
                     <GridView FrameworkElement.FlowDirection="RightToLeft">
-                        <GridViewColumn Width="55"  Header="Código"                     DisplayMemberBinding="{Binding ColaboradorId}" />
+                        <!--<GridViewColumn Width="55"  Header="Código"                     DisplayMemberBinding="{Binding ColaboradorId}" />
                         <GridViewColumn Width="115" Header="CPF"                        DisplayMemberBinding="{Binding CpfMascara}"/>
                         <GridViewColumn Width="250" Header="Nome do Colaborador"        DisplayMemberBinding="{Binding Nome}" />
                         <GridViewColumn Width="150" Header="Apelido do Colaborador"     DisplayMemberBinding="{Binding Apelido}" />
                         <GridViewColumn Width="115" Header="Telefone"                   DisplayMemberBinding="{Binding TelefoneFixo}" />
                         <GridViewColumn Width="115" Header="Celular"                    DisplayMemberBinding="{Binding TelefoneCelular}" />
-                        <GridViewColumn Width="200" Header="E-Mail"                     DisplayMemberBinding="{Binding Email}" />
+                        <GridViewColumn Width="200" Header="E-Mail"                     DisplayMemberBinding="{Binding Email}"  />-->
+                        <GridViewColumn Width="55" Header="Código" >
+                            <GridViewColumn.CellTemplate >
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" Text="{Binding ColaboradorId}" Foreground="{Binding Ativo,  Converter={StaticResource CheckTeste}, ConverterParameter='Principal_tw'}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="120" Header="CPF" >
+                            <GridViewColumn.CellTemplate >
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" Text="{Binding CpfMascara}" Foreground="{Binding Ativo,  Converter={StaticResource CheckTeste}, ConverterParameter='Principal_tw'}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="250" Header="Nome do Colaborador" >
+                            <GridViewColumn.CellTemplate >
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" Text="{Binding Nome}" Foreground="{Binding Ativo,  Converter={StaticResource CheckTeste}, ConverterParameter='Principal_tw'}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="150" Header="Apelido do Colaborador" >
+                            <GridViewColumn.CellTemplate >
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" Text="{Binding Apelido}" Foreground="{Binding Ativo,  Converter={StaticResource CheckTeste}, ConverterParameter='Principal_tw'}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="115" Header="Telefone" >
+                            <GridViewColumn.CellTemplate >
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" Text="{Binding TelefoneFixo}" Foreground="{Binding Ativo,  Converter={StaticResource CheckTeste}, ConverterParameter='Principal_tw'}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="115" Header="Celular" >
+                            <GridViewColumn.CellTemplate >
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" Text="{Binding TelefoneCelular}" Foreground="{Binding Ativo,  Converter={StaticResource CheckTeste}, ConverterParameter='Principal_tw'}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="200" Header="E-Mail" >
+                            <GridViewColumn.CellTemplate >
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" Text="{Binding Email}" Foreground="{Binding Ativo,  Converter={StaticResource CheckTeste}, ConverterParameter='Principal_tw'}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!--<GridViewColumn Width="120" Header="Colaborador Ativo?" >
+                            <GridViewColumn.CellTemplate >
+                                <DataTemplate>
+                                    <CheckBox HorizontalAlignment="Center" Margin="90,0,0,0" IsChecked="{Binding Ativo}" Foreground="{Binding Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>-->
                     </GridView>
                 </ListView.View>
             </ListView>
