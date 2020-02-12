@@ -15,6 +15,10 @@ namespace IMOD.Domain.Entities
 
         public int ColaboradorObservacaoId { get; set; }
         public int ColaboradorId { get; set; }
+        public string Observacao { get; set; }
+        public bool Impeditivo { get; set; }
+        public bool Resolvido { get; set; }
+
         public override bool Equals(object obj)
         {
             var observacao = obj as ColaboradorObservacao;
@@ -32,8 +36,7 @@ namespace IMOD.Domain.Entities
         public ColaboradorObservacao()
         {
         }
-        public string Observacao { get; set; }
-        public bool Impeditivo { get; set; }
+        
         #endregion
     }
 }

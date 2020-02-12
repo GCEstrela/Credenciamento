@@ -57,6 +57,7 @@ namespace IMOD.Infra.Repositorios
 
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorObservacaoId", entity.ColaboradorObservacaoId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Impeditivo", entity.Impeditivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Resolvido", entity.Resolvido, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -116,6 +117,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorId", entity.ColaboradorId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Observacao", entity.Observacao, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Impeditivo", entity.Impeditivo, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Resolvido", entity.Resolvido, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -170,10 +172,10 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.DeleteText("ColaboradoresEmpresas", conn))
+                    using (var cmd = _dataBase.DeleteText("ColaboradoresObservacoes", conn))
                     {
 
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorEmpresaId", entity.ColaboradorObservacaoId).Igual()));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorObservacaoId", entity.ColaboradorObservacaoId).Igual()));
 
                         cmd.ExecuteNonQuery();
 
@@ -186,80 +188,6 @@ namespace IMOD.Infra.Repositorios
             }
         }
 
-        /// <summary>
-        ///     Listar View
-        /// </summary>
-        /// <returns></returns>
-        public ICollection<ColaboradorObservacao> ListarView(params object[] o)
-        {
-            try
-            {
-                using (var conn = _dataBase.CreateOpenConnection())
-                {
-                    using (var cmd = _dataBase.SelectText("ColaboradorEmpresaView", conn))
-
-                    {
-
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 0).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Ativo", DbType.Boolean, o, 1).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cargo", DbType.String, o, 2).Like()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Matricula", DbType.String, o, 3).Like()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaNome", DbType.String, o, 4).Like()));
-
-                        var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<ColaboradorObservacao>();
-
-                        return d1;
-
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public ICollection<ColaboradorObservacao> BuscarListaIntegracao(int nomedaTabela)
-        {
-            try
-            {
-                var select = string.Empty;                
-                switch (nomedaTabela)
-                {
-                    case TipoSelectColaboradorEmpresa.integracao:
-                        select = "Select * From ColaboradorEmpresaView Where CardHolderGUID is null And UsuarioDB is not null";
-                        break;
-                    case TipoSelectColaboradorEmpresa.insercao:
-                        select = "Select * From ColaboradorEmpresaView Where CardHolderGUID is null And UsuarioDB is not null";
-                        break;
-                    case TipoSelectColaboradorEmpresa.delecao:
-                        select = "Select * From ColaboradorEmpresaView Where CardHolderGUID is null And UsuarioDB is not null";
-                        break;
-                    default:
-                        break;
-                }
-                
-
-                using (var conn = _dataBase.CreateOpenConnection())
-                {
-                   
-                    
-                    using (var cmd = _dataBase.SelectSQL(select, conn))
-                    {
-
-                        var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<ColaboradorObservacao>();
-
-                        return d1;
-
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
         #endregion
     }
 }

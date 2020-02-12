@@ -38,17 +38,18 @@
                 <StackPanel x:Name="InformacoesObservacao_sp" Margin="0,10,10,10" Width="773">
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
-                        <Label Content="Observação:" Height="30" Width="91" Margin="0,0,0,35"
+                        <Label Content="Observação:" Height="70" Width="91" Margin="0,0,0,35"
                                HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                        <TextBox x:Name="Observacao_tb" MaxLength="100" CharacterCasing="Upper" Height="36" Width="344" Margin="10,0,0,35"
+                        <TextBox x:Name="Observacao_tb" MaxLength="100" CharacterCasing="Upper" Height="60" Width="344" Margin="10,0,0,35"
                                  Text="{Binding Entity.Observacao, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="{Binding Comportamento.isEnableCancelar}"
                                   Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
-                        <Label Content="Impeditivo:" Height="30" Width="78" Margin="0,0,0,35"
+                        <Label Content="Impeditivo:" Height="70" Width="78" Margin="0,0,0,35"
                                HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                        <CheckBox VerticalAlignment="Center" x:Name="chkImpeditivo"  Foreground="#FFD0D0D0" Margin="5,0,0,35"
+                        <CheckBox VerticalAlignment="Center" x:Name="chkImpeditivo"  Foreground="#FFD0D0D0" Margin="5,0,0,75"
                                   IsEnabled="{Binding Comportamento.isEnableCancelar}" 
                                   IsChecked="{Binding Entity.Impeditivo, UpdateSourceTrigger=PropertyChanged}"/>
+                        
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -67,9 +68,24 @@
                           Width="749" Margin="0,0,0,0" Height="212" VerticalAlignment="Top" SelectionChanged="ListaObservacoes_lv_SelectionChanged">
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
-                            <GridViewColumn Width="640" Header="Observação" DisplayMemberBinding="{Binding Observacao}" />
-                            <GridViewColumn Width="100" Header="Impeditivo"
-                                            DisplayMemberBinding="{Binding Impeditivo}" />
+
+                            <GridViewColumn Width="75" Header="Impeditivo"  >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox  IsChecked="{Binding Impeditivo}" IsHitTestVisible="True" x:Name="cbxImpeditivo"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Width="540" Header="Observação" DisplayMemberBinding="{Binding Observacao}" />
+                            <GridViewColumn Width="133" Header="Resolvido">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox  IsChecked="{Binding Resolvido}" IsHitTestVisible="True" x:Name="cbxResolvido"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                                            
                         </GridView>
                     </ListView.View>
                 </ListView>

@@ -95,15 +95,6 @@ namespace IMOD.Application.Service
             _repositorio.Remover (entity);
         }
 
-        /// <summary>
-        ///     Listar View
-        /// </summary>
-        /// <returns></returns>
-        public ICollection<ColaboradorObservacao> ListarView(params object[] objects)
-        {
-            return _repositorio.ListarView (objects);
-        }
-
         #endregion
     }
 }

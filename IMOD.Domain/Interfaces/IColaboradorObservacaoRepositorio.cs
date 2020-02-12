@@ -16,12 +16,7 @@ namespace IMOD.Domain.Interfaces
 {
     public interface IColaboradorObservacaoRepositorio : IRepositorioBaseAdoNet<ColaboradorObservacao>
     {
-        /// <summary>
-        ///     Listar Colaboradores e suas credenciais
-        /// </summary>
-        /// <param name="o">Arrays de Parametros</param>
-        /// <returns></returns>
-        ICollection<ColaboradorObservacao> ListarView(params object[] o);
+      
 
     }
 }

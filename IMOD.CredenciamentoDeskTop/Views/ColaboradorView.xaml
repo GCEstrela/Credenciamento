@@ -912,8 +912,8 @@
                 <views:ColaboradoresCredenciaisView x:Name="ColaboradoresCredenciaisUs" Margin="5,5,0,62" HorizontalAlignment="Left" />
             </TabItem>
 
-            <TabItem x:Name="Observacoes_ti" ToolTip="F5 para atualizar." Width="200" IsEnabled="{Binding IsEnableTabItemObservacoes}" 
-                                               Visibility="{Binding IsEnablePreCadastroCredenciamento,  Converter={StaticResource VisibleControl}}">
+            <TabItem x:Name="Observacoes_ti" Foreground="{Binding IsEnablePreCadastroColor}" Width="200" 
+                     IsEnabled="{Binding IsEnableTabItemObservacoes}" Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="btnTab6" Click="OnPendenciaCredencial_Click" Style="{StaticResource MenuStyle}"                                
@@ -926,7 +926,7 @@
                             </StackPanel>
                         </Button>
                         <StackPanel Width="170">
-                            <TextBlock   HorizontalAlignment="Center" Text="Observações" ToolTip="F5 para atualizar."   />
+                            <TextBlock   HorizontalAlignment="Center" Text="Pendências Aprovação" />
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>

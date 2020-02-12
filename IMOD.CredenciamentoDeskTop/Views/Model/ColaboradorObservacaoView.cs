@@ -26,7 +26,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int ColaboradorId { get; set; }
         public string Observacao { get; set; }
         public bool Impeditivo { get; set; }
-
+        public bool Resolvido { get; set; }
         #endregion
 
         /// <returns>A new object that is a copy of this instance.</returns>
