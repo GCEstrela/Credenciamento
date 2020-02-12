@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\ICursoAreaAcessoService.cs" />
     <Compile Include="Interfaces\IAreaAcessoService.cs" />
     <Compile Include="Interfaces\IColaboradorAnexoService.cs" />
     <Compile Include="Interfaces\IColaboradorCredencialImpressaoService.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Interfaces\IVeiculoSeguroService.cs" />
     <Compile Include="Interfaces\IVeiculoService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\CursoAreaAcessoService.cs" />
     <Compile Include="Service\AreaAcessoService.cs" />
     <Compile Include="Service\ColaboradorAnexoService.cs" />
     <Compile Include="Service\ColaboradorCredencialImpressaoService.cs" />

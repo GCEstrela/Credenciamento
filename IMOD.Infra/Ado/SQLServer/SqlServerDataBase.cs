@@ -179,6 +179,25 @@ namespace IMOD.Infra.Ado.SQLServer
             return _dbCommand;
         }
 
+
+        public IDbCommand InsertTextSemRetorno(string tabela, IDbConnection connection)
+        {
+            //Reset parametros
+            Clear();
+            SqlText = TipoInstrucao.InsertText;
+            //Set parametros 
+            _tabelaNome = tabela;
+            _sintaxeSql = "insert into {0} ({1}) values ({2});";
+            _dbCommand = CreateCommand();
+            _dbCommand.Connection = connection; //atribuição objeto de conexao ao objeto command
+
+            var sql = string.Format(_sintaxeSql, tabela.Trim(), "", "", "0").ToLower();
+            _dbCommand.CommandText = sql.Trim();
+            _dbCommand.CommandType = CommandType.Text;
+            return _dbCommand;
+        }
+
+
         /// <summary>
         ///     Monta sintaxe SQL Delete
         /// </summary>

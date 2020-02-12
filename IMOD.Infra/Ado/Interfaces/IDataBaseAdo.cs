@@ -117,6 +117,9 @@ namespace IMOD.Infra.Ado.Interfaces
         /// <returns></returns>
         IDbCommand InsertText(string tabela, IDbConnection connection);
 
+
+        IDbCommand InsertTextSemRetorno(string tabela, IDbConnection connection);
+
         /// <summary>
         ///     Monta sintaxe SQL Delete
         /// </summary>

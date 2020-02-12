@@ -161,6 +161,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly List<CursoView> _cursosTemp = new List<CursoView>();
         private CursoView _cursosSelecionado;
         private int _cursoSelectedIndex;
+        
+        private AreaAcessoView _acessoAreaSelecionadaCurso;
+
 
         //TipoCombustível
         private ObservableCollection<TipoCombustivelView> _tiposCombustiveis;
@@ -198,6 +201,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IRelatorioService _relatorioService = new RelatorioService();
         private readonly IRelatorioGerencialService _relatorioGerencialService = new RelatorioGerencialService();
+        private readonly ICursoAreaAcessoService _serviceCursoArea = new CursoAreaAcessoService();
 
         private Relatorios _relatorio = new Relatorios();
         private RelatoriosGerenciais _relatorioGerencial = new RelatoriosGerenciais();
@@ -451,6 +455,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 _acessoAreaSelecionada = value;
                 OnPropertyChanged("SelectedItem");
                 if (AreaAcessoSelecionada != null)
+                {
+                }
+            }
+        }
+
+        public AreaAcessoView AreaAcessoSelecionadaCurso
+        {
+            get { return _acessoAreaSelecionadaCurso; }
+            set
+            {
+                _acessoAreaSelecionadaCurso = value;
+                OnPropertyChanged("SelectedItem");
+                if (AreaAcessoSelecionadaCurso != null)
                 {
                 }
             }
@@ -1559,7 +1576,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         //}
         #endregion
 
-
         private void CriarLog(object state)
         {
             try
@@ -1879,6 +1895,55 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException(ex);
             }
         }
+
+        public void OnSalvarEdicaoCommand_CursosAcesso()
+        {
+            try
+            {
+                int areaAcessoID = AreaAcessoSelecionadaCurso.AreaAcessoId;
+                var cursoAreaAcesso = new CursosAreasAcessos();
+                cursoAreaAcesso.AreaAcessoId = areaAcessoID;
+                _serviceCursoArea.Remover(cursoAreaAcesso);
+
+                foreach(CursoView curso in Cursos)
+                {
+                    if (curso.Ativo)
+                    {
+                        cursoAreaAcesso = new CursosAreasAcessos();
+                        cursoAreaAcesso.AreaAcessoId = areaAcessoID;
+                        cursoAreaAcesso.CursoId = curso.CursoId;
+                        _serviceCursoArea.Criar(cursoAreaAcesso);
+                    }
+                }
+
+                //CarregaColecaoCursos();
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
+
+        public void OnCarregarCursosDaAreaAcesso()
+        {
+            if (AreaAcessoSelecionadaCurso != null) {
+                int areaAcessoID = AreaAcessoSelecionadaCurso.AreaAcessoId;
+                var listCursosAreaAcesso = _serviceCursoArea.Listar(areaAcessoID);
+
+                Cursos.ToList().ForEach(c =>
+                {
+                    c.Ativo = listCursosAreaAcesso.Any(a => a.AreaAcessoId == areaAcessoID && a.CursoId == c.CursoId);
+                });
+            }
+            else
+            {
+                CarregaColecaoCursos();
+            }
+        }
+
+
+
 
         public void OnExcluirCommand_TiposCursos()
         {
@@ -2408,7 +2473,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var observer = new ObservableCollection<AreaAcessoView>();
                 list2.ForEach(n => { observer.Add(n); });
 
-                AreasAcessos = observer;
+                AreasAcessos = observer;                
             }
             catch (Exception ex)
             {
@@ -2512,6 +2577,25 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
+        public void HabilitarColecaoCursos(bool habilitado)
+        {
+            try
+            {
+                var service = new CursoService();
+                var list1 = service.Listar();
+
+                var list2 = Mapper.Map<List<CursoView>>(list1);
+                var observer = new ObservableCollection<CursoView>();
+                list2.ForEach(n => { n.Habilitado = habilitado; observer.Add(n); });
+
+                Cursos = observer;
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
+
         public void CarregaColecaoTipoCombustiveis()
         {
             try
@@ -2606,6 +2690,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Utils.TraceException(ex);
             }
         }
+
 
         private void CarregaTipoCracha()
         {

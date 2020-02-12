@@ -55,14 +55,15 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.InsertText("CursosAreasAcessos", conn))
+                    using (var cmd = _dataBase.InsertTextSemRetorno("CursosAreasAcessos", conn))
                     {
 
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("AreaAcessoID", entity.AreaAcessoId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("AreaAcessoId", entity.AreaAcessoId, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CursoId", entity.CursoId, false)));
 
-                        var key = Convert.ToInt32(cmd.ExecuteScalar());
+                        cmd.ExecuteNonQuery();
 
-                        entity.AreaAcessoId = key;
+                        //entity.AreaAcessoId = key;
 
                     }
                 }

@@ -195,36 +195,35 @@
                                 </StackPanel>
                             </GroupBox>
 
-                            <GroupBox x:Name="TiposStatus_gb"  Grid.Row="1" Grid.Column="2"  Header=" Status da Empresa " Margin="10,10,10,10" VerticalAlignment="Stretch"  >
+                            <GroupBox x:Name="TiposStatus_gb"  Grid.Row="1" Grid.Column="2"  Header="Cursos por Área de Acesso&#xD;&#xA;" Margin="10,10,10,10" VerticalAlignment="Stretch"  >
                                 <StackPanel Margin="0,10,0,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
-                                        <Label Content="Código:" Height="28" Width="53"  Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox CharacterCasing="Upper"  x:Name="CodigoStatus_tb"  Text="{Binding SelectedItem.StatusId, ElementName=ListaTiposStatus_lv, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"  Height="24"  Width="50"/>
-                                        <Label Content="Status da Empresa:" Height="28" Width="110"   Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                                        <TextBox CharacterCasing="Upper"  x:Name="DescricaoStatus_tb"  Text="{Binding SelectedItem.Descricao, ElementName=ListaTiposStatus_lv, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="True"  Height="24"  Width="336"/>
+                                        <Label Content="Área de Acesso:" Height="28" Width="99" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
+                                        <ComboBox  x:Name="AreaAcesso_cb"  Width="454" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" SelectedValue="AreaAcessoID"
+                                            ItemsSource="{Binding AreasAcessos}" DisplayMemberPath="Descricao" SelectedValuePath="AreaAcessoID" SelectedItem="{Binding Path = AreaAcessoSelecionadaCurso, Mode=TwoWay}" SelectionChanged="AreaAcesso_cb_SelectionChanged" />
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0">
-                                        <ListView x:Name="ListaTiposStatus_lv" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding TiposStatus, Mode=TwoWay}" 
-                                                          SelectedItem="{Binding Path = TipoStatusSelecionado, Mode=TwoWay}"  Height="167" Width="560"
-                                                   SelectedIndex="{Binding Path=TipoStatusSelectedIndex, Mode=TwoWay}" >
+                                        <ListView x:Name="ListaCursoAcesso" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Cursos, Mode=TwoWay}" IsEnabled="True"
+                                                          SelectedItem="{Binding Path = CursoSelecionado, Mode=TwoWay}"  Height="167" Width="560" SelectedIndex="{Binding Path=CursoSelectedIndex, Mode=TwoWay}"  >
                                             <ListView.View>
                                                 <GridView FrameworkElement.FlowDirection="RightToLeft">
-                                                    <GridViewColumn Width="50" Header="Cod."  DisplayMemberBinding="{Binding StatusId}"/>
-                                                    <GridViewColumn Width="485" Header="Status"  DisplayMemberBinding="{Binding Descricao}"/>
+                                                    <GridViewColumn Width="40" Header=""  >
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <CheckBox  IsChecked="{Binding Ativo}" IsHitTestVisible="True" x:Name="cbxCurosAcesso" IsEnabled="{Binding Habilitado}"/>
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn Width="485" Header="Treinamento/Certificação"  DisplayMemberBinding="{Binding Descricao}"/>
                                                 </GridView>
                                             </ListView.View>
+
                                         </ListView>
                                         <StackPanel Orientation="Vertical" Margin="0,0" Width="30" HorizontalAlignment="Right" Height="167" VerticalAlignment="Top" >
                                             <Button x:Name="btnAdicionarTiposStatus" ToolTip="Adicionar" Width="25"
                                                 Margin="0,0,0,7" Click="btnAdicionarTiposStatus_Click">
                                                 <StackPanel>
-                                                    <Image Source="../Resources/add.png"/>
-                                                </StackPanel>
-                                            </Button>
-                                            <Button x:Name="btnDeletarTiposStatus" ToolTip="Remover" Width="25"
-                                                    Margin="0,0,0,7" Click="btnDeletarTiposStatus_Click">
-                                                <StackPanel>
-                                                    <Image Source="../Resources/remove.png"/>
+                                                    <Image Source="../Resources/Edit.png"/>
                                                 </StackPanel>
                                             </Button>
                                             <Button x:Name="btnCancelarTiposStatus" ToolTip="Cancelar" Width="25"
