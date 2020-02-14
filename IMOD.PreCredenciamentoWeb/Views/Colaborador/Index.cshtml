@@ -69,7 +69,7 @@
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </a>
 
-                                @if (item.Precadastro == 0)
+                                @if (item.Precadastro)
                                 {
                                     <a href='@Url.Action("Delete", "Colaborador", new { id = item.ColaboradorId })'>
                                         @*<img src="~/images/remove.png" />*@
