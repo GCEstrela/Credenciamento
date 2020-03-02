@@ -475,6 +475,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
                         case 4:
                             ColaboradoresCredenciaisUs.AtualizarDados(_viewModel.Entity, _viewModel);
                             break;
+                        case 5:
+                            ColaboradoresObservacoesUs.AtualizarDados(_viewModel.Entity, _viewModel);
+                            break;
+
                         default:
                             break;
                     }

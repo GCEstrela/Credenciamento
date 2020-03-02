@@ -794,6 +794,7 @@
       <DependentUpon>TermoViaAdicionalAutorizacao_20.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ViewModels\ColaboradoresObservacoesViewModel.cs" />
     <Compile Include="ViewModels\Commands\CommandBase.cs" />
     <Compile Include="ViewModels\Comportamento\ComportamentoBasico.cs" />
     <Compile Include="ViewModels\Comportamento\IAtualizarDados.cs" />
@@ -804,6 +805,9 @@
     <Compile Include="ViewModels\EquipamentosEmpresasViewModel.cs" />
     <Compile Include="ViewModels\EquipamentosSegurosViewModel.cs" />
     <Compile Include="ViewModels\EquipamentosViewModel.cs" />
+    <Compile Include="Views\ColaboradoresObservacoesView.xaml.cs">
+      <DependentUpon>ColaboradoresObservacoesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EmpresasSegurosView.xaml.cs">
       <DependentUpon>EmpresasSegurosView.xaml</DependentUpon>
     </Compile>
@@ -816,6 +820,7 @@
     <Compile Include="Views\Model\ColaboradorCursoView.cs" />
     <Compile Include="Views\Model\ColaboradorEmpresaView.cs" />
     <Compile Include="Views\Model\ColaboradorPrivilegioView.cs" />
+    <Compile Include="Views\Model\ColaboradorObservacaoView.cs" />
     <Compile Include="Views\Model\ColaboradorView.cs" />
     <Compile Include="Views\Model\ConfiguraSistemaView.cs" />
     <Compile Include="Views\Model\CredencialMotivoView.cs" />
@@ -1074,6 +1079,10 @@
     <Page Include="Modulo\Sobre.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ColaboradoresObservacoesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ColaboradoresCredenciaisView.xaml">
       <SubType>Designer</SubType>

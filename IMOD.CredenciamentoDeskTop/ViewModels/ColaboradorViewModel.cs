@@ -144,6 +144,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public bool IsEnableTabItemCursos { get; set; }
         public bool IsEnableTabItemAnexos { get; set; }
         public bool IsEnableTabItemCredenciais { get; set; }
+        public bool IsEnableTabItemObservacoes { get; set; }
 
         /// <summary>
         ///     Seleciona o indice da tabcontrol desejada
@@ -217,10 +218,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="isEnableLstView"></param>
         private void HabilitaControle(bool isEnableTabItem, bool isEnableLstView)
         {
-            HabilitaControleTabControls(isEnableLstView, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem);
+            HabilitaControleTabControls(isEnableLstView, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem, isEnableTabItem);
         }
 
-        public void HabilitaControleTabControls(bool lstViewSuperior = true, bool isItemGeral = true, bool isItemEmpresas = false, bool isItemCursos = false, bool isItemAnexos = false, bool isItemCredenciais = false)
+        public void HabilitaControleTabControls(bool lstViewSuperior = true, bool isItemGeral = true, bool isItemEmpresas = false, bool isItemCursos = false, bool isItemAnexos = false, bool isItemCredenciais = false, bool isItemObservacoes = true)
         {
             try
             {
@@ -231,6 +232,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsEnableTabItemCursos = isItemCursos;
                 IsEnableTabItemAnexos = isItemAnexos;
                 IsEnableTabItemCredenciais = isItemCredenciais;
+                IsEnableTabItemObservacoes = isItemObservacoes;
                 Comportamento.IsEnableCriar = lstViewSuperior;
             }
             catch (Exception ex)
@@ -253,7 +255,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     var enableControls = Entity != null;
                     Comportamento.IsEnableEditar = enableControls;
-                    HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls, enableControls);
+                    HabilitaControleTabControls(true, enableControls, enableControls, enableControls, enableControls, enableControls, enableControls);
                 }
 
                 if (e.PropertyName == "SelectedTabIndex")
