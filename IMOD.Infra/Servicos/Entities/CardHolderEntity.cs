@@ -111,7 +111,7 @@ namespace IMOD.Infra.Servicos.Entities
         /// <summary>
         /// Data de validade da crendencial
         /// </summary>
-        public DateTime Validade { get; set; }
+        public DateTime? Validade { get; set; }
         /// <summary>
         /// Formato da credencial
         /// </summary>

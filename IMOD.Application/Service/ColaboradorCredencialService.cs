@@ -137,7 +137,7 @@ namespace IMOD.Application.Service
                     FacilityCode = entity.Fc,
                     Foto = entity.ColaboradorFoto.ConverterBase64StringToBitmap(),
                     Matricula = entity.Matricula,
-                    Validade = dataValidade.AddDays(0),
+                    Validade = entity.Validade,
                     NumeroCredencial = entity.NumeroCredencial,
                     IdentificadorLayoutCrachaGuid = entity.LayoutCrachaGuid,
                     FormatoCredencial = entity.FormatoCredencialDescricao.Trim(),
@@ -658,10 +658,10 @@ namespace IMOD.Application.Service
                 //if (string.IsNullOrWhiteSpace(co1.CardHolderGuid))
                 //{
                 //Gerar titular do cartão no sub-sistema de credenciamento (Genetec)
-                if (titularCartao.Validade < DateTime.Now)
-                {
-                    titularCartao.Validade = DateTime.Now.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                }
+                //if (titularCartao.Validade < DateTime.Now)
+                //{
+                //    titularCartao.Validade = DateTime.Now.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                //}
 
 
 

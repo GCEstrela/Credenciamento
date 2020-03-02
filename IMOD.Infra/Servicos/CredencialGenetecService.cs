@@ -206,15 +206,24 @@ namespace IMOD.Infra.Servicos
                 //if (compareData >= 0) throw new InvalidOperationException("A data de validade deve ser maior que a data corrente.");
 
                 entityCardholder.State = CardholderState.Active;
-                if (entity.Validade > DateTime.Now)
+                if (entity.Validade != null && entity.Validade > DateTime.Now)
                 {
-                    //if (entity.Ativo && entityCardholder.State == CardholderState.Active)
-                    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
+                    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59));
                 }
-                else
-                {
-                    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade.Date.AddHours(23).AddMinutes(59).AddSeconds(59));
-                }
+                //else if (entityCardholder.ActivationDate == null)
+                //{
+                //    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59));
+                //}
+
+                //if (entity.Validade > DateTime.Now)
+                //{
+                //    //if (entity.Ativo && entityCardholder.State == CardholderState.Active)
+                //    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade.Value);
+                //}
+                //else
+                //{
+                //    entityCardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59));
+                //}
 
             }
             catch (Exception ex)
@@ -293,11 +302,11 @@ namespace IMOD.Infra.Servicos
                     }
                 }
 
-                if (entity.Validade > DateTime.Now)
-                {
-                    if (entity.Ativo)
-                        cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
-                }
+                //if (entity.Validade > DateTime.Now)
+                //{
+                //    if (entity.Ativo)
+                //        cardholder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade.Value);
+                //}
 
                 if (cardholder.Credentials.Count == 0)
                 {
@@ -395,12 +404,11 @@ namespace IMOD.Infra.Servicos
                 if (cardHolder == null)
                 {
                     cardHolder = _sdk.CreateEntity(entity.Nome, EntityType.Cardholder) as Cardholder;
-                    cardHolder.State = CardholderState.Inactive;
+                    cardHolder.State = CardholderState.Inactive;                   
                 }
                 Status = cardHolder.State;
 
                 cardHolder.State = CardholderState.Active;
-                cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
                 cardHolder.State = Status;
                 cardHolder.Picture = entity.Foto;
 
@@ -479,87 +487,87 @@ namespace IMOD.Infra.Servicos
         }
 
 
-        public void CriarCardHolder(CardHolderEntity entity, List<Guid> cardholderGuids)
-        {
+        //public void CriarCardHolder(CardHolderEntity entity, List<Guid> cardholderGuids)
+        //{
 
-            //Validar dados
-            ValidarCriarCardHolder(entity);
-            //VerificaRegraAcesso(entity);
-            try
-            {
-                #region Existindo CardHolder, não criar
+        //    //Validar dados
+        //    ValidarCriarCardHolder(entity);
+        //    //VerificaRegraAcesso(entity);
+        //    try
+        //    {
+        //        #region Existindo CardHolder, não criar
 
-                if (!string.IsNullOrWhiteSpace(entity.IdentificadorCardHolderGuid))
-                {
-                    var existEntity = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
-                    if (existEntity != null)
-                    {
-                        //Atualizar dados
-                        SetValorCamposCustomizados(entity, existEntity);
-                        //_sdk.TransactionManager.CommitTransaction();
-                        //VerificaRegraAcesso(entity);
-                        return;
-                    }
-                }
-                else
-                {
-                    entity.IdentificadorCardHolderGuid = EncontraCardHolderPelaMatricula(entity, entity.Matricula);//Encontra Credencial pelo Numero da Matrícula
-                }
+        //        if (!string.IsNullOrWhiteSpace(entity.IdentificadorCardHolderGuid))
+        //        {
+        //            var existEntity = _sdk.GetEntity(new Guid(entity.IdentificadorCardHolderGuid)) as Cardholder;
+        //            if (existEntity != null)
+        //            {
+        //                //Atualizar dados
+        //                SetValorCamposCustomizados(entity, existEntity);
+        //                //_sdk.TransactionManager.CommitTransaction();
+        //                //VerificaRegraAcesso(entity);
+        //                return;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            entity.IdentificadorCardHolderGuid = EncontraCardHolderPelaMatricula(entity, entity.Matricula);//Encontra Credencial pelo Numero da Matrícula
+        //        }
 
-                #endregion
-                if (entity.IdentificadorCardHolderGuid == null)
-                {
-                    _sdk.TransactionManager.CreateTransaction();
+        //        #endregion
+        //        if (entity.IdentificadorCardHolderGuid == null)
+        //        {
+        //            _sdk.TransactionManager.CreateTransaction();
 
-                    var cardHolder = _sdk.CreateEntity(entity.Nome, EntityType.Cardholder) as Cardholder;
-                    if (cardHolder == null) throw new InvalidOperationException("Não foi possível criar uma credencial.");
+        //            var cardHolder = _sdk.CreateEntity(entity.Nome, EntityType.Cardholder) as Cardholder;
+        //            if (cardHolder == null) throw new InvalidOperationException("Não foi possível criar uma credencial.");
 
-                    entity.IdentificadorCardHolderGuid = cardHolder.Guid.ToString(); //Set identificador Guid
+        //            entity.IdentificadorCardHolderGuid = cardHolder.Guid.ToString(); //Set identificador Guid
 
-                    SetValorCamposCustomizados(entity, cardHolder);
+        //            SetValorCamposCustomizados(entity, cardHolder);
 
-                    //EncontrarGrupos(entity.GrupoPadrao);
-                    if (entity.GrupoPadrao != null)
-                    {
-                        try
-                        {
-                            //Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
-                            //if (grupo != null)
-                            //    cardHolder.Groups.Add(grupo);
+        //            //EncontrarGrupos(entity.GrupoPadrao);
+        //            if (entity.GrupoPadrao != null)
+        //            {
+        //                try
+        //                {
+        //                    //Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
+        //                    //if (grupo != null)
+        //                    //    cardHolder.Groups.Add(grupo);
 
-                            foreach (Guid cardholderGuid in cardholderGuids)
-                            {
-                                Genetec.Sdk.Entities.CardholderGroup cardholdergroup = _sdk.GetEntity(cardholderGuid) as Genetec.Sdk.Entities.CardholderGroup;
-                                cardHolder.Groups.Add(cardholdergroup.Guid);
-                                //lista = cardholdergroup.Name + "\r\n" + lista;
-                            }
-                        }
-                        catch (Exception)
-                        {
+        //                    foreach (Guid cardholderGuid in cardholderGuids)
+        //                    {
+        //                        Genetec.Sdk.Entities.CardholderGroup cardholdergroup = _sdk.GetEntity(cardholderGuid) as Genetec.Sdk.Entities.CardholderGroup;
+        //                        cardHolder.Groups.Add(cardholdergroup.Guid);
+        //                        //lista = cardholdergroup.Name + "\r\n" + lista;
+        //                    }
+        //                }
+        //                catch (Exception)
+        //                {
 
-                            //throw;
-                        }
+        //                    //throw;
+        //                }
 
-                    }
-                    if (entity.Validade > DateTime.Now)
-                    {
-                        cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade);
-                    }
-                    cardHolder.Picture = entity.Foto;
-
-
-                    _sdk.TransactionManager.CommitTransaction();
-                }
+        //            }
+        //            if (entity.Validade > DateTime.Now)
+        //            {
+        //                cardHolder.ActivationMode = new SpecificActivationPeriod(DateTime.Now, entity.Validade.Value);
+        //            }
+        //            cardHolder.Picture = entity.Foto;
 
 
-                //VerificaRegraAcesso(entity);
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-                throw;
-            }
-        }
+        //            _sdk.TransactionManager.CommitTransaction();
+        //        }
+
+
+        //        //VerificaRegraAcesso(entity);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Utils.TraceException(ex);
+        //        throw;
+        //    }
+        //}
         /// <summary>
         ///     Verifica Regras de Acesso 
         ///     <para>Add/Remove Regras de Acesso de um CardHolder se nao existir</para>

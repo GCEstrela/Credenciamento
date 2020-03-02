@@ -570,7 +570,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
                     _service.Remover(n1);
 
-                    
+
                     _serviceCredencial.RemoverCardHolder(new CredencialGenetecService(Main.Engine), new ColaboradorService(), n1);
 
                     //Retirar empresa da coleção
@@ -586,9 +586,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         WpfHelp.PopupBox("Este vínculo não pode ser DELETADO, pois existem " + verificarCredencialExistente.Count + " credenciais vinculadas." + "\n" + "Remova todas as credenciais associadas na aba Credenciais" + "\n" + "Ação cancelada pelo sistema.", 1);
                     }
-                    
+
                 }
-                 
+
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)
@@ -666,7 +666,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     }
                 }
                 //var list1 = _service.Listar(colaboradorid, null, null, null, null, null, null, colaboradorEmpresaid).FirstOrDefault();
-                
+
                 return "";
             }
             catch (Exception ex)
@@ -720,6 +720,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity.SetMessageErro("EmpresaContratoId", "Favor informar o contrato.");
                 return true;
             }
+            if (Entity.Validade != null)
+            {
+                if (Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59) < DateTime.Now)
+                {
+                    WpfHelp.PopupBox("Data de Validade não pode ser menor que a data atual. Não é possível continua essa ação.", 1);
+                    return true;
+                }
+            }
+
 
             var hasErros = Entity.HasErrors;
             if (hasErros) return true;
