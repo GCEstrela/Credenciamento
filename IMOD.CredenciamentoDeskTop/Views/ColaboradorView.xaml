@@ -343,13 +343,15 @@
                         <ColumnDefinition Width="124*" />
                         <ColumnDefinition Width="477*" />
                     </Grid.ColumnDefinitions>
+                    
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Header="Identificação"
-                              Background="BlueViolet" Height="192" VerticalAlignment="Top" Margin="0,0,2,0"
+                              Background="BlueViolet" Height="300" VerticalAlignment="Top" Margin="0,0,2,0"
                               Grid.ColumnSpan="2">
-                        <StackPanel Orientation="Horizontal" Height="172" VerticalAlignment="Top" Margin="1">
+                        
+                        <StackPanel Orientation="Horizontal" Height="250" VerticalAlignment="Top" Margin="1">
                             <StackPanel.Resources>
                             </StackPanel.Resources>
-                            <StackPanel Margin="1,1,1,0" Height="166" VerticalAlignment="Top" Width="416">
+                            <StackPanel Margin="1,1,1,0" Height="200" VerticalAlignment="Top" Width="416">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,1,0,1" Width="405"
                                             Visibility="{Binding IsEnablePreCadastroCredenciamento,  Converter={StaticResource VisibleControl}}">
                                     <Label Content="Status:" Foreground="#FFD0D0D0" Margin="40,0,0,0" Width="55"/>
@@ -467,7 +469,7 @@
                     </GroupBox>
 
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Brown"
-                              Grid.Column="0" Header="Endereço" Margin="0,192,0,0" Height="175" VerticalAlignment="Top"
+                              Grid.Column="0" Header="Endereço" Margin="0,250,0,0" Height="175" VerticalAlignment="Top"
                               Grid.ColumnSpan="2">
                         <StackPanel Margin="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
