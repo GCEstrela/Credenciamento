@@ -225,13 +225,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public void AtualizarDados(EmpresaView entity, EmpresaViewModel viewModelParent)
         {
             EntityObserver.Clear();
-            if (entity == null) return;// throw new ArgumentNullException (nameof(entity));
+            if (entity == null) return;,
+
             _empresaView = entity;
             _viewModelParent = viewModelParent;
-            //Obter dados
             var list1 = _service.Listar (entity.EmpresaId, null, null, null, null, null, null, null, null);
-            //var list2 = Mapper.Map<List<EmpresaContratoView>> (list1.OrderByDescending (n => n.EmpresaContratoId));
-            var list2 = Mapper.Map<List<EmpresaContratoView>>(list1.OrderBy(n => n.Validade));
+            var list2 = Mapper.Map<List<EmpresaContratoView>>(list1.OrderBy(n => n.Descricao));
+            
             EntityObserver = new ObservableCollection<EmpresaContratoView>();
             list2.ForEach (n => { EntityObserver.Add (n); });
         }

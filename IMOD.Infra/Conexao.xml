@@ -34,7 +34,7 @@
     <SystemID>DEM-191014-184238</SystemID>
     <ServerWeb></ServerWeb>
     <ServerCarga></ServerCarga>
-    <InstanciaSQL>172.16.190.162\SQLEXPRESS</InstanciaSQL>
+    <InstanciaSQL>GCTEC04</InstanciaSQL>
     <Banco>D_iModCredenciamento</Banco>
     <UsuarioDB>imod</UsuarioDB>
     <SenhaDB>c4RRamq1Ico=</SenhaDB>
