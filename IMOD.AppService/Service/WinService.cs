@@ -1,13 +1,4 @@
-﻿using Common.Logging;
-using Genetec.Sdk;
-using Genetec.Sdk.Credentials;
-using Genetec.Sdk.Entities;
-using Genetec.Sdk.Entities.Activation;
-using Genetec.Sdk.Entities.CustomEvents;
-using Genetec.Sdk.Entities.CustomFields;
-using Genetec.Sdk.Events;
-using Genetec.Sdk.Queries;
-using IMOD.Application.Interfaces;
+﻿using IMOD.Application.Interfaces;
 using IMOD.Application.Service;
 using IMOD.Domain.Enums;
 using IMOD.Infra.Servicos;
@@ -18,21 +9,13 @@ using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
-using System.Threading.Tasks;
-using Topshelf;
-using System.Net.Mail;
 using System.Net;
 using System.Threading;
 using System.Collections;
 using IMOD.Domain.Entities;
-using Genetec.Sdk.Entities;
 using System.Windows.Forms;
-using System.Configuration;
-using System.Reflection;
-using System.Xml;
-using System.Xml.Linq;
 using IMOD.Domain.EntitiesCustom;
-using IMOD.Domain.Constantes;
+using Genetec.Sdk;
 
 namespace IMOD.Service.Service
 {
