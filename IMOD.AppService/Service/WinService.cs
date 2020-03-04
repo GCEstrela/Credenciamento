@@ -16,6 +16,8 @@ using IMOD.Domain.Entities;
 using System.Windows.Forms;
 using IMOD.Domain.EntitiesCustom;
 using Genetec.Sdk;
+using Common.Logging;
+using Topshelf;
 
 namespace IMOD.Service.Service
 {
