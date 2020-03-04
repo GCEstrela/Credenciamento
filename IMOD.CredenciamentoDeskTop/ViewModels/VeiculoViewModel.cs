@@ -237,7 +237,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             ListaPesquisa.Add(new KeyValuePair<int, string>(3, "Descrição"));
             ListaPesquisa.Add(new KeyValuePair<int, string>(4, "Empresa"));
             ListaPesquisa.Add(new KeyValuePair<int, string>(5, "Lacre"));
-            ListaPesquisa.Add(new KeyValuePair<int, string>(6, "Todos"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(6, "Código"));
+            ListaPesquisa.Add(new KeyValuePair<int, string>(7, "Todos"));
             PesquisarPor = ListaPesquisa[0]; //Pesquisa Default
         }
 
@@ -526,6 +527,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     PopularObserver(l7);
                 }
                 if (num.Key == 6)
+                {
+                    if (string.IsNullOrWhiteSpace(pesquisa)) return;
+                    var l1 = _service.Listar($"{pesquisa}", null, null, null, $"%{tipoVeiculoEquipamento}%", null, IsEnablePreCadastro);
+                    IsEnableLstView = true;
+                    PopularObserver(l1);
+                }
+                if (num.Key == 7)
                 {
                     var l1 = _service.Listar(null, null, null, null, $"%{tipoVeiculoEquipamento}%", null, IsEnablePreCadastro);
                     IsEnableLstView = true;

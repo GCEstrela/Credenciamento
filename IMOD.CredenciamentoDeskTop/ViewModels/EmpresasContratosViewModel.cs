@@ -225,7 +225,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public void AtualizarDados(EmpresaView entity, EmpresaViewModel viewModelParent)
         {
             EntityObserver.Clear();
-            if (entity == null) return;,
+            if (entity == null) return;
 
             _empresaView = entity;
             _viewModelParent = viewModelParent;
