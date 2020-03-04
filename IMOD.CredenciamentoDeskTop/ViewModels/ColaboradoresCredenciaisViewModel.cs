@@ -1423,24 +1423,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _configuraSistema = ObterConfiguracao();
             if (_configuraSistema.Colete)
             {
-                if (Entity.Terceirizada)
+                if (Entity.Terceirizada && !string.IsNullOrEmpty(colaboradorEmpresa.TerceirizadaSigla))
                 {
                     Entity.EmpresaSigla= colaboradorEmpresa.TerceirizadaSigla;
                     Entity.Colete = colaboradorEmpresa.TerceirizadaSigla.Trim();
                 }
-                //if (Entity == null || colaboradorEmpresa == null || colaboradorEmpresa.EmpresaSigla == null) return;
-                //Entity.Colete = colaboradorEmpresa.EmpresaSigla.Trim() + Convert.ToString(_colaboradorView.ColaboradorId);
                 IsEnableColete = false;
             }
             else
             {
-                if (Entity.Terceirizada)
-                {
-                    Entity.Colete = colaboradorEmpresa.TerceirizadaSigla.Trim();
-                    
+                if (Entity.Terceirizada && !string.IsNullOrEmpty(colaboradorEmpresa.TerceirizadaSigla))
+                {                    
+                        Entity.Colete = colaboradorEmpresa.TerceirizadaSigla.Trim();
                 }
-                //if (Entity == null || colaboradorEmpresa == null || colaboradorEmpresa.EmpresaSigla == null) return;
-                //Entity.Colete = colaboradorEmpresa.EmpresaSigla.Trim(); //+ Convert.ToString(_colaboradorView.ColaboradorId);
                 IsEnableColete = true;
             }
 
