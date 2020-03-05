@@ -11,24 +11,24 @@ namespace IMOD.CredenciamentoDeskTop.Funcoes
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null) return null;
-
-            if (value.ToString() == "0")
+            
+            if ((int)value <= 0)
             {
-                //BitmapImage impressa = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/CardPrinterAzul.png"));
                 BitmapImage imagem = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/red_alerta.png"));
                 return imagem;
+
             }
-            else if ((int)value == 5)
+            else if ((int)value <= 5)
             {
                 BitmapImage imagem = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/orange_alerta.png"));
                 return imagem;
             }
-            else if ((int)value == 15)
+            else if ((int)value <= 15)
             {
                 BitmapImage imagem = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/laranja_alerta.png"));
                 return imagem;
             }
-            else if ((int)value == 30)
+            else if ((int)value <= 30)
             {
                 BitmapImage imagem = new BitmapImage(new Uri("pack://application:,,,/IMOD.CredenciamentoDeskTop;component/Resources/yellow_alerta.png"));
                 return imagem;

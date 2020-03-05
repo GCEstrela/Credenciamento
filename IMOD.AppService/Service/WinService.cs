@@ -16,6 +16,8 @@ using IMOD.Domain.Entities;
 using System.Windows.Forms;
 using IMOD.Domain.EntitiesCustom;
 using Genetec.Sdk;
+using Common.Logging;
+using Topshelf;
 
 namespace IMOD.Service.Service
 {
@@ -384,7 +386,7 @@ namespace IMOD.Service.Service
 
                                 if (AlartaList.Contains(dias))
                                 {
-                                    AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, diasAlerta0);
+                                    AlterarDados(ec.EmpresaId, ec.EmpresaContratoId, dias);
 
                                     var messa1 = new MessagemEmail() { Contrato = ec.NumeroContrato, Dias = dias, DescricaoDoContrato = ec.Descricao, EmailDestino = emailEmpresa };
                                     listMessagemEmail.Add(messa1);
@@ -422,7 +424,7 @@ namespace IMOD.Service.Service
                             {
                                 try
                                 {
-                                    sendMessage(emailFraport.ToString(), emailEmpresa);
+                                    //sendMessage(emailFraport.ToString(), emailEmpresa);
                                 }
                                 catch (Exception ex)
                                 {
@@ -482,11 +484,11 @@ namespace IMOD.Service.Service
 
                 var contrato = _serviceContrato.BuscarPelaChave(empresacontratoID);
                 contrato.PraVencer = diasrestantes;
-                contrato.StatusId = 0;
+                //contrato.StatusId = 0;
 
                 if (diasrestantes <= 0)
                 {
-                    contrato.StatusId = 1;
+                    //contrato.StatusId = 1;
                 }
                 _serviceContrato.Alterar(contrato);
             }
@@ -563,12 +565,24 @@ namespace IMOD.Service.Service
         {
             try
             {
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }  
+            try
+            {
                 StreamWriter vWriter = new StreamWriter(@"C:\Tmp\log.txt", true);
                 vWriter.WriteLine(state.ToString());
                 vWriter.Flush();
                 vWriter.Close();
             }
-            catch {}
+            catch (Exception ex)
+            {
+
+            }
 
         }
         public bool Stop(HostControl hostControl)

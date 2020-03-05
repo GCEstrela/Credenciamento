@@ -335,6 +335,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 var n1 = Mapper.Map<EmpresaContrato> (Entity);
                 n1.Usuario = Domain.EntitiesCustom.UsuarioLogado.Nome;
+                if (Entity.StatusId != 0)
+                {
+                    n1.PraVencer = null;
+                }
                 _service.Alterar (n1);
                 IsEnableLstView = true;
                 _viewModelParent.HabilitaControleTabControls (true, true, true, true, true);

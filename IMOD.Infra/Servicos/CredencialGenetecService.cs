@@ -404,7 +404,7 @@ namespace IMOD.Infra.Servicos
                 if (cardHolder == null)
                 {
                     cardHolder = _sdk.CreateEntity(entity.Nome, EntityType.Cardholder) as Cardholder;
-                    cardHolder.State = CardholderState.Inactive;                   
+                    cardHolder.State = CardholderState.Inactive;
                 }
                 Status = cardHolder.State;
 
@@ -423,11 +423,17 @@ namespace IMOD.Infra.Servicos
                 }
                 if (entity.GrupoPadrao != null && cardHolder.Groups.Count == 0)
                 {
-                    Guid grupo = new Guid(EncontrarGrupos(entity.GrupoPadrao));
-                    if (grupo != null)
-                        cardHolder.Groups.Add(grupo);
+                    var grupoPadraoGuid = EncontrarGrupos(entity.GrupoPadrao);
+                    if (!string.IsNullOrEmpty(grupoPadraoGuid))
+                    {
+                        Guid grupo = new Guid(grupoPadraoGuid);
+                        if (grupo != null)
+                            cardHolder.Groups.Add(grupo);
+                    }
+
                 }
 
+                
                 SetValorCamposCustomizados(entity, cardHolder);
 
                 if (entity.regraAlterado)
@@ -814,11 +820,11 @@ namespace IMOD.Infra.Servicos
                                     break;
                                 case (int)Tecnologia.CSN:
                                     WiegandCsn32CredentialFormat credentialFormat_CSN = (WiegandCsn32CredentialFormat)cred.Format;
-                                    credencialNum = Convert.ToInt64(entity.NumeroCredencial);                                    
+                                    credencialNum = Convert.ToInt64(entity.NumeroCredencial);
                                     if (credencialNum == credentialFormat_CSN.CardId)
                                     {
                                         return cred.Guid.ToString();
-                                    }                                   
+                                    }
                                     break;
                                 default:
                                     break;
@@ -863,7 +869,7 @@ namespace IMOD.Infra.Servicos
                 throw;
             }
         }
-        
+
         /// <summary>
         ///     CardHolder
         ///     <para>Encontra um CardHolder se existir</para>
