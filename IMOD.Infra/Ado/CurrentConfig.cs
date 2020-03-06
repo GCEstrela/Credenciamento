@@ -145,8 +145,8 @@ namespace IMOD.Infra.Ado
             string senhaDecryptada = ESTRELA_EMCRYPTAR.EstrelaDecrypt(senha);
             ////////////////////////////////////////
             returnValue = "Data Source=" + instancia + ";Initial Catalog=" + banco + ";User ID=" + usuario + ";Password=" + senhaDecryptada + ";" + complemento;
-            //returnValue = @"Data Source=SCVIRTUAL\SQLEXPRESS;Initial Catalog=D_iModCredenciamento;User ID=imod;Password=imod;Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True";
-            returnValue = @"Data Source=GCTEC04;Initial Catalog=D_iModCredenciamento;User ID=imod;Password=imod;Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True";
+            returnValue = @"Data Source=SCVIRTUAL\SQLEXPRESS;Initial Catalog=D_iModCredenciamento;User ID=imod;Password=imod;Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True";
+            //returnValue = @"Data Source=GCTEC04;Initial Catalog=D_iModCredenciamento;User ID=imod;Password=imod;Min Pool Size=5;Max Pool Size=15;Connection Reset=True;Connection Lifetime=600;Trusted_Connection=no;MultipleActiveResultSets=True";
             UsuarioLogado.InstanciaSQL = returnValue;
             ////////////////////////////////////////
             return returnValue;

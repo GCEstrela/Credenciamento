@@ -1133,12 +1133,16 @@
 
                                         <CheckBox x:Name="Contrato_" ToolTip="Essa opção habilita contratos automático." 
                                               Content="Gerar Contrato Automático" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
-                                              Margin="152,7,0,0" VerticalAlignment="Top" Width="170"  Cursor="Hand" 
+                                              Margin="10,7,0,0" VerticalAlignment="Top" Width="170"  Cursor="Hand" 
                                               IsChecked="{Binding Entity.Contrato, UpdateSourceTrigger=PropertyChanged}" />
                                         <CheckBox x:Name="Colete_" ToolTip="Essa opção carrega automático nº do Colete" 
                                               Content="Gerar nº de Colete Automático" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
-                                              Margin="30,7,0,0" VerticalAlignment="Top" Width="200"  Cursor="Hand" 
+                                              Margin="0,7,0,0" VerticalAlignment="Top" Width="200"  Cursor="Hand" 
                                               IsChecked="{Binding Entity.Colete, UpdateSourceTrigger=PropertyChanged}" />
+                                        <CheckBox x:Name="TemporariaCurso" ToolTip="Essa opção define se as credenciais Temporárias terão cursos obrigatórios" 
+                                              Content="Obrigatório cursos para Temporários" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                              Margin="0,7,0,0" VerticalAlignment="Top" Width="200"  Cursor="Hand" 
+                                              IsChecked="{Binding Entity.ObrigatorioCursoTemporario, UpdateSourceTrigger=PropertyChanged}" />
 
 
                                     </StackPanel>

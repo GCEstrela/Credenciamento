@@ -576,6 +576,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _count++;
             //ListarTodosContratos();
             OnAtualizarDadosContratosAtivos();
+            _configuraSistema = ObterConfiguracao();
             MensagemAlerta = "";
             OnPropertyChanged("Entity");
             CollectionViewSource.GetDefaultView(EntityObserver).Refresh();
@@ -1696,7 +1697,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         public void ValidaCursosDoColaboradorParaAreaSelecionada()
-        {            
+        {
+            if (!_configuraSistema.ObrigatorioCursoTemporario && Entity.TipoCredencialId == 2) return;
+
             CursosColaborador = _serviceColaboradorCurso.Listar(_colaboradorView.ColaboradorId).ToList();
             var cursosArea = new List<CursosAreasAcessos>();
             if (Entity != null && Entity.ColaboradorPrivilegio1Id > 0)            

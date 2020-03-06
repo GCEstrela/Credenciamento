@@ -84,7 +84,7 @@ namespace IMOD.Infra.Repositorios
                         {
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("GrupoPadrao", entity.GrupoPadrao.Trim(), false)));
                         }
-
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ObrigatorioCursoTemporario", entity.ObrigatorioCursoTemporario, false)));
                         cmd.ExecuteNonQuery();
 
                     }
