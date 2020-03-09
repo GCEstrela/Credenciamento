@@ -1129,7 +1129,7 @@
                                         
                                     </Border>
 
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,1,0,1" Width="623">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,1,0,1" Width="628">
 
                                         <CheckBox x:Name="Contrato_" ToolTip="Essa opção habilita contratos automático." 
                                               Content="Gerar Contrato Automático" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
