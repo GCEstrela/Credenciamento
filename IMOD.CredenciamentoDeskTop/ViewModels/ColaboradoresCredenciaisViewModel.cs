@@ -1708,6 +1708,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (Entity == null) return;
             if (!_configuraSistema.ObrigatorioCursoTemporario && Entity.TipoCredencialId == 2)
             {
+                if (Cursos == null) return;
+
                 ExibeCursosArea = (Cursos.Any()) ? Visibility.Collapsed.ToString() : Visibility.Visible.ToString();
                 return;
             }
