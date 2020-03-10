@@ -48,6 +48,7 @@ namespace IMOD.Infra.Ado.SQLServer
             try
             {
                 var connection = (SqlConnection)CreateConnection();
+                
                 connection.Open();
                 return connection;
             }
