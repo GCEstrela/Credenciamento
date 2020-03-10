@@ -1703,6 +1703,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             }
         }
 
+
         public void ValidaCursosDoColaboradorParaAreaSelecionada()
         {
             if (Entity == null) return;
