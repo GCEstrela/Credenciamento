@@ -1550,7 +1550,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             //    return true;
             //}
 
-            if (Entity.NumeroColete != "")
+            if (!string.IsNullOrEmpty(Entity.NumeroColete))
             {
                 var colaboradorcredencial = ExisteNumeroColete();
                 if (colaboradorcredencial != null)
@@ -1614,11 +1614,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity.CredencialStatusId == 1)
                 {
-                    if (Cursos.Any(c => c.Ativo == false))
-                    {
-                        WpfHelp.PopupBox("O Colaborador não possui os CURSOS obrigatórios para a(s) área(s) selecionada(s)!", 1);
-                        return true;
-                    }
+                    if(Cursos!=null)
+                        if (Cursos.Any(c => c.Ativo == false))
+                        {
+                            WpfHelp.PopupBox("O Colaborador não possui os CURSOS obrigatórios para a(s) área(s) selecionada(s)!", 1);
+                            return true;
+                        }
                 }
             }
 
