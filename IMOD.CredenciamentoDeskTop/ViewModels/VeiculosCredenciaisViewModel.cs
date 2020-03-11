@@ -700,7 +700,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 credencialView.TipoServico = _servicoAutorizacao;
                 var AutorizacaoMapeada = Mapper.Map<Views.Model.AutorizacaoView>(credencialView);
-                AutorizacaoMapeada.Logo2 = Convert.FromBase64String(credencialView.Logo);
+                
+                if (credencialView.Logo != null)
+                    AutorizacaoMapeada.Logo2 = Convert.FromBase64String(credencialView.Logo);
+
                 AutorizacaoMapeada.Emissao = DateTime.Now;
                 lst.Add (AutorizacaoMapeada); 
 
