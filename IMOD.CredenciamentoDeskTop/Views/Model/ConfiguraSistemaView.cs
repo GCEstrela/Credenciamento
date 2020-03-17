@@ -43,6 +43,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool AssociarRegras { get; set; }
         public bool VisibleGruposRegras { get; set; }
         public bool ObrigatorioCursoTemporario { get; set; }
+        public string DBVersao { get; set; }
         #endregion
     }
 }

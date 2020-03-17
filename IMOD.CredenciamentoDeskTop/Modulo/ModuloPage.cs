@@ -17,6 +17,7 @@ using IMOD.Domain.EntitiesCustom;
 using System;
 using System.Configuration;
 using System.Linq;
+using System.Reflection;
 using Page = Genetec.Sdk.Workspace.Pages.Page;
 
 #endregion
@@ -82,6 +83,15 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
 
                 return;
             }
+            
+            if (_configuraSistema.DBVersao == null) return;
+            if (_configuraSistema.DBVersao.Trim() != ConfiguracaoService.ObterVersaoSoftware(Assembly.GetExecutingAssembly()).Split()[1])
+            {
+                WpfHelp.PopupBox("Versão do credenciamento " + ConfiguracaoService.ObterVersaoSoftware(Assembly.GetExecutingAssembly()).Split()[1].ToString() + " diferente da versão do banco " + _configuraSistema.DBVersao, 1);
+                //this.View = new AcessoNegado("Versão do credenciamento " + ConfiguracaoService.ObterVersaoSoftware(Assembly.GetExecutingAssembly()).Split()[1].ToString() + " diferente da versão do banco " + _configuraSistema.DBVersao);
+                return;
+            }
+
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
             this.View = _view; 
         }
