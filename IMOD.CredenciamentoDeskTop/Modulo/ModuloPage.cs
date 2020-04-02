@@ -89,7 +89,7 @@ namespace IMOD.CredenciamentoDeskTop.Modulo
             {
                 WpfHelp.PopupBox("Versão do credenciamento " + ConfiguracaoService.ObterVersaoSoftware(Assembly.GetExecutingAssembly()).Split()[1].ToString() + " diferente da versão do banco " + _configuraSistema.DBVersao, 1);
                 //this.View = new AcessoNegado("Versão do credenciamento " + ConfiguracaoService.ObterVersaoSoftware(Assembly.GetExecutingAssembly()).Split()[1].ToString() + " diferente da versão do banco " + _configuraSistema.DBVersao);
-                return;
+                //return;
             }
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
