@@ -1273,7 +1273,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 c1.TelefoneEmergencia = "EMERGÊNCIA " + _configuraSistema.TelefoneEmergencia;
                 c1.EmpresaNome = c1.EmpresaNome + (!string.IsNullOrEmpty(c1.TerceirizadaNome?.Trim()) ? " / " + c1.TerceirizadaNome?.Trim() : string.Empty);
-                c1.EmpresaApelido = (!string.IsNullOrEmpty(c1.TerceirizadaNome) ? c1.TerceirizadaNome?.Trim() : c1.EmpresaApelido?.Trim());
+                //c1.EmpresaApelido = (!string.IsNullOrEmpty(c1.TerceirizadaNome) ? c1.TerceirizadaNome?.Trim() : c1.EmpresaApelido?.Trim());
+                if (c1.Terceirizada)
+                {
+                    c1.EmpresaApelido = (!string.IsNullOrEmpty(c1.TerceirizadaNome) ? c1.TerceirizadaNome?.Trim() : c1.EmpresaApelido?.Trim());
+                }
+                else
+                {
+                    c1.EmpresaApelido = c1.EmpresaApelido?.Trim();
+                }
+
                 c1.Emissao = DateTime.Now;
                 lst.Add(c1);
                 relatorio.SetDataSource(lst);
