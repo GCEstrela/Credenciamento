@@ -167,11 +167,21 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, termo.Nome);
                 reportDoc.SetDataSource(resultMapeado);
 
-                if (!string.IsNullOrWhiteSpace(mensagem))
+                if (!string.IsNullOrWhiteSpace(mensagem))//
                 {
                     TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
                     txt.Text = mensagem;
                 }
+                TextObject txt_Titulo = (TextObject)reportDoc.ReportDefinition.ReportObjects["TituloRelatorio"];
+                if(colaboradorCredencial.TipoCredencialId == 1)
+                {
+                    txt_Titulo.Text = "Termo de Emissão de Vias Adicionais de Credencial Permanente";
+                }
+                else
+                {
+                    txt_Titulo.Text = "Termo de Emissão de Vias Adicionais de Credencial Temporária";
+                }
+
                 reportDoc.Refresh();
 
                 WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
@@ -420,6 +430,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
                     txt.Text = mensagem;
+                }
+                TextObject txt_Titulo = (TextObject)reportDoc.ReportDefinition.ReportObjects["TituloRelatorio"];
+                if (filtroAutorizacao.TipoCredencialId == 1)
+                {
+                    txt_Titulo.Text = txt_Titulo.Text + " Permanente";
+                }
+                else
+                {
+                    txt_Titulo.Text = txt_Titulo.Text + " Temporária";
                 }
                 reportDoc.Refresh();
 
