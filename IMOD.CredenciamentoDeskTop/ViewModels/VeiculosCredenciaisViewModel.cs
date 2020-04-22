@@ -30,6 +30,7 @@ using IMOD.CrossCutting;
 using IMOD.Domain.Constantes;
 using IMOD.Domain.Entities;
 using IMOD.Domain.EntitiesCustom;
+using IMOD.Infra.Repositorios;
 using IMOD.Infra.Servicos;
 using AutorizacaoView = IMOD.Domain.EntitiesCustom.AutorizacaoView;
 using Cursor = System.Windows.Forms.Cursor;
@@ -168,8 +169,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         internal bool ExisteLacre()
         {
-            var l2 = _service.Listar(null, null, null, null, null, null, $"%{Entity.Lacre}%", Entity.VeiculoCredencialId);            
-            return (l2 != null && l2.Count > 0);
+            //ObterNumerolacre
+            //var l2 = _service.Listar(null, null, null, null, null, null, $"%{Entity.Lacre}%", Entity.VeiculoCredencialId);
+            //return (l2 != null && l2.Count > 0);
+            
+            VeiculoCredencialRepositorio _serviceLacre = new VeiculoCredencialRepositorio();
+            var l2 = _serviceLacre.ObterNumerolacre(Entity.VeiculoId, Entity.Lacre);
+            if (l2 != null)
+            {
+                return true;
+            }
+            // return l2;
+            return false;
         }
 
         #endregion

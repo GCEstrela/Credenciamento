@@ -108,7 +108,40 @@ namespace IMOD.Infra.Repositorios
             }
 
         }
+        public VeiculoCredencial ObterNumerolacre(int veiculoid, string numColete)
+        {
+            try
+            {
+                using (var conn = _dataBase.CreateOpenConnection())
+                {
+                    using (var cmd = _dataBase.SelectText("VeiculosCredenciaisView", conn))
 
+                    {
+                        try
+                        {
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("VeiculoID", veiculoid).Diferente()));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Lacre", numColete).Igual()));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Ativa", true).Igual()));
+                            //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Impressa", true).Igual()));
+
+                            var reader = cmd.ExecuteReader();
+                            var d1 = reader.MapToList<VeiculoCredencial>();
+
+                            return d1.FirstOrDefault();
+                        }
+                        catch (Exception ex)
+                        {
+                            Utils.TraceException(ex);
+                            throw;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         /// <summary>
         ///     Criar registro
         /// </summary>
