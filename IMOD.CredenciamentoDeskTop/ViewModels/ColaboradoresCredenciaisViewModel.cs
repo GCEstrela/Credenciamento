@@ -926,7 +926,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.Terceirizada = Entity.Terceirizada;
                 n1.TerceirizadaSigla = Entity.TerceirizadaSigla;
                 n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);  //Sempre Add 23:59:59 horas à credencial nova.
-                n1.CredencialmotivoIDanterior = Entity.CredencialMotivoId;
+                //n1.CredencialmotivoIDanterior = Entity.CredencialMotivoId;
                 n1.listadeGrupos = Entity.listadeGrupos;
                 n1.Usuario = UsuarioLogado.Nome;
                 ///////////////////////////////
