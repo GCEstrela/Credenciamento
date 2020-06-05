@@ -497,7 +497,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (num.Key == 3)
                 {
                     if (string.IsNullOrWhiteSpace(pesquisa)) return;
-                    var l1 = _service.Listar($"%{pesquisa}%", null, null,null, $"%{tipoVeiculoEquipamento}%",null, IsEnablePreCadastro);
+                    var l1 = _service.Listar(null, null, null,null, $"%{tipoVeiculoEquipamento}%", $"%{pesquisa}%", IsEnablePreCadastro);
                     PopularObserver(l1);
                 }
                 // Por Empresa

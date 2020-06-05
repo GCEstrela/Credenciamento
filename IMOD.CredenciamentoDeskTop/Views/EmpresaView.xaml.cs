@@ -394,7 +394,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void Fake1_Unchecked(object sender, RoutedEventArgs e)
         {
             _viewModel.empresaFake = false;
-            txtCnpj.Text = "";
+            //txtCnpj.Text = "";
             txtCnpj.IsEnabled = true;
         }
 

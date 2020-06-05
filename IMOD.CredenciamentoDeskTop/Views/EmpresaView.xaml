@@ -194,8 +194,9 @@
                                              Text="{Binding Entity.Cnpj, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                              HorizontalContentAlignment="Center" LostFocus="TxtCnpj_LostFocus" />
                                     <CheckBox Name="fake1" ToolTip="Essa opção habilita a inclusão de CNPJ sem as validações obrigatórias." 
-                                              Content="Ignorar" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17" 
+                                              Content="Ignorar" Foreground="YellowGreen"  HorizontalAlignment="Left" Height="17"                                               
                                               Margin="6,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="59" Checked="Fake1_Checked" Unchecked="Fake1_Unchecked" Cursor="Hand"/>
+                                    <!--IsChecked="{Binding Entity.empresaFake, UpdateSourceTrigger=PropertyChanged}"-->
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                                             HorizontalAlignment="Left" Margin="1">
