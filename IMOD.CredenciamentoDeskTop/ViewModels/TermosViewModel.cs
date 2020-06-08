@@ -176,7 +176,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 txt_Titulo.Text = txt_Titulo.Text.Replace("\n", "");
                 if (colaboradorCredencial.TipoCredencialId == 1)
                 {
-                    
+
                     txt_Titulo.Text += " Permanente";
                 }
                 else
@@ -371,7 +371,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 txt_Titulo.Text = txt_Titulo.Text.Replace("\n", "");
                 if (colaboradorCredencial.TipoCredencialId == 1)
                 {
-                    
+
                     txt_Titulo.Text += " Permanente";
                 }
                 else
@@ -648,7 +648,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     TextObject txt = (TextObject)reportDoc.ReportDefinition.ReportObjects["TextoPrincipal"];
                     txt.Text = mensagem;
                 }
-                if(termo.RelatorioId != 14)
+                if (termo.RelatorioId != 14)
                 {
                     TextObject txt_Titulo = (TextObject)reportDoc.ReportDefinition.ReportObjects["TituloRelatorio"];
                     if (filtroAutorizacao.TipoCredencialId == 1)
@@ -660,7 +660,19 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         txt_Titulo.Text += " Temporária";
                     }
                 }
-                
+                else
+                {
+                    TextObject txt_Titulo = (TextObject)reportDoc.ReportDefinition.ReportObjects["Text11"];
+                    if (filtroAutorizacao.TipoCredencialId == 1)
+                    {
+                        txt_Titulo.Text += " Permanente";
+                    }
+                    else
+                    {
+                        txt_Titulo.Text += " Temporária";
+                    }
+                }
+
                 reportDoc.Refresh();
 
                 WpfHelp.ShowRelatorio(CarregaLogoMarcaEmpresa(reportDoc));
