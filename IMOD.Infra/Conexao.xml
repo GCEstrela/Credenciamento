@@ -36,7 +36,7 @@
     <ServerCarga></ServerCarga>
     <!--<InstanciaSQL>SCVIRTUAL\SQLEXPRESS</InstanciaSQL>-->
     <InstanciaSQL>GCTEC65\SQLEXPRESS</InstanciaSQL>
-    <Banco>D_iModCredenciamentoBH</Banco>
+    <Banco>D_iModCredenciamento</Banco>
     <UsuarioDB>imod</UsuarioDB>
     <SenhaDB>c4RRamq1Ico=</SenhaDB>
     <certificado>y+BiIiYO5VxBax6/HNi7/ZcXWuvlnEemfaMhoQS1RMkfOGvEBWdUV7zQN272yHVG</certificado>    
