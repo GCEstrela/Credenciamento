@@ -707,7 +707,10 @@ namespace IMOD.Infra.Repositorios
                         {
                             cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Impressa", DbType.Boolean, entity.Impressa).Igual()));
                         }
-
+                        if (entity != null && entity.EmpresaId > 0)
+                        {
+                            cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaId", DbType.Int32, entity.EmpresaId).Igual()));
+                        }
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<VeiculosCredenciaisView>();
                         return d1;
