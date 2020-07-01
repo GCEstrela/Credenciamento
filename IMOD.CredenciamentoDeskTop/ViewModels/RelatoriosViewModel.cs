@@ -1300,8 +1300,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataIni))
                 {
-                    veiculoCredencial.BaixaFim = DateTime.Now;
-                    veiculoCredencial.Baixa = DateTime.Parse(dataIni);
+                    veiculoCredencial.DataStatusFim = DateTime.Now;
+                    veiculoCredencial.DataStatus = DateTime.Parse(dataIni);
                     mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
                 }
 
@@ -1312,7 +1312,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    veiculoCredencial.BaixaFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
+                    veiculoCredencial.DataStatusFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
                     if (!string.IsNullOrEmpty(dataIni))
                     {
                         mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
