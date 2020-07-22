@@ -563,7 +563,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Validar()) return;
 
                 var n1 = Mapper.Map<VeiculoCredencial> (Entity);
-
+                n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
                 if (n1.CredencialStatusId == 2)
                 {
@@ -571,11 +571,13 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 n1.Usuario = UsuarioLogado.Nome;
                 Entity.Usuario = UsuarioLogado.Nome;
-                //Alterar o status do titular do cartão
+
+                //Alterar o status do titular do car
                 _service.AlterarStatusTitularCartao (new CredencialGenetecService (Main.Engine), Entity, n1);
                 //===================================================
                 //Atualizar dados a serem exibidas na tela de empresa
                 if (Entity == null) return;
+
                 _service.CriarPendenciaImpeditiva(Entity);
                 var view = new ViewSingleton().EmpresaView;
                 var dados = view.DataContext as IAtualizarDados;
