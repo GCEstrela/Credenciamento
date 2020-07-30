@@ -116,6 +116,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         private void CmbMotivacao_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+
             if (cmbCredencialStatus.SelectedItem != null && cmbMotivacao.SelectedItem != null)
             {
                 if (((CredencialStatus)cmbCredencialStatus.SelectedItem).CredencialStatusId == 2
