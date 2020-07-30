@@ -43,7 +43,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private ObservableCollection<CredencialMotivoView> _CredencialMotivo;
 
         private ObservableCollection<AreaAcessoView> _AreasAcessos;
-        
+
         private ObservableCollection<EmpresaView> _Empresas;
 
 
@@ -843,8 +843,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 colaboradorCredencial.EmpresaId = Convert.ToInt32(empresa);
+                if (mensagem != " Impressões de Credenciais ")
+                {
+                    colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
+                }
 
-                colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
                 mensagemComplemento = tipo ? " Permanentes " : " Temporárias ";
 
 
@@ -1950,7 +1953,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public void OnRelatorioFiltroColaboradorPorEmpresaCommand(string empresa, string dataIni, string dataFim)
         {
             try
-            {              
+            {
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(27);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
 
@@ -1977,12 +1980,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(28);
                 if (relatorioGerencial == null || relatorioGerencial.ArquivoRpt == null || String.IsNullOrEmpty(relatorioGerencial.ArquivoRpt)) return;
-                
+
                 var result = colaboradorEmpresaService.ListarColaboradorEmpresaView(empresa, true);
                 if (!string.IsNullOrEmpty(dataIni))
                 {
                     var dataInicio = Convert.ToDateTime(dataIni);
-                    result = result.Where(c => c.CNHValidade >= dataInicio).ToList();                    
+                    result = result.Where(c => c.CNHValidade >= dataInicio).ToList();
                 }
                 if (!string.IsNullOrEmpty(dataFim))
                 {
@@ -1990,7 +1993,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     result = result.Where(a => a.CNHValidade <= dataFinal).ToList();
                 }
 
-                    var resultMapeado = Mapper.Map<List<IMOD.CredenciamentoDeskTop.Views.Model.RelatorioColaboradorEmpresaView>>(result.OrderBy(n => n.ColaboradorNome).ToList());
+                var resultMapeado = Mapper.Map<List<IMOD.CredenciamentoDeskTop.Views.Model.RelatorioColaboradorEmpresaView>>(result.OrderBy(n => n.ColaboradorNome).ToList());
                 byte[] arrayFile = Convert.FromBase64String(relatorioGerencial.ArquivoRpt);
                 var reportDoc = WpfHelp.ShowRelatorioCrystalReport(arrayFile, relatorioGerencial.Nome);
                 reportDoc.SetDataSource(resultMapeado);
