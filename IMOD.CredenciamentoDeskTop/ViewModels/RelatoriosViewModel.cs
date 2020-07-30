@@ -508,6 +508,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                //bool vencimento= credencialMotivoSelecionados.
+                bool vencimento = false;
                 string mensagem = string.Empty;
                 string mensagemComplemento = " inválidas ";
                 string mensagemComplementoTipo = string.Empty;
@@ -531,16 +533,53 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     colaboradorCredencial.flaTodasDevolucaoEntregaBO = flaTodasDevolucaoEntregaBO;
                 }
 
+               
+
+                if (!string.IsNullOrEmpty(empresa))
+                {
+                    colaboradorCredencial.EmpresaId = Convert.ToInt32(empresa);
+                }
+
+                colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
+                mensagemComplementoTipo = tipo ? " permanentes " : " temporárias ";
+                
+                if (credencialMotivoSelecionados.Count() > 0)
+                {
+                    vencimento = (credencialMotivoSelecionados.Count() == 1 && ((CredencialMotivoView)credencialMotivoSelecionados.ToList()[0]).CredencialMotivoId == 6);
+                    foreach (CredencialMotivoView credencialMotivo in credencialMotivoSelecionados)
+                    {
+                        mensagemComplementoMotivoCredencial += credencialMotivo.Descricao + ",";
+                        codigoMotivoSelecionados.Add(credencialMotivo.CredencialMotivoId);
+                    }
+                    mensagemComplementoMotivoCredencial = " (" + mensagemComplementoMotivoCredencial.Substring(0, mensagemComplementoMotivoCredencial.Length - 1) + " ) ";
+
+                }
+
                 if (!string.IsNullOrEmpty(dataIni))
                 {
-                    colaboradorCredencial.DataStatusFim = DateTime.Now;
-                    colaboradorCredencial.DataStatus = DateTime.Parse(dataIni);
+                    if (vencimento)
+                    {
+                        colaboradorCredencial.ValidadeFim = DateTime.Now;
+                        colaboradorCredencial.Validade = DateTime.Parse(dataIni);
+                    }
+                    else
+                    {
+                        colaboradorCredencial.DataStatusFim = DateTime.Now;
+                        colaboradorCredencial.DataStatus = DateTime.Parse(dataIni);
+                    }
                     mensagemPeriodo = " no período de  " + dataIni + " até " + DateTime.Now.ToShortDateString() + "";
                 }
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    colaboradorCredencial.DataStatusFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
+                    if (vencimento)
+                    {
+                        colaboradorCredencial.ValidadeFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
+                    }
+                    else
+                    {
+                        colaboradorCredencial.DataStatusFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
+                    }
                     if (!string.IsNullOrEmpty(dataIni))
                     {
                         mensagemPeriodo = " no período de  " + dataIni + " até " + dataFim + "";
@@ -551,26 +590,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     }
 
                 }
-
-                if (!string.IsNullOrEmpty(empresa))
-                {
-                    colaboradorCredencial.EmpresaId = Convert.ToInt32(empresa);
-                }
-
-                colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
-                mensagemComplementoTipo = tipo ? " permanentes " : " temporárias ";
-
-                if (credencialMotivoSelecionados.Count() > 0)
-                {
-                    foreach (CredencialMotivoView credencialMotivo in credencialMotivoSelecionados)
-                    {
-                        mensagemComplementoMotivoCredencial += credencialMotivo.Descricao + ",";
-                        codigoMotivoSelecionados.Add(credencialMotivo.CredencialMotivoId);
-                    }
-                    mensagemComplementoMotivoCredencial = " (" + mensagemComplementoMotivoCredencial.Substring(0, mensagemComplementoMotivoCredencial.Length - 1) + " ) ";
-
-                }
-
                 mensagem += mensagemComplementoTipo + mensagemComplemento + mensagemComplementoMotivoCredencial + mensagemPeriodo;
 
                 var relatorioGerencial = _relatorioGerencialServiceService.BuscarPelaChave(5);
@@ -843,10 +862,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 colaboradorCredencial.EmpresaId = Convert.ToInt32(empresa);
-                if (mensagem != " Impressões de Credenciais ")
-                {
-                    colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
-                }
+                //if (mensagem != " Impressões de Credenciais ")
+                //{
+                colaboradorCredencial.TipoCredencialId = tipo ? 1 : 2;
+                //}
 
                 mensagemComplemento = tipo ? " Permanentes " : " Temporárias ";
 
@@ -1601,8 +1620,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
 
                 veiculoCredencial.EmpresaId = Convert.ToInt32(empresa);
-
+                //if(mensagem != " Impressões de Autorizações  ")
+                //{
                 veiculoCredencial.TipoCredencialId = tipo ? 1 : 2;
+                //}
                 mensagemComplementoTipo = tipo ? " Permanentes " : " Temporárias ";
 
                 mensagem += mensagemComplementoTipo + mensagemPeriodo;
