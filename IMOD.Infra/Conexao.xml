@@ -34,8 +34,8 @@
     <SystemID>DEM-191014-184238</SystemID>
     <ServerWeb></ServerWeb>
     <ServerCarga></ServerCarga>
-    <InstanciaSQL>SCVIRTUAL\SQLEXPRESS</InstanciaSQL>
-    <!--<InstanciaSQL>GCTEC65\SQLEXPRESS</InstanciaSQL>-->
+    <!--<InstanciaSQL>SCVIRTUAL\SQLEXPRESS</InstanciaSQL>-->
+    <InstanciaSQL>GCTEC65\SQLEXPRESS</InstanciaSQL>
     <Banco>D_iModCredenciamento</Banco>
     <UsuarioDB>imod</UsuarioDB>
     <SenhaDB>c4RRamq1Ico=</SenhaDB>

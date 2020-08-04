@@ -49,18 +49,19 @@
                                               ItemsSource="{Binding Empresas}" DisplayMemberPath="Nome" SelectedValuePath="EmpresaID" />
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
+                    <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,5,0,0" >
 
                         <Label Content="Area:" Height="28" Width="66" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                         <ComboBox  x:Name="Area_cb"  Width="410" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
                                               ItemsSource="{Binding AreasAcessos}" DisplayMemberPath="Descricao" SelectedValuePath="AreaAcessoID" />
-                    </StackPanel>
+                    </StackPanel>-->
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Left" Margin="0,15,0,0" Width="481" >
 
                         <Label Content="Tipo:" Height="28" Width="66" Margin="0,0,5,0" HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
                         <RadioButton x:Name="credenciais_rb" VerticalAlignment="Center" Content="Credenciais"  GroupName="Cred_rb" IsChecked="True" Width="209"/>
                         <RadioButton x:Name="autorizacoes_rb" VerticalAlignment="Center" Content="Autorizações (ATIV)" Margin="10,0,295,0" GroupName="Cred_rb" Width="188" />
+                    
                     </StackPanel>
 
 

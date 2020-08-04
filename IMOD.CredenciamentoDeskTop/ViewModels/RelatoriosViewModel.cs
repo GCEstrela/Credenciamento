@@ -504,7 +504,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <param name="_status"></param>
         /// <param name="_dataIni"></param>
         /// <param name="_dataFim"></param>
-        public void OnRelatorioCredenciaisInvalidasFiltroCommand(bool tipo, string empresa, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO)
+        public void OnRelatorioCredenciaisInvalidasFiltroCommand(bool tipo, string empresa, IEnumerable<object> credencialMotivoSelecionados, string dataIni, string dataFim, bool flaTodasDevolucaoEntregaBO, bool flaSimNaoDevolucaoEntregaBO,int tipoDataFiltro)
         {
             try
             {
@@ -545,7 +545,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 
                 if (credencialMotivoSelecionados.Count() > 0)
                 {
-                    vencimento = (credencialMotivoSelecionados.Count() == 1 && ((CredencialMotivoView)credencialMotivoSelecionados.ToList()[0]).CredencialMotivoId == 6);
+                    //vencimento = (credencialMotivoSelecionados.Count() == 1 && ((CredencialMotivoView)credencialMotivoSelecionados.ToList()[0]).CredencialMotivoId == 6);
                     foreach (CredencialMotivoView credencialMotivo in credencialMotivoSelecionados)
                     {
                         mensagemComplementoMotivoCredencial += credencialMotivo.Descricao + ",";
@@ -557,7 +557,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataIni))
                 {
-                    if (vencimento)
+                    if (tipoDataFiltro == 1)
                     {
                         colaboradorCredencial.ValidadeFim = DateTime.Now;
                         colaboradorCredencial.Validade = DateTime.Parse(dataIni);
@@ -572,7 +572,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 if (!string.IsNullOrEmpty(dataFim))
                 {
-                    if (vencimento)
+                    if (tipoDataFiltro == 1)
                     {
                         colaboradorCredencial.ValidadeFim = DateTime.Parse(dataFim).AddHours(23).AddMinutes(59).AddSeconds(59);
                     }

@@ -40,6 +40,7 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             string dataIni = dp_dataInicial.Text; 
             string dataFim = dp_dataFinal.Text;
             string empresa;
+            int tipodeData = 0;
 
             bool flaTodasDevolucaoEntregue = (bool)RbtnTodasDevolucaoEntregue.IsChecked.Value;
             bool flaSimNaoDevolucaoEntregue = (bool)RbtnSimDevolucaoEntregue.IsChecked.Value ? true : (bool)RbtnNaoDevolucaoEntregue.IsChecked.Value ? false : true;
@@ -61,10 +62,14 @@ namespace IMOD.CredenciamentoDeskTop.Windows
             {
                 empresa = ((IMOD.CredenciamentoDeskTop.Views.Model.EmpresaView)EmpresaRazaoSocial_cb.SelectedItem).EmpresaId.ToString();
             }
+            if (DataValidade_rb.IsChecked == true)
+            {
+                tipodeData = 1;
+            }
 
             ((RelatoriosViewModel)DataContext).OnRelatorioCredenciaisInvalidasFiltroCommand(checkTipo, empresa,
                                                                                             (IEnumerable<object>)motivoCredencialSelecionados, dataIni, dataFim,
-                                                                                                                        flaTodasDevolucaoEntregue, flaSimNaoDevolucaoEntregue);
+                                                                                                                        flaTodasDevolucaoEntregue, flaSimNaoDevolucaoEntregue, tipodeData);
 
             Close();
         }
