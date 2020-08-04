@@ -509,7 +509,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 //bool vencimento= credencialMotivoSelecionados.
-                bool vencimento = false;
+                //bool vencimento = false;
                 string mensagem = string.Empty;
                 string mensagemComplemento = " inválidas ";
                 string mensagemComplementoTipo = string.Empty;

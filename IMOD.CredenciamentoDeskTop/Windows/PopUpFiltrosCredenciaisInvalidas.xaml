@@ -96,8 +96,8 @@
             </GroupBox >
             <GroupBox x:Name="DataSelecao" Header="Filtrar Tipo de Datas"  Margin="10,0"  Foreground="#FFD0D0D0" Height="60">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left">
-                    <RadioButton  x:Name="DataStatus_rb" Content="Data de Satatus" IsChecked="True" Margin="50,0,0,0"/>
-                    <RadioButton  x:Name="DataValidade_rb" Content="Data de Validade" Margin="50,0,0,0"/>
+                    <RadioButton  x:Name="DataStatus_rb" Content="Data de Satatus" VerticalAlignment="Center" IsChecked="True" Margin="50,0,0,0"/>
+                    <RadioButton  x:Name="DataValidade_rb" Content="Data de Validade" VerticalAlignment="Center"  Margin="50,0,0,0"/>
                 </StackPanel>
             </GroupBox>
             <Button x:Name="button" Content="Filtrar" Click="button_ClickFiltrar" Height="33" HorizontalAlignment="Center" Width="100" Margin="166,10,167,20" />
