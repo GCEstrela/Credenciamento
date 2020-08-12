@@ -402,6 +402,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<VeiculoCredencial> (Entity);
 
+                n1.CredencialStatusAnteriorId = Entity.CredencialStatusId;
                 n1.CredencialMotivoId = Entity.CredencialMotivoId;
                 n1.CredencialStatusId = Entity.CredencialStatusId;
                 n1.FormatoCredencialId = Entity.FormatoCredencialId;
@@ -418,6 +419,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     Comportamento.PrepareCriarSegundaTentativa();
                     return;
                 }
+                if (n1.CredencialStatusId == 2 && n1.CredencialStatusAnteriorId != Entity.CredencialStatusId)
+                {
+                    n1.DataStatus = DateTime.Today.Date;
+                }
+                n1.CredencialStatusAnteriorId = Entity.CredencialStatusId;
                 //Criar registro no banco de dados e setar uma data de validade
                 _prepareCriarCommandAcionado = false;
                 _service.Criar (n1);

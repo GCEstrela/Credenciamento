@@ -713,6 +713,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
                 var n1 = Mapper.Map<ColaboradorCredencial>(Entity);
+                n1.CredencialStatusAnteriorId = Entity.CredencialStatusId;
                 n1.Terceirizada = Entity.Terceirizada;
                 n1.TerceirizadaSigla = Entity.TerceirizadaSigla;
                 n1.Validade = Entity.Validade.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);  //Sempre Add 23:59:59 horas à credencial nova.
@@ -762,7 +763,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     }
 
                 }
-
+                
 
                 //Criar registro no banco de dados e setar uma data de validade
                 _prepareCriarCommandAcionado = false;
@@ -774,7 +775,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (tecCredencial.PodeGerarCardHolder)
                 {
                     var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
-
+                    
                     entity.NumeroCredencial = Entity.NumeroCredencial;
                     entity.FormatoCredencialId = Entity.FormatoCredencialId;
                     entity.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
@@ -985,10 +986,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                         return;
                     }
                 }
-                if (n1.CredencialStatusId == 2)
+                if (n1.CredencialStatusId == 2 && n1.CredencialStatusAnteriorId != Entity.CredencialStatusId)
                 {
                     n1.DataStatus = DateTime.Today.Date;
                 }
+                n1.CredencialStatusAnteriorId = Entity.CredencialStatusId;
                 // _configuraSistema = ObterConfiguracao();
                 n1.Regras = _configuraSistema.Regras;
                 Entity.Regras = _configuraSistema.Regras;

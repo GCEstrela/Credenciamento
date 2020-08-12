@@ -75,5 +75,6 @@ namespace IMOD.Domain.EntitiesCustom
         public string TiposCobrancaNome { get; set; }
         public string EmpresasContratosNome { get; set; }
         public decimal Valor { get; set; }
+        public int CredencialStatusAnteriorId { get; set; }
     }
 }

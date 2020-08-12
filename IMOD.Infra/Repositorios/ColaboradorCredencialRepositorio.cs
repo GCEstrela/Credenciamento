@@ -284,6 +284,8 @@ namespace IMOD.Infra.Repositorios
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Identificacao2", DbType.String, entity.Identificacao2, false)));
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Usuario", DbType.String, entity.Usuario, false)));
                             //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("AtivoCredenciamento", DbType.Boolean, entity.AtivoCredenciamento, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CredencialStatusAnteriorID", DbType.Int32, entity.CredencialStatusAnteriorId, false)));
+
 
                             cmd.ExecuteNonQuery();
                         }
@@ -385,7 +387,9 @@ namespace IMOD.Infra.Repositorios
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialmotivoIDanterior", DbType.Int32, entity.CredencialmotivoIDanterior, false)));
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Usuario", DbType.String, entity.Usuario, false)));
                             //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("AtivoCredenciamento", DbType.Boolean, entity.AtivoCredenciamento, false)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CredencialStatusAnteriorID", DbType.Int32, entity.CredencialStatusAnteriorId, false)));
 
+                            
                             var key = Convert.ToInt32(cmd.ExecuteScalar());
 
                             entity.ColaboradorCredencialId = key;

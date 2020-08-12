@@ -65,6 +65,8 @@ namespace IMOD.Domain.Entities
         public List<Guid> listadeRegras { get; set; }
         public string Modelo { get; set; }
         public bool AtivoCredenciamento { get; set; }
+        public int CredencialStatusAnteriorId { get; set; }
+        
         #endregion
     }
 }

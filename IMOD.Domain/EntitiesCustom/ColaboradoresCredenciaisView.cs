@@ -138,7 +138,7 @@ namespace IMOD.Domain.EntitiesCustom
                 _ativoControleAcesso = value;
             }
         }
-
+        public int CredencialStatusAnteriorId { get; set; }
 
     }
 
