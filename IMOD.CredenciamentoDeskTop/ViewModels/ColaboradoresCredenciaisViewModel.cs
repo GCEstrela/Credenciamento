@@ -1002,12 +1002,12 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 dados.AtualizarDadosPendencias();
 
                 #region Verificar se pode gerar CardHolder
-                var tecCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(Entity.TecnologiaCredencialId);
-                if (tecCredencial.PodeGerarCardHolder)
+                TecnologiaCredencial tecnologiaCredencial = _auxiliaresService.TecnologiaCredencialService.BuscarPelaChave(Entity.TecnologiaCredencialId);
+                if (tecnologiaCredencial.PodeGerarCardHolder)
                 {
 
                     //Alterar o status do titular do cartão
-                    if (n1.Validade > DateTime.Now || n1.CredencialStatusId == 1)
+                    if (n1.Validade > DateTime.Now || n1.CredencialStatusId == 2)
                     {
 
                         var formatocredencialdescricao = _auxiliaresService.FormatoCredencialService.BuscarPelaChave(n1.FormatoCredencialId);
@@ -1087,7 +1087,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             entity.GrupoPadrao = _configuraSistema.GrupoPadrao;
 
             _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), entity);
-
 
         }
         /// <summary>
