@@ -293,7 +293,12 @@
 </head>
 <body>
     @{
-        var imgSrc = String.Format("data:image/png;base64,{0}", @HttpContext.Current.Session["Logo"].ToString());
+        var imgSrc = string.Empty;
+        if (@HttpContext.Current.Session["Logo"] != null)
+        {
+            imgSrc = String.Format("data:image/png;base64,{0}", @HttpContext.Current.Session["Logo"].ToString());
+        }
+
     }
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
