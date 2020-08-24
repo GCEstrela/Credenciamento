@@ -16,6 +16,17 @@ namespace IMOD.Domain.Entities
         public int ColaboradorId { get; set; }
         public string Arquivo { get; set; }
 
+        public ColaboradorAnexo(int colaboradorAnexoId)
+        {
+            ColaboradorAnexoId = colaboradorAnexoId;
+        }
+
+        public ColaboradorAnexo()
+        {
+        }
+
         #endregion
     }
+
+    
 }

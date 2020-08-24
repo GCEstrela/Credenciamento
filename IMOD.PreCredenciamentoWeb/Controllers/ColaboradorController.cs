@@ -32,6 +32,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private const string SESS_CONTRATOS_REMOVIDOS = "ContratosRemovidos";
         private const string SESS_CURSOS_SELECIONADOS = "CursosSelecionados";
         private const string SESS_CURSOS_REMOVIDOS = "CursosRemovidos";
+        private const string SESS_ANEXOS_SELECIONADOS = "AnexosSelecionados";
+        private const string SESS_ANEXOS_REMOVIDOS = "AnexosRemovidos";
         private List<Colaborador> colaboradores = new List<Colaborador>();
         private List<ColaboradorEmpresa> vinculos = new List<ColaboradorEmpresa>();
         private const string SESS_FOTO_COLABORADOR = "Foto";
@@ -137,6 +139,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             Session.Remove(SESS_CONTRATOS_REMOVIDOS);
             Session.Remove(SESS_CURSOS_SELECIONADOS);
             Session.Remove(SESS_CURSOS_REMOVIDOS);
+            Session.Remove(SESS_ANEXOS_SELECIONADOS);
+            Session.Remove(SESS_ANEXOS_REMOVIDOS);
             Session.Remove(SESS_FOTO_COLABORADOR);
             // carrega os contratosd da empresa
             if (SessionUsuario.EmpresaLogada.Contratos != null) { ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos; }
@@ -146,6 +150,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             var listCursos = objCursosService.Listar().ToList();
             if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; }
             ViewBag.CursosSelecionados = new List<Curso>();
+
+            //carrega os anexos
+            var listAnexos = objColaboradorAnexoService.Listar().ToList();
+            if (listAnexos != null && listAnexos.Any()) { ViewBag.Anexos = listAnexos; }
+            ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
 
             PopularEstadosDropDownList();
             ViewBag.Municipio = new List<Municipio>();
@@ -172,8 +181,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     if (model.FileUpload.ContentLength > 2048000)
                         ModelState.AddModelError("FileUpload", "Tamanho permitido de arquivo 2,00 MB");
 
-                    if (!Path.GetExtension(model.FileUpload.FileName).Equals(".pdf"))
-                        ModelState.AddModelError("FileUpload", "Permitida Somente Extensão  .pdf");
+                    //if (!Path.GetExtension(model.FileUpload.FileName).Equals(".pdf"))
+                    //    ModelState.AddModelError("FileUpload", "Permitida Somente Extensão  .pdf");
                 }
 
                
@@ -228,7 +237,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     }
 
 
-                    // excluir os contratos removidos da lista
+                    // excluir os cursos removidos da lista
                     if (Session[SESS_CURSOS_REMOVIDOS] != null)
                     {
                         foreach (var item in (List<int>)Session[SESS_CURSOS_REMOVIDOS])
@@ -258,8 +267,38 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         }
                     }
 
+                    // excluir os anexos removidos da lista
+                    if (Session[SESS_ANEXOS_REMOVIDOS] != null)
+                    {
+                        foreach (var item in (List<int>)Session[SESS_ANEXOS_REMOVIDOS])
+                        {
+                            var anexoExclusao = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId, item, null, null, null, null, null).FirstOrDefault();
+                            if (anexoExclusao != null)
+                            {
+                                objColaboradorAnexoService.Remover(anexoExclusao);
+                            }
+                        }
+                    }
 
-                    CriarColaboradorAnexo(model, colaboradorMapeado.ColaboradorId);
+                    //inclui os anexos selecionados
+                    if (Session[SESS_ANEXOS_SELECIONADOS] != null)
+                    {
+                        foreach (var anexo in (List<ColaboradorAnexo>)Session[SESS_ANEXOS_SELECIONADOS])
+                        {
+                            var colaboradorAnexo = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId, anexo.ColaboradorAnexoId, null, null, null, null, null).FirstOrDefault();
+                            if (colaboradorAnexo == null)
+                            {
+                                colaboradorAnexo = new ColaboradorAnexo();
+                                colaboradorAnexo.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                                colaboradorAnexo.ColaboradorId = anexo.ColaboradorAnexoId;
+                                colaboradorAnexo.Descricao = anexo.Descricao;
+                                objColaboradorAnexoService.Criar(colaboradorAnexo);
+                            }
+                        }
+                    }
+
+
+                    //CriarColaboradorAnexo(model, colaboradorMapeado.ColaboradorId);
                     CriarColaboradorAceite(model, colaboradorMapeado.ColaboradorId);
 
                     return RedirectToAction("Index", "Colaborador");
@@ -621,12 +660,32 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [Authorize]
         public JsonResult RemoverCurso(int id)
         {
-            var listContrato = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
-            listContrato.Remove(new Curso(id));
-            Session[SESS_CURSOS_SELECIONADOS] = listContrato;
+            var listCurso = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
+            listCurso.Remove(new Curso(id));
+            Session[SESS_CURSOS_SELECIONADOS] = listCurso;
             if (Session[SESS_CURSOS_REMOVIDOS] == null) Session[SESS_CURSOS_REMOVIDOS] = new List<int>();
             ((List<int>)Session[SESS_CURSOS_REMOVIDOS]).Add(id);
-            return Json(listContrato, JsonRequestBehavior.AllowGet);
+            return Json(listCurso, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public JsonResult AdicionarAnexo(int id)
+        {
+            if (Session[SESS_ANEXOS_SELECIONADOS] == null) Session[SESS_ANEXOS_SELECIONADOS] = new List<ColaboradorAnexo>();
+            var item = objColaboradorAnexoService.Listar(id).FirstOrDefault();
+            ((List<ColaboradorAnexo>)Session[SESS_ANEXOS_SELECIONADOS]).Add(item);
+            return Json((List<ColaboradorAnexo>)Session[SESS_ANEXOS_SELECIONADOS], JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public JsonResult RemoverAnexo(int id)
+        {
+            var listAnexo = (List<ColaboradorAnexo>)Session[SESS_ANEXOS_SELECIONADOS];
+            listAnexo.Remove(new ColaboradorAnexo(id));
+            Session[SESS_ANEXOS_SELECIONADOS] = listAnexo;
+            if (Session[SESS_ANEXOS_REMOVIDOS] == null) Session[SESS_ANEXOS_REMOVIDOS] = new List<int>();
+            ((List<int>)Session[SESS_ANEXOS_REMOVIDOS]).Add(id);
+            return Json(listAnexo, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize]
