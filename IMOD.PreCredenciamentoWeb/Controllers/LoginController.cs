@@ -44,7 +44,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             if (ModelState.IsValid) 
             {
                 var empresa = new EmpresaViewModel();
-                var empresaLogada = service.Listar(null, null, null, null, login.Cnpj, login.Senha).FirstOrDefault();
+                var empresaLogada = service.Listar(null, null, null, null, login.Cnpj.Replace(".", "").Replace("/", "").Replace("-", ""), login.Senha).FirstOrDefault();
                 //var empresaLogada = lista.Where(e => e.Cnpj.Equals(empresa.CNPJ) && e.Senha.Equals(empresa.Senha)).FirstOrDefault();
                 if (empresaLogada != null)
                 {

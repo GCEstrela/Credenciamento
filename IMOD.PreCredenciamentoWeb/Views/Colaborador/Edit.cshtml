@@ -77,6 +77,13 @@
                                     </a>
                                 </li>
                                 <li role="presentation" style="padding-left: 10px">
+                                    <a href="#anexo" data-toggle="tab" aria-controls="anexo" role="tab" title="Anexos">
+                                        <span class="round-tab">
+                                            <i class="glyphicon glyphicon-paperclip"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li role="presentation" style="padding-left: 10px">
                                     <a href="#aceite" data-toggle="tab" aria-controls="aceite" role="tab" title="Aceite">
                                         <span class="round-tab">
                                             <i class="glyphicon glyphicon-ok"></i>
@@ -134,13 +141,13 @@
                                                 @Html.ValidationMessageFor(model => model.NomeMae, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        @*<div class="form-group">
                                             @Html.LabelFor(model => model.FileUpload, htmlAttributes: new { @class = "control-label col-md-2" })
                                             <div class="col-md-10 ">
                                                 <input type="file" name="FileUpload" id="FileUpload" accept=".pdf" />
                                                 @Html.ValidationMessageFor(model => model.FileUpload, "", new { @class = "text-danger" })
                                             </div>
-                                        </div>
+                                        </div>*@
                                         @{
                                             if (!string.IsNullOrEmpty(Model.Observacao))
                                             {
@@ -315,7 +322,7 @@
 
                                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                 </div>
-                                                
+
                                                 @Html.ValidationMessageFor(model => model.RgEmissao, "", new { @class = "text-danger" })
 
                                             </div>
@@ -590,6 +597,56 @@
                                         </ul>
                                     </div>
                                 </div>
+                                @using (Html.BeginForm("AdicionarAnexo", "ColaboradorAnexo", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    <div class="tab-pane" role="tabpanel" id="anexo">
+                                        <div div class="form-group">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <div class="col-md-4">
+                                                        @Html.TextBox("txtDescricao", null, htmlAttributes: new { @id = "txtDescricao", @class = "form-control" })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="file" name="FileUpload1" id="FileUpload1" @*accept=".pdf"*@ />
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <a title="Incluir Anexo" id="btAnexo" href="#">
+                                                            <i class="success btn-icon fa fa-plus-circle" style="color: #92c755; font-size: 25px; text-align:center"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <br />
+                                        <fieldset>
+                                            <legend> Anexos Incluídos</legend>
+                                            <div class="row" id="divAnexo">
+                                                @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.ColaboradorAnexo>)ViewBag.AnexosSelecionados))
+                                                {
+                                                    <div class="col-lg-1">@item.ColaboradorAnexoId</div>
+                                                    <div class="col-lg-5">@item.Descricao</div>
+                                                    <div class="col-lg-5">@item.NomeArquivo</div>
+                                                    <div class="col-lg-1">
+                                                        <a title="Remover Anexo" id=@item.ColaboradorAnexoId href="#" class="btnRemoverAnexo" onclick="RemoverAnexo(this)">
+                                                            <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
+                                                        </a>
+                                                    </div>
+
+                                                }
+                                            </div>
+                                        </fieldset>
+                                        <div class="col-lg-12">
+                                            <ul class="list-inline pull-right" style="padding-top: 208px">
+                                                <li><a href="~/Colaborador/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
+                                                <li><button type="button" class="btn btn-default prev-step btn-icon"><i class="fa fa-arrow-left"></i> <span><strong>Voltar</strong></span></button></li>
+                                                <li><button type="button" class="btn btn-primary next-step btn-icon"><span><strong>Avançar</strong></span> <i class="fa fa-arrow-right"></i> </button> </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                }
                                 <div class="tab-pane" role="tabpanel" id="aceite">
                                     <fieldset>
                                         <div class="form-group" style="text-align:center">
@@ -720,8 +777,49 @@
                 });
             });
 
+        //evento do botão incluir anexo
+    $("#btAnexo").click(function (e) {
 
-            //evento do botão incluir curso
+        e.preventDefault();
+
+        var fileUpload = $("#FileUpload1").get(0);
+        var files = fileUpload.files;
+        var fileData = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            fileData.append(files[i].name, files[i]);
+        }
+
+        var descricao = ($("#txtDescricao").val() == "" ? "" : $("#txtDescricao").val());
+        fileData.append('descricao', descricao);
+
+            $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AdicionarAnexo")',
+                    data: fileData,
+                    dataType: 'JSON',
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        var html = '';
+                        $.each(result, function (key, item) {
+                            html += '<div class="col-lg-1">' + item.ColaboradorAnexoId + '</div>';
+                            html += '<div class="col-lg-5">' + item.Descricao + '</div>';
+                            html += '<div class="col-lg-5">' + item.NomeArquivo + '</div>';
+                            html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Anexo" id=' + item.ColaboradorAnexoId + ' onclick="RemoverAnexo(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
+                        });
+                        $('#divAnexo').html('');
+                        $('#divAnexo').append(html);
+                        $("#FileUpload1").val('');
+                        $("#txtDescricao").val('');
+                        console.log(result);
+
+                    },
+                    error: function (result) {
+                        Alert(result);
+                    }
+                });
+    });
+
             $("#ddlEstado").change(function () {
                 BuscarMunicipio();
             });
@@ -828,6 +926,34 @@
                    }
                  });
         };
+
+        function RemoverAnexo(it)
+        {
+            alert(it.id);
+             var id = it.id;
+               $.ajax({
+                   type: "POST",
+                   url: '@Url.Action("RemoverAnexo")',
+                   data: { id: id },
+                   success: function (result) {
+                       var html = '';
+                       $.each(result, function (key, item) {
+                           html += '<div class="col-lg-1">' + item.ColaboradorAnexoId + '</div>';
+                           html += '<div class="col-lg-5">' + item.Descricao + '</div>';
+                           html += '<div class="col-lg-5">' + item.NomeArquivo + '</div>';
+                           html += '<div class="col-lg-1"><a class="btnRemoverAnexo" title="Remover Anexo" id=' + item.ColaboradorAnexoId + ' onclick="RemoverAnexo(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+
+                       });
+                       $('#divAnexo').html('');
+                       $('#divAnexo').append(html);
+                       console.log(result);
+                   },
+                   error: function (result) {
+
+                   }
+                 });
+        };
+
     </script>
     <script>
         function readURL(input) {

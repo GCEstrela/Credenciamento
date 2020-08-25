@@ -158,6 +158,8 @@ namespace IMOD.PreCredenciamentoWeb.Models
 
         [Display(Name = "Documento Aceite")]
         public HttpPostedFileBase FileUploadAceite { get; set; }
+        [Display(Name = "Descrição")]
+        public string Descricao { get; set; }
         [Display(Name = "Status")]
         public string Status 
         {

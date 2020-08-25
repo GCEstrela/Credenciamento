@@ -4,6 +4,8 @@
 // Date:  11 - 21 - 2018
 // ***********************************************************************
 
+using System.Web;
+
 namespace IMOD.Domain.Entities
 {
     public class ColaboradorAnexo
@@ -15,7 +17,7 @@ namespace IMOD.Domain.Entities
         public string NomeArquivo { get; set; }
         public int ColaboradorId { get; set; }
         public string Arquivo { get; set; }
-
+        public HttpPostedFileBase Anexo { get; set; }
         public ColaboradorAnexo(int colaboradorAnexoId)
         {
             ColaboradorAnexoId = colaboradorAnexoId;
