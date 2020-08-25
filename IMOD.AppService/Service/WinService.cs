@@ -18,6 +18,7 @@ using IMOD.Domain.EntitiesCustom;
 using Genetec.Sdk;
 using Common.Logging;
 using Topshelf;
+using IMOD.Domain.Constantes;
 
 namespace IMOD.Service.Service
 {
@@ -510,7 +511,11 @@ namespace IMOD.Service.Service
                 emailOrigem = _configuraSistema.EmailUsuario;
                 Emailsmtp = _configuraSistema.SMTP;
                 usuario = _configuraSistema.EmailUsuario;
-                senha = _configuraSistema.EmailSenha;
+                EstrelaEncryparDecrypitar.Variavel.key = Constante.CRIPTO_KEY;
+                EstrelaEncryparDecrypitar.Decrypt ESTRELA_EMCRYPTAR = new EstrelaEncryparDecrypitar.Decrypt();
+                senha = ESTRELA_EMCRYPTAR.EstrelaEncrypt(_configuraSistema.EmailSenha);
+
+               //senha = _configuraSistema.EmailSenha;
                 emailInterno = _configuraSistema.Email;
             }
             if (emailDestino == null || emailDestino == "") return;

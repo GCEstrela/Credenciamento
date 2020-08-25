@@ -26,10 +26,10 @@ using System.Runtime.InteropServices;
 //      Versão Principal
 //      Versão Secundária 
 //      Número da Versão
-//      Revisão
+////      Revisão
 //
 // É possível especificar todos os valores ou usar como padrão os Números de Build e da Revisão
 // usando o '*' como mostrado abaixo:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.7.7.0")]
-[assembly: AssemblyFileVersion("1.7.7.0")]
+[assembly: AssemblyVersion("1.7.7.3")]
+[assembly: AssemblyFileVersion("1.7.7.3")]

@@ -71,7 +71,7 @@ namespace IMOD.Infra.Servicos
             }
         }
 
-        public static void EnviarEmail(string destinatarios,string assunto, string mensagem, string nomeUsuario)
+        public static void EnviarEmail(string destinatarios, string assunto, string mensagem, string nomeUsuario)
         {
             try
             {
@@ -80,15 +80,19 @@ namespace IMOD.Infra.Servicos
                 Email email = new Email();
                 email.Assunto = assunto;
                 email.Usuario = configSistema.EmailUsuario.Trim();
-                email.Senha = configSistema.EmailSenha.Trim();
+                EstrelaEncryparDecrypitar.Variavel.key = Constante.CRIPTO_KEY;
+                EstrelaEncryparDecrypitar.Decrypt ESTRELA_EMCRYPTAR = new EstrelaEncryparDecrypitar.Decrypt();
+
+                email.Senha = ESTRELA_EMCRYPTAR.EstrelaDecrypt(configSistema.EmailSenha.Trim());
+
                 email.ServidorEmail = configSistema.SMTP.Trim();
                 email.Porta = configSistema.PortaSMTP.ToString();       // porta para SSL                                   
                 email.UsarSsl = configSistema.EnableSsl; // GMail requer SSL         
-                                       //email.UsarTls = true;
+                email.UsarTls = true;
                 email.UsarAutenticacao = false;
                 email.EmailDestinatario = destinatarios.Split(';').ToList();
-                email.EmailRemetente = configSistema.EmailUsuario;
-                email.NomeRemetente = configSistema.NomeAeroporto;                                
+                email.EmailRemetente = configSistema.EmailUsuario.Trim();
+                email.NomeRemetente = configSistema.NomeAeroporto.Trim();
                 email.Mensagem = mensagem;
 
                 var smtpClient = new SmtpClient();
