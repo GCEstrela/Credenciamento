@@ -43,6 +43,10 @@
     <Reference Include="Common.Logging.Log4Net208, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.Log4Net208.3.4.1\lib\net40\Common.Logging.Log4Net208.dll</HintPath>
     </Reference>
+    <Reference Include="EstrelaEncryparDecrypitar, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Resources\EstrelaEncryparDecrypitar.dll</HintPath>
+    </Reference>
     <Reference Include="Genetec.Sdk">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Genetec Security Center 5.7 SDK\Genetec.Sdk.dll</HintPath>
     </Reference>

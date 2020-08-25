@@ -1138,6 +1138,7 @@ namespace IMOD.CrossCutting
         }
 
         #endregion
+
     }
 
     public static class EnumExt

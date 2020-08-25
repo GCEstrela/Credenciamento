@@ -941,12 +941,22 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private void GerarSenhaWeb()
         {
-            if (Entity == null) return;
-            Entity.Senha = RandomString(6, Entity);
-            var n1 = Mapper.Map<Empresa>(Entity);
-            _service.Alterar(n1);
+            try
+            {
+                if (Entity == null) return;
+                Entity.Senha = RandomString(6, Entity);
+                var n1 = Mapper.Map<Empresa>(Entity);
+                _service.Alterar(n1);
+                WpfHelp.Mbox("Senha de acesso:" + n1.Senha);
 
-            EnviarEmailSenha();
+                EnviarEmailSenha();
+            }
+            catch (Exception )
+            {
+
+                WpfHelp.MboxError(new Exception("Ocorreu um erro na geração da senha web da empresa. Tente mais tarde."));
+            }
+          
         }
 
         private void EnviarEmailSenha()

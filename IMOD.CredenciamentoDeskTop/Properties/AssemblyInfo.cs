@@ -26,7 +26,7 @@ using System.Runtime.InteropServices;
 //      Versão Principal
 //      Versão Secundária 
 //      Número da Versão
-//      Revisão
+////      Revisão
 //
 // É possível especificar todos os valores ou usar como padrão os Números de Build e da Revisão
 // usando o '*' como mostrado abaixo:
