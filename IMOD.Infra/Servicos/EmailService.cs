@@ -88,7 +88,7 @@ namespace IMOD.Infra.Servicos
                 email.ServidorEmail = configSistema.SMTP.Trim();
                 email.Porta = configSistema.PortaSMTP.ToString();       // porta para SSL                                   
                 email.UsarSsl = configSistema.EnableSsl; // GMail requer SSL         
-                email.UsarTls = true;
+                //email.UsarTls = true;
                 email.UsarAutenticacao = false;
                 email.EmailDestinatario = destinatarios.Split(';').ToList();
                 email.EmailRemetente = configSistema.EmailUsuario.Trim();
