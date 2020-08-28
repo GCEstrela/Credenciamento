@@ -143,21 +143,19 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string Observacao { get; set; }
 
         [Display(Name = "Documento Anexo")]
-        public string NomeArquivoAnexo { get; set; }
-
+        public string NomeAnexoVinculo { get; set; }
+        [Display(Name = "Documento Anexo")]
+        public string NomeAnexoCurso { get; set; }
         [Display(Name = "Anexo")]
-        public HttpPostedFileBase FileUpload { get; set; }
+        public HttpPostedFileBase AnexoVinculo { get; set; }
+        [Display(Name = "Anexo")]
+        public HttpPostedFileBase AnexoCurso { get; set; }
 
         public HttpPostedFileBase Aceite { get; set; }
 
         [Range(typeof(bool), "true", "true", ErrorMessage = "É necessário aceitar o termo!")]
         public bool chkAceite { get; set; }
 
-        [Display(Name = "Documento Aceite")]
-        public string NomeArquivoAnexoAceite { get; set; }
-
-        [Display(Name = "Documento Aceite")]
-        public HttpPostedFileBase FileUploadAceite { get; set; }
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
         [Display(Name = "Status")]

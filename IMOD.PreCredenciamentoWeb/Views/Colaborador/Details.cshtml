@@ -11,7 +11,7 @@
     @Html.AntiForgeryToken()
 
     <div class="table-wrapper">
-        
+
         <fieldset class="form-horizontal">
 
             <div class="row" style="height:620px;">
@@ -124,12 +124,7 @@
 
                                             </div>
                                         </div>
-                                        @*<div class="form-group">
-                                            @Html.LabelFor(model => model.NomeArquivoAnexo, htmlAttributes: new { @class = "control-label col-md-2" })
-                                            <div class="col-md-6">
-                                                @Html.DisplayTextFor(model => model.NomeArquivoAnexo)
-                                            </div>
-                                        </div>*@
+
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="form-group">
@@ -385,6 +380,19 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane" role="tabpanel" id="vinculo">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.NomeAnexoVinculo, htmlAttributes: new { @class = "control-label col-md-1" })
+                                            <div class="col-md-6" style="padding-top: 7px">
+                                                @Html.DisplayTextFor(model => model.NomeAnexoVinculo)
+                                            </div>
+                                            @*<div class="col-lg-2" style="padding-top: 4px">
+                                                    <a title="Download Anexo" id="btDlAnexo" href="#">
+                                                        <i class="info btn-icon fa fa-arrow-circle-down" style="color: #92c755; font-size: 25px; text-align:center"></i>
+                                                    </a>
+                                                </div>*@
+                                        </div>
+                                    </fieldset>
 
                                     <fieldset>
                                         <legend> Contratos Selecionados</legend>
@@ -412,6 +420,7 @@
                                             }
                                         </div>
                                     </fieldset>
+
                                     <div class="col-lg-12">
                                         <ul class="list-inline pull-right" style="padding-top: 97px">
                                             <li><a href="~/Colaborador/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
@@ -422,7 +431,19 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane" role="tabpanel" id="curso">
-
+                                    <fieldset>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.NomeAnexoCurso, htmlAttributes: new { @class = "control-label col-md-1" })
+                                            <div class="col-md-6" style="padding-top: 7px">
+                                                @Html.DisplayTextFor(model => model.NomeAnexoCurso)
+                                            </div>
+                                            @*<div class="col-lg-2" style="padding-top: 4px">
+                                                    <a title="Download Anexo" id="btDlAnexo" href="#">
+                                                        <i class="info btn-icon fa fa-arrow-circle-down" style="color: #92c755; font-size: 25px; text-align:center"></i>
+                                                    </a>
+                                                </div>*@
+                                        </div>
+                                    </fieldset>
                                     <fieldset>
                                         <legend> Cursos Selecionados</legend>
                                         <div class="row">

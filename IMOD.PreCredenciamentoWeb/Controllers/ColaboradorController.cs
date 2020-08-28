@@ -96,6 +96,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
             var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(objColaboradorEmpresaService.Listar(colaboradorEditado.ColaboradorId));
             ViewBag.ContratosSelecionados = listaVinculosColaborador;
+            colaboradorMapeado.NomeAnexoVinculo = listaVinculosColaborador[0].NomeAnexo;
             Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosColaborador);
 
             //Propula combo de estado
@@ -113,10 +114,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; };
 
             //Popula cursos selecionados do colaborador
-            var cursosColaborador = objColaboradorCursosService.Listar(colaboradorEditado.ColaboradorId);
+            var cursosColaborador = Mapper.Map<List<ColaboradorCurso>>(objColaboradorCursosService.Listar(colaboradorEditado.ColaboradorId));
             var cursosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
             if (cursosSelecionados != null && cursosSelecionados.Any())
             {
+                colaboradorMapeado.NomeAnexoCurso = cursosColaborador[0].NomeArquivo;
                 ViewBag.CursosSelecionados = cursosSelecionados;
                 Session.Add(SESS_CURSOS_SELECIONADOS, cursosSelecionados);
             }
@@ -289,7 +291,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     {
                         foreach (var anexo in (List<ColaboradorAnexo>)Session[SESS_ANEXOS_SELECIONADOS])
                         {
-                            var colaboradorAnexo = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId, anexo.ColaboradorAnexoId, null, null, null, null, null).FirstOrDefault();
+                            var colaboradorAnexo = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId, anexo.ColaboradorAnexoId, anexo.NomeArquivo, null, null, null, null).FirstOrDefault();
                             if (colaboradorAnexo == null)
                             {
                                 colaboradorAnexo = new ColaboradorAnexo();
@@ -304,7 +306,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     }
 
 
-                    //CriarColaboradorAnexo(model, colaboradorMapeado.ColaboradorId);
+                    CriarAnexo(model, colaboradorMapeado.ColaboradorId);
                     CriarColaboradorAceite(model, colaboradorMapeado.ColaboradorId);
 
                     return RedirectToAction("Index", "Colaborador");
@@ -537,7 +539,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     {
                         foreach (var anexo in (List<ColaboradorAnexo>)Session[SESS_ANEXOS_SELECIONADOS])
                         {
-                            var colaboradorAnexo = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId, anexo.ColaboradorAnexoId, null, null, null, null, null).FirstOrDefault();
+                            var colaboradorAnexo = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId, anexo.ColaboradorAnexoId, anexo.NomeArquivo, null, null, null, null).FirstOrDefault();
                             if (colaboradorAnexo != null)
                             {
                                 objColaboradorAnexoService.Alterar(colaboradorAnexo);
@@ -555,6 +557,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         }
                     }
 
+                    //Insere anexos do vínculo e dos cursos
+                    CriarAnexo(model, colaboradorMapeado.ColaboradorId);
                     //if (model.FileUpload != null)
                     //{
                     //    ExcluirColaboradorAnexoAnterior(model);
@@ -616,7 +620,16 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 {
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
                     colaboradorMapeado.ColaboradorId = Convert.ToInt32(idColaborador);
-                    objService.Remover(colaboradorMapeado);
+
+                    //Pega os anexos do colaborador
+                    var anexosColaborador = objColaboradorAnexoService.Listar(idColaborador);
+                    //exclui os anexos
+                    foreach (var anexo in anexosColaborador)
+                    {
+                        objColaboradorAnexoService.Remover(anexo);
+                    }
+
+                        objService.Remover(colaboradorMapeado);
 
                     return RedirectToAction("Index");
                 }
@@ -984,51 +997,85 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
         #region Colaborador Anexo
 
-        private void CriarColaboradorAnexo(ColaboradorViewModel colaborador, int colaboradorId = 0)
+        private void CriarAnexo(ColaboradorViewModel colaborador, int colaboradorId)
         {
             byte[] bufferArquivo;
             string NomeArquivo;
             string ExtensaoArquivo;
+            Stream arquivoStream;
+            var arquivoBase64 = "";
 
-            if (colaborador.FileUpload == null) return;
             if (colaborador == null || colaboradorId == 0) return;
-            if (colaborador.FileUpload.ContentLength <= 0 || colaborador.FileUpload.ContentLength > 2048000) return;
-
-            NomeArquivo = Path.GetFileNameWithoutExtension(colaborador.FileUpload.FileName);
-            ExtensaoArquivo = Path.GetExtension(colaborador.FileUpload.FileName);
-
-            if (!ExtensaoArquivo.Equals(".pdf")) return;
-
-            var arquivoStream = colaborador.FileUpload.InputStream;
-            using (MemoryStream ms = new MemoryStream())
-            {
-                arquivoStream.CopyTo(ms);
-                bufferArquivo = ms.ToArray();
+            if (colaborador.AnexoCurso == null && colaborador.AnexoVinculo == null)
+            { 
+                return;
             }
+            else
+            {
+                if (colaborador.AnexoCurso != null)
+                {
+                    NomeArquivo = Path.GetFileNameWithoutExtension(colaborador.AnexoCurso.FileName);
+                    ExtensaoArquivo = Path.GetExtension(colaborador.AnexoCurso.FileName);
+                    arquivoStream = colaborador.AnexoCurso.InputStream;
 
-            var arquivoBase64 = Convert.ToBase64String(bufferArquivo);
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        arquivoStream.CopyTo(ms);
+                        bufferArquivo = ms.ToArray();
+                    }
 
-            ColaboradorAnexo colaboradorAnexo = new ColaboradorAnexo();
-            colaboradorAnexo.ColaboradorId = colaboradorId;
-            colaboradorAnexo.Arquivo = arquivoBase64;
-            colaboradorAnexo.NomeArquivo = NomeArquivo + ExtensaoArquivo;
-            colaboradorAnexo.Descricao = NomeArquivo + ExtensaoArquivo;
-            objColaboradorAnexoService.Criar(colaboradorAnexo);
+                    arquivoBase64 = Convert.ToBase64String(bufferArquivo);
+
+                    var cursosColaborador = objColaboradorCursosService.Listar(colaboradorId);
+
+                    foreach (var curso in cursosColaborador)
+                    {
+                        curso.Arquivo = arquivoBase64;
+                        curso.NomeArquivo = NomeArquivo + ExtensaoArquivo;
+                        objColaboradorCursosService.Alterar(curso);
+                    }
+                }
+
+                if (colaborador.AnexoVinculo != null)
+                {
+                    NomeArquivo = Path.GetFileNameWithoutExtension(colaborador.AnexoVinculo.FileName);
+                    ExtensaoArquivo = Path.GetExtension(colaborador.AnexoVinculo.FileName);
+                    arquivoStream = colaborador.AnexoVinculo.InputStream;
+
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        arquivoStream.CopyTo(ms);
+                        bufferArquivo = ms.ToArray();
+                    }
+
+                    arquivoBase64 = Convert.ToBase64String(bufferArquivo);
+
+                    var vinculosColaborador = objColaboradorEmpresaService.Listar(colaboradorId);
+
+                    foreach (var vinculo in vinculosColaborador)
+                    {
+                        vinculo.Anexo = arquivoBase64;
+                        vinculo.NomeAnexo = NomeArquivo + ExtensaoArquivo;
+                        objColaboradorEmpresaService.Alterar(vinculo);
+                    }
+                }
+            }
+            //if (colaborador.FileUpload.ContentLength <= 0 || colaborador.FileUpload.ContentLength > 2048000) return;
 
         }
 
-        private void ExcluirColaboradorAnexoAnterior(ColaboradorViewModel colaborador)
-        {
-            if (!colaborador.Precadastro) return;
-            if (colaborador.FileUpload == null) return;
-            if (colaborador == null || colaborador.ColaboradorId == 0) return;
-            if (colaborador.FileUpload.ContentLength <= 0 || colaborador.FileUpload.ContentLength > 2048000) return;
+        //private void ExcluirColaboradorAnexoAnterior(ColaboradorViewModel colaborador)
+        //{
+        //    if (!colaborador.Precadastro) return;
+        //    if (colaborador.FileUpload == null) return;
+        //    if (colaborador == null || colaborador.ColaboradorId == 0) return;
+        //    if (colaborador.FileUpload.ContentLength <= 0 || colaborador.FileUpload.ContentLength > 2048000) return;
 
-            var objColaboradoAnexo = objColaboradorAnexoService.ListarComAnexo(colaborador.ColaboradorId).FirstOrDefault();
-            if (objColaboradoAnexo == null) return;
+        //    var objColaboradoAnexo = objColaboradorAnexoService.ListarComAnexo(colaborador.ColaboradorId).FirstOrDefault();
+        //    if (objColaboradoAnexo == null) return;
 
-            objColaboradorAnexoService.Remover(objColaboradoAnexo);
-        }
+        //    objColaboradorAnexoService.Remover(objColaboradoAnexo);
+        //}
 
         public FileResult Download(string id)
         {
