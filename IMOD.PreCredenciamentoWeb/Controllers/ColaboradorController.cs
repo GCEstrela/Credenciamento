@@ -863,6 +863,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [Authorize]
         public void CarregaFotoColaborador(ColaboradorViewModel model)
         {
+            if (model.FotoColaborador != null) return;
+            var listaFoto = objService.BuscarPelaChave(model.ColaboradorId);
+
+            if (listaFoto != null)
+                model.Foto = listaFoto.Foto;
             if (model.Foto != null)
             {
                 var bytes = Convert.FromBase64String(model.Foto);
