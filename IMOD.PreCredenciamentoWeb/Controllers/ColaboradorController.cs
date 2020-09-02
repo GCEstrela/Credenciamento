@@ -453,6 +453,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
                     colaboradorMapeado.Precadastro = true;
                     colaboradorMapeado.Observacao = null;
+                    
+                    //Aguardando Revisão
+                    colaboradorMapeado.StatusCadastro = 1;
+
                     objService.Alterar(colaboradorMapeado);
 
                     // excluir os contratos removidos da lista

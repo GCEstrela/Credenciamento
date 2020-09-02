@@ -935,6 +935,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 n1.Precadastro = false;
                 n1.Observacao = null;
+                n1.StatusCadastro = null;
 
                 #region Criar Pendências
                 //n1.Pendente21 = true;

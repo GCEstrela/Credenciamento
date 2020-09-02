@@ -189,6 +189,7 @@ namespace IMOD.Infra.Repositorios
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Segurancatrabalho", entity.Segurancatrabalho, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Precadastro", entity.Precadastro, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Observacao", entity.Observacao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("StatusCadastro", entity.StatusCadastro, false)));
                         cmd.ExecuteNonQuery();
 
                     }

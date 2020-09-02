@@ -538,7 +538,7 @@
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}" Background="Brown" 
-                              Grid.Column="0" Header="Observação da Reprovação" Margin="0,350,0,0" Height="91" VerticalAlignment="Top"
+                              Grid.Column="0" Header="Observação da Reprovação" Margin="0,385,0,0" Height="91" VerticalAlignment="Top"
                               Grid.ColumnSpan="2" Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}">
                         <StackPanel Margin="60,5,0,0" >
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">

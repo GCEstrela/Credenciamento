@@ -155,7 +155,7 @@
                                                 <div class="form-group">
                                                     @Html.LabelFor(model => model.Observacao, htmlAttributes: new { @class = "control-label col-md-2", style = "color:#ffBC00" })
                                                     <div class="col-lg-8">
-                                                        @Html.EditorFor(model => model.Observacao, new { htmlAttributes = new { @class = "form-control text-uppercase", style = "color:#ffBC00" } })
+                                                        @Html.EditorFor(model => model.Observacao, new { htmlAttributes = new { @class = "form-control text-uppercase", style = "color:#ffBC00", disabled = "disabled", @readonly = "readonly", @id = "txtObservacao", @rows = "8" } })
                                                     </div>
                                                 </div>
                                             }

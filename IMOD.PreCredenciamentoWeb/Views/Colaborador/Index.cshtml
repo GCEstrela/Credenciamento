@@ -37,12 +37,6 @@
                             @Html.DisplayNameFor(model => model.Apelido)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Foto)
-                        </th>
-                        @*<th>
-                                @Html.DisplayNameFor(model => model.TelefoneFixo)
-                            </th>*@
-                        <th>
                             @Html.DisplayNameFor(model => model.TelefoneCelular)
                         </th>
                         <th>
@@ -64,13 +58,14 @@
                                     <span class="glyphicon glyphicon-search"></span>
                                 </a>
 
-                                <a href='@Url.Action("Edit", "Colaborador", new { id = item.ColaboradorId })'>
-                                    @*<img src="~/images/edit.png" />*@
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                </a>
-
                                 @if (item.Precadastro)
                                 {
+                                    <a href='@Url.Action("Edit", "Colaborador", new { id = item.ColaboradorId })'>
+                                        @*<img src="~/images/edit.png" />*@
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </a>
+
+
                                     <a href='@Url.Action("Delete", "Colaborador", new { id = item.ColaboradorId })'>
                                         @*<img src="~/images/remove.png" />*@
                                         <span class="glyphicon glyphicon-trash"></span>
@@ -86,20 +81,6 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Apelido).ToString().ToUpper()
                             </td>
-                            <td>
-                                @{
-                                    var imgSrc = "../images/userAdd.png";
-                                    if (!string.IsNullOrEmpty(item.Foto))
-                                    {
-                                        imgSrc = String.Format("data:image/gif;base64,{0}", item.Foto);
-                                    }
-                                }
-
-                                <img class="resize" id="FotoUpload" src="@imgSrc" alt="Imagem" style="width: 35px" />
-                            </td>
-                            @*<td>
-                                    @Html.DisplayFor(modelItem => item.TelefoneFixo)
-                                </td>*@
                             <td>
                                 @Html.DisplayFor(modelItem => item.TelefoneCelular)
                             </td>

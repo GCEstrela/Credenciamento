@@ -140,6 +140,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string ContratoEmpresaID { get; set; }
         public bool Precadastro { get; set; }
         [Display(Name = "Observação")]
+        [DataType(DataType.MultilineText)]
         public string Observacao { get; set; }
 
         [Display(Name = "Documento Anexo")]
