@@ -38,6 +38,11 @@ namespace IMOD.Domain.Interfaces
         /// <returns></returns>
         Colaborador ObterPorCpf(string cpf);
 
+        /// <summary>
+        ///     ListarPreCadastro
+        /// </summary>
+        /// <returns></returns>
+        ICollection<Colaborador> ListarPreCadastro(params object[] objects);
         #endregion
     }
 }

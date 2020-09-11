@@ -17,8 +17,8 @@ namespace IMOD.Domain.Enums
         AGUARDANDO_APROVACAO_INCLUSAO,
         [Description("Aguardando Revisão")]
         AGUARDANDO_REVISAO,
-        [Description("Aguardando Aprovação Revisão")]
-        AGUARDANDO_APROVACAO_REVISAO,
+        [Description("Aguardando Aprovação")]
+        AGUARDANDO_APROVACAO,
         [Description("Aprovado")]
         APROVADO
     }
