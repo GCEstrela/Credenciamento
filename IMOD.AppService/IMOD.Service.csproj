@@ -47,8 +47,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Resources\EstrelaEncryparDecrypitar.dll</HintPath>
     </Reference>
-    <Reference Include="Genetec.Sdk">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Genetec Security Center 5.7 SDK\Genetec.Sdk.dll</HintPath>
+    <Reference Include="Genetec.Sdk, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\IMOD.CredenciamentoDeskTop\Dlls\Genetec.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
@@ -104,7 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IMOD.Application\IMOD.Application.csproj">
-      <Project>{B7BD6687-CB39-45A0-9B21-67125DA69A2E}</Project>
+      <Project>{b7bd6687-cb39-45a0-9b21-67125da69a2e}</Project>
       <Name>IMOD.Application</Name>
     </ProjectReference>
     <ProjectReference Include="..\IMOD.Domain\IMOD.Domain.csproj">

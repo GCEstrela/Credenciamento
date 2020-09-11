@@ -334,7 +334,7 @@ namespace IMOD.Infra.Repositorios
                         var d1 = reader.MapToList<Colaborador>();
 
                         return d1;
-
+                         
                     }
                 }
             }

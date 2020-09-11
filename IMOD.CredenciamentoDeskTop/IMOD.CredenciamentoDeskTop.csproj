@@ -1918,6 +1918,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IMOD.Application\IMOD.Application.csproj">
+      <Project>{b7bd6687-cb39-45a0-9b21-67125da69a2e}</Project>
+      <Name>IMOD.Application</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IMOD.CrossCutting\IMOD.CrossCutting.csproj">
       <Project>{4279abf8-7c1b-497f-90bd-e533b0e6a417}</Project>
       <Name>IMOD.CrossCutting</Name>
@@ -1925,10 +1929,6 @@
     <ProjectReference Include="..\IMOD.Domain\IMOD.Domain.csproj">
       <Project>{f7dc651f-cb04-40ca-ac1b-c2355b474cf3}</Project>
       <Name>IMOD.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IMOD.Application\IMOD.Application.csproj">
-      <Project>{B7BD6687-CB39-45A0-9B21-67125DA69A2E}</Project>
-      <Name>IMOD.Application</Name>
     </ProjectReference>
     <ProjectReference Include="..\IMOD.Infra\IMOD.Infra.csproj">
       <Project>{0b4ad570-efa6-4207-b4c1-3e95050452ac}</Project>

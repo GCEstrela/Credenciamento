@@ -160,7 +160,7 @@ namespace IMOD.Application.Service
         /// <returns></returns>
         public ICollection<Colaborador> Listar(params object[] objects)
         {
-            return _repositorio.Listar(objects);
+            return _repositorio.Listar(objects); 
         }
 
         /// <summary>
