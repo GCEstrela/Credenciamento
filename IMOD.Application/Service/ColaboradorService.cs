@@ -164,15 +164,6 @@ namespace IMOD.Application.Service
         }
 
         /// <summary>
-        ///     Listar
-        /// </summary>
-        /// <returns></returns>
-        public ICollection<Colaborador> ListarPreCadastro(params object[] objects)
-        {
-            return _repositorio.ListarPreCadastro(objects);
-        }
-
-        /// <summary>
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>

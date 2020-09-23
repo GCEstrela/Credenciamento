@@ -343,41 +343,7 @@ namespace IMOD.Infra.Repositorios
                 throw ex;
             }
         }
-        /// <summary>
-        ///     Listar
-        /// </summary>
-        /// <returns></returns>
-        public ICollection<Colaborador> ListarPreCadastro(params object[] o)
-        {
-            try
-            {
-                using (var conn = _dataBase.CreateOpenConnection())
-                {
-                    using (var cmd = _dataBase.SelectText("ColaboradoresView", conn))
-
-                    {
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 0).Igual()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Cpf", DbType.String, o, 1).Like()));
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Nome", DbType.String, o, 2).Like()));
-
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("StatusCadastro", DbType.Boolean, o, 3).IsNotNull()));
-                        
-
-                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("IdColaboradorSICOA", DbType.Int32, o, 4).IsNotNull()));
-
-                        var reader = cmd.ExecuteReaderSelect();
-                        var d1 = reader.MapToList<Colaborador>();
-
-                        return d1;
-
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        
         /// <summary>
         ///     Listar
         /// </summary>

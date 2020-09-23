@@ -13,12 +13,12 @@ namespace IMOD.Domain.Enums
     /// </summary>
     public enum StatusCadastro
     {
-        [Description("Aguardando Aprovação Inclusão")]
+        [Description("Aguardando Aprovação")]
         AGUARDANDO_APROVACAO_INCLUSAO,
-        [Description("Aguardando Revisão")]
-        AGUARDANDO_REVISAO,
         [Description("Aguardando Aprovação")]
         AGUARDANDO_APROVACAO,
+        [Description("Aguardando Revisão")]
+        AGUARDANDO_REVISAO,
         [Description("Aprovado")]
         APROVADO
     }

@@ -51,8 +51,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         private IList<Colaborador> ObterColaboradoresEmpresaLogada()
         {
-
-            var l1 = objService.ListarPreCadastro(null, null, null, true);
+            var l1 = objService.Listar(null, null, null, null);
             var l2 = objColaboradorEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.EmpresaId, null);
             var l3 = l2.Select(c => c.ColaboradorId).ToList<int>();
             colaboradores = l1.Where(c => l3.Contains(c.ColaboradorId)).ToList();

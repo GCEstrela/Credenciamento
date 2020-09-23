@@ -238,9 +238,9 @@
     <Content Include="Content\bootstrap-datepicker.standalone.css.map" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
     <Content Include="Documentos\Termo de Consentimento_Credenciamento.pdf" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\PreCadastro.pubxml" />
     <None Include="Properties\PublishProfiles\Publish Web.pubxml" />
+    <None Include="Properties\PublishProfiles\PublishWeb.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\dataTables.responsive.min.js" />
     <Content Include="Scripts\globalize\currency.js" />
