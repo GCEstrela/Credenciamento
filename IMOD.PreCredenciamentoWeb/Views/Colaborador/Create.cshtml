@@ -509,7 +509,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.AnexoVinculo, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-10 ">
-                                            <input type="file" name="AnexoVinculo" id="AnexoVinculo" @*accept=".pdf"*@ style="padding-top: 5px"/>
+                                            <input type="file" name="AnexoVinculo" id="AnexoVinculo" @*accept=".pdf"*@ style="padding-top: 5px" />
                                             @Html.ValidationMessageFor(model => model.AnexoVinculo, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -561,6 +561,16 @@
                                            Value = option.CursoId.ToString()
                                        }), "Selecione", new { @class = "form-control text-uppercase", @id = "ddlCurso" })
                                         </div>
+                                        @Html.LabelFor(model => model.DataValidade, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-2">
+                                            <div id="datepicker">
+                                                <div class="input-group date">
+                                                    @Html.EditorFor(model => model.DataValidade, new { htmlAttributes = new { @id = "txtValidade", @class = "form-control text-uppercase" } })
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    @Html.ValidationMessageFor(model => model.DataValidade, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-lg-4" style="padding-top: 4px;">
                                             <a title="Incluir Curso" id="btCurso" href="#">
                                                 <i class="success btn-icon fa fa-plus-circle" style="color: #92c755; font-size: 25px; text-align:center"></i>
@@ -570,20 +580,27 @@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.AnexoCurso, htmlAttributes: new { @class = "control-label col-md-1" })
                                         <div class="col-md-10 ">
-                                            <input type="file" name="AnexoCurso" id="AnexoCurso" @*accept=".pdf"*@ style="padding-top: 5px;"/>
+                                            <input type="file" name="AnexoCurso" id="AnexoCurso" @*accept=".pdf"*@ style="padding-top: 5px;" />
                                             @Html.ValidationMessageFor(model => model.AnexoCurso, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <br />
                                     <fieldset>
                                         <legend> Cursos Selecionados</legend>
+                                        <div class="row">
+                                            <div class="col-lg-1"><b>Cod.</b></div>
+                                            <div class="col-lg-5"><b>Curso</b></div>
+                                            <div class="col-lg-4"><b>Data de Validade</b></div>
+                                            <div class="col-lg-2"></div>
+                                        </div>
                                         <div class="row" id="divCurso">
                                             @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.Curso>)ViewBag.CursosSelecionados))
                                             {
 
                                                 <div class="col-lg-1">@item.CursoId</div>
-                                                <div class="col-lg-7">@item.Descricao</div>
-                                                <div class="col-lg-4">
+                                                <div class="col-lg-5">@item.Descricao</div>
+                                                <div class="col-lg-4">@item.Validade</div>
+                                                <div class="col-lg-2">
                                                     <a title="Remover Curso" id=@item.CursoId href="#" class="btnRemoverCurso" onclick="RemoverCurso(this)">
                                                         <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
                                                     </a>
@@ -626,7 +643,12 @@
                                         </div>
                                         <br />
                                         <fieldset>
-                                            <legend> Anexos Incluídos</legend>
+                                            <legend> Anexos Selecionados</legend>
+                                            <div class="row">
+                                                <div class="col-lg-3"><b>Descrição</b></div>
+                                                <div class="col-lg-4"><b>Arquivo</b></div>
+                                                <div class="col-lg-2"></div>
+                                            </div>
                                             <div class="row" id="divAnexo">
                                                 @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.ColaboradorAnexo>)ViewBag.AnexosSelecionados))
                                                 {
@@ -810,22 +832,32 @@
 
 
              //evento do botão incluir curso
-             $("#btCurso").click(function () {
-                var id = $("#ddlCurso").val();
+        $("#btCurso").click(function () {
+            var fileData = new FormData();
+            var id = $("#ddlCurso").val();
+            fileData.append('id', id);
+            var validade = ($("#txtValidade").val() == "" ? "" : $("#txtValidade").val());
+            fileData.append('validade', validade);
+
                 $.ajax({
                     type: "POST",
                     url: '@Url.Action("AdicionarCurso")',
-                    data: { id: id },
+                    data: fileData,
+                    dataType: 'JSON',
+                    contentType: false,
+                    processData: false,
                     success: function (result) {
                         var html = '';
                         $.each(result, function (key, item) {
                             html += '<div class="col-lg-1">' + item.CursoId + '</div>';
-                            html += '<div class="col-lg-7">' + item.Descricao + '</div>';
-                            html += '<div class="col-lg-4"><a class="btnRemover" title="Remover Curso" id=' + item.CursoId + ' onclick="RemoverCurso(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
+                            html += '<div class="col-lg-5">' + item.Descricao + '</div>';
+                            html += '<div class="col-lg-4">' + item.Validade + '</div>';
+                            html += '<div class="col-lg-2"><a class="btnRemover" title="Remover Curso" id=' + item.CursoId + ' onclick="RemoverCurso(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
                         });
                         $('#divCurso').html('');
                         $('#divCurso').append(html);
                         $("#ddlCurso").val('');
+                        $("#txtValidade").val('');
                         console.log(result);
 
                     },

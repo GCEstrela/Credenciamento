@@ -115,6 +115,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             //Popula cursos selecionados do colaborador
             var cursosColaborador = Mapper.Map<List<ColaboradorCurso>>(objColaboradorCursosService.Listar(colaboradorEditado.ColaboradorId));
             var cursosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
+            for (int i = 0; i < cursosSelecionados.Count; i++)
+            {
+                cursosSelecionados[i].Validade = String.Format("{0:dd/MM/yyyy}", cursosColaborador[i].Validade.ToString());
+            }
+
             if (cursosSelecionados != null && cursosSelecionados.Any())
             {
                 colaboradorMapeado.NomeAnexoCurso = cursosColaborador[0].NomeArquivo;
@@ -267,6 +272,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                                 colaboradorCurso.ColaboradorId = colaboradorMapeado.ColaboradorId;
                                 colaboradorCurso.CursoId = curso.CursoId;
                                 colaboradorCurso.Descricao = curso.Descricao;
+                                colaboradorCurso.Validade = Convert.ToDateTime(curso.Validade);
                                 objColaboradorCursosService.Criar(colaboradorCurso);
                             }
                         }
@@ -397,12 +403,16 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; };
 
             //Popula cursos selecionados do colaborador
-            var cursosColaborador = objColaboradorCursosService.Listar(colaboradorEditado.ColaboradorId);
-            var cusosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
-            if (cusosSelecionados != null && cusosSelecionados.Any())
+            var cursosColaborador = objColaboradorCursosService.Listar(colaboradorEditado.ColaboradorId).ToList();
+            var cursosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
+            for (int i = 0; i < cursosSelecionados.Count; i++)
             {
-                ViewBag.CursosSelecionados = cusosSelecionados;
-                Session.Add(SESS_CURSOS_SELECIONADOS, cusosSelecionados);
+                cursosSelecionados[i].Validade = String.Format("{0:dd/MM/yyyy}", cursosColaborador[i].Validade.ToString());
+            }
+            if (cursosSelecionados != null && cursosSelecionados.Any())
+            {
+                ViewBag.CursosSelecionados = cursosSelecionados;
+                Session.Add(SESS_CURSOS_SELECIONADOS, cursosSelecionados);
             }
 
             //Popula anexos do colaborador
@@ -490,7 +500,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         }
                     }
 
-                    // excluir os contratos removidos da lista
+                    // excluir os cursos removidos da lista
                     if (Session[SESS_CURSOS_REMOVIDOS] != null)
                     {
                         foreach (var item in (List<int>)Session[SESS_CURSOS_REMOVIDOS])
@@ -519,6 +529,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                                 colaboradorCurso.ColaboradorId = colaboradorMapeado.ColaboradorId;
                                 colaboradorCurso.CursoId = curso.CursoId;
                                 colaboradorCurso.Descricao = curso.Descricao;
+                                colaboradorCurso.Validade = Convert.ToDateTime(curso.Validade);
                                 objColaboradorCursosService.Criar(colaboradorCurso);
                             }
                         }
@@ -713,10 +724,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         }
 
         [Authorize]
-        public JsonResult AdicionarCurso(int id)
+        public ActionResult AdicionarCurso()
         {
             if (Session[SESS_CURSOS_SELECIONADOS] == null) Session[SESS_CURSOS_SELECIONADOS] = new List<Curso>();
-            var item = objCursosService.Listar(id).FirstOrDefault();
+            var item = objCursosService.Listar(Convert.ToInt32(Request.Form["id"])).FirstOrDefault();
+            item.Validade = Request.Form["validade"];
             ((List<Curso>)Session[SESS_CURSOS_SELECIONADOS]).Add(item);
             return Json((List<Curso>)Session[SESS_CURSOS_SELECIONADOS], JsonRequestBehavior.AllowGet);
         }

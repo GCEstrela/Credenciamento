@@ -118,6 +118,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DataEmissao { get; set; }
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [Display(Name = "Data de Validade")]
         public DateTime? DataValidade { get; set; }
         
         public bool Estrangeiro { get; set; }

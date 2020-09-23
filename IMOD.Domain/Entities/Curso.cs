@@ -4,6 +4,8 @@
 // Date:  11 - 22 - 2018
 // ***********************************************************************
 
+using System;
+
 namespace IMOD.Domain.Entities
 {
     public class Curso
@@ -15,7 +17,7 @@ namespace IMOD.Domain.Entities
         public bool Cracha { get; set; }
         public bool Ativo { get; set; }
         public bool Habilitado { get; set; }
-
+        public string Validade { get; set; }
 
         public override bool Equals(object obj)
         {
