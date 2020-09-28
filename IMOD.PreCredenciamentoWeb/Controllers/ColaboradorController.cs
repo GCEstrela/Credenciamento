@@ -195,9 +195,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 //}
 
 
-                if (!((List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS]).Any())
+                if (((List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS]) == null)
                 {
                     ModelState.AddModelError("EmpresaContratoId", "Necessário adicionar pelo menos um contrato!");
+                    //TempData["error"] = "É necessário adicionar pelo menos um contrato!";
                 }
 
                 if (ModelState.IsValid)
@@ -334,6 +335,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     ViewBag.Municipio = lstMunicipio;
                 }
 
+                ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
+
+                ShowListaErros();
+
                 //PopularEstadosDropDownList();
                 PopularDadosDropDownList();
                 return View(model);
@@ -462,7 +467,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
                     colaboradorMapeado.Precadastro = true;
                     colaboradorMapeado.Observacao = null;
-                    
+
                     //Aguardando Revisão
                     colaboradorMapeado.StatusCadastro = 1;
 
@@ -597,6 +602,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     ViewBag.Municipio = lstMunicipio;
                 }
 
+                ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
+
+                ShowListaErros();
+
                 //PopularEstadosDropDownList();
                 PopularDadosDropDownList();
                 return View(model);
@@ -609,7 +618,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 return View();
             }
         }
-
+        [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id, Colaborador model)
         {
 
@@ -623,30 +633,19 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 var idColaborador = id;
 
                 // Initializes the variables to pass to the MessageBox.Show method.
-                string message = "Confirma a Deleção desse registro?";
-                string caption = "Deleção de Colaborador";
-                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-                DialogResult result;
 
-                // Displays the MessageBox.
-                result = MessageBox.Show(message, caption, buttons);
-                if (result == System.Windows.Forms.DialogResult.Yes)
+                var colaboradorMapeado = Mapper.Map<Colaborador>(model);
+                colaboradorMapeado.ColaboradorId = Convert.ToInt32(idColaborador);
+
+                //Pega os anexos do colaborador
+                var anexosColaborador = objColaboradorAnexoService.Listar(idColaborador);
+                //exclui os anexos
+                foreach (var anexo in anexosColaborador)
                 {
-                    var colaboradorMapeado = Mapper.Map<Colaborador>(model);
-                    colaboradorMapeado.ColaboradorId = Convert.ToInt32(idColaborador);
-
-                    //Pega os anexos do colaborador
-                    var anexosColaborador = objColaboradorAnexoService.Listar(idColaborador);
-                    //exclui os anexos
-                    foreach (var anexo in anexosColaborador)
-                    {
-                        objColaboradorAnexoService.Remover(anexo);
-                    }
-
-                        objService.Remover(colaboradorMapeado);
-
-                    return RedirectToAction("Index");
+                    objColaboradorAnexoService.Remover(anexo);
                 }
+
+                objService.Remover(colaboradorMapeado);
 
                 return RedirectToAction("Index");
             }
@@ -668,18 +667,24 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         //    return View();
         //}
 
-        // POST: Colaborador/Delete/5
-        [HttpPost]
-        [Authorize]
+        //POST: Colaborador/Delete/5
+
         public ActionResult Delete(int id, System.Web.Mvc.FormCollection collection)
         {
             try
             {
+                var colaborador = objService.Listar(id).FirstOrDefault();
+
+                //obtém vinculos do colaborador
+                ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaborador);
+
+                CarregaFotoColaborador(colaboradorMapeado);
 
                 // TODO: Add delete logic here
-                var colaboradorMapeado = Mapper.Map<Colaborador>(collection);
-                objService.Alterar(colaboradorMapeado);
-                return RedirectToAction("Index");
+                //var colaboradorMapeado = Mapper.Map<Colaborador>(collection);
+
+                //return RedirectToAction("Index");
+                return View(colaboradorMapeado);
             }
             catch
             {
@@ -1027,7 +1032,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             if (colaborador == null || colaboradorId == 0) return;
             if (colaborador.AnexoCurso == null && colaborador.AnexoVinculo == null)
-            { 
+            {
                 return;
             }
             else
@@ -1160,5 +1165,22 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         #endregion
 
         #endregion
+
+        public void ShowListaErros()
+        {
+            var query = from state in ModelState.Values
+                        from error in state.Errors
+                        select error.ErrorMessage;
+
+            var errorList = query.ToList();
+            var lista = "";
+
+            for (int i = 0; i < errorList.Count; i++)
+            {
+                lista = lista + "<li>" + errorList[i].ToString() + "</li>";
+            }
+
+            TempData["error"] = "<ul>" + lista + "</ul>";
+        }
     }
 }

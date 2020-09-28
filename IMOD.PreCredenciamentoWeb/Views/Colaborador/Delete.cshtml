@@ -1,0 +1,59 @@
+﻿@model IMOD.PreCredenciamentoWeb.Models.ColaboradorViewModel
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<br />
+<div class="col-md-12" style="font-size: 12px">
+    <br />
+    <div class="table-wrapper">
+        <div class="panel-body">
+            <h4>Tem certeza que quer deletar esse colaborador?</h4>
+            <div>
+                <hr />
+                <dl >
+                    <dd style="height:152px;  width:123px; padding-left:16px" class="col-md-2 dl-horizontal" >
+                        <img class="resize" id="FotoUpload" src="@ViewBag.FotoColaborador" alt="Imagem" style="padding-bottom: 15px" />
+                    </dd>
+                </dl>
+                <dl class="col-md-10 dl-horizontal">
+                    <dt style="width:35px">
+                        @Html.DisplayNameFor(model => model.Nome)
+                    </dt>
+
+                    <dd style="margin-left: 45px">
+                        @Html.DisplayFor(model => model.Nome)
+                    </dd>
+
+                    <dt style="width:35px">
+                        @Html.DisplayNameFor(model => model.Cpf)
+                    </dt>
+
+                    <dd style="margin-left: 45px">
+                        @Html.DisplayFor(model => model.Cpf)
+                    </dd>
+
+                    <dt style="width:35px">
+                        @Html.DisplayNameFor(model => model.Email)
+                    </dt>
+
+                    <dd style="margin-left:45px">
+                        @Html.DisplayFor(model => model.Email)
+                    </dd>
+                </dl>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="col-md-12 form-actions no-color">
+                        <input type="submit" value="Delete" class="btn btn-default" /> |
+                        <a href="~/Colaborador/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

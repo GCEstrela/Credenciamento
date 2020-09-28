@@ -24,7 +24,8 @@ namespace IMOD.PreCredenciamentoWeb
                 .Include("~/Scripts/jquery.validate.js")
                 .Include("~/Scripts/jquery.validate.unobtrusive.js")
                 .Include("~/Scripts/globalize/globalize.js")
-                .Include("~/Scripts/jquery.validate.globalize.js");
+                .Include("~/Scripts/jquery.validate.globalize.js")
+                .Include("~/Scripts/toastr.js");
             bundles.Add(bundle);
 
             // Use a versão em desenvolvimento do Modernizr para desenvolver e aprender. Em seguida, quando estiver
@@ -37,7 +38,8 @@ namespace IMOD.PreCredenciamentoWeb
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/toastr.css"));
         }
     }
 }

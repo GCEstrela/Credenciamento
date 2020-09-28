@@ -137,6 +137,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         }
 
         //public IEnumerable<Estados> Estados { get; set; }
+        [RequiredIf("ContratoEmpresaID", 0, ErrorMessage = "Necessário adicionar pelo menos um contrato!")]
         [Display(Name = "Contrato Empresa")]
         public string ContratoEmpresaID { get; set; }
         public bool Precadastro { get; set; }

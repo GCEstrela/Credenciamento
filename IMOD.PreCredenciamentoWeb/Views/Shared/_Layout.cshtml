@@ -303,6 +303,16 @@
         }
 
     }
+
+    <input type="hidden" id="success"
+           value="@TempData["success"]" />
+    <input type="hidden" id="info"
+           value="@TempData["info"]" />
+    <input type="hidden" id="warning"
+           value="@TempData["warning"]" />
+    <input type="hidden" id="error"
+           value="@TempData["error"]" />
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -319,7 +329,7 @@
                 @*@if (Request.IsAuthenticated)
                     {}*@
                 <ul class="nav navbar-nav">
-                    
+
                     <li style="padding-right:300px">.</li>
                     @*<li><a href='~/Empresa'><i class="fa fa-industry" style="font-size:30px;padding-top:0px;color:#566787;"></i> Empresa </a></li>*@
                     <li><a href='~/Colaborador'><i class="fa fa-fw fa-users" style="font-size:30px;padding-top:0px;color:#566787;"></i> Colaboradores </a></li>
@@ -390,6 +400,43 @@
                 format: 'dd/mm/yyyy',
                 language: 'pt-BR'
             });
+
+            $(function () {
+                var displayMessage = function (message, msgType) {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "20000",
+                        "hideDuration": "1500",
+                        "timeOut": "20000",
+                        "extendedTimeOut": "20000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    };
+                    toastr[msgType](message);
+                };
+
+                if ($('#success').val()) {
+                    displayMessage($('#success').val(), 'success');
+                }
+                if ($('#info').val()) {
+                    displayMessage($('#info').val(), 'info');
+                }
+                if ($('#warning').val()) {
+                    displayMessage($('#warning').val(), 'warning');
+                }
+                if ($('#error').val()) {
+                    displayMessage($('#error').val(), 'error');
+                }
+            });
+
         });
 
     </script>
