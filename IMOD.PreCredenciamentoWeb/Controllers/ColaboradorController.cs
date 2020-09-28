@@ -34,6 +34,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private const string SESS_CURSOS_REMOVIDOS = "CursosRemovidos";
         private const string SESS_ANEXOS_SELECIONADOS = "AnexosSelecionados";
         private const string SESS_ANEXOS_REMOVIDOS = "AnexosRemovidos";
+        private const string SESS_MUNICIPIO_SELECIONADO = "MunicipioSelecionado";
         private List<Colaborador> colaboradores = new List<Colaborador>();
         private List<ColaboradorEmpresa> vinculos = new List<ColaboradorEmpresa>();
         private const string SESS_FOTO_COLABORADOR = "Foto";
@@ -64,16 +65,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Details(int id)
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
-            //Remove itens da sessão
-            Session.Remove(SESS_CONTRATOS_SELECIONADOS);
-            Session.Remove(SESS_CONTRATOS_REMOVIDOS);
-            Session.Remove(SESS_CURSOS_SELECIONADOS);
-            Session.Remove(SESS_CURSOS_REMOVIDOS);
-            ViewBag.Contratos = new List<EmpresaContrato>();
-            ViewBag.Cursos = new List<Curso>();
-            ViewBag.CursosSelecionados = new List<Curso>();
-            ViewBag.Anexos = new List<ColaboradorAnexo>();
-            ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
 
             //Obtem o colaborador pelo ID
             var colaboradorEditado = objService.Listar(id).FirstOrDefault();
@@ -144,30 +135,55 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Create()
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
-            Session.Remove(SESS_CONTRATOS_SELECIONADOS);
-            Session.Remove(SESS_CONTRATOS_REMOVIDOS);
-            Session.Remove(SESS_CURSOS_SELECIONADOS);
-            Session.Remove(SESS_CURSOS_REMOVIDOS);
-            Session.Remove(SESS_ANEXOS_SELECIONADOS);
-            Session.Remove(SESS_ANEXOS_REMOVIDOS);
-            Session.Remove(SESS_FOTO_COLABORADOR);
+
             // carrega os contratos da empresa
             if (SessionUsuario.EmpresaLogada.Contratos != null) { ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos; }
-            ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
-
             //carrega os cursos
             var listCursos = objCursosService.Listar().ToList();
             if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; }
-            ViewBag.CursosSelecionados = new List<Curso>();
-
             //carrega os anexos
             var listAnexos = objColaboradorAnexoService.Listar().ToList();
             if (listAnexos != null && listAnexos.Any()) { ViewBag.Anexos = listAnexos; }
-            ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
+
+            if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
+            {
+                ViewBag.ContratosSelecionados = (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS];
+            }
+            else
+            {
+                ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
+            }
+
+            if (Session[SESS_CURSOS_SELECIONADOS] != null)
+            {
+                ViewBag.CursosSelecionados = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
+            }
+            else
+            {
+                ViewBag.CursosSelecionados = new List<Curso>();
+            }
+
+            if (Session[SESS_ANEXOS_SELECIONADOS] != null)
+            {
+                ViewBag.AnexosSelecionados = (List<ColaboradorAnexo>)Session[SESS_ANEXOS_SELECIONADOS];
+            }
+            else
+            {
+                ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
+            }
+
+            if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
+            {
+                ViewBag.Municipio = (List<Municipio>)Session[SESS_MUNICIPIO_SELECIONADO];
+            }
+            else
+            {
+                ViewBag.Municipio = new List<Municipio>();
+            }
 
             PopularEstadosDropDownList();
-            ViewBag.Municipio = new List<Municipio>();
             PopularDadosDropDownList();
+
             return View();
         }
 
@@ -185,20 +201,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     OnSelecionaFoto_Click(model.FotoColaborador, model);
                 }
 
-                //if (model.FileUpload != null)
-                //{
-                //    if (model.FileUpload.ContentLength > 2048000)
-                //        ModelState.AddModelError("FileUpload", "Tamanho permitido de arquivo 2,00 MB");
-
-                //    //if (!Path.GetExtension(model.FileUpload.FileName).Equals(".pdf"))
-                //    //    ModelState.AddModelError("FileUpload", "Permitida Somente Extensão  .pdf");
-                //}
-
-
                 if (((List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS]) == null)
                 {
                     ModelState.AddModelError("EmpresaContratoId", "Necessário adicionar pelo menos um contrato!");
-                    //TempData["error"] = "É necessário adicionar pelo menos um contrato!";
                 }
 
                 if (ModelState.IsValid)
@@ -214,7 +219,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                     objService.Criar(colaboradorMapeado);
 
-                    // excluir os contratos removidos da lista
+                    // exclui os contratos removidos da lista
                     if (Session[SESS_CONTRATOS_REMOVIDOS] != null)
                     {
                         foreach (var item in (List<int>)Session[SESS_CONTRATOS_REMOVIDOS])
@@ -311,6 +316,14 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         }
                     }
 
+                    //Limpa sessão
+                    Session.Remove(SESS_CONTRATOS_SELECIONADOS);
+                    Session.Remove(SESS_CONTRATOS_REMOVIDOS);
+                    Session.Remove(SESS_CURSOS_SELECIONADOS);
+                    Session.Remove(SESS_CURSOS_REMOVIDOS);
+                    Session.Remove(SESS_ANEXOS_SELECIONADOS);
+                    Session.Remove(SESS_ANEXOS_REMOVIDOS);
+                    Session.Remove(SESS_FOTO_COLABORADOR);
 
                     CriarAnexo(model, colaboradorMapeado.ColaboradorId);
                     CriarColaboradorAceite(model, colaboradorMapeado.ColaboradorId);
@@ -320,27 +333,61 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                 // Se ocorrer um erro retorna para pagina
                 if (SessionUsuario.EmpresaLogada.Contratos != null) { ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos; }
-                ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
 
                 //carrega os cursos
                 var listCursos = objCursosService.Listar().ToList();
                 if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; }
-                ViewBag.CursosSelecionados = new List<Curso>();
 
                 PopularEstadosDropDownList();
-                ViewBag.Municipio = new List<Municipio>();
+                PopularDadosDropDownList();
+
                 if (model.EstadoId > 0)
                 {
-                    var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, model.EstadoId).OrderBy(m => m.Nome);
-                    ViewBag.Municipio = lstMunicipio;
+                    PopularMunicipiosDropDownList(model.EstadoId.ToString());
                 }
 
-                ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
+                if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
+                {
+                    ViewBag.ContratosSelecionados = (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS];
+                }
+                else
+                {
+                    ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
+                }
+
+                if (Session[SESS_CURSOS_SELECIONADOS] != null)
+                {
+                    ViewBag.CursosSelecionados = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
+                }
+                else
+                {
+                    ViewBag.CursosSelecionados = new List<Curso>();
+                }
+
+                if (Session[SESS_ANEXOS_SELECIONADOS] != null)
+                {
+                    ViewBag.AnexosSelecionados = (List<ColaboradorAnexo>)Session[SESS_ANEXOS_SELECIONADOS];
+                }
+                else
+                {
+                    ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
+                }
+
+                if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
+                {
+                    ViewBag.Municipio = Session[SESS_MUNICIPIO_SELECIONADO];
+                }
+                else
+                {
+                    ViewBag.Municipio = new List<Municipio>();
+                }
+
+                
+
+                
 
                 ShowListaErros();
-
-                //PopularEstadosDropDownList();
-                PopularDadosDropDownList();
+                
                 return View(model);
             }
             catch (Exception)
@@ -355,19 +402,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Edit(int? id)
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
-
-            //Remove itens da sessão
-            Session.Remove(SESS_CONTRATOS_SELECIONADOS);
-            Session.Remove(SESS_CONTRATOS_REMOVIDOS);
-            Session.Remove(SESS_CURSOS_SELECIONADOS);
-            Session.Remove(SESS_CURSOS_REMOVIDOS);
-            Session.Remove(SESS_ANEXOS_SELECIONADOS);
-            Session.Remove(SESS_ANEXOS_REMOVIDOS);
-            ViewBag.Contratos = new List<EmpresaContrato>();
-            ViewBag.Cursos = new List<Curso>();
-            ViewBag.CursosSelecionados = new List<Curso>();
-            ViewBag.Anexos = new List<ColaboradorAnexo>();
-            ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
 
             //Obtem o colaborador pelo ID
             var colaboradorEditado = objService.Listar(id).FirstOrDefault();
@@ -387,25 +421,20 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
             }
 
-            //Popula contratos selecionados
-            ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
-            var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(objColaboradorEmpresaService.Listar(colaboradorEditado.ColaboradorId));
-            ViewBag.ContratosSelecionados = listaVinculosColaborador;
-            Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosColaborador);
-
             //Popula combo de estado
             PopularEstadosDropDownList();
 
-            //Preenche combo municipio de acordo com o estado
-            ViewBag.Municipio = new List<Municipio>();
-            var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, colaboradorMapeado.EstadoId).OrderBy(m => m.Nome);
-            if (lstMunicipio != null) { ViewBag.Municipio = lstMunicipio; };
+            PopularMunicipiosDropDownList(colaboradorMapeado.EstadoId.ToString());
 
             PopularDadosDropDownList();
 
             //Preenche combo com todos os cursos
             var listCursos = objCursosService.Listar().OrderBy(c => c.Descricao);
             if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; };
+
+            var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(objColaboradorEmpresaService.Listar(colaboradorEditado.ColaboradorId));
+            ViewBag.ContratosSelecionados = listaVinculosColaborador;
+            Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosColaborador);
 
             //Popula cursos selecionados do colaborador
             var cursosColaborador = objColaboradorCursosService.Listar(colaboradorEditado.ColaboradorId).ToList();
@@ -426,6 +455,42 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             {
                 ViewBag.AnexosSelecionados = anexosSelecionados;
                 Session.Add(SESS_ANEXOS_SELECIONADOS, anexosSelecionados);
+            }
+
+            if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
+            {
+                ViewBag.ContratosSelecionados = (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS];
+            }
+            else
+            {
+                ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
+            }
+
+            if (Session[SESS_CURSOS_SELECIONADOS] != null)
+            {
+                ViewBag.CursosSelecionados = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
+            }
+            else
+            {
+                ViewBag.CursosSelecionados = new List<Curso>();
+            }
+
+            if (Session[SESS_ANEXOS_SELECIONADOS] != null)
+            {
+                ViewBag.AnexosSelecionados = (List<ColaboradorAnexo>)Session[SESS_ANEXOS_SELECIONADOS];
+            }
+            else
+            {
+                ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
+            }
+
+            if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
+            {
+                ViewBag.Municipio = Session[SESS_MUNICIPIO_SELECIONADO];
+            }
+            else
+            {
+                ViewBag.Municipio = new List<Municipio>();
             }
 
             return View(colaboradorMapeado);
@@ -451,17 +516,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     model.Foto = (string)Session[SESS_FOTO_COLABORADOR];
                 }
 
-                //if (model.FileUpload != null)
-                //{
-                //    if (model.FileUpload.ContentLength > 2048000)
-                //        ModelState.AddModelError("FileUpload", "Tamanho permitido de arquivo 2,00 MB");
-
-                //    if (!Path.GetExtension(model.FileUpload.FileName).Equals(".pdf"))
-                //        ModelState.AddModelError("FileUpload", "Permitida Somente Extensão  .pdf");
-                //}
-
                 model.chkAceite = true;
-                // TODO: Add update logic here
+
                 if (ModelState.IsValid)
                 {
                     var colaboradorMapeado = Mapper.Map<Colaborador>(model);
@@ -578,38 +634,77 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                     //Insere anexos do vínculo e dos cursos
                     CriarAnexo(model, colaboradorMapeado.ColaboradorId);
-                    //if (model.FileUpload != null)
-                    //{
-                    //    ExcluirColaboradorAnexoAnterior(model);
-                    //    CriarColaboradorAnexo(model, colaboradorMapeado.ColaboradorId);
-                    //}
+
+                    //Remove itens da sessão
+                    Session.Remove(SESS_CONTRATOS_SELECIONADOS);
+                    Session.Remove(SESS_CONTRATOS_REMOVIDOS);
+                    Session.Remove(SESS_CURSOS_SELECIONADOS);
+                    Session.Remove(SESS_CURSOS_REMOVIDOS);
+                    Session.Remove(SESS_ANEXOS_SELECIONADOS);
+                    Session.Remove(SESS_ANEXOS_REMOVIDOS);
 
                     return RedirectToAction("Index");
                 }
                 if (SessionUsuario.EmpresaLogada.Contratos != null) { ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos; }
-                ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
 
                 //carrega os cursos
                 var listCursos = objCursosService.Listar().ToList();
                 if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; }
-                ViewBag.CursosSelecionados = new List<Curso>();
 
                 PopularEstadosDropDownList();
-                ViewBag.Municipio = new List<Municipio>();
+
                 if (model.EstadoId > 0)
                 {
-                    var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, model.EstadoId).OrderBy(m => m.Nome);
-                    ViewBag.Municipio = lstMunicipio;
+                    PopularMunicipiosDropDownList(model.EstadoId.ToString());
                 }
 
-                ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
+                PopularDadosDropDownList();
+
+                if (model.EstadoId > 0)
+                {
+                    PopularMunicipiosDropDownList(model.EstadoId.ToString());
+                }
+
+                if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
+                {
+                    ViewBag.ContratosSelecionados = (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS];
+                }
+                else
+                {
+                    ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
+                }
+
+                if (Session[SESS_CURSOS_SELECIONADOS] != null)
+                {
+                    ViewBag.CursosSelecionados = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
+                }
+                else
+                {
+                    ViewBag.CursosSelecionados = new List<Curso>();
+                }
+
+                if (Session[SESS_ANEXOS_SELECIONADOS] != null)
+                {
+                    ViewBag.AnexosSelecionados = (List<ColaboradorAnexo>)Session[SESS_ANEXOS_SELECIONADOS];
+                }
+                else
+                {
+                    ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
+                }
+
+                if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
+                {
+                    ViewBag.Municipio = Session[SESS_MUNICIPIO_SELECIONADO];
+                }
+                else
+                {
+                    ViewBag.Municipio = new List<Municipio>();
+                }
 
                 ShowListaErros();
 
-                //PopularEstadosDropDownList();
-                PopularDadosDropDownList();
                 return View(model);
-                //throw new Exception("Campos obrigatórios não foram preenchidos");
+                
             }
             catch (Exception ex)
             {
@@ -934,6 +1029,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             {
                 var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, idEstado).OrderBy(m => m.Nome);
                 ViewBag.Municipio = lstMunicipio;
+                Session[SESS_MUNICIPIO_SELECIONADO] = lstMunicipio;
             }
         }
 
