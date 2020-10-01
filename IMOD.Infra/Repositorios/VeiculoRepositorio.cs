@@ -237,30 +237,55 @@ namespace IMOD.Infra.Repositorios
         }
 
         /// <summary>
-        ///     Deletar registro de Veículo
+        ///     Deletar registro
         /// </summary>
-        /// <param name="objects"></param>
+        /// <param name="entity">Entidade</param>   
         public void Remover(Veiculo entity)
         {
-            try
+            using (var conn = _dataBase.CreateOpenConnection())
             {
-                using (var conn = _dataBase.CreateOpenConnection())
+                var tran = conn.BeginTransaction();
+
+                try
                 {
+                    using (var cmd = _dataBase.DeleteText("VeiculosAnexos", conn))
+                    {
+                        cmd.Transaction = tran;
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("VeiculoId", DbType.Int32, entity.EquipamentoVeiculoId).Igual()));
+                        cmd.ExecuteNonQuery();
+                    }
+                    using (var cmd = _dataBase.DeleteText("VeiculosSeguros", conn))
+                    {
+                        cmd.Transaction = tran;
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("VeiculoId", DbType.Int32, entity.EquipamentoVeiculoId).Igual()));
+                        cmd.ExecuteNonQuery();
+                    }
+                    using (var cmd = _dataBase.DeleteText("VeiculosEmpresas", conn))
+                    {
+                        cmd.Transaction = tran;
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("VeiculoId", DbType.Int32, entity.EquipamentoVeiculoId).Igual()));
+                        cmd.ExecuteNonQuery();
+                    }
                     using (var cmd = _dataBase.DeleteText("Veiculos", conn))
                     {
-
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("EquipamentoVeiculoID", entity.EquipamentoVeiculoId).Igual()));
+                        cmd.Transaction = tran;
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("EquipamentoVeiculoId", DbType.Int32, entity.EquipamentoVeiculoId).Igual()));
                         cmd.ExecuteNonQuery();
-
                     }
+
+                    tran.Commit();
                 }
-            }
-            catch (Exception ex)
-            {
+                catch (Exception ex)
+                {
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        tran.Rollback();
+                        conn.Close();
+                    }
+                    Utils.TraceException(ex);
+                }
 
-                throw ex;
             }
-
         }
 
         #endregion

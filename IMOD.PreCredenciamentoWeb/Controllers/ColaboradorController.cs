@@ -47,6 +47,14 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             List<ColaboradorViewModel> lstColaboradorMapeado = Mapper.Map<List<ColaboradorViewModel>>(ObterColaboradoresEmpresaLogada().OrderBy(e => e.Nome));
 
             Session[SESS_FOTO_COLABORADOR] = null;
+            Session[SESS_CONTRATOS_SELECIONADOS] = null;
+            Session[SESS_CONTRATOS_REMOVIDOS] = null;
+            Session[SESS_CURSOS_SELECIONADOS] = null;
+            Session[SESS_CURSOS_REMOVIDOS] = null;
+            Session[SESS_ANEXOS_SELECIONADOS] = null;
+            Session[SESS_ANEXOS_REMOVIDOS] = null;
+            Session[SESS_MUNICIPIO_SELECIONADO] = null;
+
             return View(lstColaboradorMapeado);
         }
 
@@ -524,7 +532,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     colaboradorMapeado.Precadastro = true;
                     colaboradorMapeado.Observacao = null;
 
-                    //Aguardando Revisão
+                    //Aguardando Aprovação
                     colaboradorMapeado.StatusCadastro = 1;
 
                     objService.Alterar(colaboradorMapeado);
@@ -749,20 +757,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 return View();
             }
         }
-
-        // GET: Colaborador/Delete/5
-        //[Authorize]
-        //public ActionResult Delete(int id)
-        //{
-        //    // TODO: Add delete logic here
-        //    Colaborador colaborador = new Colaborador();
-        //    colaborador.ColaboradorId = id;
-        //    //var colaboradorMapeado = Mapper.Map<Colaborador>(colaborador);
-        //    objService.Remover(colaborador);
-        //    return View();
-        //}
-
-        //POST: Colaborador/Delete/5
 
         public ActionResult Delete(int id, System.Web.Mvc.FormCollection collection)
         {

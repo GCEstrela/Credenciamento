@@ -109,7 +109,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "Validade Habilitação")]
         public DateTime? CnhValidade { get; set; }
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-        [Display(Name = "Vigência")]
+        [Display(Name = "Validade")]
         public DateTime? Vigencia { get; set; }
 
         public string CnhEmissor { get; set; }

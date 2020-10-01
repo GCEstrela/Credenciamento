@@ -310,6 +310,7 @@
     <Content Include="Views\Veiculo\Details.cshtml" />
     <Content Include="Views\Login\TrocaSenha.cshtml" />
     <Content Include="Views\Colaborador\Delete.cshtml" />
+    <Content Include="Views\Veiculo\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

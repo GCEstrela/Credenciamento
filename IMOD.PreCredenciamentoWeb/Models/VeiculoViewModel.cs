@@ -5,6 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using IMOD.Domain.Entities;
+using IMOD.Domain.Enums;
 
 namespace IMOD.PreCredenciamentoWeb.Models
 {
@@ -131,11 +132,11 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public int VeiculoId { get; set; }
 
         [Display(Name = "Apólice Digitalizada")]
-        public string NomeArquivo { get; set; }
+        public string NomeAnexoApolice { get; set; }
 
         [Display(Name = "Apólice Digitalizada")]
-        public string Arquivo { get; set; }
-        public HttpPostedFileBase File { get; set; }
+        public HttpPostedFileBase AnexoApolice { get; set; }
+        
         [Required(ErrorMessage = "A Emissão é requerida.")]
         [Display(Name = "Data Emissão")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
@@ -167,9 +168,9 @@ namespace IMOD.PreCredenciamentoWeb.Models
         {
             get
             {
-                if (Precadastro)
+                if (StatusCadastro != null)
                 {
-                    return (string.IsNullOrEmpty(Observacao)) ? "Aguardando Aprovação" : "Reprovado";
+                    return Funcoes.GetDescription((StatusCadastro)StatusCadastro);
                 }
                 else
                 {
@@ -177,5 +178,6 @@ namespace IMOD.PreCredenciamentoWeb.Models
                 }
             }
         }
+        public int? StatusCadastro { get; set; }
     }
 }

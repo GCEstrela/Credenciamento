@@ -478,7 +478,7 @@
                                             <div class="col-md-2">
                                                 <div id="datepicker">
                                                     <div class="input-group date">
-                                                        @Html.EditorFor(model => model.Vigencia, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                                        @Html.EditorFor(model => model.Vigencia, new { htmlAttributes = new { @id = "txtVigencia", @class = "form-control text-uppercase" } })
                                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                         @Html.ValidationMessageFor(model => model.Vigencia, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                                     </div>
@@ -716,7 +716,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                
+
                                 <div class="clearfix"></div>
 
                             </div>
@@ -728,7 +728,7 @@
                 </section>
 
             </div>
-            
+
         </fieldset>
 
 
@@ -892,9 +892,9 @@
                     success: function (result) {
                         var html = '';
                         $.each(result, function (key, item) {
-                            html += '<div class="col-lg-5">' + item.Descricao + '</div>';
-                            html += '<div class="col-lg-5">' + item.NomeArquivo + '</div>';
-                            //html += '<div class="col-lg-2"><a class="btnRemover" title="Remover Anexo" id=' + item.ColaboradorAnexoId + ' href="#" onclick="RemoverAnexo(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
+                            html += '<div class="col-lg-3">' + item.Descricao + '</div>';
+                            html += '<div class="col-lg-4">' + item.NomeArquivo + '</div>';
+                            html += '<div class="col-lg-2"><a class="btnRemover" title="Remover Anexo" id=' + item.ColaboradorAnexoId + ' href="#" onclick="RemoverAnexo(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
                         });
                         $('#divAnexo').html('');
                         $('#divAnexo').append(html);

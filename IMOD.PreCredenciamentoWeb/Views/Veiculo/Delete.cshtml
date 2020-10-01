@@ -1,0 +1,54 @@
+﻿@model IMOD.PreCredenciamentoWeb.Models.VeiculoViewModel
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<br />
+<div class="col-md-12" style="font-size: 12px">
+    <br />
+    <div class="table-wrapper">
+        <div class="panel-body">
+            <h4>Tem certeza que quer deletar esse veículo?</h4>
+            <div>
+                <hr />
+                <dl class="col-md-10 dl-horizontal">
+                    <dt style="width:35px">
+                        @Html.DisplayNameFor(model => model.Marca)
+                    </dt>
+
+                    <dd style="margin-left: 45px">
+                        @Html.DisplayFor(model => model.Marca)
+                    </dd>
+
+                    <dt style="width:35px">
+                        @Html.DisplayNameFor(model => model.Modelo)
+                    </dt>
+
+                    <dd style="margin-left: 45px">
+                        @Html.DisplayFor(model => model.Modelo)
+                    </dd>
+
+                    <dt style="width:35px">
+                        @Html.DisplayNameFor(model => model.PlacaIdentificador)
+                    </dt>
+
+                    <dd style="margin-left:45px">
+                        @Html.DisplayFor(model => model.PlacaIdentificador)
+                    </dd>
+                </dl>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="col-md-12 form-actions no-color">
+                        <input type="submit" value="Delete" class="btn btn-default" /> |
+                        <a href="~/Veiculo/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
