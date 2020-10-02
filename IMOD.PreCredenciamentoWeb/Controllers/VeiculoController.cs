@@ -25,8 +25,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private readonly IMOD.Application.Interfaces.IMunicipioService objMunicipioSevice = new IMOD.Application.Service.MunicipioService();
         private const string SESS_CONTRATOS_SELECIONADOS = "ContratosSelecionados";
         private const string SESS_CONTRATOS_REMOVIDOS = "ContratosRemovidos";
-        private const string SESS_SERVICOS_SELECIONADOS = "ServicosSelecionados";
-        private const string SESS_SERVICOS_REMOVIDOS = "ServicosRemovidos";
         private const string SESS_ANEXOS_SELECIONADOS = "AnexosSelecionados";
         private const string SESS_ANEXOS_REMOVIDOS = "AnexosRemovidos";
         private const string SESS_MUNICIPIO_SELECIONADO = "MunicipioSelecionado";
@@ -46,8 +44,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             Session[SESS_CONTRATOS_SELECIONADOS] = null;
             Session[SESS_CONTRATOS_REMOVIDOS] = null;
-            Session[SESS_SERVICOS_SELECIONADOS] = null;
-            Session[SESS_SERVICOS_REMOVIDOS] = null;
             Session[SESS_ANEXOS_SELECIONADOS] = null;
             Session[SESS_ANEXOS_REMOVIDOS] = null;
             Session[SESS_MUNICIPIO_SELECIONADO] = null;
@@ -141,15 +137,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 ViewBag.ContratosSelecionados = new List<VeiculoEmpresaViewModel>();
             }
 
-            if (Session[SESS_SERVICOS_SELECIONADOS] != null)
-            {
-                ViewBag.ServicosSelecionados = (List<TipoServico>)Session[SESS_SERVICOS_SELECIONADOS];
-            }
-            else
-            {
-                ViewBag.ServicosSelecionados = new List<TipoServico>();
-            }
-
             if (Session[SESS_ANEXOS_SELECIONADOS] != null)
             {
                 ViewBag.AnexosSelecionados = (List<VeiculoAnexo>)Session[SESS_ANEXOS_SELECIONADOS];
@@ -161,7 +148,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
             {
-                ViewBag.Municipio = (List<Municipio>)Session[SESS_MUNICIPIO_SELECIONADO];
+                ViewBag.Municipio = Session[SESS_MUNICIPIO_SELECIONADO];
             }
             else
             {
@@ -189,18 +176,13 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 if (model.FileAnexo != null)
                 {
                     if (model.FileAnexo.ContentLength > 2048000)
-                        ModelState.AddModelError("FileUploadAnexo", "Tamanho permitido de arquivo 2,00 MB");
+                        ModelState.AddModelError("FileUploadAnexo", "Tamanho permitido de arquivo anexo 2,00 MB");
 
-                    if (!Path.GetExtension(model.FileAnexo.FileName).Equals(".pdf"))
-                        ModelState.AddModelError("FileUploadAnexo", "Permitida Somente Extensão  .pdf");
                 }
                 if (model.AnexoApolice != null)
                 {
                     if (model.AnexoApolice.ContentLength > 2048000)
-                        ModelState.AddModelError("FileUpload", "Tamanho permitido de arquivo 2,00 MB");
-
-                    if (!Path.GetExtension(model.AnexoApolice.FileName).Equals(".pdf"))
-                        ModelState.AddModelError("FileUpload", "Permitida Somente Extensão  .pdf");
+                        ModelState.AddModelError("FileUpload", "Tamanho permitido de arquivo (Apólice) 2,00 MB");
                 }
 
                 if (((List<VeiculoEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS]) == null)
@@ -213,8 +195,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     var veiculoMapeado = Mapper.Map<Veiculo>(model);
                     veiculoMapeado.Precadastro = true;
                     veiculoMapeado.StatusCadastro = 0;
-                    veiculoMapeado.Tipo = "VEÍCULO";
-                    
+                    //veiculoMapeado.Tipo = "VEÍCULO";
+
                     objService.Criar(veiculoMapeado);
 
                     CriarVeiculoSeguro(model, false, veiculoMapeado.EquipamentoVeiculoId);
@@ -241,7 +223,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                             var item = objVeiculoEmpresaService.Listar(veiculoMapeado.EquipamentoVeiculoId, null, null, null, null, null, vinculo.EmpresaContratoId).FirstOrDefault();
                             if (item == null)
                             {
-                                vinculo.VeiculoEmpresaId = veiculoMapeado.EquipamentoVeiculoId;
+                                vinculo.VeiculoId = veiculoMapeado.EquipamentoVeiculoId;
                                 vinculo.Ativo = true;
                                 vinculo.EmpresaId = SessionUsuario.EmpresaLogada.EmpresaId;
                                 var veiculoEmpresa = Mapper.Map<VeiculoEmpresa>(vinculo);
@@ -287,8 +269,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                     Session.Remove(SESS_CONTRATOS_SELECIONADOS);
                     Session.Remove(SESS_CONTRATOS_REMOVIDOS);
-                    Session.Remove(SESS_SERVICOS_SELECIONADOS);
-                    Session.Remove(SESS_SERVICOS_REMOVIDOS);
                     Session.Remove(SESS_ANEXOS_SELECIONADOS);
                     Session.Remove(SESS_ANEXOS_REMOVIDOS);
 
@@ -318,15 +298,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     ViewBag.ContratosSelecionados = new List<VeiculoEmpresaViewModel>();
                 }
 
-                if (Session[SESS_SERVICOS_SELECIONADOS] != null)
-                {
-                    ViewBag.ServicosSelecionados = (List<TipoServico>)Session[SESS_SERVICOS_SELECIONADOS];
-                }
-                else
-                {
-                    ViewBag.ServicosSelecionados = new List<TipoServico>();
-                }
-
                 if (Session[SESS_ANEXOS_SELECIONADOS] != null)
                 {
                     ViewBag.AnexosSelecionados = (List<VeiculoAnexo>)Session[SESS_ANEXOS_SELECIONADOS];
@@ -338,7 +309,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                 if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
                 {
-                    ViewBag.Municipio = (List<Municipio>)Session[SESS_MUNICIPIO_SELECIONADO];
+                    ViewBag.Municipio = Session[SESS_MUNICIPIO_SELECIONADO];
                 }
                 else
                 {
@@ -374,6 +345,18 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
             }
 
+            //Carrega dados Seguro
+            var veiculoSeguro = objVeiculoSeguroService.Listar(id);
+            foreach (var item in veiculoSeguro)
+            {
+                veiculoMapeado.NomeSeguradora = item.NomeSeguradora;
+                veiculoMapeado.NumeroApolice = item.NumeroApolice;
+                veiculoMapeado.Emissao = item.Emissao;
+                veiculoMapeado.ValorCobertura = Convert.ToDouble(item.ValorCobertura);
+                veiculoMapeado.Validade = item.Validade;
+                veiculoMapeado.NomeAnexoApolice = item.NomeArquivo;
+            }
+
             //Popula combo de estado
             PopularEstadosDropDownList();
 
@@ -406,15 +389,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 ViewBag.ContratosSelecionados = new List<VeiculoEmpresaViewModel>();
             }
 
-            if (Session[SESS_SERVICOS_SELECIONADOS] != null)
-            {
-                ViewBag.ServicosSelecionados = (List<TipoServico>)Session[SESS_SERVICOS_SELECIONADOS];
-            }
-            else
-            {
-                ViewBag.ServicosSelecionados = new List<TipoServico>();
-            }
-
             if (Session[SESS_ANEXOS_SELECIONADOS] != null)
             {
                 ViewBag.AnexosSelecionados = (List<VeiculoAnexo>)Session[SESS_ANEXOS_SELECIONADOS];
@@ -426,7 +400,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
             {
-                ViewBag.Municipio = (List<Municipio>)Session[SESS_MUNICIPIO_SELECIONADO];
+                ViewBag.Municipio = Session[SESS_MUNICIPIO_SELECIONADO];
             }
             else
             {
@@ -462,7 +436,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 {
                     var veiculoMapeado = Mapper.Map<Veiculo>(model);
                     veiculoMapeado.Precadastro = true;
-                    veiculoMapeado.Tipo = "VEÍCULO";
+                    //veiculoMapeado.Tipo = "VEÍCULO";
                     veiculoMapeado.Observacao = null;
 
                     //Aguardando Aprovação
@@ -540,8 +514,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     //Remove itens da sessão
                     Session.Remove(SESS_CONTRATOS_SELECIONADOS);
                     Session.Remove(SESS_CONTRATOS_REMOVIDOS);
-                    Session.Remove(SESS_SERVICOS_SELECIONADOS);
-                    Session.Remove(SESS_SERVICOS_REMOVIDOS);
                     Session.Remove(SESS_ANEXOS_SELECIONADOS);
                     Session.Remove(SESS_ANEXOS_REMOVIDOS);
 
@@ -576,15 +548,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     ViewBag.ContratosSelecionados = new List<VeiculoEmpresaViewModel>();
                 }
 
-                if (Session[SESS_SERVICOS_SELECIONADOS] != null)
-                {
-                    ViewBag.ServicosSelecionados = (List<TipoServico>)Session[SESS_SERVICOS_SELECIONADOS];
-                }
-                else
-                {
-                    ViewBag.ServicosSelecionados = new List<TipoServico>();
-                }
-
                 if (Session[SESS_ANEXOS_SELECIONADOS] != null)
                 {
                     ViewBag.AnexosSelecionados = (List<VeiculoAnexo>)Session[SESS_ANEXOS_SELECIONADOS];
@@ -596,7 +559,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                 if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
                 {
-                    ViewBag.Municipio = (List<Municipio>)Session[SESS_MUNICIPIO_SELECIONADO];
+                    ViewBag.Municipio = Session[SESS_MUNICIPIO_SELECIONADO];
                 }
                 else
                 {
@@ -694,25 +657,25 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             return Json(listContrato, JsonRequestBehavior.AllowGet);
         }
 
-        [Authorize]
-        public JsonResult AdicionarServico(int id)
-        {
-            if (Session[SESS_SERVICOS_SELECIONADOS] == null) Session[SESS_SERVICOS_SELECIONADOS] = new List<TipoServico>();
-            var item = objServicosService.Listar(id).FirstOrDefault();
-            ((List<TipoServico>)Session[SESS_SERVICOS_SELECIONADOS]).Add(item);
-            return Json((List<TipoServico>)Session[SESS_SERVICOS_SELECIONADOS], JsonRequestBehavior.AllowGet);
-        }
+        //[Authorize]
+        //public JsonResult AdicionarServico(int id)
+        //{
+        //    if (Session[SESS_SERVICOS_SELECIONADOS] == null) Session[SESS_SERVICOS_SELECIONADOS] = new List<TipoServico>();
+        //    var item = objServicosService.Listar(id).FirstOrDefault();
+        //    ((List<TipoServico>)Session[SESS_SERVICOS_SELECIONADOS]).Add(item);
+        //    return Json((List<TipoServico>)Session[SESS_SERVICOS_SELECIONADOS], JsonRequestBehavior.AllowGet);
+        //}
 
-        [Authorize]
-        public JsonResult RemoverServico(int id)
-        {
-            var listServico = (List<TipoServico>)Session[SESS_SERVICOS_SELECIONADOS];
-            listServico.Remove(new TipoServico(id));
-            Session[SESS_SERVICOS_SELECIONADOS] = listServico;
-            if (Session[SESS_SERVICOS_REMOVIDOS] == null) Session[SESS_SERVICOS_REMOVIDOS] = new List<int>();
-            ((List<int>)Session[SESS_SERVICOS_REMOVIDOS]).Add(id);
-            return Json(listServico, JsonRequestBehavior.AllowGet);
-        }
+        //[Authorize]
+        //public JsonResult RemoverServico(int id)
+        //{
+        //    var listServico = (List<TipoServico>)Session[SESS_SERVICOS_SELECIONADOS];
+        //    listServico.Remove(new TipoServico(id));
+        //    Session[SESS_SERVICOS_SELECIONADOS] = listServico;
+        //    if (Session[SESS_SERVICOS_REMOVIDOS] == null) Session[SESS_SERVICOS_REMOVIDOS] = new List<int>();
+        //    ((List<int>)Session[SESS_SERVICOS_REMOVIDOS]).Add(id);
+        //    return Json(listServico, JsonRequestBehavior.AllowGet);
+        //}
 
         [Authorize]
         public ActionResult AdicionarAnexo()
@@ -883,46 +846,19 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private void CriarVeiculoSeguro(VeiculoViewModel veiculo, bool isEdicao, int veiculoId = 0)
         {
             byte[] bufferArquivo;
-            string NomeArquivo;
-            string ExtensaoArquivo;
-
+            string NomeArquivo = "";
+            string ExtensaoArquivo = "";
+            var arquivoBase64 = "";
             if (veiculo == null || veiculoId == 0) return;
 
             //if (veiculo.AnexoApolice.ContentLength <= 0 || veiculo.AnexoApolice.ContentLength > 2048000) return;
 
             //if (!ExtensaoArquivo.Equals(".pdf")) return;
 
-            if (veiculo.AnexoApolice == null)
-            {
-                return;
-            }
-            else
+            if (veiculo.AnexoApolice != null)
             {
                 NomeArquivo = Path.GetFileNameWithoutExtension(veiculo.AnexoApolice.FileName);
                 ExtensaoArquivo = Path.GetExtension(veiculo.AnexoApolice.FileName);
-
-                if (isEdicao)
-                {
-                    var arquivoStream = veiculo.AnexoApolice.InputStream;
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        arquivoStream.CopyTo(ms);
-                        bufferArquivo = ms.ToArray();
-                    }
-
-                    var arquivoBase64 = Convert.ToBase64String(bufferArquivo);
-
-                    var veiculoSeguros = objVeiculoSeguroService.Listar(veiculoId);
-
-                    foreach (var vSeguros in veiculoSeguros)
-                    {
-                        vSeguros.Arquivo = arquivoBase64;
-                        vSeguros.NomeArquivo = NomeArquivo + ExtensaoArquivo;
-                        objVeiculoSeguroService.Alterar(vSeguros);
-                    }
-                }
-                else
-                {
 
                 var arquivoStream = veiculo.AnexoApolice.InputStream;
                 using (MemoryStream ms = new MemoryStream())
@@ -931,8 +867,30 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     bufferArquivo = ms.ToArray();
                 }
 
-                var arquivoBase64 = Convert.ToBase64String(bufferArquivo);
+                arquivoBase64 = Convert.ToBase64String(bufferArquivo);
+            }
 
+            if (isEdicao)
+            {
+                var veiculoSeguros = objVeiculoSeguroService.Listar(veiculoId);
+
+                foreach (var vSeguros in veiculoSeguros)
+                {
+                    vSeguros.NomeSeguradora = veiculo.NomeSeguradora;
+                    vSeguros.NumeroApolice = veiculo.NumeroApolice.ToString();
+                    vSeguros.ValorCobertura = Convert.ToDecimal(veiculo.ValorCobertura);
+                    vSeguros.Emissao = veiculo.Emissao;
+                    vSeguros.Validade = veiculo.Validade;
+
+                    vSeguros.VeiculoId = veiculoId;
+                    vSeguros.Arquivo = arquivoBase64;
+                    vSeguros.NomeArquivo = NomeArquivo + ExtensaoArquivo;
+
+                    objVeiculoSeguroService.Alterar(vSeguros);
+                }
+            }
+            else
+            {
                 VeiculoSeguro veiculoSeguro = new VeiculoSeguro();
                 veiculoSeguro.NomeSeguradora = veiculo.NomeSeguradora;
                 veiculoSeguro.NumeroApolice = veiculo.NumeroApolice.ToString();
@@ -943,10 +901,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 veiculoSeguro.VeiculoId = veiculoId;
                 veiculoSeguro.Arquivo = arquivoBase64;
                 veiculoSeguro.NomeArquivo = NomeArquivo + ExtensaoArquivo;
+
                 objVeiculoSeguroService.Criar(veiculoSeguro);
-                }
             }
         }
+
 
         public FileResult Download(string id)
         {

@@ -18,10 +18,10 @@
                 <section>
                     <div class="wizard">
                         <div class="wizard-inner" style="text-align:center">
-                            <div class="connecting-line" style="width:30%"></div>
+                            <div class="connecting-line" style="width:40%"></div>
                             <ul class="nav nav-tabs" role="tablist" style="padding-left: 75px;">
-                                <li class="nav-item" style="width:250px" data-toggle="tab" href="#" role="tab">
-                                    &nbsp&nbsp
+                                <li class="nav-item" style="width:200px" data-toggle="tab" href="#" role="tab">
+                                    &nbsp&nbsp&nbsp
                                 </li>
                                 <li role="presentation" class="active" style="padding-left: 10px">
                                     <a href="#home" data-toggle="tab" aria-controls="home" role="tab" title="Identificação">
@@ -73,12 +73,12 @@
 
                                         @Html.LabelFor(model => model.TipoEquipamentoVeiculoId, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-2" style="padding-top:7px;">
-                                            @Html.DropDownListFor(model => model.Tipo, ((SelectList)ViewBag.TipoVeiculo).Select(option => new SelectListItem
-                                       {
-                                           Text = option.Text,
-                                           Value = option.Value.ToString(),
-                                           Selected = (Model != null) && (option.Text == Model.Tipo)
-                                       }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlTipo", @disabled = "disabled" })
+                                            @Html.DropDownListFor(model => model.Tipo, ((IEnumerable<IMOD.Domain.Entities.TipoEquipamento>)ViewBag.TipoEquipamento).Select(option => new SelectListItem
+                                        {
+                                            Text = option.Descricao,
+                                            Value = option.TipoEquipamentoId.ToString(),
+                                            Selected = (Model != null) && (option.TipoEquipamentoId == Convert.ToInt32(Model.Tipo))
+                                        }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlTipo", @disabled = "disabled" })
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -126,18 +126,12 @@
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.Licenciamento, htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-4" style="padding-top:7px;">
-                                            @Html.DisplayTextFor(model => model.Licenciamento)
+                                        @Html.LabelFor(model => model.DataLicenciameno, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-2" style="padding-top:7px;">
+                                            @Html.DisplayTextFor(model => model.DataLicenciameno)
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.NomeAnexoApolice, htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-6" style="padding-top:7px;">
-                                            @Html.DisplayTextFor(model => model.NomeAnexoApolice)
-                                        </div>
-                                    </div>
                                     <ul class="list-inline pull-right">
                                         <li><a href="~/Veiculo/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
                                         <li><button type="button" class="btn btn-primary next-step btn-icon"><span><strong>Avançar</strong></span> <i class="fa fa-arrow-right"></i> </button> </li>
@@ -274,9 +268,9 @@
                                         </div>
 
                                         <div class="form-group">
-                                            @Html.LabelFor(model => model.NomeArquivoAnexo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            @Html.LabelFor(model => model.NomeAnexoApolice, htmlAttributes: new { @class = "control-label col-md-2" })
                                             <div class="col-md-6" style="padding-top:7px;">
-                                                @Html.DisplayTextFor(model => model.NomeArquivoAnexo)
+                                                @Html.DisplayTextFor(model => model.NomeAnexoApolice)
                                             </div>
                                         </div>
                                     </fieldset>

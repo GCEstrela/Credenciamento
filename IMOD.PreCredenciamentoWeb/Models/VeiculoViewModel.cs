@@ -96,7 +96,10 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string ArquivoAnexo { get; set; }
         
         public HttpPostedFileBase FileAnexo { get; set; }
-        public string Licenciamento { get; set; }
+        [Required(ErrorMessage = "A Data de Licenciamento é requerida.")]
+        [Display(Name = "Licenciamento")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime? DataLicenciameno { get; set; }
 
         [Display(Name = "Veículo")]
         public string RadioVeiculoEquip { get; set; }

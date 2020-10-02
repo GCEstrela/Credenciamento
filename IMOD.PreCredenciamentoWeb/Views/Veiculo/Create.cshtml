@@ -69,11 +69,11 @@
 
                                         @Html.LabelFor(model => model.TipoEquipamentoVeiculoId, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-2">
-                                            @Html.DropDownListFor(model => model.Tipo, ((SelectList)ViewBag.TipoVeiculo).Select(option => new SelectListItem
+                                            @Html.DropDownListFor(model => model.Tipo, ((IEnumerable<IMOD.Domain.Entities.TipoEquipamento>)ViewBag.TipoEquipamento).Select(option => new SelectListItem
                                        {
-                                           Text = option.Text,
-                                           Value = option.Value.ToString(),
-                                           Selected = (Model != null) && (option.Text == Model.Tipo)
+                                           Text = option.Descricao,
+                                           Value = option.TipoEquipamentoId.ToString(),
+                                           Selected = (Model != null) && (option.TipoEquipamentoId == Convert.ToInt32(Model.Tipo))
                                        }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlTipo" })
                                             @Html.ValidationMessageFor(model => model.Tipo, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
@@ -129,14 +129,16 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.Licenciamento, htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-4">
-                                            @Html.EditorFor(model => model.Licenciamento, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                            @Html.ValidationMessageFor(model => model.Licenciamento, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                    @Html.LabelFor(model => model.DataLicenciameno, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        <div id="datepicker">
+                                            <div class="input-group date">
+                                                @Html.EditorFor(model => model.DataLicenciameno, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                @Html.ValidationMessageFor(model => model.DataLicenciameno, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                            </div>
                                         </div>
                                     </div>
-
 
                                     <br />
                                     <div class="col-lg-12">
@@ -332,7 +334,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.AnexoApolice, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-6">
-                                            <input type="file" name="File" id="File" accept=".pdf" />
+                                            <input type="file" name="AnexoApolice" id="AnexoApolice" @*accept=".pdf"*@ />
                                             @Html.ValidationMessageFor(model => model.AnexoApolice, "", new { @class = "text-danger", id = "File" })
                                         </div>
                                     </div>
@@ -413,7 +415,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-<script>
+    <script>
         $(document).ready(function () {
             //Initialize tooltips
             $('.nav-tabs > li a[title]').tooltip();
@@ -601,7 +603,7 @@
                    }
                  });
             };
-</script>
+    </script>
 
 
     <script>
