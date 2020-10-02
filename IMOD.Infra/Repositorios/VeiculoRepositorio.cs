@@ -85,6 +85,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Categoria", entity.Categoria, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataLicenciameno", DbType.Date, entity.DataLicenciameno, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataVistoria", DbType.Date, entity.DataVistoria, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("StatusCadastro", entity.StatusCadastro, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -222,6 +223,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataLicenciameno", entity.DataLicenciameno, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataVistoria", entity.DataVistoria, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Observacao", entity.Observacao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("StatusCadastro", entity.StatusCadastro, false)));
 
                         cmd.ExecuteNonQuery();
 
