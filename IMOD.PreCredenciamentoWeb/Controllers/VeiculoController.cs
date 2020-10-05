@@ -67,6 +67,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             if (veiculoEditado == null)
                 return HttpNotFound();
 
+            //Propula combo de estado
+            PopularEstadosDropDownList();
+
             //obtém vinculos do veículo
             VeiculoViewModel veiculoMapeado = Mapper.Map<VeiculoViewModel>(veiculoEditado);
 
@@ -96,9 +99,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             ViewBag.ContratosSelecionados = listaVinculosVeiculo;
             Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosVeiculo);
 
-            //Propula combo de estado
-            PopularEstadosDropDownList();
-
             //Preenchie combo municipio de acordo com o estado
             ViewBag.Municipio = new List<Municipio>();
             var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, veiculoMapeado.EstadoId).OrderBy(m => m.Nome);
@@ -121,6 +121,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Create()
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+
+            PopularDadosDropDownList();
 
             //carrega os serviços
             var listServicos = objServicosService.Listar().ToList();
@@ -156,7 +158,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
 
             PopularEstadosDropDownList();
-            PopularDadosDropDownList();
 
             PopularContratoCreateDropDownList(SessionUsuario.EmpresaLogada.EmpresaId);
 
@@ -172,7 +173,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             try
             {
-
                 if (model.FileAnexo != null)
                 {
                     if (model.FileAnexo.ContentLength > 2048000)
@@ -195,7 +195,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     var veiculoMapeado = Mapper.Map<Veiculo>(model);
                     veiculoMapeado.Precadastro = true;
                     veiculoMapeado.StatusCadastro = 0;
-                    //veiculoMapeado.Tipo = "VEÍCULO";
+                    veiculoMapeado.Tipo = "VEÍCULO";
 
                     objService.Criar(veiculoMapeado);
 
@@ -274,6 +274,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                     return RedirectToAction("Index", "Veiculo");
                 }
+                PopularDadosDropDownList();
 
                 // Se ocorrer um erro retorna para pagina
                 if (SessionUsuario.EmpresaLogada.Contratos != null) { ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos; }
@@ -282,7 +283,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 if (listServicos != null && listServicos.Any()) { ViewBag.Servicos = listServicos; }
 
                 PopularEstadosDropDownList();
-                PopularDadosDropDownList();
+                
 
                 if (model.EstadoId > 0)
                 {
@@ -337,6 +338,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             if (veiculoEditado == null)
                 return HttpNotFound();
 
+            PopularDadosDropDownList();
+
             VeiculoViewModel veiculoMapeado = Mapper.Map<VeiculoViewModel>(veiculoEditado);
 
             // carrega os contratos da empresa
@@ -361,8 +364,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             PopularEstadosDropDownList();
 
             PopularMunicipiosDropDownList(veiculoMapeado.EstadoId.ToString());
-
-            PopularDadosDropDownList();
 
             //Popula contratos selecionados
             ViewBag.ContratosSelecionados = new List<VeiculoEmpresaViewModel>();
@@ -420,6 +421,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 if (id == null)
                     return HttpNotFound();
 
+                if (((List<VeiculoEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS]) == null)
+                {
+                    ModelState.AddModelError("ContratoEmpresaId", "Necessário adicionar pelo menos um contrato!");
+                }
+
                 if (model.FileAnexo != null)
                 {
                     if (model.FileAnexo.ContentLength > 2048000)
@@ -436,7 +442,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 {
                     var veiculoMapeado = Mapper.Map<Veiculo>(model);
                     veiculoMapeado.Precadastro = true;
-                    //veiculoMapeado.Tipo = "VEÍCULO";
+                    veiculoMapeado.Tipo = "VEÍCULO";
                     veiculoMapeado.Observacao = null;
 
                     //Aguardando Aprovação

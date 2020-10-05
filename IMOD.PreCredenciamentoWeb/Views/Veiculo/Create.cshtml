@@ -69,13 +69,13 @@
 
                                         @Html.LabelFor(model => model.TipoEquipamentoVeiculoId, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-2">
-                                            @Html.DropDownListFor(model => model.Tipo, ((IEnumerable<IMOD.Domain.Entities.TipoEquipamento>)ViewBag.TipoEquipamento).Select(option => new SelectListItem
+                                            @Html.DropDownListFor(model => model.TipoEquipamentoVeiculoId, ((IEnumerable<IMOD.Domain.Entities.TipoEquipamento>)ViewBag.TipoEquipamento).Select(option => new SelectListItem
                                        {
                                            Text = option.Descricao,
                                            Value = option.TipoEquipamentoId.ToString(),
-                                           Selected = (Model != null) && (option.TipoEquipamentoId == Convert.ToInt32(Model.Tipo))
+                                           Selected = (Model != null) && (option.TipoEquipamentoId == Model.TipoEquipamentoVeiculoId)
                                        }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlTipo" })
-                                            @Html.ValidationMessageFor(model => model.Tipo, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                            @Html.ValidationMessageFor(model => model.TipoEquipamentoVeiculoId, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
                                     </div>
                                     <div class="form-group">

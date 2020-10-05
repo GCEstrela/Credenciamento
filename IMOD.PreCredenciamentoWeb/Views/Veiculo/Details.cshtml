@@ -73,11 +73,11 @@
 
                                         @Html.LabelFor(model => model.TipoEquipamentoVeiculoId, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-2" style="padding-top:7px;">
-                                            @Html.DropDownListFor(model => model.Tipo, ((IEnumerable<IMOD.Domain.Entities.TipoEquipamento>)ViewBag.TipoEquipamento).Select(option => new SelectListItem
+                                            @Html.DropDownListFor(model => model.TipoEquipamentoVeiculoId, ((IEnumerable<IMOD.Domain.Entities.TipoEquipamento>)ViewBag.TipoEquipamento).Select(option => new SelectListItem
                                         {
                                             Text = option.Descricao,
                                             Value = option.TipoEquipamentoId.ToString(),
-                                            Selected = (Model != null) && (option.TipoEquipamentoId == Convert.ToInt32(Model.Tipo))
+                                            Selected = (Model != null) && (option.TipoEquipamentoId == Model.TipoEquipamentoVeiculoId)
                                         }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlTipo", @disabled = "disabled" })
                                         </div>
                                     </div>
@@ -278,6 +278,7 @@
                                         <ul class="list-inline pull-right">
                                             <li><a href="~/Veiculo/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
                                             <li><button type="button" class="btn btn-default prev-step btn-icon"><i class="fa fa-arrow-left"></i> <span><strong>Voltar</strong></span></button></li>
+                                            <li><button type="button" class="btn btn-primary next-step btn-icon"><span><strong>Avançar</strong></span> <i class="fa fa-arrow-right"></i> </button> </li>
                                         </ul>
                                     </div>
                                 </div>

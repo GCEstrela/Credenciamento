@@ -34,7 +34,6 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Required(ErrorMessage = "O Modelo é requerido.")]
         public string Modelo { get; set; }
 
-        [Required(ErrorMessage = "O Tipo é requerido.")]
         public string Tipo { get; set; }
 
 
@@ -70,6 +69,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "Largura (cm)")]
         public string Largura { get; set; }
 
+        [Required(ErrorMessage = "O Tipo é requerido.")]
         [Display(Name = "Tipo")]
         public int TipoEquipamentoVeiculoId { get; set; }
 

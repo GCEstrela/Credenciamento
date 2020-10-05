@@ -125,6 +125,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 ViewBag.CursosSelecionados = cursosSelecionados;
                 Session.Add(SESS_CURSOS_SELECIONADOS, cursosSelecionados);
             }
+            else
+            {
+                ViewBag.CursosSelecionados = new List<Curso>();
+            }
 
             //Popula anexos do colaborador
             var anexosSelecionados = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId);
@@ -514,6 +518,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
                 if (id == null)
                     return HttpNotFound();
+
+                if (((List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS]) == null)
+                {
+                    ModelState.AddModelError("EmpresaContratoId", "Necessário adicionar pelo menos um contrato!");
+                }
 
                 if (model.FotoColaborador != null)
                 {
