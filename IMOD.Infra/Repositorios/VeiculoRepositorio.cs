@@ -147,9 +147,7 @@ namespace IMOD.Infra.Repositorios
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
                     using (var cmd = _dataBase.SelectText("VeiculosView", conn))
-
                     {
-
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EquipamentoVeiculoID", DbType.Int32, objects, 0).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Modelo", DbType.String, objects, 1).Like()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("PlacaIdentificador", DbType.String, objects, 2).Like()));
