@@ -73,6 +73,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public DateTime Validade { get; set; }
         public string Arquivo { get; set; }
         public string NomeArquivo { get; set; }
+        public int? StatusCadastro { get; set; }
         #endregion
     }
 }
