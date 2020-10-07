@@ -137,7 +137,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "Apólice Digitalizada")]
         public string NomeAnexoApolice { get; set; }
 
-        [Display(Name = "Apólice Digitalizada")]
+        [Display(Name = "Selecionar Apólice")]
         public HttpPostedFileBase AnexoApolice { get; set; }
         
         [Required(ErrorMessage = "A Emissão é requerida.")]
@@ -182,5 +182,8 @@ namespace IMOD.PreCredenciamentoWeb.Models
             }
         }
         public int? StatusCadastro { get; set; }
+
+        [Display(Name = "Selecione um Contrato:")]
+        public int EmpresaSeguroId { get; set; }
     }
 }

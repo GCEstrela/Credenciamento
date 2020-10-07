@@ -74,14 +74,14 @@
                                            Text = option.Descricao,
                                            Value = option.TipoEquipamentoId.ToString(),
                                            Selected = (Model != null) && (option.TipoEquipamentoId == Model.TipoEquipamentoVeiculoId)
-                                       }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlTipo" })
+                                       }), "Selecione", new { @class = "form-control text-uppercase", @id = "ddlTipo" })
                                             @Html.ValidationMessageFor(model => model.TipoEquipamentoVeiculoId, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Descricao, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Descricao" } })
+                                            @Html.EditorFor(model => model.Descricao, new { htmlAttributes = new { @class = "form-control text-uppercase", @id = "Descricao" } })
                                             @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
 
@@ -91,13 +91,13 @@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.PlacaIdentificador, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-4">
-                                            @Html.EditorFor(model => model.PlacaIdentificador, "Placa/Identificador", new { htmlAttributes = new { @class = "form-control text-uppercase", id = "PlacaIdentificador" } })
+                                            @Html.EditorFor(model => model.PlacaIdentificador, "Placa/Identificador", new { htmlAttributes = new { @class = "form-control text-uppercase", @id = "PlacaIdentificador" } })
                                             @Html.ValidationMessageFor(model => model.PlacaIdentificador, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
 
                                         @Html.LabelFor(model => model.SerieChassi, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-4">
-                                            @Html.EditorFor(model => model.SerieChassi, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "SerieChassi" } })
+                                            @Html.EditorFor(model => model.SerieChassi, new { htmlAttributes = new { @class = "form-control text-uppercase", @id = "SerieChassi" } })
                                             @Html.ValidationMessageFor(model => model.SerieChassi, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
 
@@ -119,12 +119,12 @@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Marca, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-4">
-                                            @Html.EditorFor(model => model.Marca, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Marca" } })
+                                            @Html.EditorFor(model => model.Marca, new { htmlAttributes = new { @class = "form-control text-uppercase", @id = "Marca" } })
                                             @Html.ValidationMessageFor(model => model.Marca, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
                                         @Html.LabelFor(model => model.Modelo, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-4">
-                                            @Html.EditorFor(model => model.Modelo, new { htmlAttributes = new { @class = "form-control text-uppercase", id = "Modelo" } })
+                                            @Html.EditorFor(model => model.Modelo, new { htmlAttributes = new { @class = "form-control text-uppercase", @id = "Modelo" } })
                                             @Html.ValidationMessageFor(model => model.Modelo, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
                                     </div>
@@ -153,7 +153,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Ano, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-1">
-                                            @Html.EditorFor(model => model.Ano, new { htmlAttributes = new { @class = "form-control text-uppercase", maxLength = "4", id = "Ano" } })
+                                            @Html.EditorFor(model => model.Ano, new { htmlAttributes = new { @class = "form-control text-uppercase", maxLength = "4", @id = "Ano" } })
                                             @Html.ValidationMessageFor(model => model.Ano, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
 
@@ -164,7 +164,7 @@
                                            Text = option.Descricao,
                                            Value = option.TipoCombustivelId.ToString(),
                                            Selected = (Model != null) && (option.TipoCombustivelId == Model.CombustivelId)
-                                       }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlCombustivel" })
+                                       }), "Selecione", new { @class = "form-control text-uppercase", @id = "ddlCombustivel" })
                                             @Html.ValidationMessageFor(model => model.CombustivelId, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
 
@@ -203,7 +203,7 @@
                                            Text = option.Nome,
                                            Value = option.EstadoId.ToString(),
                                            Selected = (Model != null) && (option.EstadoId == Model.EstadoId)
-                                       }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlEstado" })
+                                       }), "Selecione", new { @class = "form-control text-uppercase", @id = "ddlEstado" })
                                             @Html.ValidationMessageFor(model => model.EstadoId, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
                                     </div>
@@ -216,7 +216,7 @@
                                            Text = option.Nome,
                                            Value = option.MunicipioId.ToString(),
                                            Selected = (Model != null) && (option.MunicipioId == Model.MunicipioId)
-                                       }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlMunicipio" })
+                                       }), "Selecione", new { @class = "form-control text-uppercase", @id = "ddlMunicipio" })
                                             @Html.ValidationMessageFor(model => model.MunicipioId, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
                                     </div>
@@ -234,7 +234,7 @@
                                         <div>
 
                                             @Html.Label("Área de Manobra?", htmlAttributes: new { @class = "control-label", @style = "padding-right: 24px" })
-                                            @Html.CheckBox("Área de Manobra?", htmlAttributes: new { id = "chkAreaManobra" })
+                                            @Html.CheckBox("Área de Manobra?", htmlAttributes: new { @id = "chkAreaManobra" })
                                         </div>
                                     </div>
 
@@ -247,7 +247,7 @@
                                                Text = option.Descricao,
                                                Value = option.EmpresaContratoId.ToString(),
                                                Selected = (Model != null) && (option.EmpresaContratoId.ToString() == Model.ContratoEmpresaID)
-                                           }), "Selecione", new { @class = "form-control text-uppercase", id = "ddlContrato" })
+                                           }), "Selecione", new { @class = "form-control text-uppercase", @id = "ddlContrato" })
                                                 @Html.ValidationMessageFor(model => model.ContratoEmpresaID, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                             </div>
                                             <div class="col-lg-7">
@@ -288,23 +288,36 @@
                                 </div>
                                 <div class=" tab-pane fade" id="seguros" role="tabpanel" aria-labelledby="seguro-tab">
                                     <br />
+                                    @*<div class="form-group">
+
+                                        @Html.LabelFor(model => model.EmpresaSeguroId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-5">
+                                            @Html.DropDownListFor(model => model.EmpresaSeguroId, ((IEnumerable<IMOD.Domain.Entities.EmpresaSeguro>)ViewBag.EmpresaSeguros).Select(option => new SelectListItem
+                                       {
+                                           Text = option.NomeSeguradora,
+                                           Value = option.EmpresaSeguroId.ToString(),
+                                           Selected = (Model != null) && (option.EmpresaSeguroId == Model.EmpresaSeguroId)
+                                       }), "Novo Seguro", new { @class = "form-control text-uppercase", @id = "ddlEmpresaSeguros" })
+                                            @Html.ValidationMessageFor(model => model.EmpresaSeguroId, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                        </div>
+                                    </div>*@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.NomeSeguradora, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-5">
-                                            @Html.EditorFor(model => model.NomeSeguradora, "Seguradora", new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                            @Html.EditorFor(model => model.NomeSeguradora, new { htmlAttributes = new { @class = "form-control text-uppercase", @id = "txtNomeSeguradora" } })
                                             @Html.ValidationMessageFor(model => model.NomeSeguradora, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
 
                                         @Html.LabelFor(model => model.NumeroApolice, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-3">
-                                            @Html.EditorFor(model => model.NumeroApolice, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                            @Html.EditorFor(model => model.NumeroApolice, new { htmlAttributes = new { @class = "form-control text-uppercase", @ID = "txtNumeroApolice" } })
                                             @Html.ValidationMessageFor(model => model.NumeroApolice, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.ValorCobertura, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-2">
-                                            @Html.EditorFor(model => model.ValorCobertura, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                            @Html.EditorFor(model => model.ValorCobertura, new { htmlAttributes = new { @class = "form-control text-uppercase", @ID = "txtValorCobertura" } })
                                             @Html.ValidationMessageFor(model => model.ValorCobertura, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
 
@@ -312,7 +325,7 @@
                                         <div class="col-md-2">
                                             <div id="datepicker">
                                                 <div class="input-group date">
-                                                    @Html.EditorFor(model => model.Emissao, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                                    @Html.EditorFor(model => model.Emissao, new { htmlAttributes = new { @class = "form-control text-uppercase", @ID = "txtDataEmissao" } })
                                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                     @Html.ValidationMessageFor(model => model.Emissao, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                                 </div>
@@ -323,19 +336,26 @@
                                         <div class="col-md-2">
                                             <div id="datepicker">
                                                 <div class="input-group date">
-                                                    @Html.EditorFor(model => model.Validade, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                                    @Html.EditorFor(model => model.Validade, new { htmlAttributes = new { @class = "form-control text-uppercase", @id = "txtDataValidade" } })
                                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                     @Html.ValidationMessageFor(model => model.Validade, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
+                                    @*<div class="form-group">
+                                        @Html.LabelFor(model => model.NomeAnexoApolice, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-3">
+                                            @Html.EditorFor(model => model.NomeAnexoApolice, new { htmlAttributes = new { @class = "form-control text-uppercase", @ID = "txtNomeAnexoApolice", @disabled = "disabled" } })
+                                            @Html.ValidationMessageFor(model => model.NomeAnexoApolice, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                        </div>
+                                    </div>*@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.AnexoApolice, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-6">
-                                            <input type="file" name="AnexoApolice" id="AnexoApolice" @*accept=".pdf"*@ />
-                                            @Html.ValidationMessageFor(model => model.AnexoApolice, "", new { @class = "text-danger", id = "File" })
+                                            <input type="text" hidden="hidden" id="Arquivo"/>
+                                            <input type="file" name="AnexoApolice" id="AnexoApolice" accept=".pdf"@ />
+                                            @Html.ValidationMessageFor(model => model.AnexoApolice, "", new { @class = "text-danger", @id = "File" })
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -377,14 +397,14 @@
                                             <legend> Anexos Selecionados</legend>
                                             <div class="row">
                                                 <div class="col-lg-3"><b>Descrição</b></div>
-                                                <div class="col-lg-4"><b>Arquivo</b></div>
+                                                <div class="col-lg-7"><b>Arquivo</b></div>
                                                 <div class="col-lg-2"></div>
                                             </div>
                                             <div class="row" id="divAnexo">
                                                 @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.VeiculoAnexo>)ViewBag.AnexosSelecionados))
                                                 {
                                                     <div class="col-lg-3">@item.Descricao</div>
-                                                    <div class="col-lg-5">@item.NomeArquivo</div>
+                                                    <div class="col-lg-7">@item.NomeArquivo</div>
                                                     <div class="col-lg-2">
                                                         <a title="Remover Anexo" id=@item.VeiculoAnexoId href="#" class="btnRemoverAnexo" onclick="RemoverAnexo(this)">
                                                             <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
@@ -415,7 +435,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-    <script>
+<script>
         $(document).ready(function () {
             //Initialize tooltips
             $('.nav-tabs > li a[title]').tooltip();
@@ -443,6 +463,52 @@
                 prevTab($active);
 
             });
+
+            @*$("#ddlEmpresaSeguros").change(function () {
+                //PopulaSeguro();
+                var id = $("#ddlEmpresaSeguros").val() == "" ? 0 : $("#ddlEmpresaSeguros").val();
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("PopulaSeguro")',
+                    data: {
+                        id: id
+                    },
+                    success: function (result) {
+                        if (id == 0) {
+                            $("#txtNomeSeguradora").val("");
+                            $("#txtNumeroApolice").val("");
+                            $("#txtValorCobertura").val("");
+                            $("#txtDataEmissao").val("");
+                            $("#txtDataValidade").val("");
+                            $("#txtNomeAnexoApolice").val("");
+                        } else {
+                            var emissao = new Date(parseInt(result.Emissao.substr(6)));
+                            var validade = new Date(parseInt(result.Validade.substr(6)));
+
+                            $("#txtNomeSeguradora").val(result.NomeSeguradora);
+                            $("#txtNumeroApolice").val(result.NumeroApolice);
+                            $("#txtValorCobertura").val(result.ValorCobertura);
+                            $("#txtDataEmissao").val(formatDate(emissao));
+                            $("#txtDataValidade").val(formatDate(validade));
+                            $("#txtNomeAnexoApolice").val(result.NomeArquivo);
+                            $("#Arquivo").val(result.Arquivo);
+                        }
+                        
+                    },
+                    error: function (result) {
+                    }
+                });
+            });*@
+
+            function formatDate(data) {
+
+                var year = data.getFullYear();
+                var month = data.getMonth() + 1;
+                var day = data.getDate();
+
+                var newDate = day + "/" + month + "/" + year;
+                return newDate;
+            }
 
             //evento do botão incluir contrato
             $("#btContrato").click(function () {
@@ -500,7 +566,7 @@
                         var html = '';
                         $.each(result, function (key, item) {
                             html += '<div class="col-lg-3">' + item.Descricao + '</div>';
-                            html += '<div class="col-lg-5">' + item.NomeArquivo + '</div>';
+                            html += '<div class="col-lg-7">' + item.NomeArquivo + '</div>';
                             html += '<div class="col-lg-2"><a class="btnRemover" title="Remover Anexo" id=' + item.VeiculoAnexoId + ' href="#" onclick="RemoverAnexo(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
                         });
                         $('#divAnexo').html('');
@@ -588,9 +654,9 @@
                    success: function (result) {
                        var html = '';
                        $.each(result, function (key, item) {
-                           html += '<div class="col-lg-1">' + item.VeiculoAnexoId + '</div>';
+                           //html += '<div class="col-lg-1">' + item.VeiculoAnexoId + '</div>';
                            html += '<div class="col-lg-3">' + item.Descricao + '</div>';
-                           html += '<div class="col-lg-5">' + item.NomeArquivo + '</div>';
+                           html += '<div class="col-lg-7">' + item.NomeArquivo + '</div>';
                            html += '<div class="col-lg-2"><a class="btnRemoverAnexo" title="Remover Anexo" id=' + item.VeiculoAnexoId + ' onclick="RemoverAnexo(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
 
                        });
@@ -603,7 +669,7 @@
                    }
                  });
             };
-    </script>
+</script>
 
 
     <script>
