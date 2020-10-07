@@ -95,7 +95,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 veiculoMapeado.Emissao = item.Emissao;
                 veiculoMapeado.ValorCobertura = Convert.ToDouble(item.ValorCobertura);
                 veiculoMapeado.Validade = item.Validade;
-                //veiculoMapeado.NomeAnexoApolice = item.NomeArquivo;
+                veiculoMapeado.NomeAnexoApolice = item.NomeArquivo;
             }
 
             //Popula contratos selecionados
@@ -373,7 +373,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 veiculoMapeado.Emissao = item.Emissao;
                 veiculoMapeado.ValorCobertura = Convert.ToDouble(item.ValorCobertura);
                 veiculoMapeado.Validade = item.Validade;
-                //veiculoMapeado.NomeAnexoApolice = item.NomeArquivo;
+                veiculoMapeado.NomeAnexoApolice = item.NomeArquivo;
             }
 
             //Popula combo de estado
@@ -450,6 +450,15 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                     if (!Path.GetExtension(model.FileAnexo.FileName).Equals(".pdf"))
                         ModelState.AddModelError("FileAnexo", "Permitida Somente Extensão  .pdf");
+                }
+
+                if (model.AnexoApolice != null)
+                {
+                    if (model.AnexoApolice.ContentLength > 2048000)
+                        ModelState.AddModelError("FileUpload", "Tamanho permitido de arquivo (Apólice) 2,00 MB");
+
+                    if (!Path.GetExtension(model.AnexoApolice.FileName).Equals(".pdf"))
+                        ModelState.AddModelError("FileUpload", "Permitida Somente Extensão  .pdf");
                 }
 
                 var idVeiculo = id;
@@ -924,7 +933,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                 foreach (var vSeguros in veiculoSeguros)
                 {
-                    vSeguros.VeiculoSeguroId = veiculo.EmpresaSeguroId;
+                    vSeguros.EmpresaSeguroid = veiculo.EmpresaSeguroId;
                     vSeguros.NomeSeguradora = veiculo.NomeSeguradora;
                     vSeguros.NumeroApolice = veiculo.NumeroApolice.ToString();
                     vSeguros.ValorCobertura = Convert.ToDecimal(veiculo.ValorCobertura);
