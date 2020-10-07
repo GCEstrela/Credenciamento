@@ -250,12 +250,14 @@
                                            }), "Selecione", new { @class = "form-control text-uppercase", @id = "ddlContrato" })
                                                 @Html.ValidationMessageFor(model => model.ContratoEmpresaID, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                             </div>
-                                            <div class="col-lg-7">
-                                                @*//href="@Url.Action("AdicionarContrato")"*@
-                                                <a title="Vincular Contrato" id="btContrato" href="#">
-                                                    <i class="success btn-icon fa fa-plus-circle" style="color: #92c755; font-size: 25px; text-align:center"></i>
-                                                </a>
-                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div div class="form-group">
+                                        <div class="col-lg-2">
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <button type="button" class="btn btn-info btn-icon" title="Vincular Contrato" id="btContrato"><span><strong>Adicionar</strong></span> <i class="fa fa-plus-circle"></i> </button>
                                         </div>
                                     </div>
                                     <br />
@@ -280,6 +282,9 @@
                                             }
                                         </div>
                                     </fieldset>
+                                    <br />
+                                    <br />
+
                                     <ul class="list-inline pull-right">
                                         <li><a href="~/Veiculo/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
                                         <li><button type="button" class="btn btn-default prev-step btn-icon"><i class="fa fa-arrow-left"></i> <span><strong>Voltar</strong></span></button></li>
@@ -290,17 +295,17 @@
                                     <br />
                                     @*<div class="form-group">
 
-                                        @Html.LabelFor(model => model.EmpresaSeguroId, htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-5">
-                                            @Html.DropDownListFor(model => model.EmpresaSeguroId, ((IEnumerable<IMOD.Domain.Entities.EmpresaSeguro>)ViewBag.EmpresaSeguros).Select(option => new SelectListItem
-                                       {
-                                           Text = option.NomeSeguradora,
-                                           Value = option.EmpresaSeguroId.ToString(),
-                                           Selected = (Model != null) && (option.EmpresaSeguroId == Model.EmpresaSeguroId)
-                                       }), "Novo Seguro", new { @class = "form-control text-uppercase", @id = "ddlEmpresaSeguros" })
-                                            @Html.ValidationMessageFor(model => model.EmpresaSeguroId, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
-                                        </div>
-                                    </div>*@
+                                            @Html.LabelFor(model => model.EmpresaSeguroId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-5">
+                                                @Html.DropDownListFor(model => model.EmpresaSeguroId, ((IEnumerable<IMOD.Domain.Entities.EmpresaSeguro>)ViewBag.EmpresaSeguros).Select(option => new SelectListItem
+                                           {
+                                               Text = option.NomeSeguradora,
+                                               Value = option.EmpresaSeguroId.ToString(),
+                                               Selected = (Model != null) && (option.EmpresaSeguroId == Model.EmpresaSeguroId)
+                                           }), "Novo Seguro", new { @class = "form-control text-uppercase", @id = "ddlEmpresaSeguros" })
+                                                @Html.ValidationMessageFor(model => model.EmpresaSeguroId, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                            </div>
+                                        </div>*@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.NomeSeguradora, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-5">
@@ -353,7 +358,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.AnexoApolice, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-6">
-                                            <input type="text" hidden="hidden" id="Arquivo"/>
+                                            <input type="text" hidden="hidden" id="Arquivo" />
                                             <input type="file" name="AnexoApolice" id="AnexoApolice" accept=".pdf" />
                                             @Html.ValidationMessageFor(model => model.AnexoApolice, "", new { @class = "text-danger", @id = "File" })
                                         </div>
@@ -382,15 +387,19 @@
                                                     <div class="col-md-3">
                                                         <input type="file" name="FileUpload1" id="FileUpload1" @*accept=".pdf"*@ style="padding-top: 5px;" />
                                                     </div>
-                                                    <div class="col-lg-2">
-                                                        <a title="Incluir Anexo" id="btAnexo" href="#">
-                                                            <i class="success btn-icon fa fa-plus-circle" style="color: #92c755; font-size: 25px; text-align:center"></i>
-                                                        </a>
-                                                    </div>
+
                                                 </div>
 
                                             </div>
 
+                                        </div>
+                                        <div div class="form-group">
+                                            <div class="col-md-1">
+
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <button type="button" class="btn btn-info btn-icon" id="btAnexo"><span><strong>Adicionar</strong></span> <i class="fa fa-plus-circle"></i> </button>
+                                            </div>
                                         </div>
                                         <br />
                                         <fieldset>
@@ -414,8 +423,10 @@
                                                 }
                                             </div>
                                         </fieldset>
+                                        <br />
+                                        <br />
                                         <div class="col-lg-12">
-                                            <ul class="list-inline pull-right" style="padding-top: 133px">
+                                            <ul class="list-inline pull-right">
                                                 <li><a href="~/Veiculo/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
                                                 <li><button type="button" class="btn btn-default prev-step btn-icon"><i class="fa fa-arrow-left"></i> <span><strong>Voltar</strong></span></button></li>
                                                 <li><button type="submit" class="btn btn-success" id="btnSalvar"><i class="fa fa-save"></i> <span>Salvar e Enviar para Aprovação</span></button></li>
@@ -435,7 +446,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-<script>
+    <script>
         $(document).ready(function () {
             //Initialize tooltips
             $('.nav-tabs > li a[title]').tooltip();
@@ -493,7 +504,7 @@
                             $("#txtNomeAnexoApolice").val(result.NomeArquivo);
                             $("#Arquivo").val(result.Arquivo);
                         }
-                        
+
                     },
                     error: function (result) {
                     }
@@ -669,7 +680,7 @@
                    }
                  });
             };
-</script>
+    </script>
 
 
     <script>

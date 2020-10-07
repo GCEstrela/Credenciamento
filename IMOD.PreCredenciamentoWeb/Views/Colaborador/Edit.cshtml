@@ -512,20 +512,25 @@
                                            }), "Selecione", new { @class = "form-control text-uppercase", @id = "ddlContrato" })
                                                 @Html.ValidationMessageFor(model => model.ContratoEmpresaID, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                             </div>
-                                            <div class="col-lg-7">
-                                                @*//href="@Url.Action("AdicionarContrato")"*@
-                                                <a title="Vincular Contrato" id="btContrato" href="#">
-                                                    <i class="success btn-icon fa fa-plus-circle" style="color: #92c755; font-size: 25px; text-align:center"></i>
-                                                </a>
-                                            </div>
+
                                         </div>
                                     </div>
+
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.AnexoVinculo, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-10 ">
                                             <input type="file" name="AnexoVinculo" id="AnexoVinculo" accept=".pdf" style="padding-top: 5px" />
                                             @Html.ValidationMessageFor(model => model.AnexoVinculo, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <button type="button" class="btn btn-info btn-icon" title="Vincular Contrato" id="btContrato"><span><strong>Adicionar</strong></span> <i class="fa fa-plus-circle"></i> </button>
+                                        </div>
+
                                     </div>
                                     <br />
                                     <fieldset>
@@ -569,7 +574,8 @@
                                 </div>
                                 <div class="tab-pane" role="tabpanel" id="curso">
                                     <div div class="form-group">
-                                        <div class="col-lg-3" style="padding-left: 40px;">
+                                        @Html.Label("Curso", htmlAttributes: new { @class = "control-label col-md-1" })
+                                        <div class="col-lg-3" >
                                             @Html.DropDownListFor(model => model.ContratoEmpresaID, ((IEnumerable<IMOD.Domain.Entities.Curso>)ViewBag.Cursos).Select(option => new SelectListItem
                                        {
                                            Text = option.Descricao,
@@ -586,11 +592,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4" style="padding-top: 4px;">
-                                            <a title="Incluir Curso" id="btCurso" href="#">
-                                                <i class="success btn-icon fa fa-plus-circle" style="color: #92c755; font-size: 25px; text-align:center"></i>
-                                            </a>
-                                        </div>
+
                                     </div>
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.AnexoCurso, htmlAttributes: new { @class = "control-label col-md-1" })
@@ -598,6 +600,15 @@
                                             <input type="file" name="AnexoCurso" id="AnexoCurso" accept=".pdf" style="padding-top: 5px" />
                                             @Html.ValidationMessageFor(model => model.AnexoCurso, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-1">
+
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <button type="button" class="btn btn-info btn-icon" id="btCurso"><span><strong>Adicionar</strong></span> <i class="fa fa-plus-circle"></i> </button>
+                                        </div>
+
                                     </div>
                                     <br />
                                     <fieldset>
@@ -647,13 +658,16 @@
                                                     <div class="col-md-3">
                                                         <input type="file" name="FileUpload1" id="FileUpload1" @*accept=".pdf"*@ style="padding-top: 5px" />
                                                     </div>
-                                                    <div class="col-lg-2" style="padding-top: 4px">
-                                                        <a title="Incluir Anexo" id="btAnexo" href="#">
-                                                            <i class="success btn-icon fa fa-plus-circle" style="color: #92c755; font-size: 25px; text-align:center"></i>
-                                                        </a>
-                                                    </div>
                                                 </div>
 
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-1">
+
+                                            </div>
+                                            <div class="col-lg-7" style="padding-left: 11px;">
+                                                <button type="button" class="btn btn-info btn-icon" id="btAnexo"><span><strong>Adicionar</strong></span> <i class="fa fa-plus-circle"></i> </button>
                                             </div>
 
                                         </div>
