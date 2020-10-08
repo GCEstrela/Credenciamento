@@ -394,10 +394,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     ViewBag.Municipio = new List<Municipio>();
                 }
 
-                
-
-                
-
+                GetFotoOnErro(model);
                 ShowListaErros();
                 
                 return View(model);
@@ -718,6 +715,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     ViewBag.Municipio = new List<Municipio>();
                 }
 
+                GetFotoOnErro(model);
+
                 ShowListaErros();
 
                 return View(model);
@@ -975,7 +974,19 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 byte[] array = ms.GetBuffer();
 
                 model.Foto = Convert.ToBase64String(array);
+                Session.Add(SESS_FOTO_COLABORADOR, model.Foto);
+
             }
+        }
+
+        [Authorize]
+        public void GetFotoOnErro(ColaboradorViewModel model)
+        {
+            var bytes = Convert.FromBase64String(model.Foto);
+            string base64 = Convert.ToBase64String(bytes);
+
+            Session.Add(SESS_FOTO_COLABORADOR, base64);
+            ViewBag.FotoColaborador = String.Format("data:image/gif;base64,{0}", base64);
         }
 
         [Authorize]

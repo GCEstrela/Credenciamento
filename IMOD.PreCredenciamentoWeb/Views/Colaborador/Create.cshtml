@@ -138,17 +138,34 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4">
-                                        <div class="form-group">
-                                            @Html.LabelFor(model => model.FotoColaborador, htmlAttributes: new { @class = "control-label col-md-5" })
+                                    @if (ViewData.ModelState.IsValid)
+                                    {
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.FotoColaborador, htmlAttributes: new { @class = "control-label col-md-5" })
 
+                                            </div>
+                                            <div class="col-md-5" style="height:152px;  width:123px">
+                                                <img class="resize" id="FotoUpload" src="#" alt="Imagem" style="padding-bottom: 15px" />
+                                                @*<button id="btFoto">Selecione uma foto</button>*@
+                                                <input type="file" name="FotoColaborador" accept="image/*" id="FotoColaborador" />
+                                            </div>
                                         </div>
-                                        <div class="col-md-5" style="height:152px;  width:123px">
-                                            <img class="resize" id="FotoUpload" src="#" alt="Imagem" style="padding-bottom: 15px" />
-                                            @*<button id="btFoto">Selecione uma foto</button>*@
-                                            <input type="file" name="FotoColaborador" accept="image/*" id="FotoColaborador" />
+                                    }
+                                    else
+                                    {
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.FotoColaborador, htmlAttributes: new { @class = "control-label col-md-5" })
+
+                                            </div>
+                                            <div class="col-md-5" style="height:152px;  width:123px; padding-left:16px">
+                                                <img class="resize" id="FotoUpload" src="@ViewBag.FotoColaborador" alt="Imagem" style="padding-bottom: 15px" />
+                                                @*<button id="btFoto">Selecione uma foto</button>*@
+                                                <input type="file" name="FotoColaborador" accept="image/*" id="FotoColaborador" />
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
                                     <br />
                                     <div class="col-lg-12">
                                         <ul class="list-inline pull-right" style="padding-top: 133px">
