@@ -15,7 +15,7 @@ using System.Windows.Forms;
 using System.Net.Http;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
-{
+{ 
     [Authorize]
     public class ColaboradorController : Controller
     {
