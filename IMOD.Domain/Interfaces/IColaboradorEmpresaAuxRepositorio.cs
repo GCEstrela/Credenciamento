@@ -1,0 +1,36 @@
+﻿// ***********************************************************************
+// Project: IMOD.Domain
+// Crafted by: Grupo Estrela by Genetec
+// Date:  11 - 19 - 2018
+// ***********************************************************************
+
+#region
+
+using System.Collections.Generic;
+using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
+
+#endregion
+
+namespace IMOD.Domain.Interfaces
+{
+    public interface IColaboradorEmpresaAuxRepositorio : IRepositorioBaseAdoNet<ColaboradorEmpresa>
+    {
+        /// <summary>
+        ///     Listar Colaboradores e suas credenciais
+        /// </summary>
+        /// <param name="o">Arrays de Parametros</param>
+        /// <returns></returns>
+        ICollection<ColaboradorEmpresa> ListarView(params object[] o);
+        /// <summary>
+        ///     Listar Colaboradores e suas credenciais
+        /// </summary>
+        /// <param name="o">Arrays de Parametros</param>
+        /// <returns></returns>
+        void CriarNumeroMatricula(ColaboradorEmpresa entity);
+
+        ICollection<ColaboradorEmpresa> BuscarListaIntegracao(int nomedaTabela);
+        ICollection<RelatorioColaboradorEmpresaView> ListarColaboradorEmpresaView(params object[] o);
+        ICollection<RelatorioColaboradorEmpresaView> ListarColaboradorValidadeCursosEmpresaView(params object[] o);
+    }
+}

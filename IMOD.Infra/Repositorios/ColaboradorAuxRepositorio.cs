@@ -77,7 +77,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.SelectText("Colaboradores", conn))
+                    using (var cmd = _dataBase.SelectText("ColaboradoresAux", conn))
 
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("StatusID", DbType.Int32, idStatus).Igual()));
@@ -107,7 +107,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.SelectText("Colaboradores", conn))
+                    using (var cmd = _dataBase.SelectText("ColaboradoresAux", conn))
 
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("Cpf", DbType.String, cpf.RetirarCaracteresEspeciais()).Igual()));
@@ -135,7 +135,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.UpdateText("Colaboradores", conn))
+                    using (var cmd = _dataBase.UpdateText("ColaboradoresAux", conn))
                     {
 
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorId", entity.ColaboradorId, true)));
@@ -213,7 +213,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.SelectText("Colaboradores", conn))
+                    using (var cmd = _dataBase.SelectText("ColaboradoresAux", conn))
 
                     {
 
@@ -243,7 +243,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.InsertText("Colaboradores", conn))
+                    using (var cmd = _dataBase.InsertText("ColaboradoresAux", conn))
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorId", entity.ColaboradorId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Nome", entity.Nome, false)));
@@ -388,25 +388,25 @@ namespace IMOD.Infra.Repositorios
 
                 try
                 {
-                    using (var cmd = _dataBase.DeleteText("ColaboradoresAnexos", conn))
+                    using (var cmd = _dataBase.DeleteText("ColaboradoresAnexosAux", conn))
                     {
                         cmd.Transaction = tran;
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
                         cmd.ExecuteNonQuery();
                     }
-                    using (var cmd = _dataBase.DeleteText("ColaboradoresCursos", conn))
+                    using (var cmd = _dataBase.DeleteText("ColaboradoresCursosAux", conn))
                     {
                         cmd.Transaction = tran;
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
                         cmd.ExecuteNonQuery();
                     }
-                    using (var cmd = _dataBase.DeleteText("ColaboradoresEmpresas", conn))
+                    using (var cmd = _dataBase.DeleteText("ColaboradoresEmpresasAux", conn))
                     {
                         cmd.Transaction = tran;
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
                         cmd.ExecuteNonQuery();
                     }
-                    using (var cmd = _dataBase.DeleteText("Colaboradores", conn))
+                    using (var cmd = _dataBase.DeleteText("ColaboradoresAux", conn))
                     {
                         cmd.Transaction = tran;
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
