@@ -21,7 +21,7 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 namespace IMOD.Infra.Repositorios
 {
-    public class ColaboradorCursoAuxRepositorio : IColaboradorCursoAuxRepositorio
+    public class ColaboradorCursoWebRepositorio : IColaboradorCursoWebRepositorio
     {
         private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
@@ -29,7 +29,7 @@ namespace IMOD.Infra.Repositorios
 
         #region Construtor
 
-        public ColaboradorCursoAuxRepositorio()
+        public ColaboradorCursoWebRepositorio()
         {
             try
             {
@@ -55,7 +55,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.InsertText("ColaboradoresCursosAux", conn))
+                    using (var cmd = _dataBase.InsertText("ColaboradoresCursosWeb", conn))
                     {
 
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorCursoID", entity.ColaboradorCursoId, true)));
@@ -90,7 +90,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.SelectText("ColaboradoresCursosAux", conn))
+                    using (var cmd = _dataBase.SelectText("ColaboradoresCursosWeb", conn))
 
                     {
 
@@ -191,7 +191,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.UpdateText("ColaboradoresCursosAux", conn))
+                    using (var cmd = _dataBase.UpdateText("ColaboradoresCursosWeb", conn))
                     {
                        
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorCursoID", entity.ColaboradorCursoId, true)));
@@ -223,7 +223,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.DeleteText("ColaboradoresCursosAux", conn))
+                    using (var cmd = _dataBase.DeleteText("ColaboradoresCursosWeb", conn))
                     {
                        
                             cmd.Parameters.Add(

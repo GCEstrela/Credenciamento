@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using IMOD.Application.Interfaces;
 using IMOD.Domain.Entities;
+using IMOD.Domain.EntitiesCustom;
 using IMOD.Domain.Interfaces;
 using IMOD.Infra.Repositorios;
 
@@ -17,9 +18,13 @@ using IMOD.Infra.Repositorios;
 
 namespace IMOD.Application.Service
 {
-    public class ColaboradorAnexoAuxService : IColaboradorAnexoService
+    public class ColaboradorEmpresaWebService : IColaboradorEmpresaWebService
     {
-        private readonly IColaboradorAnexoAuxRepositorio _repositorio;
+        #region Variaveis Globais
+
+        private readonly IColaboradorEmpresaWebRepositorio _repositorio = new ColaboradorEmpresaWebRepositorio();
+
+        #endregion
 
         #region  Propriedades
 
@@ -33,46 +38,24 @@ namespace IMOD.Application.Service
 
         #endregion
 
-        public ColaboradorAnexoAuxService()
-        {
-            _repositorio = new ColaboradorAnexoAuxRepositorio();
-        }
-
         #region  Metodos
-
-        /// <summary>
-        ///     Listar anexo por nome
-        /// </summary>
-        /// <param name="nomeArquivo"></param>
-        /// <returns></returns>
-        public ICollection<ColaboradorAnexo> ListarPorNome(string nomeArquivo)
-        {
-            return _repositorio.Listar ("%" + nomeArquivo + "%", 0);
-        }
-
-        /// <summary>
-        ///     Listar anexo por colaborador
-        /// </summary>
-        /// <param name="colaboradorId"></param>
-        /// <returns></returns>
-        public ICollection<ColaboradorAnexo> ListarPorColaborador(int colaboradorId)
-        {
-            return _repositorio.Listar ("", colaboradorId);
-        }
 
         /// <summary>
         ///     Criar registro
         /// </summary>
         /// <param name="entity">Entidade</param>
-        public void Criar(ColaboradorAnexo entity)
+        public void Criar(ColaboradorEmpresa entity)
         {
             _repositorio.Criar (entity);
+
             #region Retirar pendencias de sistema
             var pendencia = Pendencia.ListarPorColaborador(entity.ColaboradorId)
-                 .FirstOrDefault(n => n.PendenciaSistema & n.CodPendencia == 24);
+                .FirstOrDefault(n => n.PendenciaSistema & n.CodPendencia==22);
             if (pendencia == null) return;
             Pendencia.Remover(pendencia);
             #endregion
+
+
         }
 
         /// <summary>
@@ -80,7 +63,7 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="id">Primary key</param>
         /// <returns></returns>
-        public ColaboradorAnexo BuscarPelaChave(int id)
+        public ColaboradorEmpresa BuscarPelaChave(int id)
         {
             return _repositorio.BuscarPelaChave (id);
         }
@@ -89,25 +72,16 @@ namespace IMOD.Application.Service
         ///     Listar
         /// </summary>
         /// <returns></returns>
-        public ICollection<ColaboradorAnexo> Listar(params object[] objects)
+        public ICollection<ColaboradorEmpresa> Listar(params object[] objects)
         {
             return _repositorio.Listar (objects);
-        }
-
-        /// <summary>
-        ///     ListarComAnexo
-        /// </summary>
-        /// <returns></returns>
-        public ICollection<ColaboradorAnexo> ListarComAnexo(params object[] objects)
-        {
-            return _repositorio.ListarComAnexo(objects);
         }
 
         /// <summary>
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Alterar(ColaboradorAnexo entity)
+        public void Alterar(ColaboradorEmpresa entity)
         {
             _repositorio.Alterar (entity);
         }
@@ -116,11 +90,42 @@ namespace IMOD.Application.Service
         ///     Deletar registro
         /// </summary>
         /// <param name="entity">Entidade</param>
-        public void Remover(ColaboradorAnexo entity)
+        public void Remover(ColaboradorEmpresa entity)
         {
             _repositorio.Remover (entity);
         }
 
+        /// <summary>
+        ///     Listar View
+        /// </summary>
+        /// <returns></returns>
+        public ICollection<ColaboradorEmpresa> ListarView(params object[] objects)
+        {
+            return _repositorio.ListarView (objects);
+        }
+        /// <summary>
+        /// Criar numero de matricula
+        /// </summary>
+        /// <param name="entity"></param>
+        public void CriarNumeroMatricula(ColaboradorEmpresa entity)
+        {
+            _repositorio.CriarNumeroMatricula(entity);
+        }
+
+        public ICollection<RelatorioColaboradorEmpresaView> ListarColaboradorEmpresaView(params object[] o)
+        {
+           return  _repositorio.ListarColaboradorEmpresaView(o);
+        }
+
+        public ICollection<RelatorioColaboradorEmpresaView> ListarColaboradorValidadeCursosEmpresaView(params object[] o)
+        {
+            return _repositorio.ListarColaboradorValidadeCursosEmpresaView(o);
+        }
+
+        ICollection<ColaboradorEmpresa> IColaboradorEmpresaWebRepositorio.BuscarListaIntegracao(int nomedaTabela)
+        {
+            return _repositorio.BuscarListaIntegracao(nomedaTabela);
+        }
         #endregion
     }
 }

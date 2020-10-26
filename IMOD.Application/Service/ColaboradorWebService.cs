@@ -19,9 +19,9 @@ using IMOD.CrossCutting;
 
 namespace IMOD.Application.Service
 {
-    public class ColaboradorAuxService : IColaboradorAuxService
+    public class ColaboradorWebService : IColaboradorWebService
     {
-        private readonly IColaboradorAuxRepositorio _repositorio = new ColaboradorAuxRepositorio();
+        private readonly IColaboradorWebRepositorio _repositorio = new ColaboradorWebRepositorio();
         private readonly IColaboradorCredencialRepositorio _repositorioCredencial = new ColaboradorCredencialRepositorio();
 
         /// <summary>

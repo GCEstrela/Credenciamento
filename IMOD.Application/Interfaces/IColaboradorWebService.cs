@@ -14,7 +14,7 @@ using IMOD.Domain.Interfaces;
 
 namespace IMOD.Application.Interfaces
 {
-    public interface IColaboradorAuxService : IColaboradorAuxRepositorio
+    public interface IColaboradorWebService : IColaboradorWebRepositorio
     {
         #region  Metodos
         /// <summary>

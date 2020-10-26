@@ -17,11 +17,11 @@ using IMOD.Infra.Repositorios;
 
 namespace IMOD.Application.Service
 {
-    public class ColaboradorCursosAuxService : IColaboradorCursoAuxService
+    public class ColaboradorCursosWebService : IColaboradorCursoWebService
     {
         #region Variaveis Globais
 
-        private readonly IColaboradorCursoAuxRepositorio _repositorio = new ColaboradorCursoAuxRepositorio();
+        private readonly IColaboradorCursoWebRepositorio _repositorio = new ColaboradorCursoWebRepositorio();
 
         #endregion
 

@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Application
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 21 - 2018
+// Date:  01 - 21 - 2019
 // ***********************************************************************
 
 #region
@@ -12,11 +12,15 @@ using IMOD.Domain.Interfaces;
 
 namespace IMOD.Application.Interfaces
 {
-    public interface IColaboradorAnexoAuxService : IColaboradorAnexoAuxRepositorio
+    public interface IColaboradorCursoWebService : IColaboradorCursoWebRepositorio
     {
+        #region  Propriedades
+
         /// <summary>
         ///     Pendência serviços
         /// </summary>
         IPendenciaService Pendencia { get; }
+
+        #endregion
     }
 }

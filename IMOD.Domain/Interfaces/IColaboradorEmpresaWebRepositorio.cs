@@ -14,7 +14,7 @@ using IMOD.Domain.EntitiesCustom;
 
 namespace IMOD.Domain.Interfaces
 {
-    public interface IColaboradorEmpresaAuxRepositorio : IRepositorioBaseAdoNet<ColaboradorEmpresa>
+    public interface IColaboradorEmpresaWebRepositorio : IRepositorioBaseAdoNet<ColaboradorEmpresa>
     {
         /// <summary>
         ///     Listar Colaboradores e suas credenciais

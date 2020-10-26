@@ -22,13 +22,13 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 namespace IMOD.Infra.Repositorios
 {
-    public class ColaboradorEmpresaAuxRepositorio : IColaboradorEmpresaAuxRepositorio
+    public class ColaboradorEmpresaWebRepositorio : IColaboradorEmpresaWebRepositorio
     {
         private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
         private readonly IDataWorkerFactory _dataWorkerFactory = new DataWorkerFactory();
 
-        public ColaboradorEmpresaAuxRepositorio()
+        public ColaboradorEmpresaWebRepositorio()
         {
             try
             {
@@ -52,7 +52,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.UpdateText("ColaboradoresEmpresasAux", conn))
+                    using (var cmd = _dataBase.UpdateText("ColaboradoresEmpresasWeb", conn))
                     {
 
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorEmpresaId", entity.ColaboradorEmpresaId, true)));
@@ -101,7 +101,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.SelectText("ColaboradoresEmpresasAux", conn))
+                    using (var cmd = _dataBase.SelectText("ColaboradoresEmpresasWeb", conn))
 
                     {
 
@@ -131,7 +131,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.InsertText("ColaboradoresEmpresasAux", conn))
+                    using (var cmd = _dataBase.InsertText("ColaboradoresEmpresasWeb", conn))
                     {
 
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorEmpresaId", entity.ColaboradorEmpresaId, true)));
@@ -291,7 +291,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.DeleteText("ColaboradoresEmpresasAux", conn))
+                    using (var cmd = _dataBase.DeleteText("ColaboradoresEmpresasWeb", conn))
                     {
 
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorEmpresaId", entity.ColaboradorEmpresaId).Igual()));
