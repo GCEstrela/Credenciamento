@@ -21,13 +21,16 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
     {
         #region Propriedades
         private readonly IColaboradorService objService = new IMOD.Application.Service.ColaboradorService();
+        private readonly IColaboradorWebService objServiceWeb = new IMOD.Application.Service.ColaboradorWebService();
         private readonly IDadosAuxiliaresFacade objAuxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IEmpresaContratosService objContratosService = new EmpresaContratoService();
         private readonly IColaboradorEmpresaService objColaboradorEmpresaService = new ColaboradorEmpresaService();
+        private readonly IColaboradorEmpresaWebService objColaboradorEmpresaWebService = new ColaboradorEmpresaWebService();
         private readonly ICursoService objCursosService = new CursoService();
         private readonly IColaboradorCursoService objColaboradorCursosService = new ColaboradorCursosService();
         private readonly IMunicipioService objMunicipioSevice = new MunicipioService();
         private readonly IMOD.Application.Interfaces.IColaboradorAnexoService objColaboradorAnexoService = new IMOD.Application.Service.ColaboradorAnexoService();
+        private readonly IColaboradorObservacaoService objColaboradorObservacaoService = new ColaboradorObservacaoService();
         private const string SESS_CONTRATOS_SELECIONADOS = "ContratosSelecionados";
         private const string SESS_CONTRATOS_REMOVIDOS = "ContratosRemovidos";
         private const string SESS_CURSOS_SELECIONADOS = "CursosSelecionados";
@@ -35,7 +38,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private const string SESS_ANEXOS_SELECIONADOS = "AnexosSelecionados";
         private const string SESS_ANEXOS_REMOVIDOS = "AnexosRemovidos";
         private const string SESS_MUNICIPIO_SELECIONADO = "MunicipioSelecionado";
+        private const string SESS_OBSERVACAO_SELECIONADAS = "ObservacoesSelecionadas";
+        private const string SESS_OBSERVACAO_REMOVIDAS = "ObservacoesRemovidas";
         private List<Colaborador> colaboradores = new List<Colaborador>();
+        private List<Colaborador> colaboradoresWeb = new List<Colaborador>();
         private List<ColaboradorEmpresa> vinculos = new List<ColaboradorEmpresa>();
         private const string SESS_FOTO_COLABORADOR = "Foto";
         #endregion
@@ -54,16 +60,26 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             Session[SESS_ANEXOS_SELECIONADOS] = null;
             Session[SESS_ANEXOS_REMOVIDOS] = null;
             Session[SESS_MUNICIPIO_SELECIONADO] = null;
+            Session[SESS_OBSERVACAO_SELECIONADAS] = null;
+            Session[SESS_OBSERVACAO_REMOVIDAS] = null;
 
             return View(lstColaboradorMapeado);
         }
 
         private IList<Colaborador> ObterColaboradoresEmpresaLogada()
         {
-            var l1 = objService.Listar(null, null, null, null);
-            var l2 = objColaboradorEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.EmpresaId, null);
-            var l3 = l2.Select(c => c.ColaboradorId).ToList<int>();
-            colaboradores = l1.Where(c => l3.Contains(c.ColaboradorId)).ToList();
+            var listaColaboradores = objService.Listar(null, null, null, null);
+            var listaColaboradoresVinculos = objColaboradorEmpresaService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.EmpresaId, null);
+            var listaIdsVinculos = listaColaboradoresVinculos.Select(c => c.ColaboradorId).ToList<int>();
+            colaboradores = listaColaboradores.Where(c => listaIdsVinculos.Contains(c.ColaboradorId)).ToList();
+
+            var listaColaboradoresWeb = objServiceWeb.Listar(null, null, null, null);
+            var listaColaboradoresVinculosWeb = objColaboradorEmpresaWebService.Listar(null, null, null, null, null, SessionUsuario.EmpresaLogada.EmpresaId, null);
+            var listaIdsVinculosWeb = listaColaboradoresVinculosWeb.Select(c => c.ColaboradorId).ToList<int>();
+            colaboradoresWeb = listaColaboradoresWeb.Where(c => listaIdsVinculosWeb.Contains(c.ColaboradorId)).ToList();
+
+            colaboradores = colaboradores.Except(colaboradoresWeb).ToList();
+            colaboradores.AddRange(colaboradoresWeb);
 
             return colaboradores.OrderBy(c => c.Nome).ToList();
         }
@@ -217,6 +233,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 {
                     ModelState.AddModelError("EmpresaContratoId", "Necessário adicionar pelo menos um contrato!");
                 }
+
+                // Remove obrigatoriedade do campo observacao durante o create.
+                ModelState.Remove("ObservacaoAprovacao");
 
                 if (ModelState.IsValid)
                 {
@@ -464,6 +483,14 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             {
                 ViewBag.AnexosSelecionados = anexosSelecionados;
                 Session.Add(SESS_ANEXOS_SELECIONADOS, anexosSelecionados);
+            }
+
+            //Popula observações para aprovação do colaborador
+            var observacoesSelecionadas = objColaboradorObservacaoService.Listar(colaboradorEditado.ColaboradorId);
+            if (observacoesSelecionadas != null)
+            {
+                ViewBag.ObservacoesSelecionadas = observacoesSelecionadas;
+                Session.Add(SESS_OBSERVACAO_SELECIONADAS, observacoesSelecionadas);
             }
 
             if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
@@ -895,6 +922,27 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             if (Session[SESS_ANEXOS_REMOVIDOS] == null) Session[SESS_ANEXOS_REMOVIDOS] = new List<int>();
             ((List<int>)Session[SESS_ANEXOS_REMOVIDOS]).Add(id);
             return Json(listAnexo, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public ActionResult AdicionarObservacao()
+        {
+            if (Session[SESS_OBSERVACAO_SELECIONADAS] == null) Session[SESS_OBSERVACAO_SELECIONADAS] = new List<ColaboradorObservacao>();
+            var item = new ColaboradorObservacao();
+            item.Observacao = Request.Form["ObservacaoAprovacao"];
+            ((List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_SELECIONADAS]).Add(item);
+            return Json((List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_SELECIONADAS], JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public ActionResult RemoverObservacao(int id)
+        {
+            var listObservacao = (List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_SELECIONADAS];
+            listObservacao.Remove(new ColaboradorObservacao(id));
+            Session[SESS_OBSERVACAO_SELECIONADAS] = listObservacao;
+            if (Session[SESS_OBSERVACAO_SELECIONADAS] == null) Session[SESS_OBSERVACAO_SELECIONADAS] = new List<int>();
+            ((List<int>)Session[SESS_OBSERVACAO_SELECIONADAS]).Add(id);
+            return Json(listObservacao, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize]
