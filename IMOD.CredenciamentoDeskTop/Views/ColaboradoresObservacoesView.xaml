@@ -14,6 +14,7 @@
         <Image x:Key="imgRemove" Source="../Resources/remove.png"  />
         <Image x:Key="imgSave" Source="../Resources/save.png"  />
         <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
+        <Image x:Key="imgImport" Source="../Resources/Ok.ico" />
         <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
@@ -88,7 +89,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="68" Header="Resolvido">
+                            <GridViewColumn Width="68" Header="Aprovado">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <CheckBox  IsChecked="{Binding Resolvido}" HorizontalAlignment="Center" IsHitTestVisible="True" x:Name="cbxResolvido" IsEnabled="False"/>
@@ -100,7 +101,7 @@
                     </ListView.View>
                 </ListView>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="30" Margin="10,0,10,0" Height="234" VerticalAlignment="Top"  >
-
+                    <Button x:Name="btnAceitar"   Content="{StaticResource imgImport}"       ToolTip="Aceitar Item" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"    IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"    Width="25" Margin="0,0,0,7" />
                     <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"   IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7" />

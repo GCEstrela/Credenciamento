@@ -11,6 +11,7 @@
              Loaded="Frm_Loaded"
              MaxWidth="1300" Width="1270" Height="825">
     <UserControl.Resources>
+
         <funcoes:BooleanToVisibilityConverter x:Key="VisibleControl" />
         <Image x:Key="imgAdd" Source="../Resources/add.png" />
         <Image x:Key="imgEdit" Source="../Resources/edit.png" />
@@ -192,7 +193,7 @@
                 </TextBox.InputBindings>
             </TextBox>
             <RadioButton x:Name="rd_cadastro" Content="Cadastro" Margin="600,5,0,0" IsChecked="True" Foreground="#FFD0D0D0" VerticalAlignment="Top" Width="95" Checked="Rd_cadastro_Checked" Cursor="Hand"/>
-            <RadioButton x:Name="rd_precadastro" Content="Pré-Cadastro" Margin="0,5,0,0" Foreground="Orange"  VerticalAlignment="Top" Width="95" Checked="Rd_precadastro_Checked" Cursor="Hand"/>
+            <RadioButton x:Name="rd_precadastro" Content="Cadastro Web" Margin="0,5,0,0" Foreground="Orange"  VerticalAlignment="Top" Width="95" Checked="Rd_precadastro_Checked" Cursor="Hand"/>
             <Image Source="../Resources/aviso.png" ToolTip="{Binding Path=msgPreCadastro}" Visibility="{Binding existePreCadastro,  Converter={StaticResource VisibleControl}}" />
 
         </StackPanel>
@@ -264,13 +265,17 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <!--<GridViewColumn Width="120" Header="Colaborador Ativo?" >
-                            <GridViewColumn.CellTemplate >
-                                <DataTemplate>
-                                    <CheckBox HorizontalAlignment="Center" Margin="90,0,0,0" IsChecked="{Binding Ativo}" Foreground="{Binding Ativa,  Converter={StaticResource CheckTeste}, ConverterParameter='Ativa_tw'}" />
+                        <GridViewColumn Width="200" >
+                            <GridViewColumnHeader
+                            Content="Status Cadastro"
+                            Visibility="{Binding IsEnablePreCadastro, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            />
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate >
+                                    <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" Text="{Binding Status}" Foreground="{Binding Ativo,  Converter={StaticResource CheckTeste}, ConverterParameter='Principal_tw'}"  />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
-                        </GridViewColumn>-->
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -915,8 +920,8 @@
             </TabItem>
 
             <TabItem x:Name="Observacoes_ti" Foreground="{Binding IsEnablePreCadastroColor}" Width="200" 
-                     IsEnabled="{Binding IsEnableTabItemObservacoes}" Visibility="Hidden">
-                <!--Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}">-->
+                     IsEnabled="{Binding IsEnableTabItemObservacoes}" 
+                Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="btnTab6" Click="OnPendenciaCredencial_Click" Style="{StaticResource MenuStyle}"                                
@@ -929,7 +934,7 @@
                             </StackPanel>
                         </Button>
                         <StackPanel Width="170">
-                            <TextBlock   HorizontalAlignment="Center" Text="Pendências Aprovação" />
+                            <TextBlock   HorizontalAlignment="Center" Text="Itens de Revisão" />
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>
