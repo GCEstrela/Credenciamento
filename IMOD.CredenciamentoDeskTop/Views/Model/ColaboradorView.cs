@@ -13,6 +13,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using IMOD.CredenciamentoDeskTop.Funcoes;
 using IMOD.CredenciamentoDeskTop.ViewModels;
+using IMOD.Domain.Enums;
 
 #endregion
 
@@ -120,6 +121,23 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
                 {
                     return Cpf;
                     //throw ex;
+                }
+            }
+        }
+
+        [Display(Name = "Status")]
+        public string Status
+        {
+            get
+            {
+                if (StatusCadastro != null)
+                {
+                    
+                    return IMOD.Domain.Enums.Funcoes.GetDescription((StatusCadastro)StatusCadastro);
+                }
+                else
+                {
+                    return "";
                 }
             }
         }

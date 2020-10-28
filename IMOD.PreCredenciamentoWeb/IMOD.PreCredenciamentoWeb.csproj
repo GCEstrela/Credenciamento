@@ -187,6 +187,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\add.png" />
+    <Content Include="Images\alerta.png" />
     <Content Include="Images\avatar.png" />
     <Content Include="Images\ccam.png" />
     <Content Include="Images\Colaboradores.png" />

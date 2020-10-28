@@ -610,7 +610,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             if (l1 != null && l1.Count > 0)
             {
                 existePreCadastro = true;
-                msgPreCadastro = string.Format("Existem {0} pré-cadastros pendentes de aprovação", l1.Count());
+                msgPreCadastro = string.Format("Existe(m) {0} pré-cadastro(s) pendente(s) de aprovação", l1.Count());
             }
         }
 
