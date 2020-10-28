@@ -34,6 +34,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly ICursoService _cursoService = new CursoService();
         private readonly IColaboradorCursoService _service = new ColaboradorCursosService();
+        private readonly IColaboradorCursoWebService _serviceWeb = new ColaboradorCursosWebService();
         private ColaboradorView _colaboradorView;
        
         private  ColaboradorViewModel _viewModelParent;
@@ -308,10 +309,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public void AtualizarDados(ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
             _viewModelParent = viewModelParent;
-            this.AtualizarDados(entity);
+            this.AtualizarDados(entity, viewModelParent.IsEnablePreCadastro);
         }
 
-        public void AtualizarDados(ColaboradorView entity)
+        public void AtualizarDados(ColaboradorView entity, bool cadastroWeb)
         {
             EntityObserver.Clear();
             if (entity == null) return;
@@ -319,7 +320,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             _colaboradorView = entity;
             //Obter dados
-            var list1 = _service.Listar (entity.ColaboradorId);
+
+            var list1 = new List<ColaboradorCurso>();
+            if (cadastroWeb)
+            {
+                list1 = _serviceWeb.Listar(entity.ColaboradorId).ToList();
+            }
+            else
+            {
+                list1 = _service.Listar(entity.ColaboradorId).ToList();
+            }
+
             var list2 = Mapper.Map<List<ColaboradorCursoView>> (list1.OrderByDescending (n => n.ColaboradorCursoId));
             EntityObserver = new ObservableCollection<ColaboradorCursoView>();
             list2.ForEach (n =>
