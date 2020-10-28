@@ -964,7 +964,7 @@
                         var html = '';
                         $.each(result, function (key, item) {
                             html += '<div class="col-lg-11">' + item.Observacao + '</div>';
-                            html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Observacao" id=' + item.ColaboradorObservacaoID + ' onclick="RemoverObservacao(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
+                            html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Observacao" id="' + item.ColaboradorObservacaoId + '" onclick="RemoverObservacao(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
                         });
                         $('#divObservacao').html('');
                         $('#divObservacao').append(html);
@@ -1124,7 +1124,7 @@
                        var html = '';
                        $.each(result, function (key, item) {
                            html += '<div class="col-lg-11">' + item.Observacao + '</div>';
-                           html += '<div class="col-lg-1"><a class="btnRemoverObservacao" title="Remover Observação" id=' + item.ColaboradorObservacaoID + ' onclick="RemoverObservacao(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+                           html += '<div class="col-lg-1"><a class="btnRemoverObservacao" title="Remover Observação" id=' + item.ColaboradorObservacaoId + ' onclick="RemoverObservacao(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
 
                        });
                        $('#divObservacao').html('');
