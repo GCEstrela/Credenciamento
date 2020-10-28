@@ -121,11 +121,10 @@
     <Compile Include="Enums\StatusCadastro.cs" />
     <Compile Include="Enums\Status.cs" />
     <Compile Include="Enums\Motivo.cs" />
-    <Compile Include="Interfaces\IColaboradorAnexoAuxRepositorio.cs" />
-    <Compile Include="Interfaces\IColaboradorAuxRepositorio.cs" />
-    <Compile Include="Interfaces\IColaboradorCredencialAuxRepositorio.cs" />
-    <Compile Include="Interfaces\IColaboradorCursoAuxRepositorio.cs" />
-    <Compile Include="Interfaces\IColaboradorEmpresaAuxRepositorio.cs" />
+    <Compile Include="Interfaces\IColaboradorAnexoWebRepositorio.cs" />
+    <Compile Include="Interfaces\IColaboradorWebRepositorio.cs" />
+    <Compile Include="Interfaces\IColaboradorCursoWebRepositorio.cs" />
+    <Compile Include="Interfaces\IColaboradorEmpresaWebRepositorio.cs" />
     <Compile Include="Interfaces\IColaboradorObservacaoRepositorio.cs" />
     <Compile Include="Interfaces\ICursoAreaAcessoRepositorio .cs" />
     <Compile Include="Interfaces\IAreaAcessoRepositorio.cs" />

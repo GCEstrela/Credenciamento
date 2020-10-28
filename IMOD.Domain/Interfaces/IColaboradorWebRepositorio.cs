@@ -13,7 +13,7 @@ using IMOD.Domain.Entities;
 
 namespace IMOD.Domain.Interfaces
 {
-    public interface IColaboradorAuxRepositorio : IRepositorioBaseAdoNet<Colaborador>
+    public interface IColaboradorWebRepositorio : IRepositorioBaseAdoNet<Colaborador>
     {
         #region  Metodos
 

@@ -1,7 +1,7 @@
 ﻿// ***********************************************************************
 // Project: IMOD.Domain
 // Crafted by: Grupo Estrela by Genetec
-// Date:  11 - 22 - 2018
+// Date:  11 - 21 - 2018
 // ***********************************************************************
 
 #region
@@ -13,13 +13,18 @@ using System.Collections.Generic;
 
 namespace IMOD.Domain.Interfaces
 {
-    public interface IColaboradorCursoAuxRepositorio : IRepositorioBaseAdoNet<ColaboradorCurso>
+    public interface IColaboradorAnexoWebRepositorio : IRepositorioBaseAdoNet<ColaboradorAnexo>
     {
+        #region  Metodos
+
         /// <summary>
-        ///     Listar Colaboradores cursos 
+        ///     ListarComAnexo
         /// </summary>
-        /// <param name="o">Arrays de Parametros</param>
+        /// <param name="objects"></param>
         /// <returns></returns>
-        ICollection<ColaboradorCurso> ListarView(params object[] objects);
+        ICollection<ColaboradorAnexo> ListarComAnexo(params object[] objects);
+        
+        #endregion
+
     }
 }

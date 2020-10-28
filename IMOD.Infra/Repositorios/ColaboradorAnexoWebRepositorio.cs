@@ -21,13 +21,13 @@ using IMOD.Infra.Ado.Interfaces.ParamSql;
 
 namespace IMOD.Infra.Repositorios
 {
-    public class ColaboradorAnexoAuxRepositorio : IColaboradorAnexoAuxRepositorio
+    public class ColaboradorAnexoWebRepositorio : IColaboradorAnexoWebRepositorio
     {
         private readonly string _connection = CurrentConfig.ConexaoString;
         private readonly IDataBaseAdo _dataBase;
         private readonly IDataWorkerFactory _dataWorkerFactory = new DataWorkerFactory();
 
-        public ColaboradorAnexoAuxRepositorio()
+        public ColaboradorAnexoWebRepositorio()
         {
             try
             {
@@ -51,7 +51,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.UpdateText("ColaboradoresAnexosAux", conn))
+                    using (var cmd = _dataBase.UpdateText("ColaboradoresAnexosWeb", conn))
                     {
 
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorAnexoId", entity.ColaboradorAnexoId, true)));
@@ -82,7 +82,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.SelectText("ColaboradoresAnexosAux", conn))
+                    using (var cmd = _dataBase.SelectText("ColaboradoresAnexosWeb", conn))
 
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamSelect("ColaboradorAnexoId", DbType.Int32, id).Igual()));
@@ -109,7 +109,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.InsertText("ColaboradoresAnexosAux", conn))
+                    using (var cmd = _dataBase.InsertText("ColaboradoresAnexosWeb", conn))
                     {
 
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorAnexoId", entity.ColaboradorAnexoId, true)));
@@ -174,7 +174,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.SelectText("ColaboradoresAnexosAux", conn))
+                    using (var cmd = _dataBase.SelectText("ColaboradoresAnexosWeb", conn))
 
                     {
 
@@ -207,7 +207,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.DeleteText("ColaboradoresAnexosAux", conn))
+                    using (var cmd = _dataBase.DeleteText("ColaboradoresAnexosWeb", conn))
                     {
 
                         cmd.Parameters.Add(

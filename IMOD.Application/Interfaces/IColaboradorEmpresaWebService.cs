@@ -2,7 +2,7 @@
 
 namespace IMOD.Application.Interfaces
 {
-    public interface IColaboradorEmpresaAuxService : IColaboradorEmpresaAuxRepositorio
+    public interface IColaboradorEmpresaWebService : IColaboradorEmpresaWebRepositorio
     {
         /// <summary>
         ///     Pendência serviços
