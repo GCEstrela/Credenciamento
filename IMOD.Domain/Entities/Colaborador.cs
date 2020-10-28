@@ -7,6 +7,7 @@
 #region
 
 using System;
+using System.Collections.Generic;
 
 #endregion
 
@@ -68,6 +69,23 @@ namespace IMOD.Domain.Entities
         public bool Precadastro { get; set; }
         public string Observacao { get; set; }
         public int? StatusCadastro { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Colaborador colaborador &&
+                   ColaboradorId == colaborador.ColaboradorId &&
+                   Cpf == colaborador.Cpf;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = -675571410;
+            hashCode = hashCode * -1521134295 + ColaboradorId.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Cpf);
+            return hashCode;
+        }
+
+
         #endregion
     }
 }
