@@ -485,7 +485,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
 
             //Popula observações para aprovação do colaborador
-            var observacoesSelecionadas = objColaboradorObservacaoService.Listar(colaboradorEditado.ColaboradorId);
+            var observacoesSelecionadas = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId);
             if (observacoesSelecionadas != null)
             {
                 ViewBag.ObservacoesSelecionadas = observacoesSelecionadas;
@@ -939,10 +939,13 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult RemoverObservacao(int id)
         {
             var listObservacao = (List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_SELECIONADAS];
-            listObservacao.Remove(new ColaboradorObservacao(id));
+
+            int indice = listObservacao.FindIndex(co => co.ColaboradorObservacaoId.Equals(id));
+            listObservacao.RemoveAt(indice);
+
             Session[SESS_OBSERVACAO_SELECIONADAS] = listObservacao;
-            if (Session[SESS_OBSERVACAO_SELECIONADAS] == null) Session[SESS_OBSERVACAO_SELECIONADAS] = new List<int>();
-            ((List<int>)Session[SESS_OBSERVACAO_SELECIONADAS]).Add(id);
+            if (Session[SESS_OBSERVACAO_REMOVIDAS] == null) Session[SESS_OBSERVACAO_REMOVIDAS] = new List<int>();
+            ((List<int>)Session[SESS_OBSERVACAO_REMOVIDAS]).Add(id);
             return Json(listObservacao, JsonRequestBehavior.AllowGet);
         }
 
