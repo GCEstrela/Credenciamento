@@ -920,8 +920,8 @@
             </TabItem>
 
             <TabItem x:Name="Observacoes_ti" Foreground="{Binding IsEnablePreCadastroColor}" Width="200" 
-                     IsEnabled="{Binding IsEnableTabItemObservacoes}" Visibility="Hidden">
-                <!--Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}">-->
+                     IsEnabled="{Binding IsEnableTabItemObservacoes}" 
+                Visibility="{Binding IsEnablePreCadastro,  Converter={StaticResource VisibleControl}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="btnTab6" Click="OnPendenciaCredencial_Click" Style="{StaticResource MenuStyle}"                                
@@ -934,7 +934,7 @@
                             </StackPanel>
                         </Button>
                         <StackPanel Width="170">
-                            <TextBlock   HorizontalAlignment="Center" Text="Pendências Aprovação" />
+                            <TextBlock   HorizontalAlignment="Center" Text="Itens de Revisão" />
                         </StackPanel>
                     </StackPanel>
                 </TabItem.Header>

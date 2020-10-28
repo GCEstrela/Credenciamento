@@ -39,6 +39,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
     {
         private readonly IDadosAuxiliaresFacade _auxiliaresService = new DadosAuxiliaresFacadeService();
         private readonly IColaboradorService _service = new ColaboradorService();
+        private readonly IColaboradorWebService _serviceWeb = new ColaboradorWebService();
         private readonly IColaboradorEmpresaService _serviceColaboradorEmpresa = new ColaboradorEmpresaService();
         private readonly IColaboradorCredencialService _serviceColaboradorCredencial = new ColaboradorCredencialService();
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
@@ -361,9 +362,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (num.Key == 6)
                 {
 
+                    var colaboradores = new List<Colaborador>();
                     //var l1 = _service.Listar();
-                    var l1 = _service.Listar(null, null, null, IsEnablePreCadastro);
-                    PopularObserver(l1);
+                    if (IsEnablePreCadastro)
+                    {
+                        colaboradores = _serviceWeb.Listar(null, null, null, IsEnablePreCadastro).ToList();
+                    }
+                    else
+                    {
+                        colaboradores = _service.Listar(null, null, null, IsEnablePreCadastro).ToList();
+                    }
+                    
+                    PopularObserver(colaboradores);
 
                 }
                 //Matrícula
@@ -937,7 +947,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 n1.Observacao = null;
                 n1.StatusCadastro = 3;
 
-                #region Criar Pendências
+                #region Remover dados das tabelas auxiliares
                 //n1.Pendente21 = true;
                 //n1.Pendente22 = true;
                 //n1.Pendente23 = true;
