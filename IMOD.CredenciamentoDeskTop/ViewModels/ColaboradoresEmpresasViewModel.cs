@@ -35,6 +35,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IEmpresaContratosService _empresaContratoService = new EmpresaContratoService();
         private readonly IEmpresaService _empresaService = new EmpresaService();
         private readonly IColaboradorEmpresaService _service = new ColaboradorEmpresaService();
+        private readonly IColaboradorEmpresaWebService _serviceWeb = new ColaboradorEmpresaWebService();
         private readonly IColaboradorCredencialService _serviceCredencial = new ColaboradorCredencialService();
         private readonly IColaboradorService _serviceColaborador = new ColaboradorService();
 
@@ -630,14 +631,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public void AtualizarDados(ColaboradorView entity, ColaboradorViewModel viewModel)
         {
             _viewModelParent = viewModel;
-            AtualizarDados(entity);
+            AtualizarDados(entity, viewModel.IsEnablePreCadastro);
 
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="entity"></param>
-        public void AtualizarDados(ColaboradorView entity)
+        public void AtualizarDados(ColaboradorView entity,bool cadastroWeb)
         {
             EntityObserver.Clear();
             if (entity == null) return;
@@ -646,7 +647,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
             _colaboradorView = entity;
             //Obter dados
-            var list1 = _service.Listar(entity.ColaboradorId);
+            var list1 = new List<ColaboradorEmpresa>();
+            if (cadastroWeb)
+            {
+                list1 = _serviceWeb.Listar(entity.ColaboradorId).ToList();
+            }
+            else
+            {
+                list1 = _service.Listar(entity.ColaboradorId).ToList();
+            }
+
             var list2 = Mapper.Map<List<ColaboradorEmpresaView>>(list1.OrderByDescending(n => n.ColaboradorEmpresaId));
 
             EntityObserver = new ObservableCollection<ColaboradorEmpresaView>();
