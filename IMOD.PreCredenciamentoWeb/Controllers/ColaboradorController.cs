@@ -149,7 +149,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
 
             //Popula anexos do colaborador
-            var anexosSelecionados = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId);
+            var anexosSelecionados = objColaboradorAnexoWebService.Listar(colaboradorMapeado.ColaboradorId);
             if (anexosSelecionados != null)
             {
                 ViewBag.AnexosSelecionados = anexosSelecionados;
@@ -172,7 +172,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             var listCursos = objCursosService.Listar().ToList();
             if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; }
             //carrega os anexos
-            var listAnexos = objColaboradorAnexoService.Listar().ToList();
+            var listAnexos = objColaboradorAnexoWebService.Listar().ToList();
             if (listAnexos != null && listAnexos.Any()) { ViewBag.Anexos = listAnexos; }
 
             if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
@@ -431,7 +431,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
 
             //Obtem o colaborador pelo ID
-            var colaboradorEditado = objService.Listar(id).FirstOrDefault();
+            var colaboradorEditado = objServiceWeb.Listar(id).FirstOrDefault();
             if (colaboradorEditado == null)
                 return HttpNotFound();
 
@@ -459,12 +459,12 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             var listCursos = objCursosService.Listar().OrderBy(c => c.Descricao);
             if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; };
 
-            var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(objColaboradorEmpresaService.Listar(colaboradorEditado.ColaboradorId));
+            var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(objColaboradorEmpresaWebService.Listar(colaboradorEditado.ColaboradorId));
             ViewBag.ContratosSelecionados = listaVinculosColaborador;
             Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosColaborador);
 
             //Popula cursos selecionados do colaborador
-            var cursosColaborador = objColaboradorCursosService.Listar(colaboradorEditado.ColaboradorId).ToList();
+            var cursosColaborador = objColaboradorCursosWebService.Listar(colaboradorEditado.ColaboradorId).ToList();
             var cursosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
             for (int i = 0; i < cursosSelecionados.Count; i++)
             {
@@ -477,7 +477,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
 
             //Popula anexos do colaborador
-            var anexosSelecionados = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId);
+            var anexosSelecionados = objColaboradorAnexoWebService.Listar(colaboradorMapeado.ColaboradorId);
             if (anexosSelecionados != null)
             {
                 ViewBag.AnexosSelecionados = anexosSelecionados;
@@ -517,6 +517,15 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             else
             {
                 ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
+            }
+
+            if (Session[SESS_OBSERVACAO_SELECIONADAS] != null)
+            {
+                ViewBag.ObservacoesSelecionadas = (List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_SELECIONADAS];
+            }
+            else
+            {
+                ViewBag.ObservacoesSelecionadas = new List<ColaboradorObservacao>();
             }
 
             if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
@@ -567,7 +576,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     //Aguardando Aprovação
                     colaboradorMapeado.StatusCadastro = 1;
 
-                    objService.Alterar(colaboradorMapeado);
+                    objServiceWeb.Alterar(colaboradorMapeado);
 
                     // excluir os contratos removidos da lista
                     if (Session[SESS_CONTRATOS_REMOVIDOS] != null)
@@ -641,10 +650,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     {
                         foreach (var item in (List<int>)Session[SESS_ANEXOS_REMOVIDOS])
                         {
-                            var anexoExclusao = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId, item, null, null, null, null, null).FirstOrDefault();
+                            var anexoExclusao = objColaboradorAnexoWebService.Listar(colaboradorMapeado.ColaboradorId, item, null, null, null, null, null).FirstOrDefault();
                             if (anexoExclusao != null)
                             {
-                                objColaboradorAnexoService.Remover(anexoExclusao);
+                                objColaboradorAnexoWebService.Remover(anexoExclusao);
                             }
                         }
                     }
@@ -654,10 +663,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     {
                         foreach (var anexo in (List<ColaboradorAnexo>)Session[SESS_ANEXOS_SELECIONADOS])
                         {
-                            var colaboradorAnexo = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId, anexo.ColaboradorAnexoId, anexo.NomeArquivo, null, null, null, null).FirstOrDefault();
+                            var colaboradorAnexo = objColaboradorAnexoWebService.Listar(colaboradorMapeado.ColaboradorId, anexo.ColaboradorAnexoId, anexo.NomeArquivo, null, null, null, null).FirstOrDefault();
                             if (colaboradorAnexo != null)
                             {
-                                objColaboradorAnexoService.Alterar(colaboradorAnexo);
+                                objColaboradorAnexoWebService.Alterar(colaboradorAnexo);
                             }
                             else
                             {
@@ -667,7 +676,41 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                                 colaboradorAnexo.Descricao = anexo.Descricao;
                                 colaboradorAnexo.NomeArquivo = anexo.NomeArquivo;
                                 colaboradorAnexo.Arquivo = anexo.Arquivo;
-                                objColaboradorAnexoService.Criar(colaboradorAnexo);
+                                objColaboradorAnexoWebService.Criar(colaboradorAnexo);
+                            }
+                        }
+                    }
+
+                    // excluir as observações removidas da lista
+                    if (Session[SESS_OBSERVACAO_REMOVIDAS] != null)
+                    {
+                        foreach (var item in (List<int>)Session[SESS_OBSERVACAO_REMOVIDAS])
+                        {
+                            var observacaoExclusao = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId, item, null, null, null, null, null).FirstOrDefault();
+                            if (observacaoExclusao != null)
+                            {
+                                objColaboradorObservacaoService.Remover(observacaoExclusao);
+                            }
+                        }
+                    }
+
+                    //inclui as observações selecionadas
+                    if (Session[SESS_OBSERVACAO_SELECIONADAS] != null)
+                    {
+                        foreach (var observacao in (List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_SELECIONADAS])
+                        {
+                            var colaboradorObservacao = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId, observacao.ColaboradorObservacaoId, observacao.Observacao, null, null, null, null).FirstOrDefault();
+                            if (colaboradorObservacao != null)
+                            {
+                                objColaboradorObservacaoService.Alterar(colaboradorObservacao);
+                            }
+                            else
+                            {
+                                colaboradorObservacao = new ColaboradorObservacao();
+                                colaboradorObservacao.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                                colaboradorObservacao.ColaboradorObservacaoId = observacao.ColaboradorObservacaoId;
+                                colaboradorObservacao.Observacao = observacao.Observacao;
+                                objColaboradorObservacaoService.Criar(colaboradorObservacao);
                             }
                         }
                     }
@@ -682,6 +725,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     Session.Remove(SESS_CURSOS_REMOVIDOS);
                     Session.Remove(SESS_ANEXOS_SELECIONADOS);
                     Session.Remove(SESS_ANEXOS_REMOVIDOS);
+                    Session.Remove(SESS_OBSERVACAO_SELECIONADAS);
+                    Session.Remove(SESS_OBSERVACAO_REMOVIDAS);
 
                     return RedirectToAction("Index");
                 }
@@ -732,6 +777,15 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
                 }
 
+                if (Session[SESS_OBSERVACAO_SELECIONADAS] != null)
+                {
+                    ViewBag.ObservacoesSelecionadas = (List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_SELECIONADAS];
+                }
+                else
+                {
+                    ViewBag.ObservacoesSelecionadas = new List<ColaboradorObservacao>();
+                }
+
                 if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
                 {
                     ViewBag.Municipio = Session[SESS_MUNICIPIO_SELECIONADO];
@@ -777,11 +831,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 colaboradorMapeado.ColaboradorId = Convert.ToInt32(idColaborador);
 
                 //Pega os anexos do colaborador
-                var anexosColaborador = objColaboradorAnexoService.Listar(idColaborador);
+                var anexosColaborador = objColaboradorAnexoWebService.Listar(idColaborador);
                 //exclui os anexos
                 foreach (var anexo in anexosColaborador)
                 {
-                    objColaboradorAnexoService.Remover(anexo);
+                    objColaboradorAnexoWebService.Remover(anexo);
                 }
 
                 objService.Remover(colaboradorMapeado);
@@ -1045,7 +1099,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public void CarregaFotoColaborador(ColaboradorViewModel model)
         {
             if (model.FotoColaborador != null) return;
-            var listaFoto = objService.BuscarPelaChave(model.ColaboradorId);
+            var listaFoto = objServiceWeb.BuscarPelaChave(model.ColaboradorId);
 
             if (listaFoto != null)
                 model.Foto = listaFoto.Foto;
@@ -1178,7 +1232,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             colaboradorAnexo.Arquivo = arquivoBase64;
             colaboradorAnexo.NomeArquivo = NomeArquivo + ExtensaoArquivo;
             colaboradorAnexo.Descricao = NomeArquivo + ExtensaoArquivo;
-            objColaboradorAnexoService.Criar(colaboradorAnexo);
+            objColaboradorAnexoWebService.Criar(colaboradorAnexo);
 
         }
         #region Colaborador Anexo
@@ -1275,7 +1329,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             int colaboradorId = Convert.ToInt32(id);
 
-            var objColaboradorAnexo = objColaboradorAnexoService.ListarComAnexo(colaboradorId).FirstOrDefault();
+            var objColaboradorAnexo = objColaboradorAnexoWebService.ListarComAnexo(colaboradorId).FirstOrDefault();
             NomeArquivoAnexo = objColaboradorAnexo.NomeArquivo;
             extensao = Path.GetExtension(NomeArquivoAnexo);
             nomeArquivoV = Path.GetFileNameWithoutExtension(NomeArquivoAnexo);
