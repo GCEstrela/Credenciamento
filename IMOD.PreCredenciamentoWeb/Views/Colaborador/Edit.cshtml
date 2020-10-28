@@ -84,6 +84,13 @@
                                     </a>
                                 </li>
                                 <li role="presentation" style="padding-left: 10px">
+                                    <a href="#observacao" data-toggle="tab" aria-controls="observacao" role="tab" title="Observações">
+                                        <span class="round-tab">
+                                            <i class="glyphicon glyphicon-eye-open"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li role="presentation" style="padding-left: 10px">
                                     <a href="#aceite" data-toggle="tab" aria-controls="aceite" role="tab" title="Aceite">
                                         <span class="round-tab">
                                             <i class="glyphicon glyphicon-ok"></i>
@@ -575,7 +582,7 @@
                                 <div class="tab-pane" role="tabpanel" id="curso">
                                     <div div class="form-group">
                                         @Html.Label("Curso", htmlAttributes: new { @class = "control-label col-md-1" })
-                                        <div class="col-lg-3" >
+                                        <div class="col-lg-3">
                                             @Html.DropDownListFor(model => model.ContratoEmpresaID, ((IEnumerable<IMOD.Domain.Entities.Curso>)ViewBag.Cursos).Select(option => new SelectListItem
                                        {
                                            Text = option.Descricao,
@@ -706,6 +713,57 @@
                                         </div>
                                     </div>
                                 }
+                                    <div class="tab-pane" role="tabpanel" id="observacao">
+                                        <div div class="form-group">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.ObservacaoAprovacao, htmlAttributes: new { @class = "control-label col-md-1" })
+                                                    <div class="col-md-4">
+                                                        @Html.TextArea("txtObservacaoAprovacao", null, htmlAttributes: new { @id = "txtObservacaoAprovacao", @class = "form-control", @cols = "40", @rows = "7", @maxlength = "200" })
+                                                        @Html.ValidationMessageFor(model => model.ObservacaoAprovacao, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-1">
+
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <button type="button" class="btn btn-info btn-icon" id="btObservacao"><span><strong>Adicionar</strong></span> <i class="fa fa-plus-circle"></i> </button>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <fieldset>
+                                            <legend> Observações Selecionados</legend>
+                                            <div class="row">
+                                                <div class="col-lg-11"><b>Observação</b></div>
+                                                <div class="col-lg-1"></div>
+                                            </div>
+                                            <div class="row" id="divObservacao">
+                                                @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.ColaboradorObservacao>)ViewBag.ObservacoesSelecionadas))
+                                                {
+                                                    <div class="col-lg-11">@item.Observacao</div>
+                                                    <div class="col-lg-1">
+                                                        <a title="Remover Observação" id=@item.ColaboradorObservacaoId href="#" class="btnRemoverObservacao" onclick="RemoverObservacao(this)">
+                                                            <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
+                                                        </a>
+                                                    </div>
+
+                                                }
+                                            </div>
+                                        </fieldset>
+                                        <div class="col-lg-12">
+                                            <ul class="list-inline pull-right" style="padding-top: 208px">
+                                                <li><a href="~/Colaborador/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
+                                                <li><button type="submit" class="btn btn-success" id="btnSalvar"><i class="fa fa-save"></i> <span>Salvar</span></button></li>
+                                                <li><button type="button" class="btn btn-default prev-step btn-icon"><i class="fa fa-arrow-left"></i> <span><strong>Voltar</strong></span></button></li>
+                                                <li><button type="button" class="btn btn-primary next-step btn-icon"><span><strong>Avançar</strong></span> <i class="fa fa-arrow-right"></i> </button> </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                
                                 <div class="tab-pane" role="tabpanel" id="aceite">
                                     <fieldset>
                                         <div class="form-group" style="text-align:center">
@@ -889,6 +947,36 @@
                 });
     });
 
+            //evento do botão incluir Observação de Aprovação
+            $("#btObservacao").click(function () {
+                var fileData = new FormData();
+                var ObservacaoAprovacao = $("#txtObservacaoAprovacao").val();
+                fileData.append('ObservacaoAprovacao', ObservacaoAprovacao);
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AdicionarObservacao")',
+                    data: fileData,
+                    dataType: 'JSON',
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        var html = '';
+                        $.each(result, function (key, item) {
+                            html += '<div class="col-lg-11">' + item.Observacao + '</div>';
+                            html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Observacao" id=' + item.ColaboradorObservacaoID + ' onclick="RemoverObservacao(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
+                        });
+                        $('#divObservacao').html('');
+                        $('#divObservacao').append(html);
+                        $("#txtObservacaoAprovacao").val('');
+                        console.log(result);
+                    },
+                    error: function (result) {
+                        Alert(result);
+                    }
+                });
+            });
+
             $("#ddlEstado").change(function () {
                 BuscarMunicipio();
             });
@@ -999,7 +1087,8 @@
         function RemoverAnexo(it)
         {
             alert(it.id);
-             var id = it.id;
+            var id = it.id;
+            alert(id);
                $.ajax({
                    type: "POST",
                    url: '@Url.Action("RemoverAnexo")',
@@ -1016,6 +1105,31 @@
                        $('#divAnexo').html('');
                        $('#divAnexo').append(html);
                        console.log(result);
+                   },
+                   error: function (result) {
+
+                   }
+                 });
+        };
+
+        function RemoverObservacao(it)
+            {
+            var id = it.id;
+            alert(id);
+               $.ajax({
+                   type: "POST",
+                   url: '@Url.Action("RemoverObservacao")',
+                   data: { id: id },
+                   success: function (result) {
+                       var html = '';
+                       $.each(result, function (key, item) {
+                           html += '<div class="col-lg-11">' + item.Observacao + '</div>';
+                           html += '<div class="col-lg-1"><a class="btnRemoverObservacao" title="Remover Observação" id=' + item.ColaboradorObservacaoID + ' onclick="RemoverObservacao(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+
+                       });
+                       $('#divObservacao').html('');
+                       $('#divObservacao').append(html);
+                       //console.log(result);
                    },
                    error: function (result) {
 
