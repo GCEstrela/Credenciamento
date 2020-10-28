@@ -141,7 +141,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.SelectText("ColaboradoresAnexosView", conn))
+                    using (var cmd = _dataBase.SelectText("ColaboradoresAnexosWeb", conn))
 
                     {
 

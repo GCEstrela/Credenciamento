@@ -354,7 +354,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.SelectText("ColaboradoresView", conn))
+                    using (var cmd = _dataBase.SelectText("ColaboradoresWeb", conn))
 
                     {
 

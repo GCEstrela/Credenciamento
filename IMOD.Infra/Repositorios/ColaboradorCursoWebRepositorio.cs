@@ -121,7 +121,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.SelectText("ColaboradoresCursosView", conn))
+                    using (var cmd = _dataBase.SelectText("ColaboradoresCursosWeb", conn))
 
                     {
 
@@ -157,7 +157,7 @@ namespace IMOD.Infra.Repositorios
             {
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                    using (var cmd = _dataBase.SelectText("ColaboradoresCursosView", conn))
+                    using (var cmd = _dataBase.SelectText("ColaboradoresCursosWeb", conn))
                     {
 
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, objects, 0).Igual()));
