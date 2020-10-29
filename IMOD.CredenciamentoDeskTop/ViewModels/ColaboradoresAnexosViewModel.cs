@@ -31,6 +31,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
     public class ColaboradoresAnexosViewModel : ViewModelBase,IComportamento
     {
         private readonly IColaboradorAnexoService _service = new ColaboradorAnexoService();
+        private readonly IColaboradorAnexoWebService _serviceWeb = new ColaboradorAnexoWebService();
         private ColaboradorView _colaboradorView;
         private ColaboradorViewModel _viewModelParent;
 
@@ -271,9 +272,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _colaboradorView = entity;
             _viewModelParent = viewModelParent;
 
-           
+            var list1 = new List<ColaboradorAnexo>();
+            if (_viewModelParent.IsEnablePreCadastro)
+            {
+                list1 = _serviceWeb.Listar(entity.ColaboradorId).ToList();
+            }
+            else
+            {
+                list1 = _service.Listar(entity.ColaboradorId).ToList();
+            }
 
-            var list1 = _service.Listar(entity.ColaboradorId);
             var list2 = Mapper.Map<List<ColaboradorAnexoView>>(list1.OrderByDescending(n => n.ColaboradorAnexoId));
             EntityObserver = new ObservableCollection<ColaboradorAnexoView>();
             list2.ForEach(n => { EntityObserver.Add(n); });
