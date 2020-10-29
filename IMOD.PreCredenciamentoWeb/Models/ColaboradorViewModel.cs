@@ -178,7 +178,6 @@ namespace IMOD.PreCredenciamentoWeb.Models
         }
         public int? StatusCadastro { get; set; }
 
-        [Required(ErrorMessage = "É necessario informar a observação para aprovação")]
         [Display(Name = "Observação")]
         [DataType(DataType.MultilineText)]
         public string ObservacaoAprovacao { get; set; }
