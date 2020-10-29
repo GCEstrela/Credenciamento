@@ -718,9 +718,8 @@
                                             <div class="col-lg-12">
                                                 <div class="form-group">
                                                     @Html.LabelFor(model => model.ObservacaoAprovacao, htmlAttributes: new { @class = "control-label col-md-1" })
-                                                    <div class="col-md-4">
-                                                        @Html.TextAreaFor(model => model.ObservacaoAprovacao, htmlAttributes: new { @id = "txtObservacaoAprovacao", @class = "form-control remove-resize-textarea", @cols = "75", @rows = "4", @maxlength = "200" })
-                                                       @* @Html.ValidationMessageFor(model => model.ObservacaoAprovacao, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })*@
+                                                    <div class="col-md-6">
+                                                        @Html.TextAreaFor(model => model.ObservacaoAprovacao, htmlAttributes: new { @id = "txtObservacaoAprovacao", @class = "form-control remove-resize-textarea", @rows = "4", @maxlength = "200" })
                                                     </div>
                                                 </div>
                                             </div>
