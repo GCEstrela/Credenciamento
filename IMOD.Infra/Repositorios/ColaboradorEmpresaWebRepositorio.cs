@@ -158,7 +158,7 @@ namespace IMOD.Infra.Repositorios
 
                         entity.ColaboradorEmpresaId = key;
                         //Gerar matricula
-                        CriarNumeroMatricula(entity);
+                        //CriarNumeroMatricula(entity);
 
                     }
                 }

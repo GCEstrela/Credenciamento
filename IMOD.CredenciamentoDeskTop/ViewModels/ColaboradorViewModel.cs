@@ -41,6 +41,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IColaboradorService _service = new ColaboradorService();
         private readonly IColaboradorWebService _serviceWeb = new ColaboradorWebService();
         private readonly IColaboradorEmpresaService _serviceColaboradorEmpresa = new ColaboradorEmpresaService();
+        private readonly IColaboradorEmpresaWebService _serviceColaboradorEmpresaWeb = new ColaboradorEmpresaWebService();
+        private readonly IColaboradorAnexoWebService _serviceColaboradorAnexoWeb = new ColaboradorAnexoWebService();
+        private readonly IColaboradorCursoWebService _serviceColaboradorCursoWeb = new ColaboradorCursosWebService();
+        private readonly IColaboradorObservacaoService _serviceColaboradorObservacao = new ColaboradorObservacaoService();
         private readonly IColaboradorCredencialService _serviceColaboradorCredencial = new ColaboradorCredencialService();
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
 
@@ -459,8 +463,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             try
             {
+                Colaborador listaFoto;
+
                 if (Entity.Foto != null) return;
-                var listaFoto = _service.BuscarPelaChave(colaborador);
+                if (Entity.Precadastro)
+                {
+                    listaFoto = _serviceWeb.BuscarPelaChave(colaborador);
+                }
+                else
+                {
+                    listaFoto = _service.BuscarPelaChave(colaborador);
+                }
+                
 
                 if (listaFoto != null)
                     Entity.Foto = listaFoto.Foto;
@@ -941,11 +955,40 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 isReprovacao = false;
                 if (Validar()) return;
-                var n1 = Mapper.Map<Colaborador>(Entity);
+                
+                //testar se é aprovacao inclusao ou edicao revisao
 
-                n1.Precadastro = false;
-                n1.Observacao = null;
-                n1.StatusCadastro = 3;
+                var colaboradorWeb = _serviceWeb.Listar(Entity.ColaboradorId, null, null, null, null);
+                var vinculoWeb = _serviceColaboradorEmpresaWeb.Listar(Entity.ColaboradorId, null, null, null, null, null, null, null);
+                var cursoWeb = _serviceColaboradorCursoWeb.Listar(Entity.ColaboradorId, null, null, null, null);
+                var anexoWeb = _serviceColaboradorAnexoWeb.Listar(Entity.ColaboradorId, null, null);
+                var observacaoWeb = _serviceColaboradorObservacao.Listar(Entity.ColaboradorId);
+
+                var colaboradorIdWeb = Entity.ColaboradorId;
+
+
+
+                foreach (var colaboradorWebNovo in colaboradorWeb)
+                {
+                    colaboradorWebNovo.ColaboradorId = 0;
+                    var colaborador = Mapper.Map<Colaborador>(colaboradorWebNovo);
+
+                    _service.Criar(colaborador);
+                }
+
+                foreach (var vinculoWebNovo in vinculoWeb)
+                {
+                    var vinculo = Mapper.Map<ColaboradorEmpresa>(vinculoWebNovo);
+                    vinculo.ColaboradorId = Entity.ColaboradorId;
+                }
+                 
+                var curso = Mapper.Map<ColaboradorCurso>(cursoWeb);
+                var anexo = Mapper.Map<ColaboradorAnexo>(anexoWeb);
+
+
+                //n1.Precadastro = false;
+                //n1.Observacao = null;
+                //n1.StatusCadastro = 3;
 
                 #region Remover dados das tabelas auxiliares
                 //n1.Pendente21 = true;
@@ -971,7 +1014,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //Pendencia.CriarPendenciaSistema(pendencia);
                 #endregion
 
-                _service.Alterar(n1);
+                //_service.Alterar(n1);
                 EntityObserver.RemoveAt(SelectListViewIndex);
                 HabilitaControle(true, true);
                 VerificaPreCadastroAprovacao();

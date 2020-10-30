@@ -58,6 +58,13 @@
                                     </a>
 
                                 }
+                                else
+                                {
+                                    <a href='@Url.Action("EditRevisao", "Colaborador", new { id = item.ColaboradorId })'>
+                                        @*<img src="~/images/edit.png" />*@
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </a>
+                                }
                             </td>
                             <td class="col-lg-2">
                                 @Html.DisplayFor(modelItem => item.Cpf)
