@@ -43,7 +43,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IColaboradorEmpresaService _serviceColaboradorEmpresa = new ColaboradorEmpresaService();
         private readonly IColaboradorEmpresaWebService _serviceColaboradorEmpresaWeb = new ColaboradorEmpresaWebService();
         private readonly IColaboradorAnexoWebService _serviceColaboradorAnexoWeb = new ColaboradorAnexoWebService();
+        private readonly IColaboradorAnexoService _serviceColaboradorAnexo = new ColaboradorAnexoService();
         private readonly IColaboradorCursoWebService _serviceColaboradorCursoWeb = new ColaboradorCursosWebService();
+        private readonly IColaboradorCursoService _serviceColaboradorCurso = new ColaboradorCursosService();
         private readonly IColaboradorObservacaoService _serviceColaboradorObservacao = new ColaboradorObservacaoService();
         private readonly IColaboradorCredencialService _serviceColaboradorCredencial = new ColaboradorCredencialService();
         private readonly IDadosAuxiliaresFacade _auxiliaresServiceConfiguraSistema = new DadosAuxiliaresFacadeService();
@@ -376,7 +378,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     {
                         colaboradores = _service.Listar(null, null, null, IsEnablePreCadastro).ToList();
                     }
-                    
+
                     PopularObserver(colaboradores);
 
                 }
@@ -474,7 +476,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 {
                     listaFoto = _service.BuscarPelaChave(colaborador);
                 }
-                
+
 
                 if (listaFoto != null)
                     Entity.Foto = listaFoto.Foto;
@@ -955,40 +957,115 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity == null) return;
                 isReprovacao = false;
                 if (Validar()) return;
+
                 
+                var colaboradorWebId = Entity.ColaboradorId;
+
+                Colaborador colaborador = new Colaborador();
                 //testar se é aprovacao inclusao ou edicao revisao
-
-                var colaboradorWeb = _serviceWeb.Listar(Entity.ColaboradorId, null, null, null, null);
-                var vinculoWeb = _serviceColaboradorEmpresaWeb.Listar(Entity.ColaboradorId, null, null, null, null, null, null, null);
-                var cursoWeb = _serviceColaboradorCursoWeb.Listar(Entity.ColaboradorId, null, null, null, null);
-                var anexoWeb = _serviceColaboradorAnexoWeb.Listar(Entity.ColaboradorId, null, null);
-                var observacaoWeb = _serviceColaboradorObservacao.Listar(Entity.ColaboradorId);
-
-                var colaboradorIdWeb = Entity.ColaboradorId;
-
-
-
-                foreach (var colaboradorWebNovo in colaboradorWeb)
+                //Precadastro = true -> aprovacao inclusao
+                //Precadastro = false -> edicao revisao
+                if (Entity.Precadastro)
                 {
-                    colaboradorWebNovo.ColaboradorId = 0;
-                    var colaborador = Mapper.Map<Colaborador>(colaboradorWebNovo);
 
-                    _service.Criar(colaborador);
+                    var colaboradorWeb = _serviceWeb.Listar(Entity.ColaboradorId, null, null, null, null);
+                    var vinculoWeb = _serviceColaboradorEmpresaWeb.Listar(Entity.ColaboradorId, null, null, null, null, null, null, null);
+                    var cursoWeb = _serviceColaboradorCursoWeb.Listar(Entity.ColaboradorId, null, null, null, null);
+                    var anexoWeb = _serviceColaboradorAnexoWeb.Listar(Entity.ColaboradorId, null, null);
+                    var observacaoWeb = _serviceColaboradorObservacao.Listar(Entity.ColaboradorId);
+
+                    foreach (var colaboradorWebNovo in colaboradorWeb)
+                    {
+                        colaboradorWebNovo.ColaboradorId = 0;
+                        colaborador = Mapper.Map<Colaborador>(colaboradorWebNovo);
+
+                        colaborador.Precadastro = false;
+                        colaborador.Observacao = null;
+                        colaborador.StatusCadastro = 3;
+
+                        _service.Criar(colaborador);
+                    }
+
+                    foreach (var vinculoWebNovo in vinculoWeb)
+                    {
+                        var vinculo = Mapper.Map<ColaboradorEmpresa>(vinculoWebNovo);
+                        vinculo.ColaboradorId = colaborador.ColaboradorId;
+
+                        _serviceColaboradorEmpresa.Criar(vinculo);
+                    }
+
+                    foreach (var cursoWebNovo in cursoWeb)
+                    {
+                        var curso = Mapper.Map<ColaboradorCurso>(cursoWebNovo);
+                        curso.ColaboradorId = colaborador.ColaboradorId;
+
+                        _serviceColaboradorCurso.Criar(curso);
+                    }
+
+                    foreach (var anexoWebNovo in anexoWeb)
+                    {
+                        var anexo = Mapper.Map<ColaboradorAnexo>(anexoWebNovo);
+                        anexo.ColaboradorId = colaborador.ColaboradorId;
+
+                        _serviceColaboradorAnexo.Criar(anexo);
+                    }
+
+                    foreach (var item in colaboradorWeb)
+                    {
+                        item.ColaboradorId = colaboradorWebId;
+                        _serviceWeb.Remover(item);
+                    }
+                }
+                else
+                {
+                    var colaboradorWeb = _serviceWeb.Listar(Entity.ColaboradorId, null, null, null, null);
+                    var vinculoWeb = _serviceColaboradorEmpresaWeb.Listar(Entity.ColaboradorId, null, null, null, null, null, null, null);
+                    var cursoWeb = _serviceColaboradorCursoWeb.Listar(Entity.ColaboradorId, null, null, null, null);
+                    var anexoWeb = _serviceColaboradorAnexoWeb.Listar(Entity.ColaboradorId, null, null);
+                    var observacaoWeb = _serviceColaboradorObservacao.Listar(Entity.ColaboradorId);
+
+                    foreach (var colaboradorWebNovo in colaboradorWeb)
+                    {
+                        colaborador = Mapper.Map<Colaborador>(colaboradorWebNovo);
+
+                        colaborador.Observacao = null;
+                        colaborador.StatusCadastro = 3;
+
+                        _service.Alterar(colaborador);
+                    }
+
+                    foreach (var vinculoWebNovo in vinculoWeb)
+                    {
+                        var vinculo = Mapper.Map<ColaboradorEmpresa>(vinculoWebNovo);
+                        vinculo.ColaboradorId = Entity.ColaboradorId;
+
+                        _serviceColaboradorEmpresa.Alterar(vinculo);
+                    }
+
+                    foreach (var cursoWebNovo in cursoWeb)
+                    {
+                        var curso = Mapper.Map<ColaboradorCurso>(cursoWebNovo);
+                        curso.ColaboradorId = Entity.ColaboradorId;
+
+                        _serviceColaboradorCurso.Alterar(curso);
+                    }
+
+                    foreach (var anexoWebNovo in anexoWeb)
+                    {
+                        var anexo = Mapper.Map<ColaboradorAnexo>(anexoWebNovo);
+                        anexo.ColaboradorId = Entity.ColaboradorId;
+
+                        _serviceColaboradorAnexo.Alterar(anexo);
+                    }
+
+                    foreach (var item in colaboradorWeb)
+                    {
+                        item.ColaboradorId = colaboradorWebId;
+                        _serviceWeb.Remover(item);
+                    }
                 }
 
-                foreach (var vinculoWebNovo in vinculoWeb)
-                {
-                    var vinculo = Mapper.Map<ColaboradorEmpresa>(vinculoWebNovo);
-                    vinculo.ColaboradorId = Entity.ColaboradorId;
-                }
-                 
-                var curso = Mapper.Map<ColaboradorCurso>(cursoWeb);
-                var anexo = Mapper.Map<ColaboradorAnexo>(anexoWeb);
 
-
-                //n1.Precadastro = false;
-                //n1.Observacao = null;
-                //n1.StatusCadastro = 3;
 
                 #region Remover dados das tabelas auxiliares
                 //n1.Pendente21 = true;
@@ -1012,6 +1089,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //pendencia.CodPendencia = 24;
                 //pendencia.Impeditivo = true;
                 //Pendencia.CriarPendenciaSistema(pendencia);
+
+                
                 #endregion
 
                 //_service.Alterar(n1);
