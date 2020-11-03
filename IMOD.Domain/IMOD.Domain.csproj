@@ -118,6 +118,7 @@
     <Compile Include="Entities\VeiculoPrivilegio.cs" />
     <Compile Include="Entities\VeiculoSeguro.cs" />
     <Compile Include="Enums\CredencialFormato.cs" />
+    <Compile Include="Enums\UsuarioRevisao.cs" />
     <Compile Include="Enums\StatusCadastro.cs" />
     <Compile Include="Enums\Status.cs" />
     <Compile Include="Enums\Motivo.cs" />

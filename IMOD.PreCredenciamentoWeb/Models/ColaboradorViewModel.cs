@@ -24,7 +24,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Required(ErrorMessage = "O Apelido é requerido.")]
         [Display(Name = "Apelido")]
         public string Apelido { get; set; }
-        
+
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Data Nascimento")]
         public DateTime? DataNascimento { get; set; }
@@ -46,7 +46,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [RequiredIf("Estrangeiro", false, ErrorMessage = "O RG é requerido.")]
         [Display(Name = "RG")]
         public string Rg { get; set; }
-        
+
         [Display(Name = "Emissão")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? RgEmissao { get; set; }
@@ -120,7 +120,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Data de Validade")]
         public DateTime? DataValidade { get; set; }
-        
+
         public bool Estrangeiro { get; set; }
 
         public bool ValidaEstrangeiro
@@ -162,13 +162,13 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
         [Display(Name = "Status")]
-        public string Status 
+        public string Status
         {
             get
             {
                 if (StatusCadastro != null)
                 {
-                    return Funcoes.GetDescription((StatusCadastro)StatusCadastro); 
+                    return Funcoes.GetDescription((StatusCadastro)StatusCadastro);
                 }
                 else
                 {
@@ -178,9 +178,21 @@ namespace IMOD.PreCredenciamentoWeb.Models
         }
         public int? StatusCadastro { get; set; }
 
+        // Aba Observação
         [Display(Name = "Observação")]
         [DataType(DataType.MultilineText)]
         public string ObservacaoAprovacao { get; set; }
+        public DateTime? DataRevisao { get; set; }
+        [Display(Name = "Usuário")]
+        public int UsuarioRevisao { get; set; }
+        [Display(Name = "Tipo de Situação")]
+        public string TipoSituacao { get; set; }
+
+        public string UsuarioRevisaoInfo {
+            get {
+                return Funcoes.GetDescription((UsuarioRevisao)UsuarioRevisao);
+            }            
+        }
         #endregion
     }
 }

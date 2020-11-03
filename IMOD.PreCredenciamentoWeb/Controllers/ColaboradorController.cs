@@ -42,6 +42,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private const string SESS_MUNICIPIO_SELECIONADO = "MunicipioSelecionado";
         private const string SESS_OBSERVACAO_SELECIONADAS = "ObservacoesSelecionadas";
         private const string SESS_OBSERVACAO_REMOVIDAS = "ObservacoesRemovidas";
+        private const string SESS_OBSERVACAO_RESPOSTA_SELECIONADAS = "ObservacoesRespostasSelecionadas";
+        private const string SESS_OBSERVACAO_RESPOSTA_REMOVIDAS = "ObservacoesRespostasRemovidas";
         private List<Colaborador> colaboradores = new List<Colaborador>();
         private List<Colaborador> colaboradoresWeb = new List<Colaborador>();
         private List<ColaboradorEmpresa> vinculos = new List<ColaboradorEmpresa>();
@@ -64,6 +66,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             Session[SESS_MUNICIPIO_SELECIONADO] = null;
             Session[SESS_OBSERVACAO_SELECIONADAS] = null;
             Session[SESS_OBSERVACAO_REMOVIDAS] = null;
+            Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS] = null;
+            Session[SESS_OBSERVACAO_RESPOSTA_REMOVIDAS] = null;
 
             return View(lstColaboradorMapeado);
         }
@@ -485,11 +489,20 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
 
             //Popula observações para aprovação do colaborador
-            var observacoesSelecionadas = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId);
+            var observacoesAuxSelecionadas = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId);
+            var observacoesSelecionadas = observacoesAuxSelecionadas.Where(co => co.ColaboradorObservacaoRespostaID == null).ToList();
+            var observacoesRespostaSelecionadas = observacoesAuxSelecionadas.Where(co => co.ColaboradorObservacaoRespostaID != null).ToList();
+
             if (observacoesSelecionadas != null)
             {
                 ViewBag.ObservacoesSelecionadas = observacoesSelecionadas;
                 Session.Add(SESS_OBSERVACAO_SELECIONADAS, observacoesSelecionadas);
+            }
+
+            if (observacoesRespostaSelecionadas != null)
+            {
+                ViewBag.ObservacoesRespostaSelecionadas = observacoesRespostaSelecionadas;
+                Session.Add(SESS_OBSERVACAO_RESPOSTA_SELECIONADAS, observacoesRespostaSelecionadas);
             }
 
             if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
@@ -526,6 +539,15 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             else
             {
                 ViewBag.ObservacoesSelecionadas = new List<ColaboradorObservacao>();
+            }
+
+            if (Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS] != null)
+            {
+                ViewBag.observacoesRespostaSelecionadas = (List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS];
+            }
+            else
+            {
+                ViewBag.observacoesRespostaSelecionadas = new List<ColaboradorObservacao>();
             }
 
             if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
@@ -708,9 +730,33 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                             {
                                 colaboradorObservacao = new ColaboradorObservacao();
                                 colaboradorObservacao.ColaboradorId = colaboradorMapeado.ColaboradorId;
-                                colaboradorObservacao.ColaboradorObservacaoId = observacao.ColaboradorObservacaoId;
                                 colaboradorObservacao.Observacao = observacao.Observacao;
+                                colaboradorObservacao.DataRevisao = observacao.DataRevisao;
+                                colaboradorObservacao.TipoSituacao = observacao.TipoSituacao;
+                                colaboradorObservacao.UsuarioRevisao = observacao.UsuarioRevisao;
                                 objColaboradorObservacaoService.Criar(colaboradorObservacao);
+                            }
+                        }
+                    }
+
+                    //inclui as observações resposta selecionadas
+                    if (Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS] != null)
+                    {
+                        foreach (var observacaoResp in (List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS])
+                        {
+                            var colaboradorObservacaoResp = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId, observacaoResp.ColaboradorObservacaoId, observacaoResp.Observacao, observacaoResp.ColaboradorObservacaoRespostaID, observacaoResp.ObservacaoResposta, null, null).FirstOrDefault();
+                            if (colaboradorObservacaoResp != null)
+                            {
+                                objColaboradorObservacaoService.Alterar(colaboradorObservacaoResp);
+                            }
+                            else
+                            {
+                                colaboradorObservacaoResp = new ColaboradorObservacao();
+                                colaboradorObservacaoResp = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId, observacaoResp.ColaboradorObservacaoId, observacaoResp.Observacao, null, null, null, null).FirstOrDefault();
+                                colaboradorObservacaoResp.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                                colaboradorObservacaoResp.ObservacaoResposta = observacaoResp.ObservacaoResposta;
+                                colaboradorObservacaoResp.ColaboradorObservacaoRespostaID = observacaoResp.ColaboradorObservacaoRespostaID;
+                                objColaboradorObservacaoService.Criar(colaboradorObservacaoResp);
                             }
                         }
                     }
@@ -985,6 +1031,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             if (Session[SESS_OBSERVACAO_SELECIONADAS] == null) Session[SESS_OBSERVACAO_SELECIONADAS] = new List<ColaboradorObservacao>();
             var item = new ColaboradorObservacao();
             item.Observacao = Request.Form["ObservacaoAprovacao"];
+            item.DataRevisao = DateTime.Now;
+            item.TipoSituacao = Request.Form["TipoSituacao"];
+            item.UsuarioRevisao = 0;
             ((List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_SELECIONADAS]).Add(item);
             return Json((List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_SELECIONADAS], JsonRequestBehavior.AllowGet);
         }
@@ -1001,6 +1050,17 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             if (Session[SESS_OBSERVACAO_REMOVIDAS] == null) Session[SESS_OBSERVACAO_REMOVIDAS] = new List<int>();
             ((List<int>)Session[SESS_OBSERVACAO_REMOVIDAS]).Add(id);
             return Json(listObservacao, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public ActionResult AdicionarObservacaoResposta()
+        {
+            if (Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS] == null) Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS] = new List<ColaboradorObservacao>();
+            var item = new ColaboradorObservacao();
+            item.ObservacaoResposta = Request.Form["observacaoResposta"];
+            item.ColaboradorObservacaoRespostaID = Convert.ToInt32(Request.Form["colaboradorObservacaoId"]);
+            ((List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS]).Add(item);
+            return Json((List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS], JsonRequestBehavior.AllowGet);
         }
 
         [Authorize]

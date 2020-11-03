@@ -713,56 +713,153 @@
                                         </div>
                                     </div>
                                 }
-                                    <div class="tab-pane" role="tabpanel" id="observacao">
-                                        <div div class="form-group">
-                                            <div class="col-lg-12">
-                                                <div class="form-group">
-                                                    @Html.LabelFor(model => model.ObservacaoAprovacao, htmlAttributes: new { @class = "control-label col-md-1" })
-                                                    <div class="col-md-6">
-                                                        @Html.TextAreaFor(model => model.ObservacaoAprovacao, htmlAttributes: new { @id = "txtObservacaoAprovacao", @class = "form-control remove-resize-textarea", @rows = "4", @maxlength = "200" })
-                                                    </div>
-                                                </div>
+                            <div class="tab-pane" role="tabpanel" id="observacao">
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        <div class="form-group" style="margin-bottom: 0px;">
+                                            @Html.LabelFor(model => model.TipoSituacao, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="radio col-md-2">
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.TipoSituacao, "1ª Emissão", htmlAttributes: new { @class = "", @checked="checked" })
+                                                    1ª Emissão
+                                                </label>
+                                            </div>
+                                            <div class="radio col-md-2">
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.TipoSituacao, "Danificado", htmlAttributes: new { @class = "" })
+                                                    Danificado
+                                                </label>
+                                            </div>
+                                            <div class="radio col-md-2">
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.TipoSituacao, "Alteração de Acesso", htmlAttributes: new { @class = "" })
+                                                    Alteração de Acesso
+                                                </label>
+                                            </div>
+                                            <div class="radio col-md-2">
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.TipoSituacao, "Autorização para Dirigir", htmlAttributes: new { @class = "" })
+                                                    Autorização para Dirigir
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="margin-bottom: 0px;">
+                                            <label class="control-label col-md-2"></label>
+                                            <div class="radio col-md-2">
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.TipoSituacao, "Renovação", htmlAttributes: new { @class = "" })
+                                                    Renovação
+                                                </label>
+                                            </div>
+                                            <div class="radio col-md-2">
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.TipoSituacao, "Extraviado", htmlAttributes: new { @class = "" })
+                                                    Extraviado
+                                                </label>
+                                            </div>
+                                            <div class="radio col-md-2">
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.TipoSituacao, "Alteração de Função", htmlAttributes: new { @class = "" })
+                                                    Alteração de Função
+                                                </label>
+                                            </div>
+                                            <div class="radio col-md-2">
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.TipoSituacao, "Credencial Temporária", htmlAttributes: new { @class = "" })
+                                                    Credencial Temporária
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-md-1">
-
+                                            <label class="control-label col-md-2"></label>
+                                            <div class="radio col-md-2">
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.TipoSituacao, "Outros", htmlAttributes: new { @class = "" })
+                                                    Outros
+                                                </label>
                                             </div>
-                                            <div class="col-lg-7">
-                                                <button type="button" class="btn btn-info btn-icon" id="btObservacao"><span><strong>Adicionar</strong></span> <i class="fa fa-plus-circle"></i> </button>
-                                            </div>
-                                        </div>
-                                        <br />
-                                        <fieldset>
-                                            <legend> Observações Selecionados</legend>
-                                            <div class="row">
-                                                <div class="col-lg-11"><b>Observação</b></div>
-                                                <div class="col-lg-1"></div>
-                                            </div>
-                                            <div class="row" id="divObservacao">
-                                                @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.ColaboradorObservacao>)ViewBag.ObservacoesSelecionadas))
-                                                {
-                                                    <div class="col-lg-11">@item.Observacao</div>
-                                                    <div class="col-lg-1">
-                                                        <a title="Remover Observação" id=@item.ColaboradorObservacaoId href="#" class="btnRemoverObservacao" onclick="RemoverObservacao(this)">
-                                                            <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
-                                                        </a>
-                                                    </div>
-
-                                                }
-                                            </div>
-                                        </fieldset>
-                                        <div class="col-lg-12">
-                                            <ul class="list-inline pull-right" style="padding-top: 208px">
-                                                <li><a href="~/Colaborador/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
-                                                <li><button type="submit" class="btn btn-success" id="btnSalvar"><i class="fa fa-save"></i> <span>Salvar</span></button></li>
-                                                <li><button type="button" class="btn btn-default prev-step btn-icon"><i class="fa fa-arrow-left"></i> <span><strong>Voltar</strong></span></button></li>
-                                                <li><button type="button" class="btn btn-primary next-step btn-icon"><span><strong>Avançar</strong></span> <i class="fa fa-arrow-right"></i> </button> </li>
-
-                                            </ul>
                                         </div>
                                     </div>
-                                
+                                </div>
+                                <div div class="form-group">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ObservacaoAprovacao, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-6">
+                                                @Html.TextAreaFor(model => model.ObservacaoAprovacao, htmlAttributes: new { @id = "txtObservacaoAprovacao", @class = "form-control remove-resize-textarea", @rows = "4", @maxlength = "200" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <button type="button" class="btn btn-info btn-icon" id="btObservacao"><span><strong>Adicionar</strong></span> <i class="fa fa-plus-circle"></i> </button>
+                                    </div>
+                                </div>
+                                <br />
+                                <fieldset>
+                                    <legend> Observações Selecionados</legend>
+                                    <div class="row">
+                                        <div class="col-lg-5"><b>Observação</b></div>
+                                        <div class="col-lg-3"><b>Usuário</b></div>
+                                        <div class="col-lg-2"><b>Data</b></div>
+                                        <div class="col-lg-2"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="panel-group" role="tablist">
+                                            <div class="panel panel-default" id="divObservacao">
+                                                @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.ColaboradorObservacao>)ViewBag.ObservacoesSelecionadas))
+                                                {
+                                                    <div class="col-lg-5">@item.Observacao</div>
+                                                    <div class="col-lg-3">@item.UsuarioRevisaoInfo</div>
+                                                    <div class="col-lg-2">@item.DataRevisao.ToString("dd/MM/yyyy HH:mm:ss")</div>
+                                                    <div class="col-lg-2">
+                                                        <a href="#collapseListGroup@(item.ColaboradorObservacaoId)" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseListGroup@(item.ColaboradorObservacaoId)" class="" title="Responder Observacao" id="' + + @item.ColaboradorObservacaoId + + '">
+                                                            <i class="success btn-icon fa fa-comment" style="color: #566787; font-size: 25px; text-align:center"></i>
+                                                        </a>
+                                                        <a href="#" title="Remover Observação" id=@item.ColaboradorObservacaoId class="btnRemoverObservacao" onclick="RemoverObservacao(this)">
+                                                            <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center; cursor: pointer;"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-lg-12" style="margin-bottom: 5px;">
+                                                        <div class="panel-collapse collapse" role="tabpanel" id="collapseListGroup@(item.ColaboradorObservacaoId)" aria-labelledby="collapseListGroupHeading@(item.ColaboradorObservacaoId)" aria-expanded="true" data-toggle="false" style="">
+                                                            <ul class="list-group" style="margin-bottom: 0px;" id="listObservacaoResposta@(item.ColaboradorObservacaoId)">
+                                                                @foreach (var itemResp in ((IEnumerable<IMOD.Domain.Entities.ColaboradorObservacao>)ViewBag.ObservacoesRespostaSelecionadas))
+                                                                {
+                                                                    if (item.ColaboradorObservacaoId.Equals(itemResp.ColaboradorObservacaoRespostaID))
+                                                                    {
+                                                                        <li class="list-group-item">@itemResp.ObservacaoResposta</li>
+                                                                    }
+                                                                }
+                                                                </ul>
+                                                            <div class="panel-footer">
+                                                                <div class="form-group col-md-4">
+                                                                    <textarea id="txtObservacaoResposta@(item.ColaboradorObservacaoId)" maxlength="200" rows="4" class="form-control remove-resize-textarea"></textarea>
+                                                                    @Html.Hidden("ColaboradorObservacaoId" + item.ColaboradorObservacaoId, item.ColaboradorObservacaoId)
+                                                                </div>
+                                                                <button type="button" style="margin-top: 70px;" class="btn btn-info" name="btResposta" id="@item.ColaboradorObservacaoId"><span><strong>Responder</strong></span> </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div class="col-lg-12">
+                                    <ul class="list-inline pull-right" style="padding-top: 208px">
+                                        <li><a href="~/Colaborador/Index" class="submit btn btn-danger btn-icon"><span><strong>Cancelar</strong></span></a></li>
+                                        <li><button type="submit" class="btn btn-success" id="btnSalvar"><i class="fa fa-save"></i> <span>Salvar</span></button></li>
+                                        <li><button type="button" class="btn btn-default prev-step btn-icon"><i class="fa fa-arrow-left"></i> <span><strong>Voltar</strong></span></button></li>
+                                        <li><button type="button" class="btn btn-primary next-step btn-icon"><span><strong>Avançar</strong></span> <i class="fa fa-arrow-right"></i> </button> </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+
                                 <div class="tab-pane" role="tabpanel" id="aceite">
                                     <fieldset>
                                         <div class="form-group" style="text-align:center">
@@ -818,7 +915,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-    <script>
+<script>
         $(document).ready(function () {
             //evento do botão incluir contrato
             $("#btContrato").click(function () {
@@ -951,6 +1048,8 @@
                 var fileData = new FormData();
                 var ObservacaoAprovacao = $("#txtObservacaoAprovacao").val();
                 fileData.append('ObservacaoAprovacao', ObservacaoAprovacao);
+                var tipoSituacao = $("input[name='TipoSituacao']:checked").val();
+                fileData.append('TipoSituacao', tipoSituacao);
 
                 $.ajax({
                     type: "POST",
@@ -961,13 +1060,55 @@
                     processData: false,
                     success: function (result) {
                         var html = '';
+                        var regex = /([0-9])\d+/g;
                         $.each(result, function (key, item) {
-                            html += '<div class="col-lg-11">' + item.Observacao + '</div>';
-                            html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Observacao" id="' + item.ColaboradorObservacaoId + '" onclick="RemoverObservacao(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
+                            html += '<div class="col-lg-5">' + item.Observacao + '</div>';
+                            html += '<div class="col-lg-3">' + item.UsuarioRevisaoInfo + '</div>';
+                            html += '<div class="col-lg-2">' + new Date(parseInt((item.DataRevisao).match(regex))).toLocaleString() + '</div>';
+                            html += '<div class="col-lg-2">';
+                            html += '   <a href="#collapseListGroup' + parseInt((item.DataRevisao).match(regex)) + '" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseListGroup' + parseInt((item.DataRevisao).match(regex)) + '" class="" title="Responder Observacao" id="' + item.ColaboradorObservacaoId + '"><i class="success btn-icon fa fa-comment" style="color: #566787; font-size: 25px; text-align:center"></i></a>';
+                            html += '   <a data-toggle="collapse" class="btnRemover" title="Remover Observacao" id="' + item.ColaboradorObservacaoId + '" onclick="RemoverObservacao(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a>';
+                            html += '</div > ';
+                            html += '<div class="col-lg-12" style="margin-bottom: 5px;"><div class="panel-collapse collapse" role="tabpanel" id="collapseListGroup' + parseInt((item.DataRevisao).match(regex)) + '" aria-labelledby="collapseListGroupHeading' + parseInt((item.DataRevisao).match(regex)) + '" aria-expanded="true" data-toggle="false" style=""> <ul class="list-group" style="margin-bottom: 0px;" id="listObservacaoResposta"> </ul> <div class="panel-footer"><div class="form-group col-md-4"><textarea id="txtObservacaoResposta" maxlength="200" rows="4" class="form-control remove-resize-textarea"></textarea><input id="ColaboradorObservacaoId" name="ColaboradorObservacaoId" type="hidden" value="' + item.ColaboradorObservacaoId + '"></div><button type="button" style="margin-top: 70px;" class="btn btn-info" id="btResposta"><span><strong>Responder</strong></span> </button></div> </div></div>'; //<li class="list-group-item"> Item </li>
                         });
                         $('#divObservacao').html('');
                         $('#divObservacao').append(html);
                         $("#txtObservacaoAprovacao").val('');
+                        //console.log(result);
+                    },
+                    error: function (result) {
+                        Alert(result);
+                    }
+                });
+            });
+
+            //evento do botão incluir Observação de Aprovação Resposta
+            $("button[name='btResposta']").click(function () {
+                var id = this.id;
+                //alert(id);
+                var fileData = new FormData();
+                var observacaoResposta = $("#txtObservacaoResposta" + id).val();
+                fileData.append('observacaoResposta', observacaoResposta);
+                var colaboradorObservacaoId = $("#ColaboradorObservacaoId" + id).val();
+                fileData.append('colaboradorObservacaoId', colaboradorObservacaoId);
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AdicionarObservacaoResposta")',
+                    data: fileData,
+                    dataType: 'JSON',
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        var html = '';
+                        $.each(result, function (key, item) {
+                            if (parseInt(id) == item.ColaboradorObservacaoRespostaID) {
+                                html += '<li class="list-group-item">' + item.ObservacaoResposta + '</li>';
+                            }
+                        });
+                        $('#listObservacaoResposta' + id).html('');
+                        $('#listObservacaoResposta' + id).append(html);
+                        $("#txtObservacaoResposta" + id).val('');
                         //console.log(result);
                     },
                     error: function (result) {
@@ -1027,7 +1168,7 @@
             $(elem).prev().find('a[data-toggle="tab"]').click();
         }
 
-    </script>
+</script>
     <script>
          function RemoverContrato(it)
             {
@@ -1118,9 +1259,16 @@
                    data: { id: id },
                    success: function (result) {
                        var html = '';
+                       var regex = /([0-9])\d+/g;
                        $.each(result, function (key, item) {
-                           html += '<div class="col-lg-11">' + item.Observacao + '</div>';
-                           html += '<div class="col-lg-1"><a class="btnRemoverObservacao" title="Remover Observação" id=' + item.ColaboradorObservacaoId + ' onclick="RemoverObservacao(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
+                           html += '<div class="col-lg-5">' + item.Observacao + '</div>';
+                           html += '<div class="col-lg-3">' + item.UsuarioRevisaoInfo + '</div>';
+                           html += '<div class="col-lg-2">' + new Date(parseInt((item.DataRevisao).match(regex))).toLocaleString() + '</div>';
+                           html += '<div class="col-lg-2">';
+                           html += '   <a href="#collapseListGroup' + parseInt((item.DataRevisao).match(regex)) + '" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseListGroup' + parseInt((item.DataRevisao).match(regex)) + '" class="" title="Responder Observacao" id="' + item.ColaboradorObservacaoId + '"><i class="success btn-icon fa fa-comment" style="color: #566787; font-size: 25px; text-align:center"></i></a>';
+                           html += '   <a data-toggle="collapse" class="btnRemover" title="Remover Observacao" id="' + item.ColaboradorObservacaoId + '" onclick="RemoverObservacao(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a>';
+                           html += '</div > ';
+                           html += '<div class="col-lg-12" style="margin-bottom: 5px;"><div class="panel-collapse collapse" role="tabpanel" id="collapseListGroup' + parseInt((item.DataRevisao).match(regex)) + '" aria-labelledby="collapseListGroupHeading' + parseInt((item.DataRevisao).match(regex)) + '" aria-expanded="true" data-toggle="false" style=""> <ul class="list-group" style="margin-bottom: 0px;" id="listObservacaoResposta"> </ul> <div class="panel-footer"><div class="form-group col-md-4"><textarea id="txtObservacaoResposta" maxlength="200" rows="4" class="form-control remove-resize-textarea"></textarea><input id="ColaboradorObservacaoId" name="ColaboradorObservacaoId" type="hidden" value="' + item.ColaboradorObservacaoId + '"></div><button type="button" style="margin-top: 70px;" class="btn btn-info" id="btResposta"><span><strong>Responder</strong></span> </button></div> </div></div>';
 
                        });
                        $('#divObservacao').html('');

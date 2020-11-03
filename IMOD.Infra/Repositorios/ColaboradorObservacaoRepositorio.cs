@@ -58,6 +58,11 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorObservacaoId", entity.ColaboradorObservacaoId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Impeditivo", entity.Impeditivo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Resolvido", entity.Resolvido, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("UsuarioRevisao", entity.UsuarioRevisao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataRevisao", entity.DataRevisao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("TipoSituacao", entity.TipoSituacao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorObservacaoRespostaID", entity.ColaboradorObservacaoRespostaID, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ObservacaoResposta", entity.ObservacaoResposta, false)));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -118,6 +123,11 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Observacao", entity.Observacao, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Impeditivo", entity.Impeditivo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Resolvido", entity.Resolvido, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("UsuarioRevisao", entity.UsuarioRevisao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataRevisao", entity.DataRevisao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("TipoSituacao", entity.TipoSituacao, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorObservacaoRespostaID", entity.ColaboradorObservacaoRespostaID, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ObservacaoResposta", entity.ObservacaoResposta, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -147,6 +157,8 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorID", DbType.Int32, o, 0).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorObservacaoID", DbType.Int32, o, 1).Igual()));
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Observacao", DbType.String, o, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ColaboradorObservacaoRespostaID", DbType.Int32, o, 3).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ObservacaoResposta", DbType.String, o, 4).Like()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<ColaboradorObservacao>();
