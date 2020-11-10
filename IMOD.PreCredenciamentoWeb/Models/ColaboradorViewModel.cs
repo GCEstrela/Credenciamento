@@ -186,7 +186,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "Usuário")]
         public int UsuarioRevisao { get; set; }
         [Display(Name = "Tipo de Situação")]
-        public string TipoSituacao { get; set; }
+        public int TipoSituacao { get; set; }
 
         public string UsuarioRevisaoInfo {
             get {

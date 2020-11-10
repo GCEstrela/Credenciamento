@@ -13,9 +13,10 @@ using System.IO;
 using Correios.Net;
 using System.Windows.Forms;
 using System.Net.Http;
+using IMOD.Domain.Enums;
 
 namespace IMOD.PreCredenciamentoWeb.Controllers
-{ 
+{
     [Authorize]
     public class ColaboradorController : Controller
     {
@@ -40,10 +41,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         private const string SESS_ANEXOS_SELECIONADOS = "AnexosSelecionados";
         private const string SESS_ANEXOS_REMOVIDOS = "AnexosRemovidos";
         private const string SESS_MUNICIPIO_SELECIONADO = "MunicipioSelecionado";
-        private const string SESS_OBSERVACAO_SELECIONADAS = "ObservacoesSelecionadas";
-        private const string SESS_OBSERVACAO_REMOVIDAS = "ObservacoesRemovidas";
-        private const string SESS_OBSERVACAO_RESPOSTA_SELECIONADAS = "ObservacoesRespostasSelecionadas";
-        private const string SESS_OBSERVACAO_RESPOSTA_REMOVIDAS = "ObservacoesRespostasRemovidas";
         private List<Colaborador> colaboradores = new List<Colaborador>();
         private List<Colaborador> colaboradoresWeb = new List<Colaborador>();
         private List<ColaboradorEmpresa> vinculos = new List<ColaboradorEmpresa>();
@@ -64,10 +61,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             Session[SESS_ANEXOS_SELECIONADOS] = null;
             Session[SESS_ANEXOS_REMOVIDOS] = null;
             Session[SESS_MUNICIPIO_SELECIONADO] = null;
-            Session[SESS_OBSERVACAO_SELECIONADAS] = null;
-            Session[SESS_OBSERVACAO_REMOVIDAS] = null;
-            Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS] = null;
-            Session[SESS_OBSERVACAO_RESPOSTA_REMOVIDAS] = null;
 
             return View(lstColaboradorMapeado);
         }
@@ -158,6 +151,21 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             {
                 ViewBag.AnexosSelecionados = anexosSelecionados;
                 Session.Add(SESS_ANEXOS_SELECIONADOS, anexosSelecionados);
+            }
+
+            //Popula observações para aprovação do colaborador
+            var observacoesAuxSelecionadas = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId);
+            var observacoesSelecionadas = observacoesAuxSelecionadas.Where(co => co.ColaboradorObservacaoRespostaID == null).OrderBy(co => co.DataRevisao).ToList();
+            var observacoesRespostaSelecionadas = observacoesAuxSelecionadas.Where(cor => cor.ColaboradorObservacaoRespostaID != null).OrderBy(cor => cor.DataRevisao).ToList();
+
+            if (observacoesSelecionadas != null)
+            {
+                ViewBag.ObservacoesSelecionadas = observacoesSelecionadas;
+            }
+
+            if (observacoesRespostaSelecionadas != null)
+            {
+                ViewBag.ObservacoesRespostaSelecionadas = observacoesRespostaSelecionadas;
             }
 
             return View(colaboradorMapeado);
@@ -429,20 +437,23 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         }
 
-        // GET: Colaborador/Edit/5
-        public ActionResult Edit(int? id)
+        // GET: Colaborador/EditRevisao/5
+        public ActionResult EditRevisao(int? id)
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
 
             //Obtem o colaborador pelo ID
-            var colaboradorEditado = objServiceWeb.Listar(id).FirstOrDefault();
+            var colaboradorEditado = objService.Listar(id).FirstOrDefault();
+            var StatusEditarRevisao = colaboradorEditado.StatusCadastro;
+
+            if(StatusCadastro.AGUARDANDO_REVISAO.Equals(StatusEditarRevisao))
+                colaboradorEditado = objServiceWeb.Listar(id).FirstOrDefault();
+
             if (colaboradorEditado == null)
                 return HttpNotFound();
 
             //obtém vinculos do colaborador
             ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
-
-            colaboradorMapeado.chkAceite = true;
 
             CarregaFotoColaborador(colaboradorMapeado);
 
@@ -463,12 +474,31 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             var listCursos = objCursosService.Listar().OrderBy(c => c.Descricao);
             if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; };
 
-            var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(objColaboradorEmpresaWebService.Listar(colaboradorEditado.ColaboradorId));
+            var objColaboradorEmpresa = new List<ColaboradorEmpresa>();
+            if (StatusCadastro.AGUARDANDO_REVISAO.Equals(StatusEditarRevisao))
+            {
+                objColaboradorEmpresa = objColaboradorEmpresaWebService.Listar(colaboradorMapeado.ColaboradorId).ToList();
+            }
+            else
+            {
+                objColaboradorEmpresa = objColaboradorEmpresaService.Listar(colaboradorMapeado.ColaboradorId).ToList();
+            }
+                
+            var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(objColaboradorEmpresa);
             ViewBag.ContratosSelecionados = listaVinculosColaborador;
             Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosColaborador);
 
             //Popula cursos selecionados do colaborador
-            var cursosColaborador = objColaboradorCursosWebService.Listar(colaboradorEditado.ColaboradorId).ToList();
+            var cursosColaborador = new List<ColaboradorCurso>();
+            if (StatusCadastro.AGUARDANDO_REVISAO.Equals(StatusEditarRevisao))
+            {
+                cursosColaborador = objColaboradorCursosWebService.Listar(colaboradorMapeado.ColaboradorId).ToList();
+            }
+            else
+            {
+                cursosColaborador = objColaboradorCursosService.Listar(colaboradorMapeado.ColaboradorId).ToList();
+            }
+
             var cursosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
             for (int i = 0; i < cursosSelecionados.Count; i++)
             {
@@ -481,7 +511,16 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
 
             //Popula anexos do colaborador
-            var anexosSelecionados = objColaboradorAnexoWebService.Listar(colaboradorMapeado.ColaboradorId);
+            var anexosSelecionados = new List<ColaboradorAnexo>();
+            if (StatusCadastro.AGUARDANDO_REVISAO.Equals(StatusEditarRevisao))
+            {
+                anexosSelecionados = objColaboradorAnexoWebService.Listar(colaboradorMapeado.ColaboradorId).ToList();
+            }
+            else
+            {
+                anexosSelecionados = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId).ToList();
+            }
+
             if (anexosSelecionados != null)
             {
                 ViewBag.AnexosSelecionados = anexosSelecionados;
@@ -490,19 +529,17 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             //Popula observações para aprovação do colaborador
             var observacoesAuxSelecionadas = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId);
-            var observacoesSelecionadas = observacoesAuxSelecionadas.Where(co => co.ColaboradorObservacaoRespostaID == null).ToList();
-            var observacoesRespostaSelecionadas = observacoesAuxSelecionadas.Where(co => co.ColaboradorObservacaoRespostaID != null).ToList();
+            var observacoesSelecionadas = observacoesAuxSelecionadas.Where(co => co.ColaboradorObservacaoRespostaID == null).OrderBy(co => co.DataRevisao).ToList();
+            var observacoesRespostaSelecionadas = observacoesAuxSelecionadas.Where(cor => cor.ColaboradorObservacaoRespostaID != null).OrderBy(cor => cor.DataRevisao).ToList();
 
             if (observacoesSelecionadas != null)
             {
                 ViewBag.ObservacoesSelecionadas = observacoesSelecionadas;
-                Session.Add(SESS_OBSERVACAO_SELECIONADAS, observacoesSelecionadas);
             }
 
             if (observacoesRespostaSelecionadas != null)
             {
                 ViewBag.ObservacoesRespostaSelecionadas = observacoesRespostaSelecionadas;
-                Session.Add(SESS_OBSERVACAO_RESPOSTA_SELECIONADAS, observacoesRespostaSelecionadas);
             }
 
             if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
@@ -532,22 +569,116 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
             }
 
-            if (Session[SESS_OBSERVACAO_SELECIONADAS] != null)
+            if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
             {
-                ViewBag.ObservacoesSelecionadas = (List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_SELECIONADAS];
+                ViewBag.Municipio = Session[SESS_MUNICIPIO_SELECIONADO];
             }
             else
             {
-                ViewBag.ObservacoesSelecionadas = new List<ColaboradorObservacao>();
+                ViewBag.Municipio = new List<Municipio>();
             }
 
-            if (Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS] != null)
+            return View(colaboradorMapeado);
+        }
+
+        // GET: Colaborador/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+
+            //Obtem o colaboradorWeb pelo ID
+            var colaboradorEditado = objServiceWeb.Listar(id).FirstOrDefault();
+            if (colaboradorEditado == null)
+                return HttpNotFound();
+
+            //obtém vinculos do colaborador
+            ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
+
+            CarregaFotoColaborador(colaboradorMapeado);
+
+            // carrega os contratos da empresa
+            if (SessionUsuario.EmpresaLogada.Contratos != null)
             {
-                ViewBag.observacoesRespostaSelecionadas = (List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS];
+                ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
+            }
+
+            //Popula combo de estado
+            PopularEstadosDropDownList();
+
+            PopularMunicipiosDropDownList(colaboradorMapeado.EstadoId.ToString());
+
+            PopularDadosDropDownList();
+
+            //Preenche combo com todos os cursos
+            var listCursos = objCursosService.Listar().OrderBy(c => c.Descricao);
+            if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; };
+
+            var objColaboradorEmpresa = objColaboradorEmpresaWebService.Listar(colaboradorEditado.ColaboradorId);
+            var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(objColaboradorEmpresa);
+            ViewBag.ContratosSelecionados = listaVinculosColaborador;
+            Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosColaborador);
+
+            //Popula cursos selecionados do colaborador
+            var cursosColaborador = objColaboradorCursosWebService.Listar(colaboradorEditado.ColaboradorId).ToList();
+            var cursosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
+            for (int i = 0; i < cursosSelecionados.Count; i++)
+            {
+                cursosSelecionados[i].Validade = String.Format("{0:dd/MM/yyyy}", cursosColaborador[i].Validade.ToString());
+            }
+            if (cursosSelecionados != null && cursosSelecionados.Any())
+            {
+                ViewBag.CursosSelecionados = cursosSelecionados;
+                Session.Add(SESS_CURSOS_SELECIONADOS, cursosSelecionados);
+            }
+
+            //Popula anexos do colaborador
+            var anexosSelecionados = objColaboradorAnexoWebService.Listar(colaboradorMapeado.ColaboradorId);
+            if (anexosSelecionados != null)
+            {
+                ViewBag.AnexosSelecionados = anexosSelecionados;
+                Session.Add(SESS_ANEXOS_SELECIONADOS, anexosSelecionados);
+            }
+
+            //Popula observações para aprovação do colaborador
+            var observacoesAuxSelecionadas = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId);
+            var observacoesSelecionadas = observacoesAuxSelecionadas.Where(co => co.ColaboradorObservacaoRespostaID == null).OrderBy(co => co.DataRevisao).ToList();
+            var observacoesRespostaSelecionadas = observacoesAuxSelecionadas.Where(cor => cor.ColaboradorObservacaoRespostaID != null).OrderBy(cor => cor.DataRevisao).ToList();
+
+            if (observacoesSelecionadas != null)
+            {
+                ViewBag.ObservacoesSelecionadas = observacoesSelecionadas;
+            }
+
+            if (observacoesRespostaSelecionadas != null)
+            {
+                ViewBag.ObservacoesRespostaSelecionadas = observacoesRespostaSelecionadas;
+            }
+
+            if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
+            {
+                ViewBag.ContratosSelecionados = (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS];
             }
             else
             {
-                ViewBag.observacoesRespostaSelecionadas = new List<ColaboradorObservacao>();
+                ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
+            }
+
+            if (Session[SESS_CURSOS_SELECIONADOS] != null)
+            {
+                ViewBag.CursosSelecionados = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
+            }
+            else
+            {
+                ViewBag.CursosSelecionados = new List<Curso>();
+            }
+
+            if (Session[SESS_ANEXOS_SELECIONADOS] != null)
+            {
+                ViewBag.AnexosSelecionados = (List<ColaboradorAnexo>)Session[SESS_ANEXOS_SELECIONADOS];
+            }
+            else
+            {
+                ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
             }
 
             if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
@@ -587,7 +718,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     model.Foto = (string)Session[SESS_FOTO_COLABORADOR];
                 }
 
-                model.chkAceite = true;
+                ModelState.Remove("chkAceite");
 
                 if (ModelState.IsValid)
                 {
@@ -703,64 +834,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         }
                     }
 
-                    // excluir as observações removidas da lista
-                    if (Session[SESS_OBSERVACAO_REMOVIDAS] != null)
-                    {
-                        foreach (var item in (List<int>)Session[SESS_OBSERVACAO_REMOVIDAS])
-                        {
-                            var observacaoExclusao = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId, item, null, null, null, null, null).FirstOrDefault();
-                            if (observacaoExclusao != null)
-                            {
-                                objColaboradorObservacaoService.Remover(observacaoExclusao);
-                            }
-                        }
-                    }
-
-                    //inclui as observações selecionadas
-                    if (Session[SESS_OBSERVACAO_SELECIONADAS] != null)
-                    {
-                        foreach (var observacao in (List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_SELECIONADAS])
-                        {
-                            var colaboradorObservacao = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId, observacao.ColaboradorObservacaoId, observacao.Observacao, null, null, null, null).FirstOrDefault();
-                            if (colaboradorObservacao != null)
-                            {
-                                objColaboradorObservacaoService.Alterar(colaboradorObservacao);
-                            }
-                            else
-                            {
-                                colaboradorObservacao = new ColaboradorObservacao();
-                                colaboradorObservacao.ColaboradorId = colaboradorMapeado.ColaboradorId;
-                                colaboradorObservacao.Observacao = observacao.Observacao;
-                                colaboradorObservacao.DataRevisao = observacao.DataRevisao;
-                                colaboradorObservacao.TipoSituacao = observacao.TipoSituacao;
-                                colaboradorObservacao.UsuarioRevisao = observacao.UsuarioRevisao;
-                                objColaboradorObservacaoService.Criar(colaboradorObservacao);
-                            }
-                        }
-                    }
-
-                    //inclui as observações resposta selecionadas
-                    if (Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS] != null)
-                    {
-                        foreach (var observacaoResp in (List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS])
-                        {
-                            var colaboradorObservacaoResp = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId, observacaoResp.ColaboradorObservacaoId, observacaoResp.Observacao, observacaoResp.ColaboradorObservacaoRespostaID, observacaoResp.ObservacaoResposta, null, null).FirstOrDefault();
-                            if (colaboradorObservacaoResp != null)
-                            {
-                                objColaboradorObservacaoService.Alterar(colaboradorObservacaoResp);
-                            }
-                            else
-                            {
-                                colaboradorObservacaoResp = new ColaboradorObservacao();
-                                colaboradorObservacaoResp = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId, observacaoResp.ColaboradorObservacaoId, observacaoResp.Observacao, null, null, null, null).FirstOrDefault();
-                                colaboradorObservacaoResp.ColaboradorId = colaboradorMapeado.ColaboradorId;
-                                colaboradorObservacaoResp.ObservacaoResposta = observacaoResp.ObservacaoResposta;
-                                colaboradorObservacaoResp.ColaboradorObservacaoRespostaID = observacaoResp.ColaboradorObservacaoRespostaID;
-                                objColaboradorObservacaoService.Criar(colaboradorObservacaoResp);
-                            }
-                        }
-                    }
-
                     //Insere anexos do vínculo e dos cursos
                     CriarAnexo(model, colaboradorMapeado.ColaboradorId);
 
@@ -771,8 +844,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     Session.Remove(SESS_CURSOS_REMOVIDOS);
                     Session.Remove(SESS_ANEXOS_SELECIONADOS);
                     Session.Remove(SESS_ANEXOS_REMOVIDOS);
-                    Session.Remove(SESS_OBSERVACAO_SELECIONADAS);
-                    Session.Remove(SESS_OBSERVACAO_REMOVIDAS);
 
                     return RedirectToAction("Index");
                 }
@@ -823,13 +894,266 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
                 }
 
-                if (Session[SESS_OBSERVACAO_SELECIONADAS] != null)
+                if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
                 {
-                    ViewBag.ObservacoesSelecionadas = (List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_SELECIONADAS];
+                    ViewBag.Municipio = Session[SESS_MUNICIPIO_SELECIONADO];
                 }
                 else
                 {
-                    ViewBag.ObservacoesSelecionadas = new List<ColaboradorObservacao>();
+                    ViewBag.Municipio = new List<Municipio>();
+                }
+
+                GetFotoOnErro(model);
+
+                ShowListaErros();
+
+                return View(model);
+
+            }
+            catch (Exception ex)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                ModelState.AddModelError("", ex.Message);
+                return View();
+            }
+        }
+
+        // POST: Colaborador/EditRevisao/5
+        [HttpPost]
+        [Authorize]
+        public ActionResult EditRevisao(int? id, ColaboradorViewModel model)
+        {
+            try
+            {
+                if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+                if (id == null)
+                    return HttpNotFound();
+
+                if (((List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS]) == null)
+                {
+                    ModelState.AddModelError("EmpresaContratoId", "Necessário adicionar pelo menos um contrato!");
+                }
+
+                if (model.FotoColaborador != null)
+                {
+                    OnSelecionaFoto_Click(model.FotoColaborador, model);
+                }
+                if (String.IsNullOrEmpty(model.Foto))
+                {
+                    model.Foto = (string)Session[SESS_FOTO_COLABORADOR];
+                }
+
+                ModelState.Remove("chkAceite");
+
+                if (ModelState.IsValid)
+                {
+                    var colaboradorMapeado = Mapper.Map<Colaborador>(model);
+                    var colaboradorWebMapeado = Mapper.Map<Colaborador>(model);
+                    colaboradorMapeado.Precadastro = false;
+
+                    //Aguardando Revisao
+                    colaboradorMapeado.StatusCadastro = (int)StatusCadastro.AGUARDANDO_REVISAO;
+
+                    objService.Alterar(colaboradorMapeado);
+
+                    // Inclusao de colaboradorweb
+                    colaboradorWebMapeado.ColaboradorId = id.Value;
+                    objServiceWeb.Criar(colaboradorWebMapeado);
+
+                    // excluir os contratos removidos da lista
+                    if (Session[SESS_CONTRATOS_REMOVIDOS] != null)
+                    {
+                        foreach (var item in (List<int>)Session[SESS_CONTRATOS_REMOVIDOS])
+                        {
+                            var contratoExclusao = objColaboradorEmpresaService.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, null, item).FirstOrDefault();
+                            if (contratoExclusao != null)
+                            {
+                                objColaboradorEmpresaService.Remover(contratoExclusao);
+                            }
+                        }
+                    }
+
+                    //inclui os contratos selecionados
+                    if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
+                    {
+                        foreach (var vinculo in (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS])
+                        {
+                            // Inclusão do vinculo                       
+                            var item = objColaboradorEmpresaService.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, null, vinculo.EmpresaContratoId).FirstOrDefault();
+                            if (item == null)
+                            {
+                                vinculo.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                                vinculo.Ativo = true;
+                                vinculo.EmpresaId = SessionUsuario.EmpresaLogada.EmpresaId;
+                                var colaboradorEmpresa = Mapper.Map<ColaboradorEmpresa>(vinculo);
+                                objColaboradorEmpresaService.Criar(colaboradorEmpresa);
+                                objColaboradorEmpresaService.CriarNumeroMatricula(colaboradorEmpresa);
+                                
+                                // Inserindo registro de colaboradorempresa em coloboradorempresaweb
+                                var UltimoRegInserido = objColaboradorEmpresaService.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, null, vinculo.EmpresaContratoId).Max(ce => ce.ColaboradorEmpresaId);
+                                item = objColaboradorEmpresaService.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, null, null, UltimoRegInserido).FirstOrDefault();
+                                objColaboradorEmpresaWebService.Criar(item);
+                            }
+                        }
+                    }
+
+                    // excluir os cursos removidos da lista
+                    if (Session[SESS_CURSOS_REMOVIDOS] != null)
+                    {
+                        foreach (var item in (List<int>)Session[SESS_CURSOS_REMOVIDOS])
+                        {
+                            var cursoExclusao = objColaboradorCursosService.Listar(colaboradorMapeado.ColaboradorId, item, null, null, null, null, null).FirstOrDefault();
+                            if (cursoExclusao != null)
+                            {
+                                objColaboradorCursosService.Remover(cursoExclusao);
+                            }
+                        }
+                    }
+
+                    //inclui os cursos selecionados
+                    if (Session[SESS_CURSOS_SELECIONADOS] != null)
+                    {
+                        foreach (var curso in (List<Curso>)Session[SESS_CURSOS_SELECIONADOS])
+                        {
+                            var colaboradorCurso = objColaboradorCursosService.Listar(colaboradorMapeado.ColaboradorId, curso.CursoId, null, null, null, null, null).FirstOrDefault();
+                            if (colaboradorCurso != null)
+                            {
+                                objColaboradorCursosService.Alterar(colaboradorCurso);
+                                var ColaboradorCursoWeb = objColaboradorCursosWebService.Listar(colaboradorMapeado.ColaboradorId, curso.CursoId, null, null, null, null, null).FirstOrDefault(); ;
+                                if(ColaboradorCursoWeb == null)
+                                {
+                                    objColaboradorCursosWebService.Criar(colaboradorCurso);
+                                }
+                                else
+                                {
+                                    objColaboradorCursosWebService.Alterar(colaboradorCurso);
+                                }
+                            }
+                            else
+                            {
+                                colaboradorCurso = new ColaboradorCurso();
+                                colaboradorCurso.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                                colaboradorCurso.CursoId = curso.CursoId;
+                                colaboradorCurso.Descricao = curso.Descricao;
+                                colaboradorCurso.Validade = Convert.ToDateTime(curso.Validade);
+                                objColaboradorCursosService.Criar(colaboradorCurso);
+
+                                // Inserindo registro de colaboradorcurso em coloboradorcursoweb
+                                var UltimoRegInserido = objColaboradorCursosService.Listar(colaboradorMapeado.ColaboradorId, curso.CursoId, null, null, null, null, null).Max(cc => cc.ColaboradorCursoId);
+                                var colaboradorCursoUltimo = objColaboradorCursosService.Listar(null, null, null, null, null, UltimoRegInserido).FirstOrDefault();
+                                objColaboradorCursosWebService.Criar(colaboradorCursoUltimo);
+                            }
+                        }
+                    }
+
+                    // excluir os anexos removidos da lista
+                    if (Session[SESS_ANEXOS_REMOVIDOS] != null)
+                    {
+                        foreach (var item in (List<int>)Session[SESS_ANEXOS_REMOVIDOS])
+                        {
+                            var anexoExclusao = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId, item, null, null, null, null, null).FirstOrDefault();
+                            if (anexoExclusao != null)
+                            {
+                                objColaboradorAnexoService.Remover(anexoExclusao);
+                            }
+                        }
+                    }
+
+                    //inclui os anexos selecionados
+                    if (Session[SESS_ANEXOS_SELECIONADOS] != null)
+                    {
+                        foreach (var anexo in (List<ColaboradorAnexo>)Session[SESS_ANEXOS_SELECIONADOS])
+                        {
+                            var colaboradorAnexo = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId, anexo.ColaboradorAnexoId, anexo.NomeArquivo, null, null, null, null).FirstOrDefault();
+                            if (colaboradorAnexo != null)
+                            {
+                                objColaboradorAnexoService.Alterar(colaboradorAnexo);
+                                var ColaboradorAnexoWeb = objColaboradorAnexoWebService.Listar(colaboradorMapeado.ColaboradorId, anexo.ColaboradorAnexoId, anexo.NomeArquivo, null, null, null, null).FirstOrDefault();
+                                if(ColaboradorAnexoWeb == null)
+                                {
+                                    objColaboradorAnexoWebService.Criar(colaboradorAnexo);
+                                }
+                                else
+                                {
+                                    objColaboradorAnexoWebService.Alterar(colaboradorAnexo);
+                                }
+                            }
+                            else
+                            {
+                                colaboradorAnexo = new ColaboradorAnexo();
+                                colaboradorAnexo.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                                colaboradorAnexo.ColaboradorAnexoId = anexo.ColaboradorAnexoId;
+                                colaboradorAnexo.Descricao = anexo.Descricao;
+                                colaboradorAnexo.NomeArquivo = anexo.NomeArquivo;
+                                colaboradorAnexo.Arquivo = anexo.Arquivo;
+                                objColaboradorAnexoService.Criar(colaboradorAnexo);
+
+                                // Inserindo registro de colaboradoranexo em coloboradoranexoweb
+                                var UltimoRegInserido = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId, anexo.ColaboradorAnexoId, anexo.NomeArquivo, null, null, null, null).Max(ca => ca.ColaboradorAnexoId);
+                                var colaboradorCursoUltimo = objColaboradorAnexoService.Listar(null, UltimoRegInserido).FirstOrDefault();
+                                objColaboradorAnexoWebService.Criar(colaboradorCursoUltimo);
+                            }
+                        }
+                    }
+
+                    //Insere anexos do vínculo e dos cursos
+                    CriarAnexo(model, colaboradorMapeado.ColaboradorId);
+
+                    //Remove itens da sessão
+                    Session.Remove(SESS_CONTRATOS_SELECIONADOS);
+                    Session.Remove(SESS_CONTRATOS_REMOVIDOS);
+                    Session.Remove(SESS_CURSOS_SELECIONADOS);
+                    Session.Remove(SESS_CURSOS_REMOVIDOS);
+                    Session.Remove(SESS_ANEXOS_SELECIONADOS);
+                    Session.Remove(SESS_ANEXOS_REMOVIDOS);
+
+                    return RedirectToAction("Index");
+                }
+                if (SessionUsuario.EmpresaLogada.Contratos != null) { ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos; }
+
+                //carrega os cursos
+                var listCursos = objCursosService.Listar().ToList();
+                if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; }
+
+                PopularEstadosDropDownList();
+
+                if (model.EstadoId > 0)
+                {
+                    PopularMunicipiosDropDownList(model.EstadoId.ToString());
+                }
+
+                PopularDadosDropDownList();
+
+                if (model.EstadoId > 0)
+                {
+                    PopularMunicipiosDropDownList(model.EstadoId.ToString());
+                }
+
+                if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
+                {
+                    ViewBag.ContratosSelecionados = (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS];
+                }
+                else
+                {
+                    ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
+                }
+
+                if (Session[SESS_CURSOS_SELECIONADOS] != null)
+                {
+                    ViewBag.CursosSelecionados = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
+                }
+                else
+                {
+                    ViewBag.CursosSelecionados = new List<Curso>();
+                }
+
+                if (Session[SESS_ANEXOS_SELECIONADOS] != null)
+                {
+                    ViewBag.AnexosSelecionados = (List<ColaboradorAnexo>)Session[SESS_ANEXOS_SELECIONADOS];
+                }
+                else
+                {
+                    ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
                 }
 
                 if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
@@ -846,7 +1170,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 ShowListaErros();
 
                 return View(model);
-                
+
             }
             catch (Exception ex)
             {
@@ -1028,39 +1352,82 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [Authorize]
         public ActionResult AdicionarObservacao()
         {
-            if (Session[SESS_OBSERVACAO_SELECIONADAS] == null) Session[SESS_OBSERVACAO_SELECIONADAS] = new List<ColaboradorObservacao>();
+            var Observacoes = new List<ColaboradorObservacao>();
+            var ColaboradorId = Convert.ToInt32(Request.Form["ColaboradorId"]);
+            var NewColaboradorObservacaoId = 0;
+            var teste = "";
             var item = new ColaboradorObservacao();
             item.Observacao = Request.Form["ObservacaoAprovacao"];
             item.DataRevisao = DateTime.Now;
-            item.TipoSituacao = Request.Form["TipoSituacao"];
-            item.UsuarioRevisao = 0;
-            ((List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_SELECIONADAS]).Add(item);
-            return Json((List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_SELECIONADAS], JsonRequestBehavior.AllowGet);
+            item.TipoSituacao = Convert.ToInt32(Request.Form["TipoSituacao"]);
+            item.UsuarioRevisao = (int)UsuarioRevisao.CADASTRO_WEB;
+            item.ColaboradorId = ColaboradorId;
+
+            try
+            {
+                objColaboradorObservacaoService.Criar(item);
+                NewColaboradorObservacaoId = objColaboradorObservacaoService.Listar(ColaboradorId).Max(co => co.ColaboradorObservacaoId);
+                Observacoes = objColaboradorObservacaoService.Listar(ColaboradorId, NewColaboradorObservacaoId).ToList();
+            } catch(Exception ex)
+            {
+                teste = ex.ToString();
+            }
+
+            return Json(Observacoes, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize]
-        public ActionResult RemoverObservacao(int id)
+        public ActionResult RemoverObservacao(int id, int colaboradorId)
         {
-            var listObservacao = (List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_SELECIONADAS];
+            var status = "";
+            var observacaoExclusao = objColaboradorObservacaoService.Listar(colaboradorId, id).FirstOrDefault();
+            if (observacaoExclusao != null)
+            {
+                var observacaoRespostaId = id;
+                var observacaoRespExclusao = objColaboradorObservacaoService.Listar(colaboradorId, null, null, observacaoRespostaId);
 
-            int indice = listObservacao.FindIndex(co => co.ColaboradorObservacaoId.Equals(id));
-            listObservacao.RemoveAt(indice);
+                try
+                {
+                    foreach (var itemResp in observacaoRespExclusao)
+                    {
+                        objColaboradorObservacaoService.Remover(itemResp);
+                    }
 
-            Session[SESS_OBSERVACAO_SELECIONADAS] = listObservacao;
-            if (Session[SESS_OBSERVACAO_REMOVIDAS] == null) Session[SESS_OBSERVACAO_REMOVIDAS] = new List<int>();
-            ((List<int>)Session[SESS_OBSERVACAO_REMOVIDAS]).Add(id);
-            return Json(listObservacao, JsonRequestBehavior.AllowGet);
+                    objColaboradorObservacaoService.Remover(observacaoExclusao);
+                    status = id.ToString();
+                }catch(Exception ex)
+                {
+                    status = ex.ToString();
+                }
+            }
+
+            return Json(new { resultItemRemovido = status }, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize]
         public ActionResult AdicionarObservacaoResposta()
         {
-            if (Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS] == null) Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS] = new List<ColaboradorObservacao>();
+            var repostasObservacao = new List<ColaboradorObservacao>();
+
+            var colaboradorObservacaoId = Convert.ToInt32(Request.Form["ColaboradorObservacaoId"]);
+            var ColaboradorId = Convert.ToInt32(Request.Form["ColaboradorId"]);
+
             var item = new ColaboradorObservacao();
-            item.ObservacaoResposta = Request.Form["observacaoResposta"];
-            item.ColaboradorObservacaoRespostaID = Convert.ToInt32(Request.Form["colaboradorObservacaoId"]);
-            ((List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS]).Add(item);
-            return Json((List<ColaboradorObservacao>)Session[SESS_OBSERVACAO_RESPOSTA_SELECIONADAS], JsonRequestBehavior.AllowGet);
+            item = objColaboradorObservacaoService.Listar(ColaboradorId, colaboradorObservacaoId).Where(co => co.ColaboradorObservacaoRespostaID == null).FirstOrDefault();
+            item.ObservacaoResposta = Request.Form["ObservacaoResposta"];
+            item.ColaboradorObservacaoRespostaID = colaboradorObservacaoId;
+            item.DataRevisao = DateTime.Now;
+            item.UsuarioRevisao = (int)UsuarioRevisao.CADASTRO_WEB;
+
+            try
+            {
+                objColaboradorObservacaoService.Criar(item);
+                repostasObservacao = objColaboradorObservacaoService.Listar(ColaboradorId, null, null, colaboradorObservacaoId).ToList();
+            } catch(Exception ex)
+            {                
+            }
+
+            return Json(repostasObservacao, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize]

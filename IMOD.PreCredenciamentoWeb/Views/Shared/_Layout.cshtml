@@ -292,6 +292,12 @@
         .remove-resize-textarea {
             resize: none;
         }
+        .text-truncate {
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 </head>
 <body>
@@ -438,7 +444,18 @@
             });
 
         });
+        function toggleEllipsis(it) {
+            var id = it.id;
+            var element = document.querySelector("#truncate-text-" + id);
 
+            element.classList.toggle("text-truncate");
+
+            if (!element.classList.contains("text-truncate")) {
+                $('#collapseListGroup' + id).collapse('show');
+            } else {
+                $('#collapseListGroup' + id).collapse('hide');
+            }
+        }
     </script>
 </body>
 </html>
