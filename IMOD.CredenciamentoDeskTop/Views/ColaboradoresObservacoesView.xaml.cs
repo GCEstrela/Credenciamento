@@ -49,7 +49,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
         public void AtualizarDados(Model.ColaboradorView entity, ColaboradorViewModel viewModelParent)
         {
             //if (entity == null) return;
-            _viewModel.AtualizarDados (entity, viewModelParent);
+            _viewModel.AtualizarDados(entity, viewModelParent);
         }
 
 
@@ -60,6 +60,19 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 if (_viewModel.Entity == null) return;
+
+                if (_viewModel.Entity.Resolvido)
+                {
+                    this.btnAceitar.Visibility = Visibility.Collapsed;
+                    this.btnInteragir.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    this.btnAceitar.Visibility = Visibility.Visible;
+                    this.btnInteragir.Visibility = Visibility.Visible;
+                }
+
+                _viewModel.atualizarGrid(_viewModel.Entity.ColaboradorId);
                 //_viewModel.BuscarObservacoes(_viewModel.Entity.ColaboradorId);
             }
             catch (Exception)
@@ -67,6 +80,41 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
                 throw;
             }
+        }
+
+        private void btnInteragir_Click(object sender, RoutedEventArgs e)
+        {
+            this.Resposta_tb.Visibility = Visibility.Visible;
+            this.Resposta_lb.Visibility = Visibility.Visible;
+
+            this.Resposta_tb.Text = "";
+
+            //this.ObservacaoIntegra_tb.IsReadOnly = true;
+
+        }
+
+        private void btnCancelar_Click(object sender, RoutedEventArgs e)
+        {
+            this.Resposta_tb.Visibility = Visibility.Collapsed;
+            this.Resposta_lb.Visibility = Visibility.Collapsed;
+
+            this.Observacao_tb.Visibility = Visibility.Collapsed;
+            this.ObservacaoIntegra_tb.Visibility = Visibility.Visible;
+        }
+
+        private void btnSalvar_Click(object sender, RoutedEventArgs e)
+        {
+            this.Resposta_tb.Visibility = Visibility.Collapsed;
+            this.Resposta_lb.Visibility = Visibility.Collapsed;
+
+            this.Observacao_tb.Visibility = Visibility.Collapsed;
+            this.ObservacaoIntegra_tb.Visibility = Visibility.Visible;
+        }
+        private void btnAdicionar_Click(object sender, RoutedEventArgs e)
+        {
+            this.Observacao_tb.Visibility = Visibility.Visible;
+            this.ObservacaoIntegra_tb.Visibility = Visibility.Collapsed;
+
         }
     }
 }

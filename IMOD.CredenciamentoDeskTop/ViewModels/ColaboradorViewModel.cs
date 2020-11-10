@@ -958,10 +958,14 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 isReprovacao = false;
                 if (Validar()) return;
 
-                
+
                 var colaboradorWebId = Entity.ColaboradorId;
 
                 Colaborador colaborador = new Colaborador();
+                
+                var l1 = _serviceColaboradorObservacao.Listar(Entity.ColaboradorId);
+                var observacoes = l1.Where(o => o.ColaboradorObservacaoRespostaID == null).ToList();
+
                 //testar se é aprovacao inclusao ou edicao revisao
                 //Precadastro = true -> aprovacao inclusao
                 //Precadastro = false -> edicao revisao
@@ -1018,53 +1022,60 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 }
                 else
                 {
-                    var colaboradorWeb = _serviceWeb.Listar(Entity.ColaboradorId, null, null, null, null);
-                    var vinculoWeb = _serviceColaboradorEmpresaWeb.Listar(Entity.ColaboradorId, null, null, null, null, null, null, null);
-                    var cursoWeb = _serviceColaboradorCursoWeb.Listar(Entity.ColaboradorId, null, null, null, null);
-                    var anexoWeb = _serviceColaboradorAnexoWeb.Listar(Entity.ColaboradorId, null, null);
-                    var observacaoWeb = _serviceColaboradorObservacao.Listar(Entity.ColaboradorId);
 
-                    foreach (var colaboradorWebNovo in colaboradorWeb)
+                    if (!observacoes[0].Resolvido)
                     {
-                        colaborador = Mapper.Map<Colaborador>(colaboradorWebNovo);
-
-                        colaborador.Observacao = null;
-                        colaborador.StatusCadastro = 3;
-
-                        _service.Alterar(colaborador);
+                        WpfHelp.PopupBox("Não foi possível aprovar o Colaborador pois existem Itens de Revisão não resolvidos", 1);
                     }
-
-                    foreach (var vinculoWebNovo in vinculoWeb)
+                    else
                     {
-                        var vinculo = Mapper.Map<ColaboradorEmpresa>(vinculoWebNovo);
-                        vinculo.ColaboradorId = Entity.ColaboradorId;
+                        var colaboradorWeb = _serviceWeb.Listar(Entity.ColaboradorId, null, null, null, null);
+                        var vinculoWeb = _serviceColaboradorEmpresaWeb.Listar(Entity.ColaboradorId, null, null, null, null, null, null, null);
+                        var cursoWeb = _serviceColaboradorCursoWeb.Listar(Entity.ColaboradorId, null, null, null, null);
+                        var anexoWeb = _serviceColaboradorAnexoWeb.Listar(Entity.ColaboradorId, null, null);
+                        var observacaoWeb = _serviceColaboradorObservacao.Listar(Entity.ColaboradorId);
 
-                        _serviceColaboradorEmpresa.Alterar(vinculo);
-                    }
+                        foreach (var colaboradorWebNovo in colaboradorWeb)
+                        {
+                            colaborador = Mapper.Map<Colaborador>(colaboradorWebNovo);
 
-                    foreach (var cursoWebNovo in cursoWeb)
-                    {
-                        var curso = Mapper.Map<ColaboradorCurso>(cursoWebNovo);
-                        curso.ColaboradorId = Entity.ColaboradorId;
+                            colaborador.Observacao = null;
+                            colaborador.StatusCadastro = 3;
 
-                        _serviceColaboradorCurso.Alterar(curso);
-                    }
+                            _service.Alterar(colaborador);
+                        }
 
-                    foreach (var anexoWebNovo in anexoWeb)
-                    {
-                        var anexo = Mapper.Map<ColaboradorAnexo>(anexoWebNovo);
-                        anexo.ColaboradorId = Entity.ColaboradorId;
+                        foreach (var vinculoWebNovo in vinculoWeb)
+                        {
+                            var vinculo = Mapper.Map<ColaboradorEmpresa>(vinculoWebNovo);
+                            vinculo.ColaboradorId = Entity.ColaboradorId;
 
-                        _serviceColaboradorAnexo.Alterar(anexo);
-                    }
+                            _serviceColaboradorEmpresa.Alterar(vinculo);
+                        }
 
-                    foreach (var item in colaboradorWeb)
-                    {
-                        item.ColaboradorId = colaboradorWebId;
-                        _serviceWeb.Remover(item);
+                        foreach (var cursoWebNovo in cursoWeb)
+                        {
+                            var curso = Mapper.Map<ColaboradorCurso>(cursoWebNovo);
+                            curso.ColaboradorId = Entity.ColaboradorId;
+
+                            _serviceColaboradorCurso.Alterar(curso);
+                        }
+
+                        foreach (var anexoWebNovo in anexoWeb)
+                        {
+                            var anexo = Mapper.Map<ColaboradorAnexo>(anexoWebNovo);
+                            anexo.ColaboradorId = Entity.ColaboradorId;
+
+                            _serviceColaboradorAnexo.Alterar(anexo);
+                        }
+
+                        foreach (var item in colaboradorWeb)
+                        {
+                            item.ColaboradorId = colaboradorWebId;
+                            _serviceWeb.Remover(item);
+                        }
                     }
                 }
-
 
 
                 #region Remover dados das tabelas auxiliares
@@ -1090,7 +1101,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 //pendencia.Impeditivo = true;
                 //Pendencia.CriarPendenciaSistema(pendencia);
 
-                
+
                 #endregion
 
                 //_service.Alterar(n1);

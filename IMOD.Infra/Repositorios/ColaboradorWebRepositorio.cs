@@ -137,7 +137,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     using (var cmd = _dataBase.UpdateText("ColaboradoresWeb", conn))
                     {
-
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorWebId", entity.ColaboradorWebId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorId", entity.ColaboradorId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Nome", entity.Nome, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Apelido", entity.Apelido, false)));
@@ -245,6 +245,7 @@ namespace IMOD.Infra.Repositorios
                 {
                     using (var cmd = _dataBase.InsertText("ColaboradoresWeb", conn))
                     {
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorWebId", entity.ColaboradorWebId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorId", entity.ColaboradorId, true)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Nome", entity.Nome, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Apelido", entity.Apelido, false)));
