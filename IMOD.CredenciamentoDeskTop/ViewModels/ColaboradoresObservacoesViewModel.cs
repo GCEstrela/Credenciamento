@@ -42,6 +42,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private ConfiguraSistema _configuraSistema;
         private ObservableCollection<ColaboradorObservacaoView> _entityObserver;
 
+        private bool isResposta = false;
+
         #region  Propriedades
         public string ExcluirVisivel { get; set; }
         private int _colaboradorid;
@@ -56,7 +58,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         public int WidthRegra { get; set; } = 80;
         public string Alignment { get; set; }
         //public ObservableCollection<ColaboradorObservacaoView> EntityObserver { get; set; }
-
         public ObservableCollection<ColaboradorObservacaoView> EntityObserver
         {
             get { return _entityObserver; }
@@ -79,7 +80,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Habilita listView
         /// </summary>
         public bool IsEnableLstView { get; private set; } = true;
-        
+
         #endregion
 
         public ColaboradoresObservacoesViewModel()
@@ -139,6 +140,33 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
+        ///     Acionado antes de interagir
+        /// </summary>
+        private void PrepareInteragir()
+        {
+            isResposta = true;
+            Entity.ObservacaoRespostaIntegra = "";
+
+            var observacoesColaborador = _service.Listar(_colaboradorView.ColaboradorId);
+            var respostasObservacaoSelecionada = observacoesColaborador.Where(ros => ros.ColaboradorObservacaoRespostaID == Entity.ColaboradorObservacaoId);
+            var i = 0;
+
+            foreach (var item in respostasObservacaoSelecionada)
+            {
+                i++;
+
+                Entity.ObservacaoRespostaIntegra += "\n\n" + "Resposta " + i + " pelo Usuário: " + item.UsuarioRevisaoInfo + "\n\n" + item.ObservacaoResposta;
+            }
+
+            Entity.ObservacaoRespostaIntegra = Entity.Observacao + Entity.ObservacaoRespostaIntegra;
+
+
+            Comportamento.PrepareCriar();
+            IsEnableLstView = false;
+            _viewModelParent.HabilitaControleTabControls(false, false, false, false, false, false, true);
+        }
+
+        /// <summary>
         ///     Criar Dados
         /// </summary>
         /// <param name="sender"></param>
@@ -153,15 +181,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<ColaboradorObservacao>(Entity);
                 n1.ColaboradorId = _colaboradorView.ColaboradorId;
-                
+                //ENUM UsuarioRevisao
+                n1.UsuarioRevisao = 1;
+                n1.DataRevisao = DateTime.Now;
+
+                if(isResposta)
+                {
+                    n1.ColaboradorObservacaoRespostaID = n1.ColaboradorObservacaoId;
+                }
+
                 _service.Criar(n1);
 
-                //Adicionar no inicio da lista um item a coleção
-                var n2 = Mapper.Map<ColaboradorObservacaoView>(n1);
-                var observer = new ObservableCollection<ColaboradorObservacaoView>();
-                
-                EntityObserver.Insert(0, n2);
-                
+                if (!isResposta)
+                {
+                    //Adicionar no inicio da lista um item a coleção
+                    var n2 = Mapper.Map<ColaboradorObservacaoView>(n1);
+                    var observer = new ObservableCollection<ColaboradorObservacaoView>();
+
+                    EntityObserver.Insert(0, n2);
+                }
+
                 IsEnableLstView = true;
                 _viewModelParent.AtualizarDadosPendencias();
                 SelectListViewIndex = 0;
@@ -188,6 +227,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
 
         /// <summary>
+        ///     Acionado antes de aceitar
+        /// </summary>
+        private void PrepareAceitar()
+        {
+
+            var n1 = Mapper.Map<ColaboradorObservacao>(Entity);
+            //ENUM UsuarioRevisao
+            n1.Resolvido = true;
+
+            //atualizarGrid(Entity.ColaboradorId);
+            _service.Alterar(n1);
+
+            OnPropertyChanged();
+
+        }
+
+        /// <summary>
         ///     Editar dados
         /// </summary>
         /// <param name="sender"></param>
@@ -200,6 +256,9 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Validar()) return;
 
                 var n1 = Mapper.Map<ColaboradorObservacao>(Entity);
+                //ENUM UsuarioRevisao
+                n1.UsuarioRevisao = 1;
+                n1.DataRevisao = DateTime.Now;
 
                 _service.Alterar(n1);
                 IsEnableLstView = true;
@@ -310,10 +369,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             _colaboradorView = entity;
             //Obter dados
             var list1 = _service.Listar(entity.ColaboradorId);
-            var list2 = Mapper.Map<List<ColaboradorObservacaoView>>(list1.OrderByDescending(n => n.ColaboradorId));
+            var list2 = list1.Where(co => co.ColaboradorObservacaoRespostaID == null);
+            var list3 = Mapper.Map<List<ColaboradorObservacaoView>>(list2.OrderByDescending(n => n.ColaboradorId));
 
             var observer = new ObservableCollection<ColaboradorObservacaoView>();
-            list2.ForEach(n =>
+            list3.ForEach(n =>
             {
                 observer.Add(n);
                 n.Observacao = _service.BuscarPelaChave(n.ColaboradorObservacaoId).Observacao;
@@ -324,12 +384,33 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         }
         #endregion
 
+        public void atualizarGrid(int colaboradorId)
+        {
+            _colaboradorid = colaboradorId;
+
+            Entity.ObservacaoRespostaIntegra = "";
+
+            var observacoesColaborador = _service.Listar(_colaboradorView.ColaboradorId);
+            var respostasObservacaoSelecionada = observacoesColaborador.Where(ros => ros.ColaboradorObservacaoRespostaID == Entity.ColaboradorObservacaoId);
+            var i = 0;
+
+            foreach (var item in respostasObservacaoSelecionada)
+            {
+                i++;
+
+                Entity.ObservacaoRespostaIntegra += "\n\n" + "Resposta " + i + " pelo Usuário: " + item.UsuarioRevisaoInfo + ":\n\n" + item.ObservacaoResposta;
+            }
+
+            Entity.ObservacaoRespostaIntegra = Entity.Observacao + Entity.ObservacaoRespostaIntegra;
+
+        }
         #region Propriedade Commands
 
         /// <summary>
         ///     Novo
         /// </summary>
         public ICommand PrepareCriarCommand => new CommandBase(PrepareCriar, true);
+        public ICommand PrepareAceitarCommand => new CommandBase(PrepareAceitar, true);
 
         public ComportamentoBasico Comportamento { get; set; }
 
@@ -352,6 +433,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         ///     Remover
         /// </summary>
         public ICommand PrepareRemoverCommand => new CommandBase(PrepareRemover, true);
+
+        /// <summary>
+        ///     Remover
+        /// </summary>
+        public ICommand PrepareInteragirCommand => new CommandBase(PrepareInteragir, true);
 
         /// <summary>
         ///  Validar Regras de Negócio 

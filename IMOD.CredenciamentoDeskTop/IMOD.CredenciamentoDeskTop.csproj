@@ -64,7 +64,7 @@
     </Reference>
     <Reference Include="Genetec.Sdk, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dlls\Genetec.Sdk.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Genetec Security Center 5.7 SDK\Genetec.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="Genetec.Sdk.Controls, Version=5.7.0.0, Culture=neutral, PublicKeyToken=a446968a32b751de, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -1345,6 +1345,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\alerta.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ArrowSyncIcon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Content Include="Scripts\cldr.js" />

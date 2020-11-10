@@ -14,7 +14,7 @@ namespace IMOD.Domain.EntitiesCustom
         public bool Resolvido { get; set; }
         public int UsuarioRevisao { get; set; }
         public DateTime DataRevisao { get; set; }
-        public string TipoSituacao { get; set; }
+        public int TipoSituacao { get; set; }
         public string ObservacaoResposta { get; set; }
         public int ColaboradorObservacaoRespostaID { get; set; }
 

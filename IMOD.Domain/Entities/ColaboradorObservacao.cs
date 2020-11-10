@@ -23,6 +23,7 @@ namespace IMOD.Domain.Entities
         public int TipoSituacao { get; set; }
         public int? ColaboradorObservacaoRespostaID { get; set; }
         public string ObservacaoResposta { get; set; }
+        public string ObservacaoRespostaIntegra { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -49,6 +50,15 @@ namespace IMOD.Domain.Entities
                 return Funcoes.GetDescription((UsuarioRevisao)UsuarioRevisao);
             }
         }
+
+        public string TipoSituacaoInfo
+        {
+            get
+            {
+                return Funcoes.GetDescription((TipoSituacao)TipoSituacao);
+            }
+        }
+
         #endregion
     }
 }

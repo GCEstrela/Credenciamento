@@ -7,7 +7,7 @@
              xmlns:wpf="clr-namespace:CSharpControls.Wpf;assembly=CSharpControls.Wpf"
              xmlns:viewModels="clr-namespace:IMOD.CredenciamentoDeskTop.ViewModels"
              mc:Ignorable="d"
-             Height="460">
+             Height="400">
     <UserControl.Resources>
         <Image x:Key="imgAdd" Source="../Resources/add.png"  />
         <Image x:Key="imgEdit" Source="../Resources/edit.png"  />
@@ -15,6 +15,7 @@
         <Image x:Key="imgSave" Source="../Resources/save.png"  />
         <Image x:Key="imgCancel" Source="../Resources/undo.png"  />
         <Image x:Key="imgImport" Source="../Resources/Ok.ico" />
+        <Image x:Key="imgInteract" Source="../Resources/ArrowSyncIcon.ico" />
         <ControlTemplate x:Key="ValidationErrorTemplate">
             <DockPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="5,0,0,2">
@@ -30,35 +31,51 @@
 
     </UserControl.Resources>
     <Grid VerticalAlignment="Top">
-        <StackPanel Orientation="Vertical" Margin="0,0,0,0">
+        <StackPanel Orientation="Vertical" Margin="0,-30,0,-100">
             <GroupBox Style="{Styles {x:Static GroupBoxStyles.NamedSeparator}}"
                       Background="DarkRed"                      
-                      x:Name="InformacoesObservacao_gb" Header="Observações" Margin="0,0,10,0"
-                      VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="795">
+                      x:Name="InformacoesObservacao_gb" Header="Observações" Margin="0,0,10,-60"
+                      VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="1280">
 
-                <StackPanel x:Name="InformacoesObservacao_sp" Margin="0,10,10,10" Width="773">
+                <StackPanel x:Name="InformacoesObservacao_sp"  Margin="0,10,10,10" Width="1250">
 
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="1">
-                        <Label Content="Observação:" Height="70" Width="91" Margin="0,0,0,35"
+                   
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,-31">
+
+                        <Label Content="Observação:" Height="120" Width="105" Margin="0,0,0,35"
                                HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                        <TextBox x:Name="Observacao_tb" TextWrapping="Wrap" AcceptsReturn="True" Height="57" Width="565" Margin="10,0,0,35"
+                        <TextBox x:Name="Observacao_tb" TextWrapping="WrapWithOverflow" AcceptsReturn="True" Height="120" Width="551" Margin="10,10,0,35"
                                  Text="{Binding Entity.Observacao}"
-                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                 IsEnabled="{Binding Comportamento.isEnableCriar}"
+                                  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" Visibility="Collapsed"/>
+                        <TextBox x:Name="ObservacaoIntegra_tb" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Height="120" Width="551" Margin="10,10,0,35"
+                                 Text="{Binding Entity.ObservacaoRespostaIntegra}" 
                                   Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                        
+                        
+                        <Label x:Name="Resposta_lb" Content="Resposta:" Height="120" Width="105" Margin="0,0,0,35"
+                               HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" Visibility="Collapsed"/>
+                        <TextBox x:Name="Resposta_tb" TextWrapping="Wrap" AcceptsReturn="True" Height="120" Width="395" Margin="10,10,0,35"
+                                 Text="{Binding Entity.ObservacaoResposta}"
+                                 IsEnabled="{Binding Comportamento.isEnableCancelar}"
+                                  Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" Visibility="Collapsed"/>
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="27,0,0,1">
                         <Label Content="Impeditivo:" Height="70" Width="78" Margin="0,0,0,35"
                                HorizontalContentAlignment="Right" Foreground="#FFD0D0D0" />
-                        <CheckBox VerticalAlignment="Center" x:Name="chkImpeditivo"  Foreground="#FFD0D0D0" Margin="5,0,0,75"
+                        <CheckBox VerticalAlignment="Center" x:Name="chkImpeditivo"  Foreground="#FFD0D0D0" Margin="8,0,0,75"
                                   IsEnabled="{Binding Comportamento.isEnableCancelar}" 
                                   IsChecked="{Binding Entity.Impeditivo, UpdateSourceTrigger=PropertyChanged}"/>
-                        
                     </StackPanel>
-
+                    
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left"
                                     Margin="1"/>
 
                 </StackPanel>
             </GroupBox>
-            <StackPanel Orientation="Horizontal"  Grid.Column="0" Grid.Row="1" Height="259" Margin="0,0,5,0">
+            <StackPanel Orientation="Horizontal"  Grid.Column="0" Grid.Row="1" Height="259" Margin="20,-30,5,0">
 
                 <ListView x:Name="ListaObservacoes_lv"
                           IsEnabled="{Binding IsEnableLstView}"
@@ -66,12 +83,8 @@
                           HorizontalAlignment="Stretch" 
                           ItemsSource="{Binding EntityObserver, Mode=TwoWay}"
                           SelectedItem="{Binding Entity, Mode=TwoWay}"
-                          Width="749" Margin="0,0,0,0" Height="212" VerticalAlignment="Top" SelectionChanged="ListaObservacoes_lv_SelectionChanged">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListViewItem}">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
+                          Width="1130" Margin="0,0,0,0" Height="212" VerticalAlignment="Top" SelectionChanged="ListaObservacoes_lv_SelectionChanged">
+                    
                     <ListView.View>
                         <GridView FrameworkElement.FlowDirection="RightToLeft">
 
@@ -82,10 +95,24 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="595" Header="Observação"  >
+                            <GridViewColumn Width="754" Header="Observação"  >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Width="550" Text="{Binding Observacao}" TextWrapping="Wrap"/>
+                                        <TextBlock Width="754" Text="{Binding Observacao}" TextWrapping="NoWrap"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="100" Header="Usuário"  >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Width="100" Text="{Binding UsuarioRevisaoInfo}" TextWrapping="NoWrap"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="125" Header="Data / Hora"  >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Width="125" Text="{Binding DataRevisao}" TextWrapping="NoWrap"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -96,17 +123,18 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                                            
+
                         </GridView>
                     </ListView.View>
                 </ListView>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Width="30" Margin="10,0,10,0" Height="234" VerticalAlignment="Top"  >
-                    <Button x:Name="btnAceitar"   Content="{StaticResource imgImport}"       ToolTip="Aceitar Item" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" />
-                    <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" />
-                    <Button x:Name="btnEditar"      Content="{StaticResource imgEdit}"      ToolTip="Editar"    IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareAlterarCommand}"    Width="25" Margin="0,0,0,7" />
-                    <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"   IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7" />
-                    <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar"  IsEnabled="{Binding Comportamento.isEnableCancelar}"    Command="{Binding PrepareCancelarCommand}"   Width="25" Margin="0,0,0,7" />
-                    <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar"    IsEnabled="{Binding Comportamento.isEnableSalvar}"      Command="{Binding PrepareSalvarCommand}"     Width="25" Margin="0,0,0,7" />
+
+                    <Button x:Name="btnAdicionar"   Content="{StaticResource imgAdd}"       ToolTip="Adicionar"    IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareCriarCommand}"      Width="25" Margin="0,0,0,7" Click="btnAdicionar_Click" />
+                    <Button x:Name="btnInteragir"   Content="{StaticResource imgInteract}"  ToolTip="Interagir"    IsEnabled="{Binding Comportamento.IsEnableEditar}"      Command="{Binding PrepareInteragirCommand}"  Width="25" Margin="0,0,0,7" Click="btnInteragir_Click" />
+                    <Button x:Name="btnAceitar"     Content="{StaticResource imgImport}"    ToolTip="Aceitar Item" IsEnabled="{Binding Comportamento.IsEnableCriar}"       Command="{Binding PrepareAceitarCommand}"      Width="25" Margin="0,0,0,7" />
+                    <Button x:Name="btnExcluir"     Content="{StaticResource imgRemove}"    ToolTip="Remover"      IsEnabled="{Binding Comportamento.isEnableRemover}"     Command="{Binding PrepareRemoverCommand}"    Width="25" Margin="0,0,0,7" />
+                    <Button x:Name="btnCancelar"    Content="{StaticResource imgCancel}"    ToolTip="Cancelar"     IsEnabled="{Binding Comportamento.isEnableCancelar}"    Command="{Binding PrepareCancelarCommand}"   Width="25" Margin="0,0,0,7" Click="btnCancelar_Click" />
+                    <Button x:Name="btnSalvar"      Content="{StaticResource imgSave}"      ToolTip="Salvar"       IsEnabled="{Binding Comportamento.isEnableSalvar}"      Command="{Binding PrepareSalvarCommand}"     Width="25" Margin="0,0,0,7" Click="btnSalvar_Click" />
 
                 </StackPanel>
             </StackPanel>

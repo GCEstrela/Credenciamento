@@ -18,6 +18,7 @@ namespace IMOD.Domain.Entities
         #region  Propriedades
         public int IdColaboradorSICOA { get; set; }
         public int ColaboradorId { get; set; }
+        public int ColaboradorWebId { get; set; }
         public string Nome { get; set; }
         public string Apelido { get; set; }
         public DateTime? DataNascimento { get; set; }
