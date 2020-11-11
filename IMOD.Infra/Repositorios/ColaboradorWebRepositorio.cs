@@ -246,7 +246,7 @@ namespace IMOD.Infra.Repositorios
                     using (var cmd = _dataBase.InsertText("ColaboradoresWeb", conn))
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorWebId", entity.ColaboradorWebId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorId", entity.ColaboradorId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorId", entity.ColaboradorId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Nome", entity.Nome, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Apelido", entity.Apelido, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataNascimento", DbType.Date, entity.DataNascimento, false)));
