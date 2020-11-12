@@ -1,0 +1,463 @@
+﻿@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+        $(document).ready(function () {
+            //evento do botão incluir contrato
+            $("#btContrato").click(function () {
+                var id = $("#ddlContrato").val();
+                var bagagem = $('#chkBagagem').is(':checked');
+                var ponteEmbarque = $('#chkPonteEmbarque').is(':checked');
+                var ccam = $('#chkCcam').is(':checked');
+                var validade = $("#txtVigencia").val();
+                var cargo = $("#txtCargo").val();
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AdicionarContrato")',
+                    data: {
+                        id: id,
+                        bagagem: bagagem,
+                        operadorPonteEmbarque: ponteEmbarque,
+                        flagCcam: ccam,
+                        validade: validade,
+                        cargo: cargo
+                    },
+                    success: function (result) {
+                        var html = '';
+                        $.each(result, function (key, item) {
+                            html += '<div class="col-lg-2 text-uppercase">' + item.Cargo + '</div>';
+                            html += '<div class="col-lg-2">' + item.Matricula + '</div>';
+                            html += '<div class="col-lg-2 text-uppercase">' + item.Descricao + '</div>';
+                            html += '<div class="col-lg-2">' + (item.ManuseioBagagem == true ? 'Sim' : 'Não') + '</div>';
+                            html += '<div class="col-lg-2">' + (item.OperadorPonteEmbarque == true ? 'Sim' : 'Não') + '</div>';
+                            html += '<div class="col-lg-1">' + (item.FlagCcam == true ? 'Sim' : 'Não') + '</div>';
+                            html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
+                        });
+                        $('#divContrato').html('');
+                        $('#divContrato').append(html);
+                        $("#ddlContrato").val('');
+                        $("#chkBagagem").val(false);
+                        $("#chkPonteEmbarque").attr('checked', false);
+                        $("#chkCcam").attr('checked', false);
+                        $("#txtVigencia").val('');
+                        $("#txtCargo").val('');
+                        console.log(result);
+
+                    },
+                    error: function (result) {
+                        Alert(result);
+                    }
+                });
+            });
+
+             //evento do botão incluir curso
+             $("#btCurso").click(function () {
+            var fileData = new FormData();
+            var id = $("#ddlCurso").val();
+            fileData.append('id', id);
+            var validade = ($("#txtValidade").val() == "" ? "" : $("#txtValidade").val());
+            fileData.append('validade', validade);
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AdicionarCurso")',
+                    data: fileData,
+                    dataType: 'JSON',
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        var html = '';
+                        $.each(result, function (key, item) {
+                            html += '<div class="col-lg-1">' + item.CursoId + '</div>';
+                            html += '<div class="col-lg-5">' + item.Descricao + '</div>';
+                            html += '<div class="col-lg-4">' + item.Validade + '</div>';
+                            html += '<div class="col-lg-2"><a class="btnRemover" title="Remover Curso" id=' + item.CursoId + ' onclick="RemoverCurso(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
+                        });
+                        $('#divCurso').html('');
+                        $('#divCurso').append(html);
+                        $("#ddlCurso").val('');
+                        $("#txtValidade").val('');
+                        console.log(result);
+
+                    },
+                    error: function (result) {
+                        Alert(result);
+                    }
+                });
+            });
+
+        //evento do botão incluir anexo
+    $("#btAnexo").click(function (e) {
+
+        e.preventDefault();
+
+        var fileUpload = $("#FileUpload1").get(0);
+        var files = fileUpload.files;
+        var fileData = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            fileData.append(files[i].name, files[i]);
+        }
+
+        var descricao = ($("#txtDescricao").val() == "" ? "" : $("#txtDescricao").val());
+        fileData.append('descricao', descricao);
+
+            $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AdicionarAnexo")',
+                    data: fileData,
+                    dataType: 'JSON',
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        var html = '';
+                        $.each(result, function (key, item) {
+                            html += '<div class="col-lg-1">' + item.ColaboradorAnexoId + '</div>';
+                            html += '<div class="col-lg-5">' + item.Descricao + '</div>';
+                            html += '<div class="col-lg-5">' + item.NomeArquivo + '</div>';
+                            html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Anexo" id=' + item.ColaboradorAnexoId + ' onclick="RemoverAnexo(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
+                        });
+                        $('#divAnexo').html('');
+                        $('#divAnexo').append(html);
+                        $("#FileUpload1").val('');
+                        $("#txtDescricao").val('');
+                        console.log(result);
+
+                    },
+                    error: function (result) {
+                        alert(result);
+                    }
+                });
+    });
+
+            //evento do botão incluir Observação de Aprovação
+            $("#btObservacao").click(function () {
+                var fileData = new FormData();
+                var colaboradorId = $("#ColaboradorId").val();
+                fileData.append('ColaboradorId', colaboradorId);
+                var observacaoAprovacao = $("#txtObservacaoAprovacao").val();
+                fileData.append('ObservacaoAprovacao', observacaoAprovacao);
+                var tipoSituacao = $("input[name='TipoSituacao']:checked").val();
+                fileData.append('TipoSituacao', tipoSituacao);
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AdicionarObservacao")',
+                    data: fileData,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'JSON',
+                    success: function (result) {
+                        var html = '';
+                        var regex = /([0-9])\d+/g;
+
+                            $.each(result, function (key, item) {
+                                html += '<div class="panel panel-default" id="panel-item-revisao-' + item.ColaboradorObservacaoId + '"> ';
+                                html += '    <div role="tab" style="position:relative; padding:15px;background-color: #fdfdfd;border-radius: 10px;box-shadow: 5px 5px 4px #566787; z-index: 1;"> ';
+                                html += '        <div class="row"> ';
+                                html += '            <div class="col-lg-11" style="cursor: pointer;" onclick="toggleEllipsis(this)" id=' + item.ColaboradorObservacaoId + '> ';
+                                html += '                <div style="width: 64%;" class="col-lg-7 text-truncate" id="truncate-text-' + item.ColaboradorObservacaoId + '">';
+                                if (item.Resolvido) {
+                                    html += '               <a title="Resolvido"> ';
+                                    html += '                   <i class="btn-icon fa fa-check" style="color: #72c677; font-size: 25px; text-align:center;"></i> ';
+                                    html += '               </a> ';
+                                }
+                                html += item.Observacao
+                                html +=                 '</div> ';
+                                html += '                <div style="width: 19%;" class="col-lg-2">' + item.UsuarioRevisaoInfo + '</div> ';
+                                html += '                <div class="col-lg-2">' + new Date(parseInt((item.DataRevisao).match(regex))).toLocaleString() + '</div> ';
+                                html += '            </div> ';
+                                html += '            <div class="col-lg-1"> ';
+                                html += '                <a title="Remover Observação" id=' + item.ColaboradorObservacaoId + ' class="btnRemoverObservacao" onclick="RemoverObservacao(this)"> ';
+                                html += '                    <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center; cursor: pointer;"></i> ';
+                                html += '                </a> ';
+                                html += '            </div> ';
+                                html += '        </div> ';
+                                html += '    <div class="panel-collapse collapse" role="tabpanel" id="collapseListGroup' + item.ColaboradorObservacaoId + '" aria-labelledby="collapseListGroupHeading' + item.ColaboradorObservacaoId + '" aria-expanded="true" data-toggle="false"> ';
+                                html += '        <ul class="list-group" style="margin-bottom: 0px;" id="listObservacaoResposta' + item.ColaboradorObservacaoId + '"> ';
+                                html += '        </ul> ';
+                                html += '        <div class="panel-footer" style="padding-left: 0px;"> ';
+                                html += '            <div class="row"> ';
+                                html += '                <div class="col-lg-10"> ';
+                                html += '                    <textarea id="txtObservacaoResposta' + item.ColaboradorObservacaoId + '" maxlength="1000" rows="4" class="form-control remove-resize-textarea"></textarea> ';
+                                html += '                    <input type="hidden" id="ColaboradorObservacaoId' + item.ColaboradorObservacaoId + '" value=' + item.ColaboradorObservacaoId + '> ';
+                                html += '                </div> ';
+                                html += '                <div class="col-lg-2"> ';
+                                html += '                    <button type="button" style="margin-top: 70px;" class="btn btn-info" name="btResposta" id=' + item.ColaboradorObservacaoId + '><span><strong>Interagir</strong></span> </button> ';
+                                html += '                </div> ';
+                                html += '            </div> ';
+                                html += '        </div> ';
+                                html += '    </div> ';
+                                html += '    </div> ';
+                                html += '</div> ';
+                            });
+                            $('#collapseRespostas').append(html);
+                            $('#txtObservacaoAprovacao').val('');
+
+                        //console.log(result);
+                    },
+                    error: function (result) {
+                        console.log("Ocorreu um erro ao adicionar a observacao: " + result);
+                    }
+                });
+            });
+
+            //evento do botão incluir Observação de Aprovação Resposta
+            $(document).on('click', 'button[name="btResposta"]', function () {
+                var id = this.id;
+                //alert(id);
+                var fileData = new FormData();
+                var observacaoResposta = $("#txtObservacaoResposta" + id).val();
+                fileData.append('ObservacaoResposta', observacaoResposta);
+                var colaboradorObservacaoId = $("#ColaboradorObservacaoId" + id).val();
+                fileData.append('ColaboradorObservacaoId', colaboradorObservacaoId);
+                var colaboradorId = $("#ColaboradorId").val();
+                fileData.append('ColaboradorId', colaboradorId);
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AdicionarObservacaoResposta")',
+                    data: fileData,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'JSON',
+                    success: function (result) {
+                        var html = '';
+                        var regex = /([0-9])\d+/g;
+                        $.each(result, function (key, item) {
+                            html += '<li class="list-group-item">';
+                            html += '   <div class="row" id=' + item.ColaboradorObservacaoId + ' style="cursor: pointer;" onclick="toggleEllipsis(this)">';
+                            html += '       <div class="col-lg-7 text-truncate" id="truncate-text-' + item.ColaboradorObservacaoId + '"><i class="fa fa-level-up fa-rotate-90 fa-lg" aria-hidden="true" style="margin-right: 4px;"></i>' + item.ObservacaoResposta + '</div>';
+                            html += '       <div class="col-lg-3" style="width: 18%;">' + item.UsuarioRevisaoInfo + '</div>';
+                            html += '       <div class="col-lg-2">' + new Date(parseInt((item.DataRevisao).match(regex))).toLocaleString() + '</div>';
+                            html += '       <div class="col-lg-1"></div>'
+                            html += '   </div>'
+                            html += '</li> ';
+                        });
+
+                        $('#listObservacaoResposta' + colaboradorObservacaoId).html('');
+                        $('#listObservacaoResposta' + colaboradorObservacaoId).append(html);
+                        $('#txtObservacaoResposta' + colaboradorObservacaoId).val('');
+                        //console.log(result);
+                    },
+                    error: function (result) {
+
+                    }
+                });
+            });
+
+            $("#ddlEstado").change(function () {
+                BuscarMunicipio();
+            });
+
+            //evento do botão incluir curso
+            $("#Cep").change(function () {
+                BuscarEndereco();
+            });
+
+        $('.nav-tabs > li a[title]').tooltip();
+
+            //Wizard
+            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+
+                var $target = $(e.target);
+
+                if ($target.parent().hasClass('disabled')) {
+                    return false;
+                }
+            });
+
+            $(".next-step").click(function (e) {
+
+                var $active = $('.wizard .nav-tabs li.active');
+                $active.next().removeClass('disabled');
+                nextTab($active);
+
+            });
+            $(".prev-step").click(function (e) {
+
+                var $active = $('.wizard .nav-tabs li.active');
+                prevTab($active);
+
+            });
+
+            $('#datepicker .input-group.date').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'pt-BR',
+                autoclose: true,
+                orientation: "bottom"
+            });
+
+        });
+
+        function nextTab(elem) {
+            $(elem).next().find('a[data-toggle="tab"]').click();
+        }
+        function prevTab(elem) {
+            $(elem).prev().find('a[data-toggle="tab"]').click();
+        }
+</script>
+<script>
+         function RemoverContrato(it)
+            {
+             var id = it.id;
+               $.ajax({
+                   type: "POST",
+                   url: '@Url.Action("RemoverContrato")',
+                   data: { id: id },
+                   success: function (result) {
+                       var html = '';
+                       $.each(result, function (key, item) {
+                           html += '<div class="col-lg-2 text-uppercase">' + item.Cargo + '</div>';
+                           html += '<div class="col-lg-2">' + item.Matricula + '</div>';
+                           html += '<div class="col-lg-2 text-uppercase">' + item.Descricao + '</div>';
+                           html += '<div class="col-lg-2">' + (item.ManuseioBagagem == true ? 'Sim' : 'Não') + '</div>';
+                           html += '<div class="col-lg-2">' + (item.OperadorPonteEmbarque == true ? 'Sim' : 'Não') + '</div>';
+                           html += '<div class="col-lg-1">' + (item.FlagCcam == true ? 'Sim' : 'Não') + '</div>';
+                           html += '<div class="col-lg-1"><a class="btnRemoverContrato" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+
+                       });
+                       $('#divContrato').html('');
+                       $('#divContrato').append(html);
+                       console.log(result);
+                   },
+                   error: function (result) {
+
+                   }
+                 });
+        };
+
+         function RemoverCurso(it)
+            {
+             var id = it.id;
+               $.ajax({
+                   type: "POST",
+                   url: '@Url.Action("RemoverCurso")',
+                   data: { id: id },
+                   success: function (result) {
+                       var html = '';
+                       $.each(result, function (key, item) {
+                           html += '<div class="col-lg-1">' + item.CursoId + '</div>';
+                           html += '<div class="col-lg-7">' + item.Descricao + '</div>';
+                           html += '<div class="col-lg-4"><a class="btnRemoverCurso" title="Remover Curso" id=' + item.CursoId + ' onclick="RemoverCurso(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+
+                       });
+                       $('#divCurso').html('');
+                       $('#divCurso').append(html);
+                       console.log(result);
+                   },
+                   error: function (result) {
+
+                   }
+                 });
+        };
+
+        function RemoverAnexo(it)
+        {
+            var id = it.id;
+               $.ajax({
+                   type: "POST",
+                   url: '@Url.Action("RemoverAnexo")',
+                   data: { id: id },
+                   success: function (result) {
+                       var html = '';
+                       $.each(result, function (key, item) {
+                           html += '<div class="col-lg-1">' + item.ColaboradorAnexoId + '</div>';
+                           html += '<div class="col-lg-5">' + item.Descricao + '</div>';
+                           html += '<div class="col-lg-5">' + item.NomeArquivo + '</div>';
+                           html += '<div class="col-lg-1"><a class="btnRemoverAnexo" title="Remover Anexo" id=' + item.ColaboradorAnexoId + ' onclick="RemoverAnexo(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
+
+                       });
+                       $('#divAnexo').html('');
+                       $('#divAnexo').append(html);
+                       console.log(result);
+                   },
+                   error: function (result) {
+
+                   }
+                 });
+        };
+
+        function RemoverObservacao(it)
+        {
+            var id = it.id;
+            var colaboradorId = $("#ColaboradorId").val();
+               $.ajax({
+                   type: "POST",
+                   url: '@Url.Action("RemoverObservacao")',
+                   data: { id: id, colaboradorId: colaboradorId },
+                   success: function (result) {
+                       if (!isNaN(parseInt(result.resultItemRemovido))) {
+                           $('#panel-item-revisao-' + result.resultItemRemovido).remove();
+                       }
+                       console.log(result);
+                   },
+                   error: function (result) {
+
+                   }
+                });
+        };
+
+</script>
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#FotoUpload').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#FotoColaborador").change(function () {
+        readURL(this);
+    });
+</script>
+
+<script>
+        function BuscarMunicipio() {
+            var id = $("#ddlEstado").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("BuscarMunicipios")',
+                data: { id: id },
+                success: function (result) {
+                    var html = '<option value="">SELECIONE</option>';
+                    $.each(result, function (key, item) {
+                        html += '<option value=' + this.MunicipioId + '>' + this.Nome + '</option>';
+                    });
+
+                    $('#ddlMunicipio').html(html);
+                    console.log(result);
+
+                },
+                error: function (result) {
+                    Alert(result);
+                }
+            });
+        };
+
+
+          function BuscarEndereco() {
+            var id = $("#Cep").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LocalizarCEP")',
+                data: { id: id },
+                success: function (result) {
+                    $("#Endereco").val(this.Street);
+                    $("#ddlBairro").val(this.District);
+                    $("#ddlEstado").val(this.State);
+                    $("#ddlMunicipio").val(this.City);
+
+                    console.log(result);
+
+                },
+                error: function (result) {
+                    Alert(result);
+                }
+            });
+        };
+
+</script>

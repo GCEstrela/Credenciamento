@@ -313,6 +313,8 @@
     <Content Include="Views\Colaborador\Delete.cshtml" />
     <Content Include="Views\Veiculo\Delete.cshtml" />
     <Content Include="Views\Colaborador\EditRevisao.cshtml" />
+    <Content Include="Views\Colaborador\_EditPartial.cshtml" />
+    <Content Include="Views\Colaborador\_EditScriptPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
