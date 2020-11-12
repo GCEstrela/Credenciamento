@@ -547,18 +547,19 @@
                                         <div class="row" id="divContrato">
                                             @foreach (var item in ((IEnumerable<IMOD.PreCredenciamentoWeb.Models.ColaboradorEmpresaViewModel>)ViewBag.ContratosSelecionados))
                                             {
-                                                <div class="col-lg-2 text-uppercase">@item.Cargo</div>
-                                                <div class="col-lg-2">@item.Matricula</div>
-                                                <div class="col-lg-2 text-uppercase">@item.Descricao</div>
-                                                <div class="col-lg-2">@(item.ManuseioBagagem ? "Sim" : "Não") </div>
-                                                <div class="col-lg-2">@(item.OperadorPonteEmbarque ? "Sim" : "Não")</div>
-                                                <div class="col-lg-1">@(item.FlagCcam ? "Sim" : "Não") </div>
-                                                <div class="col-lg-1">
-                                                    <a title="Vincular Contrato" id=@item.EmpresaContratoId href="#" class="btnRemover" onclick="RemoverContrato(this)">
-                                                        <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
-                                                    </a>
+                                                <div class="col-lg-12">
+                                                    <div class="col-lg-2 text-uppercase">@item.Cargo</div>
+                                                    <div class="col-lg-2">@item.Matricula</div>
+                                                    <div class="col-lg-2 text-uppercase">@item.Descricao</div>
+                                                    <div class="col-lg-2">@(item.ManuseioBagagem ? "Sim" : "Não") </div>
+                                                    <div class="col-lg-2">@(item.OperadorPonteEmbarque ? "Sim" : "Não")</div>
+                                                    <div class="col-lg-1">@(item.FlagCcam ? "Sim" : "Não") </div>
+                                                    <div class="col-lg-1">
+                                                        <a title="Vincular Contrato" id=@item.EmpresaContratoId href="#" class="btnRemover" onclick="RemoverContrato(this)">
+                                                            <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                                <br />
                                             }
                                         </div>
                                     </fieldset>
@@ -791,12 +792,12 @@
                                     </div>
                                     <br />
                                     <fieldset>
-                                        <legend> Itens de Revisão Selecionados</legend>
+                                        <legend> Itens de Revisão</legend>
                                         <div class="row">
-                                            <div class="col-lg-6"><b>Observação</b></div>
+                                            <div class="col-lg-7"><b>Descrição</b></div>
                                             <div class="col-lg-2"><b>Usuário</b></div>
                                             <div class="col-lg-2"><b>Data</b></div>
-                                            <div class="col-lg-2"></div>
+                                            <div class="col-lg-1"></div>
                                         </div>
                                     </fieldset>
                                     <div class="row">
@@ -808,27 +809,23 @@
                                                     <div class="panel panel-default" id="panel-item-revisao-@(item.ColaboradorObservacaoId)">
                                                         <div role="tab" style="position:relative; padding:15px;background-color: #fdfdfd;border-radius: 10px;box-shadow: 5px 5px 4px #566787; z-index: 1;">
                                                             <div class="row">
-                                                                <div class="col-lg-10" style="cursor: pointer;" onclick="toggleEllipsis(this)" id=@item.ColaboradorObservacaoId>
-                                                                    <div class="col-lg-7 text-truncate" id="truncate-text-@(item.ColaboradorObservacaoId)" style="width: 60%;">@item.Observacao</div>
-                                                                    <div class="col-lg-2" style="width: 21%;">@Funcoes.GetDescription((UsuarioRevisao)item.UsuarioRevisao)</div>
+                                                                <div class="col-lg-11" style="cursor: pointer; padding-left: 0px;" onclick="toggleEllipsis(this)" id=@item.ColaboradorObservacaoId>
+                                                                    <div class="col-lg-7 text-truncate" id="truncate-text-@(item.ColaboradorObservacaoId)" style="width: 64%; padding-left: 0px;">
+                                                                        @if (item.Resolvido)
+                                                                        {
+                                                                            <a title="Resolvido">
+                                                                                <i class="btn-icon fa fa-check" style="color: #72c677; font-size: 25px; text-align:center; padding-left:0px; padding-right:2px;"></i>
+                                                                            </a>
+                                                                        }
+                                                                        @item.Observacao
+                                                                    </div>
+                                                                    <div class="col-lg-2" style="width: 19%;">@Funcoes.GetDescription((UsuarioRevisao)item.UsuarioRevisao)</div>
                                                                     <div class="col-lg-2">@item.DataRevisao.ToString("dd/MM/yyyy HH:mm:ss")</div>
                                                                 </div>
-                                                                <div class="col-lg-2">
+                                                                <div class="col-lg-1">
                                                                     <a title="Remover Observação" id=@item.ColaboradorObservacaoId class="btnRemoverObservacao" onclick="RemoverObservacao(this)">
                                                                         <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center; cursor: pointer;"></i>
                                                                     </a>
-                                                                    @if (!item.Resolvido)
-                                                                    {
-                                                                        <a title="Não Resolvido">
-                                                                            <i class="btn-icon fa fa-close" style="color: #566787; font-size: 25px; text-align:center;"></i>
-                                                                        </a>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <a title="Resolvido">
-                                                                            <i class="btn-icon fa fa-check" style="color: #72c677; font-size: 25px; text-align:center;"></i>
-                                                                        </a>
-                                                                    }
                                                                 </div>
                                                             </div>
                                                             <div class="panel-collapse collapse" role="tabpanel" id="collapseListGroup@(item.ColaboradorObservacaoId)" aria-labelledby="collapseListGroupHeading@(item.ColaboradorObservacaoId)" aria-expanded="true" data-toggle="false">
@@ -837,7 +834,7 @@
                                                                     {
                                                                         if (item.ColaboradorObservacaoId.Equals(itemResp.ColaboradorObservacaoRespostaID))
                                                                         {
-                                                                            <li class="list-group-item"><div class="row" id=@(itemResp.ColaboradorObservacaoId) style="cursor: pointer;" onclick="toggleEllipsis(this)"><div class="col-lg-5 text-truncate" style="width: 50%;" id="truncate-text-@(itemResp.ColaboradorObservacaoId)"><i class="fa fa-level-up fa-rotate-90 fa-lg" aria-hidden="true" style="margin-right: 4px;"></i>   @itemResp.ObservacaoResposta</div><div class="col-lg-2" style="width: 17%;">@Funcoes.GetDescription((UsuarioRevisao)itemResp.UsuarioRevisao)</div><div class="col-lg-2">@itemResp.DataRevisao</div><div class="col-lg-2"></div></div></li>
+                                                                            <li class="list-group-item" style="color: #918c8c;"><div class="row" id=@(itemResp.ColaboradorObservacaoId) style="cursor: pointer;" onclick="toggleEllipsis(this)"><div class="col-lg-7 text-truncate" id="truncate-text-@(itemResp.ColaboradorObservacaoId)"><i class="fa fa-level-up fa-rotate-90 fa-lg" aria-hidden="true" style="margin-right: 4px;"></i>   @itemResp.ObservacaoResposta</div><div class="col-lg-2" style="width: 18%;">@Funcoes.GetDescription((UsuarioRevisao)itemResp.UsuarioRevisao)</div><div class="col-lg-2">@itemResp.DataRevisao</div><div class="col-lg-2"></div></div></li>
                                                                         }
                                                                     }
                                                                 </ul>
@@ -855,7 +852,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        
+
                                                     </div>
                                                 }
                                             </div>
@@ -887,7 +884,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-<script>
+    <script>
         $(document).ready(function () {
             //evento do botão incluir contrato
             $("#btContrato").click(function () {
@@ -1035,30 +1032,27 @@
                     success: function (result) {
                         var html = '';
                         var regex = /([0-9])\d+/g;
-                        
+
                             $.each(result, function (key, item) {
                                 html += '<div class="panel panel-default" id="panel-item-revisao-' + item.ColaboradorObservacaoId + '"> ';
                                 html += '    <div role="tab" style="position:relative; padding:15px;background-color: #fdfdfd;border-radius: 10px;box-shadow: 5px 5px 4px #566787; z-index: 1;"> ';
                                 html += '        <div class="row"> ';
-                                html += '            <div class="col-lg-10" style="cursor: pointer;" onclick="toggleEllipsis(this)" id=' + item.ColaboradorObservacaoId + '> ';
-                                html += '                <div style="width: 60%;" class="col-lg-7 text-truncate" id="truncate-text-' + item.ColaboradorObservacaoId + '">' + item.Observacao + '</div> ';
-                                html += '                <div style="width: 21%;" class="col-lg-2">' + item.UsuarioRevisaoInfo + '</div> ';
+                                html += '            <div class="col-lg-11" style="cursor: pointer;" onclick="toggleEllipsis(this)" id=' + item.ColaboradorObservacaoId + '> ';
+                                html += '                <div style="width: 64%;" class="col-lg-7 text-truncate" id="truncate-text-' + item.ColaboradorObservacaoId + '">';
+                                if (item.Resolvido) {
+                                    html += '               <a title="Resolvido"> ';
+                                    html += '                   <i class="btn-icon fa fa-check" style="color: #72c677; font-size: 25px; text-align:center;"></i> ';
+                                    html += '               </a> ';
+                                }
+                                html += item.Observacao
+                                html +=                 '</div> ';
+                                html += '                <div style="width: 19%;" class="col-lg-2">' + item.UsuarioRevisaoInfo + '</div> ';
                                 html += '                <div class="col-lg-2">' + new Date(parseInt((item.DataRevisao).match(regex))).toLocaleString() + '</div> ';
                                 html += '            </div> ';
-                                html += '            <div class="col-lg-2"> ';
+                                html += '            <div class="col-lg-1"> ';
                                 html += '                <a title="Remover Observação" id=' + item.ColaboradorObservacaoId + ' class="btnRemoverObservacao" onclick="RemoverObservacao(this)"> ';
                                 html += '                    <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center; cursor: pointer;"></i> ';
                                 html += '                </a> ';
-                                if (!item.Resolvido) {
-                                    html += '                    <a title="Não Resolvido"> ';
-                                    html += '                        <i class="btn-icon fa fa-close" style="color: #566787; font-size: 25px; text-align:center;"></i> ';
-                                    html += '                    </a> ';
-                                }
-                                else {
-                                    html += '                    <a title="Resolvido"> ';
-                                    html += '                        <i class="btn-icon fa fa-check" style="color: #72c677; font-size: 25px; text-align:center;"></i> ';
-                                    html += '                    </a> ';
-                                }
                                 html += '            </div> ';
                                 html += '        </div> ';
                                 html += '    <div class="panel-collapse collapse" role="tabpanel" id="collapseListGroup' + item.ColaboradorObservacaoId + '" aria-labelledby="collapseListGroupHeading' + item.ColaboradorObservacaoId + '" aria-expanded="true" data-toggle="false"> ';
@@ -1081,7 +1075,7 @@
                             });
                             $('#collapseRespostas').append(html);
                             $('#txtObservacaoAprovacao').val('');
-                        
+
                         //console.log(result);
                     },
                     error: function (result) {
@@ -1115,10 +1109,10 @@
                         $.each(result, function (key, item) {
                             html += '<li class="list-group-item">';
                             html += '   <div class="row" id=' + item.ColaboradorObservacaoId + ' style="cursor: pointer;" onclick="toggleEllipsis(this)">';
-                            html += '       <div class="col-lg-5 text-truncate" style="width: 50%;" id="truncate-text-' + item.ColaboradorObservacaoId + '"><i class="fa fa-level-up fa-rotate-90 fa-lg" aria-hidden="true" style="margin-right: 4px;"></i>' + item.ObservacaoResposta + '</div>';
-                            html += '       <div class="col-lg-3" style="width: 17%;">' + item.UsuarioRevisaoInfo + '</div>';
+                            html += '       <div class="col-lg-7 text-truncate" id="truncate-text-' + item.ColaboradorObservacaoId + '"><i class="fa fa-level-up fa-rotate-90 fa-lg" aria-hidden="true" style="margin-right: 4px;"></i>' + item.ObservacaoResposta + '</div>';
+                            html += '       <div class="col-lg-3" style="width: 18%;">' + item.UsuarioRevisaoInfo + '</div>';
                             html += '       <div class="col-lg-2">' + new Date(parseInt((item.DataRevisao).match(regex))).toLocaleString() + '</div>';
-                            html += '       <div class="col-lg-2"></div>'
+                            html += '       <div class="col-lg-1"></div>'
                             html += '   </div>'
                             html += '</li> ';
                         });
@@ -1129,7 +1123,7 @@
                         //console.log(result);
                     },
                     error: function (result) {
-                        
+
                     }
                 });
             });
@@ -1184,7 +1178,7 @@
         function prevTab(elem) {
             $(elem).prev().find('a[data-toggle="tab"]').click();
         }
-</script>
+    </script>
     <script>
          function RemoverContrato(it)
             {
@@ -1281,7 +1275,7 @@
                        console.log(result);
                    },
                    error: function (result) {
-                       
+
                    }
                 });
         };

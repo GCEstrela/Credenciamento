@@ -81,7 +81,7 @@
                                     </a>
                                 </li>
                                 <li role="presentation" style="padding-left: 10px;">
-                                    <a href="#observacao" data-toggle="tab" aria-controls="observacao" role="tab" title="Observações">
+                                    <a href="#itens-revisao" data-toggle="tab" aria-controls="itens-revisao" role="tab" title="Itens de Revisão">
                                         <span class="round-tab">
                                             <i class="glyphicon glyphicon-eye-open"></i>
                                         </span>
@@ -402,15 +402,16 @@
                                         <div class="row" id="divContrato">
                                             @foreach (var item in ((IEnumerable<IMOD.PreCredenciamentoWeb.Models.ColaboradorEmpresaViewModel>)ViewBag.ContratosSelecionados))
                                             {
-                                                <div class="col-lg-2 text-uppercase">@item.Cargo</div>
-                                                <div class="col-lg-2">@item.Matricula</div>
-                                                <div class="col-lg-2 text-uppercase">@item.Descricao</div>
-                                                <div class="col-lg-2">@(item.ManuseioBagagem ? "Sim" : "Não") </div>
-                                                <div class="col-lg-2">@(item.OperadorPonteEmbarque ? "Sim" : "Não")</div>
-                                                <div class="col-lg-1">@(item.FlagCcam ? "Sim" : "Não") </div>
-                                                <div class="col-lg-1">
+                                                <div class="col-lg-12">
+                                                    <div class="col-lg-2 text-uppercase">@item.Cargo</div>
+                                                    <div class="col-lg-2">@item.Matricula</div>
+                                                    <div class="col-lg-2 text-uppercase">@item.Descricao</div>
+                                                    <div class="col-lg-2">@(item.ManuseioBagagem ? "Sim" : "Não") </div>
+                                                    <div class="col-lg-2">@(item.OperadorPonteEmbarque ? "Sim" : "Não")</div>
+                                                    <div class="col-lg-1">@(item.FlagCcam ? "Sim" : "Não") </div>
+                                                    <div class="col-lg-1">
+                                                    </div>
                                                 </div>
-                                                <br />
                                             }
                                         </div>
                                     </fieldset>
@@ -514,14 +515,14 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="tab-pane" role="tabpanel" id="observacao">
+                                <div class="tab-pane" role="tabpanel" id="itens-revisao">
                                     <fieldset>
-                                        <legend> Observações Selecionados</legend>
+                                        <legend> Itens de Revsão</legend>
                                         <div class="row">
-                                            <div class="col-lg-5"><b>Observação</b></div>
-                                            <div class="col-lg-3"><b>Usuário</b></div>
+                                            <div class="col-lg-7"><b>Descrição</b></div>
+                                            <div class="col-lg-2"><b>Usuário</b></div>
                                             <div class="col-lg-2"><b>Data</b></div>
-                                            <div class="col-lg-2"></div>
+                                            <div class="col-lg-1"></div>
                                         </div>
                                     </fieldset>
                                     <div class="row">
@@ -529,46 +530,37 @@
                                             <div class="panel-group" role="tablist" id="collapseRespostas">
                                                 @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.ColaboradorObservacao>)ViewBag.ObservacoesSelecionadas))
                                                 {
-                                                    <div class="panel panel-default">
+                                                    <div class="panel panel-default" id="panel-item-revisao-@(item.ColaboradorObservacaoId)">
                                                         <div role="tab" style="position:relative; padding:15px;background-color: #fdfdfd;border-radius: 10px;box-shadow: 5px 5px 4px #566787; z-index: 1;">
                                                             <div class="row">
-                                                                <div style="cursor: pointer;" onclick="toggleEllipsis(this)" id=@item.ColaboradorObservacaoId>
-                                                                    <div class="col-lg-5 text-truncate" id="truncate-text-@(item.ColaboradorObservacaoId)">@item.Observacao</div>
-                                                                    <div class="col-lg-3">@Funcoes.GetDescription((UsuarioRevisao)item.UsuarioRevisao)</div>
+                                                                <div class="col-lg-11" style="cursor: pointer; padding-left: 0px;" onclick="toggleEllipsis(this)" id=@item.ColaboradorObservacaoId>
+                                                                    <div class="col-lg-7 text-truncate" id="truncate-text-@(item.ColaboradorObservacaoId)" style="width: 64%; padding-left: 0px;">
+                                                                        @if (item.Resolvido)
+                                                                        {
+                                                                            <a title="Resolvido">
+                                                                                <i class="btn-icon fa fa-check" style="color: #72c677; font-size: 25px; text-align:center; padding-left:0px; padding-right:2px;"></i>
+                                                                            </a>
+                                                                        }
+                                                                        @item.Observacao
+                                                                    </div>
+                                                                    <div class="col-lg-2" style="width: 19%;">@Funcoes.GetDescription((UsuarioRevisao)item.UsuarioRevisao)</div>
                                                                     <div class="col-lg-2">@item.DataRevisao.ToString("dd/MM/yyyy HH:mm:ss")</div>
                                                                 </div>
-                                                                <div class="col-lg-2">
-                                                                    <a href="#collapseListGroup@(item.ColaboradorObservacaoId)" role="button" data-parent="#collapseRespostas" data-toggle="collapse" aria-expanded="false" aria-controls="collapseListGroup@(item.ColaboradorObservacaoId)" class="" title="Responder Observacao" id=@item.ColaboradorObservacaoId>
-                                                                        <i class="success btn-icon fa fa-comment" style="color: #4ca874; font-size: 25px; text-align:center"></i>
-                                                                    </a>                                                                    
-                                                                    <a title="Remover Observação" id=@item.ColaboradorObservacaoId class="btnRemoverObservacao" onclick="RemoverObservacao(this)">
-                                                                        <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center; cursor: pointer;"></i>
-                                                                    </a>
-                                                                    @if (!item.Resolvido)
-                                                                    {
-                                                                        <a title="Não Resolvido">
-                                                                            <i class="btn-icon fa fa-close" style="color: #566787; font-size: 25px; text-align:center; cursor: pointer;"></i>
-                                                                        </a>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <a title="Resolvido">
-                                                                            <i class="btn-icon fa fa-check" style="color: #566787; font-size: 25px; text-align:center; cursor: pointer;"></i>
-                                                                        </a>
-                                                                    }
+                                                                <div class="col-lg-1">
+
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="panel-collapse collapse" role="tabpanel" id="collapseListGroup@(item.ColaboradorObservacaoId)" aria-labelledby="collapseListGroupHeading@(item.ColaboradorObservacaoId)" aria-expanded="true" data-toggle="false" style="border: 1px solid #ededed;border-radius: 5px 5px 5px 5px;">
-                                                            <ul class="list-group" style="margin-bottom: 0px;" id="listObservacaoResposta@(item.ColaboradorObservacaoId)">
-                                                                @foreach (var itemResp in ((IEnumerable<IMOD.Domain.Entities.ColaboradorObservacao>)ViewBag.ObservacoesRespostaSelecionadas))
-                                                                {
-                                                                    if (item.ColaboradorObservacaoId.Equals(itemResp.ColaboradorObservacaoRespostaID))
+                                                            <div class="panel-collapse collapse" role="tabpanel" id="collapseListGroup@(item.ColaboradorObservacaoId)" aria-labelledby="collapseListGroupHeading@(item.ColaboradorObservacaoId)" aria-expanded="true" data-toggle="false">
+                                                                <ul class="list-group" style="margin-top: 15px; margin-bottom: 0px;" id="listObservacaoResposta@(item.ColaboradorObservacaoId)">
+                                                                    @foreach (var itemResp in ((IEnumerable<IMOD.Domain.Entities.ColaboradorObservacao>)ViewBag.ObservacoesRespostaSelecionadas))
                                                                     {
-                                                                        <li class="list-group-item"><div class="row" id=@(itemResp.ColaboradorObservacaoId) style="cursor: pointer;" onclick="toggleEllipsis(this)"><div class="col-lg-5 text-truncate" id="truncate-text-@(itemResp.ColaboradorObservacaoId)"><i class="fa fa-level-up fa-rotate-90 fa-lg" aria-hidden="true"></i> @itemResp.ObservacaoResposta</div><div class="col-lg-3">@Funcoes.GetDescription((UsuarioRevisao)item.UsuarioRevisao)</div><div class="col-lg-2">@itemResp.DataRevisao</div><div class="col-lg-2"></div></div></li>
+                                                                        if (item.ColaboradorObservacaoId.Equals(itemResp.ColaboradorObservacaoRespostaID))
+                                                                        {
+                                                                            <li class="list-group-item" style="color: #918c8c;"><div class="row" id=@(itemResp.ColaboradorObservacaoId) style="cursor: pointer;" onclick="toggleEllipsis(this)"><div class="col-lg-7 text-truncate" id="truncate-text-@(itemResp.ColaboradorObservacaoId)"><i class="fa fa-level-up fa-rotate-90 fa-lg" aria-hidden="true" style="margin-right: 4px;"></i>   @itemResp.ObservacaoResposta</div><div class="col-lg-2" style="width: 18%;">@Funcoes.GetDescription((UsuarioRevisao)itemResp.UsuarioRevisao)</div><div class="col-lg-2">@itemResp.DataRevisao</div><div class="col-lg-2"></div></div></li>
+                                                                        }
                                                                     }
-                                                                }
-                                                            </ul>
+                                                                </ul>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 }
