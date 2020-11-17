@@ -29,6 +29,7 @@ using IMOD.CredenciamentoDeskTop.ViewModels.Comportamento;
 using IMOD.CredenciamentoDeskTop.Views.Model;
 using IMOD.CrossCutting;
 using IMOD.Domain.Entities;
+using IMOD.Domain.Enums;
 using IMOD.Infra.Servicos;
 
 #endregion
@@ -372,7 +373,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     //var l1 = _service.Listar();
                     if (IsEnablePreCadastro)
                     {
-                        colaboradores = _serviceWeb.Listar(null, null, null, IsEnablePreCadastro).ToList();
+                        colaboradores = _serviceWeb.Listar(null, null, null, null, null, (int)StatusCadastro.APROVADO).ToList();
                     }
                     else
                     {
