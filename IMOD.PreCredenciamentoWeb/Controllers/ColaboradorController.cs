@@ -92,9 +92,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             //Obtem o colaborador pelo ID
             var colaboradorEditado = objService.Listar(id).FirstOrDefault();
 
-            if(!colaboradorEditado.StatusCadastro.Equals((int)StatusCadastro.APROVADO))
-                colaboradorEditado = objServiceWeb.Listar(id).FirstOrDefault();
-
             if (colaboradorEditado == null)
                 return HttpNotFound();
 
@@ -112,9 +109,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             //Popula contratos selecionados
             ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
             var listColaboradorEmpresa = objColaboradorEmpresaService.Listar(colaboradorEditado.ColaboradorId);
-
-            if(!colaboradorEditado.StatusCadastro.Equals((int)StatusCadastro.APROVADO))
-                listColaboradorEmpresa = objColaboradorEmpresaWebService.Listar(colaboradorEditado.ColaboradorId);
 
             var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(listColaboradorEmpresa);
             ViewBag.ContratosSelecionados = listaVinculosColaborador;
@@ -137,8 +131,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             //Popula cursos selecionados do colaborador
             var listaCursosColaborador = objColaboradorCursosService.Listar(colaboradorEditado.ColaboradorId);
-            if(!colaboradorEditado.StatusCadastro.Equals((int)StatusCadastro.APROVADO))
-                listaCursosColaborador = objColaboradorCursosWebService.Listar(colaboradorEditado.ColaboradorId);
 
             var cursosColaborador = Mapper.Map<List<ColaboradorCurso>>(listaCursosColaborador);
             var cursosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
@@ -160,8 +152,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             //Popula anexos do colaborador
             var anexosSelecionados = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId);
-            if(!colaboradorEditado.StatusCadastro.Equals((int)StatusCadastro.APROVADO))
-                anexosSelecionados = objColaboradorAnexoWebService.Listar(colaboradorMapeado.ColaboradorId);
 
             if (anexosSelecionados != null)
             {
@@ -185,7 +175,100 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
 
             return View(colaboradorMapeado);
+        }
 
+        // GET: Colaborador/Details/5
+        [Authorize]
+        public ActionResult DetailsPreCadastro(int id)
+        {
+            if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
+
+            //Obtem o colaborador pelo ID
+            var colaboradorEditado = objServiceWeb.Listar(id).FirstOrDefault();
+
+            if (colaboradorEditado == null)
+                return HttpNotFound();
+
+            //obtém vinculos do colaborador
+            ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
+
+            CarregaFotoColaborador(colaboradorMapeado);
+
+            // carrega os contratos da empresa
+            if (SessionUsuario.EmpresaLogada.Contratos != null)
+            {
+                ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
+            }
+
+            //Popula contratos selecionados
+            ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
+            var listColaboradorEmpresa = objColaboradorEmpresaWebService.Listar(colaboradorEditado.ColaboradorId);
+
+            var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(listColaboradorEmpresa);
+            ViewBag.ContratosSelecionados = listaVinculosColaborador;
+            colaboradorMapeado.NomeAnexoVinculo = listaVinculosColaborador[0].NomeAnexo;
+            Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosColaborador);
+
+            //Propula combo de estado
+            PopularEstadosDropDownList();
+
+            //Preenche combo municipio de acordo com o estado
+            ViewBag.Municipio = new List<Municipio>();
+            var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, colaboradorMapeado.EstadoId).OrderBy(m => m.Nome);
+            if (lstMunicipio != null) { ViewBag.Municipio = lstMunicipio; };
+
+            PopularDadosDropDownList();
+
+            //Preenche combo com todos os cursos
+            var listCursos = objCursosService.Listar().OrderBy(c => c.Descricao);
+            if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; };
+
+            //Popula cursos selecionados do colaborador
+            var listaCursosColaborador = objColaboradorCursosWebService.Listar(colaboradorEditado.ColaboradorId);
+
+            var cursosColaborador = Mapper.Map<List<ColaboradorCurso>>(listaCursosColaborador);
+            var cursosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
+            for (int i = 0; i < cursosSelecionados.Count; i++)
+            {
+                cursosSelecionados[i].Validade = String.Format("{0:dd/MM/yyyy}", cursosColaborador[i].Validade.ToString());
+            }
+
+            if (cursosSelecionados != null && cursosSelecionados.Any())
+            {
+                colaboradorMapeado.NomeAnexoCurso = cursosColaborador[0].NomeArquivo;
+                ViewBag.CursosSelecionados = cursosSelecionados;
+                Session.Add(SESS_CURSOS_SELECIONADOS, cursosSelecionados);
+            }
+            else
+            {
+                ViewBag.CursosSelecionados = new List<Curso>();
+            }
+
+            //Popula anexos do colaborador
+            var anexosSelecionados = objColaboradorAnexoWebService.Listar(colaboradorMapeado.ColaboradorId);
+
+            if (anexosSelecionados != null)
+            {
+                ViewBag.AnexosSelecionados = anexosSelecionados;
+                Session.Add(SESS_ANEXOS_SELECIONADOS, anexosSelecionados);
+            }
+
+            //Popula observações para aprovação do colaborador
+            var observacoesAuxSelecionadas = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId);
+            var observacoesSelecionadas = observacoesAuxSelecionadas.Where(co => co.ColaboradorObservacaoRespostaID == null).OrderBy(co => co.DataRevisao).ToList();
+            var observacoesRespostaSelecionadas = observacoesAuxSelecionadas.Where(cor => cor.ColaboradorObservacaoRespostaID != null).OrderBy(cor => cor.DataRevisao).ToList();
+
+            if (observacoesSelecionadas != null)
+            {
+                ViewBag.ObservacoesSelecionadas = observacoesSelecionadas;
+            }
+
+            if (observacoesRespostaSelecionadas != null)
+            {
+                ViewBag.ObservacoesRespostaSelecionadas = observacoesRespostaSelecionadas;
+            }
+
+            return View(colaboradorMapeado);
         }
 
         // GET: Colaborador/Create
@@ -1213,30 +1296,19 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [Authorize]
         public ActionResult Delete(int id, Colaborador model)
         {
-
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
-            if (id == null || (id <= 0)) { return RedirectToAction("../Login"); }
+            
+            if (id.Equals(null))
+                return HttpNotFound();
 
             try
             {
-                //if (id == null)
-                //    return HttpNotFound();
                 var idColaborador = id;
 
-                // Initializes the variables to pass to the MessageBox.Show method.
-
                 var colaboradorMapeado = Mapper.Map<Colaborador>(model);
-                colaboradorMapeado.ColaboradorId = Convert.ToInt32(idColaborador);
+                colaboradorMapeado.ColaboradorId = idColaborador;
 
-                //Pega os anexos do colaborador
-                var anexosColaborador = objColaboradorAnexoWebService.Listar(idColaborador);
-                //exclui os anexos
-                foreach (var anexo in anexosColaborador)
-                {
-                    objColaboradorAnexoWebService.Remover(anexo);
-                }
-
-                objService.Remover(colaboradorMapeado);
+                objServiceWeb.Remover(colaboradorMapeado);
 
                 return RedirectToAction("Index");
             }

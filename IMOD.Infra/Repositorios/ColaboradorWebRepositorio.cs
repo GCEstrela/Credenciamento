@@ -408,6 +408,12 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
                         cmd.ExecuteNonQuery();
                     }
+                    using (var cmd = _dataBase.DeleteText("ColaboradoresObservacoes", conn))
+                    {
+                        cmd.Transaction = tran;
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("ColaboradorId", DbType.Int32, entity.ColaboradorId).Igual()));
+                        cmd.ExecuteNonQuery();
+                    }
                     using (var cmd = _dataBase.DeleteText("ColaboradoresWeb", conn))
                     {
                         cmd.Transaction = tran;

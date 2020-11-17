@@ -38,28 +38,28 @@
                     {
                         <tr>
                             <td class="col-lg-1" style="text-align:center;">
-                                <a href='@Url.Action("Details", "Colaborador", new { id = item.ColaboradorId })'>
-
-                                    <span class="glyphicon glyphicon-search"></span>
-                                </a>
-
                                 @if (item.Precadastro)
                                 {
+                                    <a href='@Url.Action("DetailsPreCadastro", "Colaborador", new { id = item.ColaboradorId })'>
+
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </a>
                                     <a href='@Url.Action("Edit", "Colaborador", new { id = item.ColaboradorId })'>
                                         @*<img src="~/images/edit.png" />*@
                                         <span class="glyphicon glyphicon-edit"></span>
                                     </a>
 
-
-
                                     <a href='@Url.Action("Delete", "Colaborador", new { id = item.ColaboradorId })'>
                                         <span class="glyphicon glyphicon-trash"></span>
                                         @*<img src="~/images/remove.png" />*@
                                     </a>
-
                                 }
                                 else
                                 {
+                                    <a href='@Url.Action("Details", "Colaborador", new { id = item.ColaboradorId })'>
+
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </a>
                                     <a href='@Url.Action("EditRevisao", "Colaborador", new { id = item.ColaboradorId })'>
                                         @*<img src="~/images/edit.png" />*@
                                         <span class="glyphicon glyphicon-edit"></span>
