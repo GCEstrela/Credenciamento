@@ -12,6 +12,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         #region  Propriedades
 
         public int ColaboradorEmpresaId { get; set; }
+        public int ColaboradorEmpresaWebId { get; set; }
         public string CardHolderGuid { get; set; }
         public int ColaboradorId { get; set; }
         public int EmpresaId { get; set; }

@@ -399,7 +399,13 @@
                     "infoEmpty": "Nenhum registro disponível",
                     "infoFiltered": "(filtrado de _MAX_ registros no total)",
                     "search": "Pesquisar:"
-                }
+                },
+                "order": [
+                    [2, 'asc']
+                ],
+                "columnDefs": [
+                    {"orderable": false, "targets":0}
+                ]
             });
 
             $('.datepicker').datepicker({

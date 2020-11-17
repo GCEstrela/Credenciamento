@@ -54,7 +54,8 @@ namespace IMOD.Infra.Repositorios
                     using (var cmd = _dataBase.UpdateText("ColaboradoresAnexosWeb", conn))
                     {
 
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorAnexoId", entity.ColaboradorAnexoId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorAnexoWebId", entity.ColaboradorAnexoWebId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorAnexoId", entity.ColaboradorAnexoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Descricao", entity.Descricao, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeArquivo", entity.NomeArquivo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorID", entity.ColaboradorId, false)));
@@ -112,7 +113,8 @@ namespace IMOD.Infra.Repositorios
                     using (var cmd = _dataBase.InsertText("ColaboradoresAnexosWeb", conn))
                     {
 
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorAnexoId", entity.ColaboradorAnexoId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorAnexoWebID", entity.ColaboradorAnexoWebId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorAnexoID", entity.ColaboradorAnexoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Descricao", entity.Descricao, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeArquivo", entity.NomeArquivo, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorID", entity.ColaboradorId, false)));
@@ -120,7 +122,7 @@ namespace IMOD.Infra.Repositorios
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
-                        entity.ColaboradorAnexoId = key;
+                        entity.ColaboradorAnexoWebId = key;
 
                     }
                 }

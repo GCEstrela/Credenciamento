@@ -55,7 +55,8 @@ namespace IMOD.Infra.Repositorios
                     using (var cmd = _dataBase.UpdateText("ColaboradoresEmpresasWeb", conn))
                     {
 
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorEmpresaId", entity.ColaboradorEmpresaId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorEmpresaWebId", entity.ColaboradorEmpresaWebId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorEmpresaId", entity.ColaboradorEmpresaId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CardHolderGuid", entity.CardHolderGuid, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorId", entity.ColaboradorId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("EmpresaId", entity.EmpresaId, false)));
@@ -134,7 +135,8 @@ namespace IMOD.Infra.Repositorios
                     using (var cmd = _dataBase.InsertText("ColaboradoresEmpresasWeb", conn))
                     {
 
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorEmpresaId", entity.ColaboradorEmpresaId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorEmpresaWebId", entity.ColaboradorEmpresaWebId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorEmpresaId", entity.ColaboradorEmpresaId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CardHolderGuid", entity.CardHolderGuid, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorId", entity.ColaboradorId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("EmpresaId", entity.EmpresaId, false)));
@@ -156,7 +158,7 @@ namespace IMOD.Infra.Repositorios
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
-                        entity.ColaboradorEmpresaId = key;
+                        entity.ColaboradorEmpresaWebId = key;
                         //Gerar matricula
                         //CriarNumeroMatricula(entity);
 

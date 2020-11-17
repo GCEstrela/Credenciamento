@@ -17,6 +17,7 @@ namespace IMOD.Domain.Entities
         #region  Propriedades
 
         public int ColaboradorCursoId { get; set; }
+        public int ColaboradorCursoWebId { get; set; }
         public int ColaboradorId { get; set; }
         public int? CursoId { get; set; }
         public string NomeArquivo { get; set; }

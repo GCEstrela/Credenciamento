@@ -58,7 +58,8 @@ namespace IMOD.Infra.Repositorios
                     using (var cmd = _dataBase.InsertText("ColaboradoresCursosWeb", conn))
                     {
 
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorCursoID", entity.ColaboradorCursoId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorCursoWebID", entity.ColaboradorCursoWebId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorCursoID", entity.ColaboradorCursoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("ColaboradorID", entity.ColaboradorId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("CursoID", entity.CursoId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("NomeArquivo", entity.NomeArquivo, false)));
@@ -68,7 +69,7 @@ namespace IMOD.Infra.Repositorios
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
-                        entity.ColaboradorCursoId = key;
+                        entity.ColaboradorCursoWebId = key;
 
                     }
                 }
@@ -195,7 +196,8 @@ namespace IMOD.Infra.Repositorios
                     using (var cmd = _dataBase.UpdateText("ColaboradoresCursosWeb", conn))
                     {
                        
-                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorCursoID", entity.ColaboradorCursoId, true)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorCursoWebID", entity.ColaboradorCursoWebId, true)));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorCursoID", entity.ColaboradorCursoId, false)));
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorID", entity.ColaboradorId, false)));
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("CursoID", entity.CursoId, false)));
                             cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("NomeArquivo", entity.NomeArquivo, false)));

@@ -138,7 +138,7 @@ namespace IMOD.Infra.Repositorios
                     using (var cmd = _dataBase.UpdateText("ColaboradoresWeb", conn))
                     {
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorWebId", entity.ColaboradorWebId, true)));
-                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorId", entity.ColaboradorId, true)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("ColaboradorId", entity.ColaboradorId, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Nome", entity.Nome, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Apelido", entity.Apelido, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataNascimento", DbType.Date, entity.DataNascimento, false)));
@@ -299,7 +299,7 @@ namespace IMOD.Infra.Repositorios
                         //cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Segurancatrabalho", entity.Segurancatrabalho, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
-                        entity.ColaboradorId = key;
+                        entity.ColaboradorWebId = key;
                     }
                 }
             }
@@ -330,6 +330,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Precadastro", DbType.Boolean, o, 3).Igual()));
 
                         cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("IdColaboradorSICOA", DbType.Int32, o, 4).IsNotNull()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("StatusCadastro", DbType.Int32, o, 5).Diferente()));
 
                         var reader = cmd.ExecuteReaderSelect();
                         var d1 = reader.MapToList<Colaborador>();

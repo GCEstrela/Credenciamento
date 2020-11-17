@@ -13,6 +13,7 @@ namespace IMOD.Domain.Entities
         #region  Propriedades
 
         public int ColaboradorAnexoId { get; set; }
+        public int ColaboradorAnexoWebId { get; set; }
         public string Descricao { get; set; }
         public string NomeArquivo { get; set; }
         public int ColaboradorId { get; set; }
