@@ -396,6 +396,15 @@
                                 </div>
                                 <div class="tab-pane" role="tabpanel" id="cnh">
                                     <div class="form-group">
+                                        <div class="col-lg-3" style="vertical-align:top; text-align: center;">
+                                            <div>
+                                                <img src="~/Images/motorista.png" height="25" />&nbsp;&nbsp;
+                                                @Html.Label("Motorista?", htmlAttributes: new { @class = "control-label" })
+                                                @Html.CheckBoxFor(model => model.Motorista, htmlAttributes: new { @id = "chkMotorista" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         @Html.LabelFor(model => model.CnhCategoria, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-2">
 
@@ -471,11 +480,10 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-3" style="vertical-align:top; text-align: center;">
-
                                             <div>
                                                 <img src="~/Images/motorista.png" height="25" />&nbsp;&nbsp;
                                                 @Html.Label("Motorista?", htmlAttributes: new { @class = "control-label" })
-                                                @Html.CheckBoxFor(model => model.Motorista, htmlAttributes: new { @id = "chkMotorista" })
+                                                @Html.CheckBox(" Motorista ", htmlAttributes: new { @id = "chkMotoristaVincul" })
                                             </div>
                                         </div>
                                     </div>
@@ -545,6 +553,7 @@
                                         <div class="row" id="divContrato">
                                             @foreach (var item in ((IEnumerable<IMOD.PreCredenciamentoWeb.Models.ColaboradorEmpresaViewModel>)ViewBag.ContratosSelecionados))
                                             {
+                                                <div class="col-lg-12">
                                                 <div class="col-lg-2 text-uppercase">@item.Cargo</div>
                                                 <div class="col-lg-2">@item.Matricula</div>
                                                 <div class="col-lg-2 text-uppercase">@item.Descricao</div>
@@ -556,7 +565,7 @@
                                                         <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
                                                     </a>
                                                 </div>
-                                                <br />
+                                                </div>
                                             }
                                         </div>
                                     </fieldset>
@@ -617,9 +626,9 @@
                                             <div class="col-lg-2"></div>
                                         </div>
                                         <div class="row" id="divCurso">
-                                            @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.Curso>)ViewBag.CursosSelecionados))
+                                            @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.ColaboradorCurso>)ViewBag.CursosSelecionados))
                                             {
-
+                                                <div class="col-lg-12">
                                                 <div class="col-lg-1">@item.CursoId</div>
                                                 <div class="col-lg-5">@item.Descricao</div>
                                                 <div class="col-lg-4">@item.Validade</div>
@@ -628,7 +637,7 @@
                                                         <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
                                                     </a>
                                                 </div>
-
+                                                </div>
                                             }
                                         </div>
                                     </fieldset>
@@ -680,6 +689,7 @@
                                             <div class="row" id="divAnexo">
                                                 @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.ColaboradorAnexo>)ViewBag.AnexosSelecionados))
                                                 {
+                                                    <div class="col-lg-12">
                                                     <div class="col-lg-3">@item.Descricao</div>
                                                     <div class="col-lg-4">@item.NomeArquivo</div>
                                                     <div class="col-lg-2">
@@ -687,7 +697,7 @@
                                                             <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
                                                         </a>
                                                     </div>
-
+                                                    </div>
                                                 }
                                             </div>
                                         </fieldset>
@@ -764,376 +774,36 @@
     </div>
 }
 
-
-
-
-
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @Html.Partial("_ScriptsPartial")
+<script>
+    $('#Cpf').focusout(function () {
+        var cpf = $('#Cpf').val();
+        cpf = cpf.replace(/\_|\.|\-/g, "");
 
-    <script>
-        $(document).ready(function () {
-            //evento do botão incluir contrato
-            $("#Cep").focusout(function () {
-                BuscarEndereco();
-            });
-
-            $("#btContrato").click(function () {
-                var id = $("#ddlContrato").val();
-                var bagagem = $('#chkBagagem').is(':checked');
-                var ponteEmbarque = $('#chkPonteEmbarque').is(':checked');
-                var ccam = $('#chkCcam').is(':checked');
-                var validade = $("#txtVigencia").val();
-                var cargo = $("#txtCargo").val();
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("AdicionarContrato")',
-                    data: {
-                        id: id,
-                        bagagem: bagagem,
-                        operadorPonteEmbarque: ponteEmbarque,
-                        flagCcam: ccam,
-                        validade: validade,
-                        cargo: cargo
-                    },
-                    success: function (result) {
-                        var html = '';
-                        $.each(result, function (key, item) {
-                            html += '<div class="col-lg-2 text-uppercase">' + item.Cargo + '</div>';
-                            html += '<div class="col-lg-2">' + item.Matricula + '</div>';
-                            html += '<div class="col-lg-2 text-uppercase">' + item.Descricao + '</div>';
-                            html += '<div class="col-lg-2">' + (item.ManuseioBagagem == true ? 'Sim' : 'Não') + '</div>';
-                            html += '<div class="col-lg-2">' + (item.OperadorPonteEmbarque == true ? 'Sim' : 'Não') + '</div>';
-                            html += '<div class="col-lg-1">' + (item.FlagCcam == true ? 'Sim' : 'Não')  + '</div>';
-                            html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
-                        });
-                        $('#divContrato').html('');
-                        $('#divContrato').append(html);
-                        $("#ddlContrato").val('');
-                        $("#chkBagagem").attr('checked', false);
-                        $("#chkPonteEmbarque").attr('checked', false);
-                        $("#chkCcam").attr('checked', false);
-                        $("#txtVigencia").val('');
-                        $("#txtCargo").val('');
-                        console.log(result);
-
-                    },
-                    error: function (result) {
-                        Alert(result);
-                    }
-                });
-                });
-
-
-                $('#Cpf').focusout(function () {
-                     cpf = $('#Cpf').val();
-                    $.ajax({
-                        type: "POST",
-                        url: '@Url.Action("ConsultarCPF")',
-                        data: {
-                            cpf: cpf,
-                        },
-                        success: function (result) {
-                            if (result != null) {
-                                alert("Colaborador já cadastrado. Procure o credenciamento local para associá-lo ao contrato.");
-                                $('#Cpf').val('');
-                            }
-                        },
-                        error: function (result) {
-                            Alert(result);
-                        }
-
-                    });
-                });
-
-
-            $('#datepicker .input-group.date').datepicker({
-                format: 'dd/mm/yyyy',
-                language: 'pt-BR',
-                autoclose: true,
-                orientation: "bottom"
-            });
-
-
-
-            });
-
-
-             //evento do botão incluir curso
-        $("#btCurso").click(function () {
-            var fileData = new FormData();
-            var id = $("#ddlCurso").val();
-            fileData.append('id', id);
-            var validade = ($("#txtValidade").val() == "" ? "" : $("#txtValidade").val());
-            fileData.append('validade', validade);
-
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("AdicionarCurso")',
-                    data: fileData,
-                    dataType: 'JSON',
-                    contentType: false,
-                    processData: false,
-                    success: function (result) {
-                        var html = '';
-                        $.each(result, function (key, item) {
-                            html += '<div class="col-lg-1">' + item.CursoId + '</div>';
-                            html += '<div class="col-lg-5">' + item.Descricao + '</div>';
-                            html += '<div class="col-lg-4">' + item.Validade + '</div>';
-                            html += '<div class="col-lg-2"><a class="btnRemover" title="Remover Curso" id=' + item.CursoId + ' onclick="RemoverCurso(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
-                        });
-                        $('#divCurso').html('');
-                        $('#divCurso').append(html);
-                        $("#ddlCurso").val('');
-                        $("#txtValidade").val('');
-                        console.log(result);
-
-                    },
-                    error: function (result) {
-                        Alert(result);
-                    }
-                });
-            });
-
-        //evento do botão incluir anexo
-    $("#btAnexo").click(function (e) {
-
-        e.preventDefault();
-
-        var fileUpload = $("#FileUpload1").get(0);
-        var files = fileUpload.files;
-        var fileData = new FormData();
-        for (var i = 0; i < files.length; i++) {
-            fileData.append(files[i].name, files[i]);
-        }
-
-        var descricao = ($("#txtDescricao").val() == "" ? "" : $("#txtDescricao").val());
-        fileData.append('descricao', descricao);
-
+        if (cpf.length == 11) {
             $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("AdicionarAnexo")',
-                    data: fileData,
-                    dataType: 'JSON',
-                    contentType: false,
-                    processData: false,
-                    success: function (result) {
-                        var html = '';
-                        $.each(result, function (key, item) {
-                            html += '<div class="col-lg-3">' + item.Descricao + '</div>';
-                            html += '<div class="col-lg-4">' + item.NomeArquivo + '</div>';
-                            html += '<div class="col-lg-2"><a class="btnRemover" title="Remover Anexo" id=' + item.ColaboradorAnexoId + ' href="#" onclick="RemoverAnexo(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
-                        });
-                        $('#divAnexo').html('');
-                        $('#divAnexo').append(html);
-                        $("#FileUpload1").val('');
-                        $("#txtDescricao").val('');
-                        console.log(result);
-
-                    },
-                    error: function (result) {
-                        Alert(result);
-                    }
-                });
-            });
-
-            $("#ddlEstado").change(function () {
-                BuscarMunicipio();
-            });
-
-        $("#btFoto").click(function () {
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("OnSelecionaFoto_Click")'
-                    });
-            });
-
-    </script>
-    <script>
-
-         function RemoverContrato(it)
-            {
-             var id = it.id;
-               $.ajax({
-                   type: "POST",
-                   url: '@Url.Action("RemoverContrato")',
-                   data: { id: id },
-                   success: function (result) {
-                       var html = '';
-                       $.each(result, function (key, item) {
-                           html += '<div class="col-lg-2 text-uppercase">' + item.Cargo + '</div>';
-                           html += '<div class="col-lg-2">' + item.Matricula + '</div>';
-                           html += '<div class="col-lg-2 text-uppercase">' + item.Descricao + '</div>';
-                           html += '<div class="col-lg-2">' + (item.ManuseioBagagem == true ? 'Sim' : 'Não') + '</div>';
-                           html += '<div class="col-lg-2">' + (item.OperadorPonteEmbarque == true ? 'Sim' : 'Não') + '</div>';
-                           html += '<div class="col-lg-1">' + (item.FlagCcam == true ? 'Sim' : 'Não') + '</div>';
-                           html += '<div class="col-lg-1"><a class="btnRemoverContrato" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
-
-                       });
-                       $('#divContrato').html('');
-                       $('#divContrato').append(html);
-                       console.log(result);
-                   },
-                   error: function (result) {
-
-                   }
-                 });
-        };
-
-         function RemoverCurso(it)
-            {
-             var id = it.id;
-               $.ajax({
-                   type: "POST",
-                   url: '@Url.Action("RemoverCurso")',
-                   data: { id: id },
-                   success: function (result) {
-                       var html = '';
-                       $.each(result, function (key, item) {
-                           html += '<div class="col-lg-1">' + item.CursoId + '</div>';
-                           html += '<div class="col-lg-7">' + item.Descricao + '</div>';
-                           html += '<div class="col-lg-4"><a class="btnRemoverCurso" title="Remover Curso" id=' + item.CursoId + ' onclick="RemoverCurso(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
-
-                       });
-                       $('#divCurso').html('');
-                       $('#divCurso').append(html);
-                       console.log(result);
-                   },
-                   error: function (result) {
-
-                   }
-                 });
-        };
-
-        function RemoverAnexo(it)
-            {
-             var id = it.id;
-               $.ajax({
-                   type: "POST",
-                   url: '@Url.Action("RemoverAnexo")',
-                   data: { id: id },
-                   success: function (result) {
-                       var html = '';
-                       $.each(result, function (key, item) {
-                           html += '<div class="col-lg-1">' + item.ColaboradorAnexoId + '</div>';
-                           html += '<div class="col-lg-3">' + item.Descricao + '</div>';
-                           html += '<div class="col-lg-4">' + item.NomeArquivo + '</div>';
-                           html += '<div class="col-lg-2"><a class="btnRemoverAnexo" title="Remover Anexo" id=' + item.ColaboradorAnexoId + ' onclick="RemoverAnexo(this)"><i class="material-icons danger">&#xE15C;</i></a></div>';
-
-                       });
-                       $('#divAnexo').html('');
-                       $('#divAnexo').append(html);
-                       console.log(result);
-                   },
-                   error: function (result) {
-
-                   }
-                 });
-        };
-    </script>
-
-    <script>
-        function BuscarMunicipio() {
-            var id = $("#ddlEstado").val();
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("BuscarMunicipios")',
-                data: { id: id },
+                type: "GET",
+                url: '@Url.Action("ConsultarCPF")',
+                data: {
+                    cpf: cpf,
+                },
                 success: function (result) {
-                    var html = '<option value="">SELECIONE</option>';
-                    $.each(result, function (key, item) {
-                        html += '<option value=' + this.MunicipioId + '>' + this.Nome + '</option>';
-                    });
+                    if (result != null && result != "" && !isNaN(parseInt(result.response))) {
+                        window.location.href = decodeURI('@Url.Action("EditRevisao", "Colaborador", new { id = "{0}" })').replace("{0}", result.response);
+                    }
 
-                    $('#ddlMunicipio').html(html);
-                    console.log(result);
-
+                    if (result.response === "CPF inválido.") {
+                        toastr['error'](result.response, '', {closeButton:true, progressBar:true})
+                        $('#Cpf').val('');
+                    }
                 },
                 error: function (result) {
-                    Alert(result);
-                }
-            });
-        }
-
-    </script>
-    <script>
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#FotoUpload').attr('src', e.target.result);
-
+                    console.log("Error ao carregar dados do colaborador ao informar CPF: " + result);
                 }
 
-                reader.readAsDataURL(input.files[0]);
-            }
+            });
         }
-
-
-        $("#FotoColaborador").change(function () {
-            readURL(this);
-        });
-    </script>
-
-    <script>
-
-        $(document).ready(function () {
-            //Initialize tooltips
-            $('.nav-tabs > li a[title]').tooltip();
-
-            //Wizard
-            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-
-                var $target = $(e.target);
-
-                if ($target.parent().hasClass('disabled')) {
-                    return false;
-                }
-            });
-
-            $(".next-step").click(function (e) {
-
-                var $active = $('.wizard .nav-tabs li.active');
-                $active.next().removeClass('disabled');
-                nextTab($active);
-
-            });
-            $(".prev-step").click(function (e) {
-
-                var $active = $('.wizard .nav-tabs li.active');
-                prevTab($active);
-
-            });
-        });
-
-        function nextTab(elem) {
-            $(elem).next().find('a[data-toggle="tab"]').click();
-        }
-        function prevTab(elem) {
-            $(elem).prev().find('a[data-toggle="tab"]').click();
-        }
-
-        function BuscarEndereco() {
-            var id = $("#Cep").val();
-            $.get("http://apps.widenet.com.br/busca-cep/api/cep.json", { code: id }, function (result) {
-                //if (result.State != 1) {
-                //    alert(result.message || "Houve um erro desconhecido");
-                //    return;
-                //}
-                $("#Endereco").val(result.address);
-                $("#ddlBairro").val(result.district);
-                $("#ddlEstado option").filter(function () {
-                    return $(this).text() == result.state;
-                }).prop('selected', true);
-                BuscarMunicipio();
-                $("#ddlMunicipio option").filter(function () {
-                    return $(this).text() == result.city.toUpperCase();
-                }).prop('selected', true);
-                console.log(result);
-            });
-        };
-
-    </script>
-
+    });
+</script>
 }

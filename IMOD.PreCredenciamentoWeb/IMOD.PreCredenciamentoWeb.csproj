@@ -262,8 +262,8 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.dataTables.js" />
-    <Content Include="Scripts\jquery.maskedinput.js" />
-    <Content Include="Scripts\jquery.maskedinput.min.js" />
+    <Content Include="Scripts\jquery.mask.js" />
+    <Content Include="Scripts\jquery.mask.min.js" />
     <Content Include="Scripts\jquery.validate.globalize.js" />
     <Content Include="Scripts\jquery.validate.globalize.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -317,6 +317,7 @@
     <Content Include="Views\Colaborador\_EditScriptPartial.cshtml" />
     <Content Include="Views\Colaborador\DetailsPreCadastro.cshtml" />
     <Content Include="Views\Colaborador\_DetailsPartial.cshtml" />
+    <Content Include="Views\Colaborador\_ScriptsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -96,83 +96,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 return HttpNotFound();
 
             //obtém vinculos do colaborador
-            ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
-
-            CarregaFotoColaborador(colaboradorMapeado);
-
-            // carrega os contratos da empresa
-            if (SessionUsuario.EmpresaLogada.Contratos != null)
-            {
-                ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
-            }
-
-            //Popula contratos selecionados
-            ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
-            var listColaboradorEmpresa = objColaboradorEmpresaService.Listar(colaboradorEditado.ColaboradorId);
-
-            var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(listColaboradorEmpresa);
-            ViewBag.ContratosSelecionados = listaVinculosColaborador;
-            colaboradorMapeado.NomeAnexoVinculo = listaVinculosColaborador[0].NomeAnexo;
-            Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosColaborador);
-
-            //Propula combo de estado
-            PopularEstadosDropDownList();
-
-            //Preenche combo municipio de acordo com o estado
-            ViewBag.Municipio = new List<Municipio>();
-            var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, colaboradorMapeado.EstadoId).OrderBy(m => m.Nome);
-            if (lstMunicipio != null) { ViewBag.Municipio = lstMunicipio; };
-
-            PopularDadosDropDownList();
-
-            //Preenche combo com todos os cursos
-            var listCursos = objCursosService.Listar().OrderBy(c => c.Descricao);
-            if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; };
-
-            //Popula cursos selecionados do colaborador
-            var listaCursosColaborador = objColaboradorCursosService.Listar(colaboradorEditado.ColaboradorId);
-
-            var cursosColaborador = Mapper.Map<List<ColaboradorCurso>>(listaCursosColaborador);
-            var cursosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
-            for (int i = 0; i < cursosSelecionados.Count; i++)
-            {
-                cursosSelecionados[i].Validade = String.Format("{0:dd/MM/yyyy}", cursosColaborador[i].Validade.ToString());
-            }
-
-            if (cursosSelecionados != null && cursosSelecionados.Any())
-            {
-                colaboradorMapeado.NomeAnexoCurso = cursosColaborador[0].NomeArquivo;
-                ViewBag.CursosSelecionados = cursosSelecionados;
-                Session.Add(SESS_CURSOS_SELECIONADOS, cursosSelecionados);
-            }
-            else
-            {
-                ViewBag.CursosSelecionados = new List<Curso>();
-            }
-
-            //Popula anexos do colaborador
-            var anexosSelecionados = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId);
-
-            if (anexosSelecionados != null)
-            {
-                ViewBag.AnexosSelecionados = anexosSelecionados;
-                Session.Add(SESS_ANEXOS_SELECIONADOS, anexosSelecionados);
-            }
-
-            //Popula observações para aprovação do colaborador
-            var observacoesAuxSelecionadas = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId);
-            var observacoesSelecionadas = observacoesAuxSelecionadas.Where(co => co.ColaboradorObservacaoRespostaID == null).OrderBy(co => co.DataRevisao).ToList();
-            var observacoesRespostaSelecionadas = observacoesAuxSelecionadas.Where(cor => cor.ColaboradorObservacaoRespostaID != null).OrderBy(cor => cor.DataRevisao).ToList();
-
-            if (observacoesSelecionadas != null)
-            {
-                ViewBag.ObservacoesSelecionadas = observacoesSelecionadas;
-            }
-
-            if (observacoesRespostaSelecionadas != null)
-            {
-                ViewBag.ObservacoesRespostaSelecionadas = observacoesRespostaSelecionadas;
-            }
+            ColaboradorViewModel colaboradorMapeado = ExibirInfoColaboradorGET(colaboradorEditado);
 
             return View(colaboradorMapeado);
         }
@@ -190,83 +114,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 return HttpNotFound();
 
             //obtém vinculos do colaborador
-            ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
-
-            CarregaFotoColaborador(colaboradorMapeado);
-
-            // carrega os contratos da empresa
-            if (SessionUsuario.EmpresaLogada.Contratos != null)
-            {
-                ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
-            }
-
-            //Popula contratos selecionados
-            ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
-            var listColaboradorEmpresa = objColaboradorEmpresaWebService.Listar(colaboradorEditado.ColaboradorId);
-
-            var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(listColaboradorEmpresa);
-            ViewBag.ContratosSelecionados = listaVinculosColaborador;
-            colaboradorMapeado.NomeAnexoVinculo = listaVinculosColaborador[0].NomeAnexo;
-            Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosColaborador);
-
-            //Propula combo de estado
-            PopularEstadosDropDownList();
-
-            //Preenche combo municipio de acordo com o estado
-            ViewBag.Municipio = new List<Municipio>();
-            var lstMunicipio = objAuxiliaresService.MunicipioService.Listar(null, null, colaboradorMapeado.EstadoId).OrderBy(m => m.Nome);
-            if (lstMunicipio != null) { ViewBag.Municipio = lstMunicipio; };
-
-            PopularDadosDropDownList();
-
-            //Preenche combo com todos os cursos
-            var listCursos = objCursosService.Listar().OrderBy(c => c.Descricao);
-            if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; };
-
-            //Popula cursos selecionados do colaborador
-            var listaCursosColaborador = objColaboradorCursosWebService.Listar(colaboradorEditado.ColaboradorId);
-
-            var cursosColaborador = Mapper.Map<List<ColaboradorCurso>>(listaCursosColaborador);
-            var cursosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
-            for (int i = 0; i < cursosSelecionados.Count; i++)
-            {
-                cursosSelecionados[i].Validade = String.Format("{0:dd/MM/yyyy}", cursosColaborador[i].Validade.ToString());
-            }
-
-            if (cursosSelecionados != null && cursosSelecionados.Any())
-            {
-                colaboradorMapeado.NomeAnexoCurso = cursosColaborador[0].NomeArquivo;
-                ViewBag.CursosSelecionados = cursosSelecionados;
-                Session.Add(SESS_CURSOS_SELECIONADOS, cursosSelecionados);
-            }
-            else
-            {
-                ViewBag.CursosSelecionados = new List<Curso>();
-            }
-
-            //Popula anexos do colaborador
-            var anexosSelecionados = objColaboradorAnexoWebService.Listar(colaboradorMapeado.ColaboradorId);
-
-            if (anexosSelecionados != null)
-            {
-                ViewBag.AnexosSelecionados = anexosSelecionados;
-                Session.Add(SESS_ANEXOS_SELECIONADOS, anexosSelecionados);
-            }
-
-            //Popula observações para aprovação do colaborador
-            var observacoesAuxSelecionadas = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId);
-            var observacoesSelecionadas = observacoesAuxSelecionadas.Where(co => co.ColaboradorObservacaoRespostaID == null).OrderBy(co => co.DataRevisao).ToList();
-            var observacoesRespostaSelecionadas = observacoesAuxSelecionadas.Where(cor => cor.ColaboradorObservacaoRespostaID != null).OrderBy(cor => cor.DataRevisao).ToList();
-
-            if (observacoesSelecionadas != null)
-            {
-                ViewBag.ObservacoesSelecionadas = observacoesSelecionadas;
-            }
-
-            if (observacoesRespostaSelecionadas != null)
-            {
-                ViewBag.ObservacoesRespostaSelecionadas = observacoesRespostaSelecionadas;
-            }
+            ColaboradorViewModel colaboradorMapeado = ExibirInfoColaboradorGET(colaboradorEditado);
 
             return View(colaboradorMapeado);
         }
@@ -297,11 +145,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             if (Session[SESS_CURSOS_SELECIONADOS] != null)
             {
-                ViewBag.CursosSelecionados = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
+                ViewBag.CursosSelecionados = (List<ColaboradorCurso>)Session[SESS_CURSOS_SELECIONADOS];
             }
             else
             {
-                ViewBag.CursosSelecionados = new List<Curso>();
+                ViewBag.CursosSelecionados = new List<ColaboradorCurso>();
             }
 
             if (Session[SESS_ANEXOS_SELECIONADOS] != null)
@@ -387,7 +235,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                             if (item == null)
                             {
                                 vinculo.ColaboradorId = colaboradorMapeado.ColaboradorId;
-                                vinculo.Motorista = colaboradorMapeado.Motorista;
                                 vinculo.Ativo = false;
                                 vinculo.EmpresaId = SessionUsuario.EmpresaLogada.EmpresaId;
                                 var colaboradorEmpresa = Mapper.Map<ColaboradorEmpresa>(vinculo);
@@ -418,16 +265,14 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     //inclui os cursos selecionados
                     if (Session[SESS_CURSOS_SELECIONADOS] != null)
                     {
-                        foreach (var curso in (List<Curso>)Session[SESS_CURSOS_SELECIONADOS])
+                        foreach (var curso in (List<ColaboradorCurso>)Session[SESS_CURSOS_SELECIONADOS])
                         {
                             var colaboradorCurso = objColaboradorCursosWebService.Listar(colaboradorMapeado.ColaboradorId, curso.CursoId, null, null, null, null, null).FirstOrDefault();
                             if (colaboradorCurso == null)
                             {
                                 colaboradorCurso = new ColaboradorCurso();
-                                colaboradorCurso.ColaboradorId = colaboradorMapeado.ColaboradorId;
-                                colaboradorCurso.CursoId = curso.CursoId;
-                                colaboradorCurso.Descricao = curso.Descricao;
-                                colaboradorCurso.Validade = Convert.ToDateTime(curso.Validade);
+                                curso.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                                colaboradorCurso = Mapper.Map<ColaboradorCurso>(curso);
                                 objColaboradorCursosWebService.Criar(colaboradorCurso);
 
                                 // Atualiza codigo do colaborador de acordo com o novo registro criado de forma a criar uma associacao entre eles para os registros recem criados.
@@ -459,11 +304,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                             if (colaboradorAnexo == null)
                             {
                                 colaboradorAnexo = new ColaboradorAnexo();
-                                colaboradorAnexo.ColaboradorId = colaboradorMapeado.ColaboradorId;
-                                colaboradorAnexo.ColaboradorAnexoId = anexo.ColaboradorAnexoId;
-                                colaboradorAnexo.Descricao = anexo.Descricao;
-                                colaboradorAnexo.NomeArquivo = anexo.NomeArquivo;
-                                colaboradorAnexo.Arquivo = anexo.Arquivo;
+                                anexo.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                                colaboradorAnexo = Mapper.Map<ColaboradorAnexo>(anexo);
                                 objColaboradorAnexoWebService.Criar(colaboradorAnexo);
 
                                 // Atualiza codigo do colaborador de acordo com o novo registro criado de forma a criar uma associacao entre eles para os registros recem criados.
@@ -482,7 +324,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     Session.Remove(SESS_ANEXOS_REMOVIDOS);
                     Session.Remove(SESS_FOTO_COLABORADOR);
 
-                    CriarAnexo(model, colaboradorMapeado.ColaboradorId);
                     CriarColaboradorAceite(model, colaboradorMapeado.ColaboradorId);
 
                     return RedirectToAction("Index", "Colaborador");
@@ -514,11 +355,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                 if (Session[SESS_CURSOS_SELECIONADOS] != null)
                 {
-                    ViewBag.CursosSelecionados = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
+                    ViewBag.CursosSelecionados = (List<ColaboradorCurso>)Session[SESS_CURSOS_SELECIONADOS];
                 }
                 else
                 {
-                    ViewBag.CursosSelecionados = new List<Curso>();
+                    ViewBag.CursosSelecionados = new List<ColaboradorCurso>();
                 }
 
                 if (Session[SESS_ANEXOS_SELECIONADOS] != null)
@@ -564,106 +405,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 return HttpNotFound();
 
             //obtém vinculos do colaborador
-            ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
-
-            CarregaFotoColaborador(colaboradorMapeado);
-
-            // carrega os contratos da empresa
-            if (SessionUsuario.EmpresaLogada.Contratos != null)
-            {
-                ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
-            }
-
-            //Popula combo de estado
-            PopularEstadosDropDownList();
-
-            PopularMunicipiosDropDownList(colaboradorMapeado.EstadoId.ToString());
-
-            PopularDadosDropDownList();
-
-            //Preenche combo com todos os cursos
-            var listCursos = objCursosService.Listar().OrderBy(c => c.Descricao);
-            if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; };
-
-            var objColaboradorEmpresa = objColaboradorEmpresaService.Listar(colaboradorMapeado.ColaboradorId).ToList();
-                
-            var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(objColaboradorEmpresa);
-            ViewBag.ContratosSelecionados = listaVinculosColaborador;
-            Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosColaborador);
-
-            //Popula cursos selecionados do colaborador
-            var cursosColaborador = objColaboradorCursosService.Listar(colaboradorMapeado.ColaboradorId).ToList();
-
-            var cursosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
-            for (int i = 0; i < cursosSelecionados.Count; i++)
-            {
-                cursosSelecionados[i].Validade = String.Format("{0:dd/MM/yyyy}", cursosColaborador[i].Validade.ToString());
-            }
-            if (cursosSelecionados != null && cursosSelecionados.Any())
-            {
-                ViewBag.CursosSelecionados = cursosSelecionados;
-                Session.Add(SESS_CURSOS_SELECIONADOS, cursosSelecionados);
-            }
-
-            //Popula anexos do colaborador
-            var anexosSelecionados = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId).ToList();
-
-            if (anexosSelecionados != null)
-            {
-                ViewBag.AnexosSelecionados = anexosSelecionados;
-                Session.Add(SESS_ANEXOS_SELECIONADOS, anexosSelecionados);
-            }
-
-            //Popula observações para aprovação do colaborador
-            var observacoesAuxSelecionadas = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId);
-            var observacoesSelecionadas = observacoesAuxSelecionadas.Where(co => co.ColaboradorObservacaoRespostaID == null).OrderBy(co => co.DataRevisao).ToList();
-            var observacoesRespostaSelecionadas = observacoesAuxSelecionadas.Where(cor => cor.ColaboradorObservacaoRespostaID != null).OrderBy(cor => cor.DataRevisao).ToList();
-
-            if (observacoesSelecionadas != null)
-            {
-                ViewBag.ObservacoesSelecionadas = observacoesSelecionadas;
-            }
-
-            if (observacoesRespostaSelecionadas != null)
-            {
-                ViewBag.ObservacoesRespostaSelecionadas = observacoesRespostaSelecionadas;
-            }
-
-            if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
-            {
-                ViewBag.ContratosSelecionados = (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS];
-            }
-            else
-            {
-                ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
-            }
-
-            if (Session[SESS_CURSOS_SELECIONADOS] != null)
-            {
-                ViewBag.CursosSelecionados = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
-            }
-            else
-            {
-                ViewBag.CursosSelecionados = new List<Curso>();
-            }
-
-            if (Session[SESS_ANEXOS_SELECIONADOS] != null)
-            {
-                ViewBag.AnexosSelecionados = (List<ColaboradorAnexo>)Session[SESS_ANEXOS_SELECIONADOS];
-            }
-            else
-            {
-                ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
-            }
-
-            if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
-            {
-                ViewBag.Municipio = Session[SESS_MUNICIPIO_SELECIONADO];
-            }
-            else
-            {
-                ViewBag.Municipio = new List<Municipio>();
-            }
+            ColaboradorViewModel colaboradorMapeado = ExibirInfoColaboradorGET(colaboradorEditado);
 
             return View(colaboradorMapeado);
         }
@@ -678,104 +420,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             if (colaboradorEditado == null)
                 return HttpNotFound();
 
-            //obtém vinculos do colaborador
-            ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
-
-            CarregaFotoColaborador(colaboradorMapeado);
-
-            // carrega os contratos da empresa
-            if (SessionUsuario.EmpresaLogada.Contratos != null)
-            {
-                ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
-            }
-
-            //Popula combo de estado
-            PopularEstadosDropDownList();
-
-            PopularMunicipiosDropDownList(colaboradorMapeado.EstadoId.ToString());
-
-            PopularDadosDropDownList();
-
-            //Preenche combo com todos os cursos
-            var listCursos = objCursosService.Listar().OrderBy(c => c.Descricao);
-            if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; };
-
-            var objColaboradorEmpresa = objColaboradorEmpresaWebService.Listar(colaboradorEditado.ColaboradorId);
-            var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(objColaboradorEmpresa);
-            ViewBag.ContratosSelecionados = listaVinculosColaborador;
-            Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosColaborador);
-
-            //Popula cursos selecionados do colaborador
-            var cursosColaborador = objColaboradorCursosWebService.Listar(colaboradorEditado.ColaboradorId).ToList();
-            var cursosSelecionados = listCursos.Where(c => (cursosColaborador.Where(p => p.CursoId == c.CursoId).Count() > 0)).ToList();
-            for (int i = 0; i < cursosSelecionados.Count; i++)
-            {
-                cursosSelecionados[i].Validade = String.Format("{0:dd/MM/yyyy}", cursosColaborador[i].Validade.ToString());
-            }
-            if (cursosSelecionados != null && cursosSelecionados.Any())
-            {
-                ViewBag.CursosSelecionados = cursosSelecionados;
-                Session.Add(SESS_CURSOS_SELECIONADOS, cursosSelecionados);
-            }
-
-            //Popula anexos do colaborador
-            var anexosSelecionados = objColaboradorAnexoWebService.Listar(colaboradorMapeado.ColaboradorId);
-            if (anexosSelecionados != null)
-            {
-                ViewBag.AnexosSelecionados = anexosSelecionados;
-                Session.Add(SESS_ANEXOS_SELECIONADOS, anexosSelecionados);
-            }
-
-            //Popula observações para aprovação do colaborador
-            var observacoesAuxSelecionadas = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId);
-            var observacoesSelecionadas = observacoesAuxSelecionadas.Where(co => co.ColaboradorObservacaoRespostaID == null).OrderBy(co => co.DataRevisao).ToList();
-            var observacoesRespostaSelecionadas = observacoesAuxSelecionadas.Where(cor => cor.ColaboradorObservacaoRespostaID != null).OrderBy(cor => cor.DataRevisao).ToList();
-
-            if (observacoesSelecionadas != null)
-            {
-                ViewBag.ObservacoesSelecionadas = observacoesSelecionadas;
-            }
-
-            if (observacoesRespostaSelecionadas != null)
-            {
-                ViewBag.ObservacoesRespostaSelecionadas = observacoesRespostaSelecionadas;
-            }
-
-            if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
-            {
-                ViewBag.ContratosSelecionados = (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS];
-            }
-            else
-            {
-                ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
-            }
-
-            if (Session[SESS_CURSOS_SELECIONADOS] != null)
-            {
-                ViewBag.CursosSelecionados = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
-            }
-            else
-            {
-                ViewBag.CursosSelecionados = new List<Curso>();
-            }
-
-            if (Session[SESS_ANEXOS_SELECIONADOS] != null)
-            {
-                ViewBag.AnexosSelecionados = (List<ColaboradorAnexo>)Session[SESS_ANEXOS_SELECIONADOS];
-            }
-            else
-            {
-                ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
-            }
-
-            if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
-            {
-                ViewBag.Municipio = Session[SESS_MUNICIPIO_SELECIONADO];
-            }
-            else
-            {
-                ViewBag.Municipio = new List<Municipio>();
-            }
+            ColaboradorViewModel colaboradorMapeado = ExibirInfoColaboradorGET(colaboradorEditado);
 
             return View(colaboradorMapeado);
         }
@@ -870,20 +515,14 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     //inclui os cursos selecionados
                     if (Session[SESS_CURSOS_SELECIONADOS] != null)
                     {
-                        foreach (var curso in (List<Curso>)Session[SESS_CURSOS_SELECIONADOS])
+                        foreach (var curso in (List<ColaboradorCurso>)Session[SESS_CURSOS_SELECIONADOS])
                         {
                             var colaboradorCurso = objColaboradorCursosWebService.Listar(colaboradorMapeado.ColaboradorId, curso.CursoId, null, null, null, null, null).FirstOrDefault();
-                            if (colaboradorCurso != null)
-                            {
-                                objColaboradorCursosWebService.Alterar(colaboradorCurso);
-                            }
-                            else
+                            if (colaboradorCurso == null)                            
                             {
                                 colaboradorCurso = new ColaboradorCurso();
-                                colaboradorCurso.ColaboradorId = colaboradorMapeado.ColaboradorId;
-                                colaboradorCurso.CursoId = curso.CursoId;
-                                colaboradorCurso.Descricao = curso.Descricao;
-                                colaboradorCurso.Validade = Convert.ToDateTime(curso.Validade);
+                                curso.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                                colaboradorCurso = Mapper.Map<ColaboradorCurso>(curso);
                                 objColaboradorCursosWebService.Criar(colaboradorCurso);
 
                                 colaboradorCurso.ColaboradorCursoId = colaboradorCurso.ColaboradorCursoWebId;
@@ -914,13 +553,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                                 anexo.ColaboradorAnexoId = -1;
 
                             var colaboradorAnexo = objColaboradorAnexoWebService.Listar(colaboradorMapeado.ColaboradorId, anexo.ColaboradorAnexoId, anexo.NomeArquivo, null, null, null, null).FirstOrDefault();
-                            if (colaboradorAnexo == null)                            
+                            if (colaboradorAnexo == null)
                             {
                                 colaboradorAnexo = new ColaboradorAnexo();
                                 colaboradorAnexo.ColaboradorId = colaboradorMapeado.ColaboradorId;
-                                colaboradorAnexo.Descricao = anexo.Descricao;
-                                colaboradorAnexo.NomeArquivo = anexo.NomeArquivo;
-                                colaboradorAnexo.Arquivo = anexo.Arquivo;
+                                colaboradorAnexo = Mapper.Map<ColaboradorAnexo>(anexo);
                                 objColaboradorAnexoWebService.Criar(colaboradorAnexo);
 
                                 colaboradorAnexo.ColaboradorAnexoId = colaboradorAnexo.ColaboradorAnexoWebId;
@@ -928,9 +565,6 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                             }
                         }
                     }
-
-                    //Insere anexos do vínculo e dos cursos
-                    CriarAnexo(model, colaboradorMapeado.ColaboradorId);
 
                     //Remove itens da sessão
                     Session.Remove(SESS_CONTRATOS_SELECIONADOS);
@@ -943,6 +577,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     return RedirectToAction("Index");
                 }
                 if (SessionUsuario.EmpresaLogada.Contratos != null) { ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos; }
+
+                PopularObservacoesColaborador(model);
 
                 //carrega os cursos
                 var listCursos = objCursosService.Listar().ToList();
@@ -973,11 +609,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                 if (Session[SESS_CURSOS_SELECIONADOS] != null)
                 {
-                    ViewBag.CursosSelecionados = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
+                    ViewBag.CursosSelecionados = (List<ColaboradorCurso>)Session[SESS_CURSOS_SELECIONADOS];
                 }
                 else
                 {
-                    ViewBag.CursosSelecionados = new List<Curso>();
+                    ViewBag.CursosSelecionados = new List<ColaboradorCurso>();
                 }
 
                 if (Session[SESS_ANEXOS_SELECIONADOS] != null)
@@ -1052,16 +688,16 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                     // Inclusao de colaboradorweb 
                     var colaboradorWebListar = objServiceWeb.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, (int)StatusCadastro.APROVADO).FirstOrDefault();
-                    if(colaboradorWebListar == null)
+                    if (colaboradorWebListar == null)
                     {
                         objServiceWeb.Criar(colaboradorMapeado);
                     }
                     else
                     {
-                        colaboradorMapeado.ColaboradorWebId = colaboradorWebListar.ColaboradorWebId;;
+                        colaboradorMapeado.ColaboradorWebId = colaboradorWebListar.ColaboradorWebId; ;
                         objServiceWeb.Alterar(colaboradorMapeado);
-                    } 
-                    
+                    }
+
                     colaboradorMapeado.ColaboradorId = id.Value;
 
                     // excluir os contratos removidos da lista
@@ -1093,14 +729,14 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                                 var colaboradorEmpresa = Mapper.Map<ColaboradorEmpresa>(vinculo);
                                 objColaboradorEmpresaService.Criar(colaboradorEmpresa);
                                 objColaboradorEmpresaService.CriarNumeroMatricula(colaboradorEmpresa);
-                                
+
                                 // Inserindo registro de colaboradorempresa em coloboradorempresaweb
                                 objColaboradorEmpresaWebService.Criar(colaboradorEmpresa);
                             }
                             else
                             {
                                 var ItemWeb = objColaboradorEmpresaWebService.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, null, vinculo.EmpresaContratoId).FirstOrDefault();
-                                if(ItemWeb == null)
+                                if (ItemWeb == null)
                                 {
                                     // Inserindo registro de colaboradorempresa em coloboradorempresaweb quando já exista um contrato que ainda não foi inserido em coloboradorempresaweb
                                     objColaboradorEmpresaWebService.Criar(item);
@@ -1126,35 +762,26 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     //inclui os cursos selecionados
                     if (Session[SESS_CURSOS_SELECIONADOS] != null)
                     {
-                        foreach (var curso in (List<Curso>)Session[SESS_CURSOS_SELECIONADOS])
+                        foreach (var curso in (List<ColaboradorCurso>)Session[SESS_CURSOS_SELECIONADOS])
                         {
                             var colaboradorCurso = objColaboradorCursosService.Listar(colaboradorMapeado.ColaboradorId, curso.CursoId, null, null, null, null, null).FirstOrDefault();
                             if (colaboradorCurso != null)
                             {
-                                colaboradorCurso.Validade = Convert.ToDateTime(curso.Validade);
-                                objColaboradorCursosService.Alterar(colaboradorCurso);
-                                var ColaboradorCursoWeb = objColaboradorCursosWebService.Listar(colaboradorMapeado.ColaboradorId, curso.CursoId, null, null, null, null, null).FirstOrDefault();
-                                if(ColaboradorCursoWeb == null)
-                                {
-                                    objColaboradorCursosWebService.Criar(colaboradorCurso);
-                                }
-                                else
-                                {
-                                    objColaboradorCursosWebService.Alterar(colaboradorCurso);
-                                }
-                            }
-                            else
-                            {
-                                colaboradorCurso = objColaboradorCursosWebService.Listar(colaboradorMapeado.ColaboradorId, curso.CursoId, null, null, null, null, null).FirstOrDefault();
                                 colaboradorCurso = new ColaboradorCurso();
-                                colaboradorCurso.ColaboradorId = colaboradorMapeado.ColaboradorId;
-                                colaboradorCurso.CursoId = curso.CursoId;
-                                colaboradorCurso.Descricao = curso.Descricao;
-                                colaboradorCurso.Validade = Convert.ToDateTime(curso.Validade);
+                                curso.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                                colaboradorCurso = Mapper.Map<ColaboradorCurso>(curso);
                                 objColaboradorCursosService.Criar(colaboradorCurso);
 
                                 // Inserindo registro de colaboradorcurso em coloboradorcursoweb
                                 objColaboradorCursosWebService.Criar(colaboradorCurso);
+                            } 
+                            else
+                            {
+                                var colaboradorCursoWeb = objColaboradorCursosWebService.Listar(colaboradorMapeado.ColaboradorId, curso.CursoId, null, null, null, null, null).FirstOrDefault();
+                                if(colaboradorCursoWeb == null)
+                                {
+                                    objColaboradorCursosWebService.Criar(colaboradorCurso);
+                                }
                             }
                         }
                     }
@@ -1185,11 +812,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                             if (colaboradorAnexo == null)
                             {
                                 colaboradorAnexo = new ColaboradorAnexo();
-                                colaboradorAnexo.ColaboradorId = colaboradorMapeado.ColaboradorId;
-                                colaboradorAnexo.ColaboradorAnexoId = anexo.ColaboradorAnexoId;
-                                colaboradorAnexo.Descricao = anexo.Descricao;
-                                colaboradorAnexo.NomeArquivo = anexo.NomeArquivo;
-                                colaboradorAnexo.Arquivo = anexo.Arquivo;
+                                anexo.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                                colaboradorAnexo = Mapper.Map<ColaboradorAnexo>(anexo);
                                 objColaboradorAnexoService.Criar(colaboradorAnexo);
 
                                 // Inserindo registro de colaboradoranexo em coloboradoranexoweb
@@ -1198,17 +822,13 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                             else
                             {
                                 var colaboradorAnexoWeb = objColaboradorAnexoWebService.Listar(colaboradorMapeado.ColaboradorId, anexo.ColaboradorAnexoId, anexo.NomeArquivo).FirstOrDefault();
-                                if(colaboradorAnexoWeb == null)
+                                if (colaboradorAnexoWeb == null)
                                 {
                                     objColaboradorAnexoWebService.Criar(colaboradorAnexo);
                                 }
-                                    
                             }
                         }
                     }
-
-                    //Insere anexos do vínculo e dos cursos
-                    CriarAnexo(model, colaboradorMapeado.ColaboradorId);
 
                     //Remove itens da sessão
                     Session.Remove(SESS_CONTRATOS_SELECIONADOS);
@@ -1221,6 +841,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     return RedirectToAction("Index");
                 }
                 if (SessionUsuario.EmpresaLogada.Contratos != null) { ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos; }
+
+                PopularObservacoesColaborador(model);
 
                 //carrega os cursos
                 var listCursos = objCursosService.Listar().ToList();
@@ -1251,11 +873,11 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                 if (Session[SESS_CURSOS_SELECIONADOS] != null)
                 {
-                    ViewBag.CursosSelecionados = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
+                    ViewBag.CursosSelecionados = (List<ColaboradorCurso>)Session[SESS_CURSOS_SELECIONADOS];
                 }
                 else
                 {
-                    ViewBag.CursosSelecionados = new List<Curso>();
+                    ViewBag.CursosSelecionados = new List<ColaboradorCurso>();
                 }
 
                 if (Session[SESS_ANEXOS_SELECIONADOS] != null)
@@ -1297,7 +919,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         public ActionResult Delete(int id, Colaborador model)
         {
             if (SessionUsuario.EmpresaLogada == null) { return RedirectToAction("../Login"); }
-            
+
             if (id.Equals(null))
                 return HttpNotFound();
 
@@ -1341,28 +963,46 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             }
         }
 
+        [HttpPost]
         [Authorize]
-        public JsonResult AdicionarContrato(int id, Boolean bagagem, Boolean operadorPonteEmbarque, Boolean flagCcam, string validade, string cargo)
+        public JsonResult AdicionarContrato()
         {
-            List<ColaboradorEmpresaViewModel> vinculoList = new List<ColaboradorEmpresaViewModel>();
-            if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
-                vinculoList = (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS];
+            try
+            {               
+                List<ColaboradorEmpresaViewModel> vinculoList = new List<ColaboradorEmpresaViewModel>();
+                if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
+                    vinculoList = (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS];
 
-            var item = SessionUsuario.EmpresaLogada.Contratos.Where(c => c.EmpresaContratoId == id).FirstOrDefault();
-            ColaboradorEmpresaViewModel vinculo = new ColaboradorEmpresaViewModel();
-            vinculo.EmpresaContratoId = id;
-            vinculo.Descricao = item.Descricao;
-            vinculo.Cargo = cargo;
-            if (!string.IsNullOrEmpty(validade))
-                vinculo.Validade = DateTime.Parse(validade);
-            vinculo.ManuseioBagagem = bagagem;
-            vinculo.Matricula = " - ";
-            vinculo.OperadorPonteEmbarque = operadorPonteEmbarque;
-            vinculo.FlagCcam = flagCcam;
-            vinculoList.Add(vinculo);
-            Session.Add(SESS_CONTRATOS_SELECIONADOS, vinculoList);
+                foreach (var listContratoCurso in vinculoList)
+                {
+                    if (listContratoCurso.EmpresaContratoId == Convert.ToInt32(Request.Form["id"]))
+                        throw new Exception("contrato_ja_associado_ao_colaborador");
+                }
 
-            return Json(vinculoList, JsonRequestBehavior.AllowGet);
+                var item = SessionUsuario.EmpresaLogada.Contratos.Where(c => c.EmpresaContratoId == Convert.ToInt32(Request.Form["id"])).FirstOrDefault();
+                ColaboradorEmpresaViewModel vinculo = new ColaboradorEmpresaViewModel();
+                vinculo.EmpresaContratoId = Convert.ToInt32(Request.Form["id"]);
+                vinculo.Descricao = item.Descricao;
+                vinculo.Cargo = Request.Form["cargo"];
+                if (!string.IsNullOrEmpty(Request.Form["validade"]))
+                    vinculo.Validade = DateTime.Parse(Request.Form["validade"]);
+                vinculo.ManuseioBagagem = Convert.ToBoolean(Request.Form["bagagem"]);
+                vinculo.Motorista = Convert.ToBoolean(Request.Form["motorista"]);
+                vinculo.Matricula = " - ";
+                vinculo.OperadorPonteEmbarque = Convert.ToBoolean(Request.Form["ponteEmbarque"]);
+                vinculo.FlagCcam = Convert.ToBoolean(Request.Form["ccam"]);
+                HttpPostedFileBase file = Request.Files["anexo"];
+                vinculo.NomeAnexo = file.FileName;
+                vinculo.Anexo = ConverterArquivoBase64(file);
+                vinculoList.Add(vinculo);
+                Session.Add(SESS_CONTRATOS_SELECIONADOS, vinculoList);
+
+                return Json(vinculoList, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [Authorize]
@@ -1380,18 +1020,45 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
         [Authorize]
         public ActionResult AdicionarCurso()
         {
-            if (Session[SESS_CURSOS_SELECIONADOS] == null) Session[SESS_CURSOS_SELECIONADOS] = new List<Curso>();
-            var item = objCursosService.Listar(Convert.ToInt32(Request.Form["id"])).FirstOrDefault();
-            item.Validade = Request.Form["validade"];
-            ((List<Curso>)Session[SESS_CURSOS_SELECIONADOS]).Add(item);
-            return Json((List<Curso>)Session[SESS_CURSOS_SELECIONADOS], JsonRequestBehavior.AllowGet);
+            try
+            {
+                List<ColaboradorCurso> cursoList = new List<ColaboradorCurso>();
+                if (Session[SESS_CURSOS_SELECIONADOS] != null)
+                    cursoList = (List<ColaboradorCurso>)Session[SESS_CURSOS_SELECIONADOS];
+
+                foreach (var listColabCurso in cursoList)
+                {
+                    if (listColabCurso.CursoId == Convert.ToInt32(Request.Form["id"]))
+                        throw new Exception("curso_ja_associado_ao_colaborador");
+                }
+
+                var item = objCursosService.Listar(Convert.ToInt32(Request.Form["id"])).FirstOrDefault();
+                ColaboradorCurso colabCurso = new ColaboradorCurso();
+                colabCurso.Validade = Convert.ToDateTime(Request.Form["validade"]);
+                colabCurso.Descricao = item.Descricao;
+                colabCurso.CursoId = Convert.ToInt32(Request.Form["id"]);
+                HttpPostedFileBase file = Request.Files["anexoCurso"];
+                colabCurso.Arquivo = ConverterArquivoBase64(file);
+                colabCurso.NomeArquivo = file.FileName;
+                cursoList.Add(colabCurso);
+                Session.Add(SESS_CURSOS_SELECIONADOS, cursoList);
+
+                return Json(cursoList, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [Authorize]
         public JsonResult RemoverCurso(int id)
         {
-            var listCurso = (List<Curso>)Session[SESS_CURSOS_SELECIONADOS];
-            listCurso.Remove(new Curso(id));
+            var listCurso = (List<ColaboradorCurso>)Session[SESS_CURSOS_SELECIONADOS];
+            
+            int indice = listCurso.FindIndex(c => c.CursoId.Equals(id));
+            listCurso.RemoveAt(indice);
+
             Session[SESS_CURSOS_SELECIONADOS] = listCurso;
             if (Session[SESS_CURSOS_REMOVIDOS] == null) Session[SESS_CURSOS_REMOVIDOS] = new List<int>();
             ((List<int>)Session[SESS_CURSOS_REMOVIDOS]).Add(id);
@@ -1465,7 +1132,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             {
                 objColaboradorObservacaoService.Criar(item);
                 Observacoes = objColaboradorObservacaoService.Listar(ColaboradorId, item.ColaboradorObservacaoId).ToList();
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
             }
 
@@ -1491,7 +1159,8 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                     objColaboradorObservacaoService.Remover(observacaoExclusao);
                     status = id.ToString();
-                }catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     status = ex.ToString();
                 }
@@ -1519,11 +1188,20 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             {
                 objColaboradorObservacaoService.Criar(item);
                 repostasObservacao = objColaboradorObservacaoService.Listar(ColaboradorId, null, null, colaboradorObservacaoId).ToList();
-            } catch(Exception ex)
-            {                
+            }
+            catch (Exception ex)
+            {
             }
 
             return Json(repostasObservacao, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public ActionResult BuscarEstado(string uf)
+        {
+            var EstadoUF = objAuxiliaresService.EstadoService.BuscarEstadoPorUf(uf);
+
+            return Json(EstadoUF, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize]
@@ -1534,23 +1212,20 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             return Json(listMunicipio, JsonRequestBehavior.AllowGet);
         }
 
-
         [Authorize]
-        public JsonResult ConsultarCPF(string cpf)
+        public ActionResult ConsultarCPF(string cpf)
         {
-            Colaborador colaborador = new Colaborador();
-
-            if (!cpf.Equals("___.___.___-__"))
+            try
             {
-                colaborador = objService.ObterPorCpf(cpf);
-                return Json(colaborador, JsonRequestBehavior.AllowGet);
+                objService.ExisteCpf(cpf);
+                var colaborador = Mapper.Map<ColaboradorViewModel>(objService.ObterPorCpf(cpf));
+
+                return Json(new { response = colaborador?.ColaboradorId }, JsonRequestBehavior.AllowGet);
             }
-            else
+            catch (Exception ex)
             {
-                return null;
+                return Json(new { response = ex.Message }, JsonRequestBehavior.AllowGet); ;
             }
-
-
         }
 
 
@@ -1624,7 +1299,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             if (model.FotoColaborador != null) return;
 
             var listaFoto = objService.BuscarPelaChave(model.ColaboradorId);
-            if(!model.StatusCadastro.Equals((int)StatusCadastro.APROVADO))
+            if (!model.StatusCadastro.Equals((int)StatusCadastro.APROVADO))
                 listaFoto = objServiceWeb.BuscarPelaChave(model.ColaboradorId);
 
             if (listaFoto != null)
@@ -1726,6 +1401,22 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             ViewBag.Cursos = new MultiSelectList(cursos, "CursoId", "Descricao");
         }
 
+        private void PopularObservacoesColaborador(ColaboradorViewModel colaboradorMapeado)
+        {
+            var observacoesAuxSelecionadas = objColaboradorObservacaoService.Listar(colaboradorMapeado.ColaboradorId);
+            var observacoesSelecionadas = observacoesAuxSelecionadas.Where(co => co.ColaboradorObservacaoRespostaID == null).OrderBy(co => co.DataRevisao).ToList();
+            var observacoesRespostaSelecionadas = observacoesAuxSelecionadas.Where(cor => cor.ColaboradorObservacaoRespostaID != null).OrderBy(cor => cor.DataRevisao).ToList();
+
+            if (observacoesSelecionadas != null)
+            {
+                ViewBag.ObservacoesSelecionadas = observacoesSelecionadas;
+            }
+
+            if (observacoesRespostaSelecionadas != null)
+            {
+                ViewBag.ObservacoesRespostaSelecionadas = observacoesRespostaSelecionadas;
+            }
+        }
         #endregion
 
         private void CriarColaboradorAceite(ColaboradorViewModel colaborador, int colaboradorId = 0)
@@ -1905,6 +1596,129 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
         #endregion
 
+        public string ConverterArquivoBase64(HttpPostedFileBase file)
+        {
+            byte[] bufferArquivo;
+
+            var arquivoStream = file.InputStream;
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    arquivoStream.CopyTo(ms);
+                    bufferArquivo = ms.ToArray();
+                }
+
+                var arquivoBase64 = Convert.ToBase64String(bufferArquivo);
+
+            return arquivoBase64;
+        }
+
+        private ColaboradorViewModel ExibirInfoColaboradorGET(Colaborador colaboradorEditado)
+        {
+            //Popula vinculos do colaborador
+            ICollection<ColaboradorEmpresa> objColaboradorEmpresa = null;
+
+            //Popula cursos do colaborador
+            ICollection<ColaboradorCurso> cursosColaborador = null;
+
+            //Popula anexos do colaborador
+            ICollection<ColaboradorAnexo> anexosSelecionados = null;
+
+            ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
+
+            if (colaboradorEditado.StatusCadastro != (int)StatusCadastro.APROVADO && colaboradorEditado.StatusCadastro != (int)StatusCadastro.AGUARDANDO_REVISAO)
+            {
+                objColaboradorEmpresa = objColaboradorEmpresaWebService.Listar(colaboradorEditado.ColaboradorId);
+                cursosColaborador = objColaboradorCursosWebService.Listar(colaboradorEditado.ColaboradorId);
+                anexosSelecionados = objColaboradorAnexoWebService.Listar(colaboradorMapeado.ColaboradorId);
+
+                // A listagem de colaboradorxempresa sem ser web ja possui uma view realizando o join, portanto esta expressao so e aplicada na colaboradorxempresa web
+                objColaboradorEmpresa = objColaboradorEmpresa.Join(SessionUsuario.EmpresaLogada.Contratos, c => c.EmpresaContratoId, contrato => contrato.EmpresaContratoId, (empresaContrato, contrato) => { empresaContrato.Descricao = contrato.Descricao; return empresaContrato; }).ToList();
+            }
+            else
+            {
+                objColaboradorEmpresa = objColaboradorEmpresaService.Listar(colaboradorEditado.ColaboradorId);
+                cursosColaborador = objColaboradorCursosService.Listar(colaboradorEditado.ColaboradorId);
+                anexosSelecionados = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId);
+            }
+
+            CarregaFotoColaborador(colaboradorMapeado);
+
+            // carrega os contratos da empresa
+            if (SessionUsuario.EmpresaLogada.Contratos != null)
+            {
+                ViewBag.Contratos = SessionUsuario.EmpresaLogada.Contratos;
+            }
+
+            //Popula combo de estado
+            PopularEstadosDropDownList();
+
+            PopularMunicipiosDropDownList(colaboradorMapeado.EstadoId.ToString());
+
+            PopularDadosDropDownList();
+
+            //Preenche combo com todos os cursos
+            var listCursos = objCursosService.Listar().OrderBy(c => c.Descricao);
+            if (listCursos != null && listCursos.Any()) { ViewBag.Cursos = listCursos; };
+
+            var listaVinculosColaborador = Mapper.Map<List<ColaboradorEmpresaViewModel>>(objColaboradorEmpresa);
+            ViewBag.ContratosSelecionados = listaVinculosColaborador;
+            Session.Add(SESS_CONTRATOS_SELECIONADOS, listaVinculosColaborador);
+            
+            cursosColaborador = cursosColaborador.Join(listCursos, cc => cc.CursoId, c => c.CursoId, (colaboradorCurso, curso) => { colaboradorCurso.Descricao = curso.Descricao; return colaboradorCurso; }).ToList();
+
+            if (cursosColaborador != null && cursosColaborador.Any())
+            {
+                ViewBag.CursosSelecionados = cursosColaborador;
+                Session.Add(SESS_CURSOS_SELECIONADOS, cursosColaborador);
+            }
+            
+            if (anexosSelecionados != null)
+            {
+                ViewBag.AnexosSelecionados = anexosSelecionados;
+                Session.Add(SESS_ANEXOS_SELECIONADOS, anexosSelecionados);
+            }
+
+            //Popula observações para aprovação do colaborador
+            PopularObservacoesColaborador(colaboradorMapeado);
+
+            if (Session[SESS_CONTRATOS_SELECIONADOS] != null)
+            {
+                ViewBag.ContratosSelecionados = (List<ColaboradorEmpresaViewModel>)Session[SESS_CONTRATOS_SELECIONADOS];
+            }
+            else
+            {
+                ViewBag.ContratosSelecionados = new List<ColaboradorEmpresaViewModel>();
+            }
+
+            if (Session[SESS_CURSOS_SELECIONADOS] != null)
+            {
+                ViewBag.CursosSelecionados = (List<ColaboradorCurso>)Session[SESS_CURSOS_SELECIONADOS];
+            }
+            else
+            {
+                ViewBag.CursosSelecionados = new List<ColaboradorCurso>();
+            }
+
+            if (Session[SESS_ANEXOS_SELECIONADOS] != null)
+            {
+                ViewBag.AnexosSelecionados = (List<ColaboradorAnexo>)Session[SESS_ANEXOS_SELECIONADOS];
+            }
+            else
+            {
+                ViewBag.AnexosSelecionados = new List<ColaboradorAnexo>();
+            }
+
+            if (Session[SESS_MUNICIPIO_SELECIONADO] != null)
+            {
+                ViewBag.Municipio = Session[SESS_MUNICIPIO_SELECIONADO];
+            }
+            else
+            {
+                ViewBag.Municipio = new List<Municipio>();
+            }
+
+            return colaboradorMapeado;
+        }
         #endregion
 
         public void ShowListaErros()

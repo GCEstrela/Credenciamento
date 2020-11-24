@@ -1,5 +1,6 @@
 ﻿@model IMOD.PreCredenciamentoWeb.Models.ColaboradorViewModel
 @using IMOD.Domain.Enums;
+@using IMOD.PreCredenciamentoWeb.Util;
 
 <div class="table-wrapper">
 
@@ -360,15 +361,25 @@
                                     </div>
                                     @Html.LabelFor(model => model.PassaporteValidade, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-2">
-                                        @Html.EditorFor(model => model.PassaporteValidade, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                        @Html.ValidationMessageFor(model => model.PassaporteValidade, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                        <div id="datepicker">
+                                            <div class="input-group date">
+                                                @Html.EditorFor(model => model.PassaporteValidade, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                @Html.ValidationMessageFor(model => model.PassaporteValidade, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-2">
-                                        @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                        @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                        <div id="datepicker">
+                                            <div class="input-group date">
+                                                @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                            </div>
+                                        </div>
                                     </div>
                                     @Html.LabelFor(model => model.Nacionalidade, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-3">
@@ -395,15 +406,14 @@
                             </div>
                             <div class="tab-pane" role="tabpanel" id="cnh">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Motorista, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        <div class="checkbox">
-                                            @Html.EditorFor(model => model.Motorista)
-                                            @Html.ValidationMessageFor(model => model.Motorista, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                    <div class="col-lg-3" style="vertical-align:top; text-align: center;">
+                                        <div>
+                                            <img src="~/Images/motorista.png" height="25" />&nbsp;&nbsp;
+                                            @Html.Label("Motorista?", htmlAttributes: new { @class = "control-label" })
+                                            @Html.CheckBoxFor(model => model.Motorista)
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.CnhCategoria, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-2">
@@ -428,8 +438,13 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.CnhValidade, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-2">
-                                        @Html.EditorFor(model => model.CnhValidade, new { htmlAttributes = new { @class = "form-control text-uppercase " } })
-                                        @Html.ValidationMessageFor(model => model.CnhValidade, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                        <div id="datepicker">
+                                            <div class="input-group date">
+                                                @Html.EditorFor(model => model.CnhValidade, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                @Html.ValidationMessageFor(model => model.CnhValidade, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                            </div>
+                                        </div>
                                     </div>
                                     @Html.LabelFor(model => model.Cnhuf, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-2">
@@ -454,25 +469,32 @@
                             </div>
                             <div class="tab-pane" role="tabpanel" id="vinculo">
                                 <div class="form-group  col-lg-12">
-                                    <div class="col-lg-4" style="vertical-align:top">
+                                    <div class="col-lg-3" style="vertical-align:top">
                                         <div>
                                             <img src="~/Images/operadorBagagem.png" height="20" />&nbsp;&nbsp;
                                             @Html.Label("Manuseia bagagem?", htmlAttributes: new { @class = "control-label " })
                                             @Html.CheckBox("Manuseia Bagagem", htmlAttributes: new { @id = "chkBagagem" })
                                         </div>
                                     </div>
-                                    <div class="col-lg-4" style="vertical-align:top">
+                                    <div class="col-lg-3" style="vertical-align:top">
                                         <div>
                                             <img src="~/Images/operadorEmbarque.png" height="25" />&nbsp;&nbsp;
                                             @Html.Label("Operador Ponte Embarque?", htmlAttributes: new { @class = "control-label" })
                                             @Html.CheckBox(" Operador Ponte Embarque ", htmlAttributes: new { @id = "chkPonteEmbarque" })
                                         </div>
                                     </div>
-                                    <div class="col-lg-4" style="vertical-align:top">
+                                    <div class="col-lg-3" style="vertical-align:top">
                                         <div>
                                             <img src="~/Images/ccam.png" height="25" />&nbsp;&nbsp;
                                             @Html.Label("Operador CCAM?", htmlAttributes: new { @class = "control-label" })
                                             @Html.CheckBox(" Operador CCAM ", htmlAttributes: new { @id = "chkCcam" })
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3" style="vertical-align:top; text-align: center;">
+                                        <div>
+                                            <img src="~/Images/motorista.png" height="25" />&nbsp;&nbsp;
+                                            @Html.Label("Motorista?", htmlAttributes: new { @class = "control-label" })
+                                            @Html.CheckBox(" Motorista ", htmlAttributes: new { @id = "chkMotoristaVincul" })
                                         </div>
                                     </div>
                                 </div>
@@ -485,7 +507,13 @@
                                         </div>
                                         @Html.LabelFor(model => model.Vigencia, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-2">
-                                            @Html.EditorFor(model => model.Vigencia, new { htmlAttributes = new { @id = "txtVigencia", @class = "form-control text-uppercase " } })
+                                            <div id="datepicker">
+                                                <div class="input-group date">
+                                                    @Html.EditorFor(model => model.Vigencia, new { htmlAttributes = new { @id = "txtVigencia", @class = "form-control text-uppercase" } })
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    @Html.ValidationMessageFor(model => model.Vigencia, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                                </div>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -544,11 +572,20 @@
                                                 <div class="col-lg-2">@(item.ManuseioBagagem ? "Sim" : "Não") </div>
                                                 <div class="col-lg-2">@(item.OperadorPonteEmbarque ? "Sim" : "Não")</div>
                                                 <div class="col-lg-1">@(item.FlagCcam ? "Sim" : "Não") </div>
-                                                <div class="col-lg-1">
-                                                    <a title="Vincular Contrato" id=@item.EmpresaContratoId href="#" class="btnRemover" onclick="RemoverContrato(this)">
-                                                        <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
-                                                    </a>
-                                                </div>
+                                                @if (item.EmpresaId == SessionUsuario.EmpresaLogada.EmpresaId)
+                                                {
+                                                    <div class="col-lg-1">
+                                                        <a title="Remover Contrato" id=@item.EmpresaContratoId href="#" class="btnRemover" onclick="RemoverContrato(this)">
+                                                            <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
+                                                        </a>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-lg-1">
+                                                        <a class="btnRemover"><i class="fa fa-minus-circle" style="padding-left:11px;padding-top:5px;font-size: 25px; text-align:center"></i></a>
+                                                    </div>
+                                                }
                                             </div>
                                         }
                                     </div>
@@ -611,18 +648,18 @@
                                         <div class="col-lg-2"></div>
                                     </div>
                                     <div class="row" id="divCurso">
-                                        @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.Curso>)ViewBag.CursosSelecionados))
+                                        @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.ColaboradorCurso>)ViewBag.CursosSelecionados))
                                         {
-
+                                            <div class="col-lg-12">
                                             <div class="col-lg-1">@item.CursoId</div>
                                             <div class="col-lg-5">@item.Descricao</div>
-                                            <div class="col-lg-4">@item.Validade</div>
+                                            <div class="col-lg-4">@((item.Validade != null)?item.Validade.Value.ToString("dd/MM/yyyy"):"")</div>
                                             <div class="col-lg-2">
                                                 <a title="Remover Curso" id=@item.CursoId href="#" class="btnRemoverCurso" onclick="RemoverCurso(this)">
                                                     <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
                                                 </a>
                                             </div>
-
+                                            </div>
                                         }
                                     </div>
                                 </fieldset>
@@ -674,6 +711,7 @@
                                         <div class="row" id="divAnexo">
                                             @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.ColaboradorAnexo>)ViewBag.AnexosSelecionados))
                                             {
+                                                <div class="col-lg-12">
                                                 <div class="col-lg-1">@item.ColaboradorAnexoId</div>
                                                 <div class="col-lg-5">@item.Descricao</div>
                                                 <div class="col-lg-5">@item.NomeArquivo</div>
@@ -682,7 +720,7 @@
                                                         <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i>
                                                     </a>
                                                 </div>
-
+                                                </div>
                                             }
                                         </div>
                                     </fieldset>

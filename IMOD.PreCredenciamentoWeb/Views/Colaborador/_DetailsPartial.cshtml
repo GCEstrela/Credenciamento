@@ -326,7 +326,7 @@
                                     @Html.LabelFor(model => model.Motorista, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
                                         <div class="checkbox">
-                                            @Html.DisplayTextFor(model => model.Motorista)
+                                            @Html.DisplayFor(model => model.Motorista)
                                         </div>
                                     </div>
                                 </div>
@@ -441,14 +441,13 @@
 
                                     </div>
                                     <div class="row" id="divCurso">
-                                        @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.Curso>)ViewBag.CursosSelecionados))
+                                        @foreach (var item in ((IEnumerable<IMOD.Domain.Entities.ColaboradorCurso>)ViewBag.CursosSelecionados))
                                         {
-
-                                            <div class="col-lg-1">@item.CursoId</div>
-                                            <div class="col-lg-7">@item.Descricao</div>
-                                            <div class="col-lg-4">@item.Validade</div>
-
-                                            <br />
+                                            <div class="col-lg-12">
+                                                <div class="col-lg-1">@item.CursoId</div>
+                                                <div class="col-lg-7">@item.Descricao</div>
+                                                <div> class="col-lg-4">@((item.Validade != null)?item.Validade.Value.ToString("dd/MM/yyyy"):"")</div>
+                                            </div>
                                         }
                                     </div>
                                 </fieldset>

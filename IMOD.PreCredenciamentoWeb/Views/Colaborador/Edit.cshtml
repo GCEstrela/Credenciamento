@@ -10,10 +10,11 @@
 @using (Html.BeginForm("Edit", "Colaborador", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    @Html.Partial("_EditPartial", Model);
+    @Html.Partial("_EditPartial", Model)
 }
 
 @section Scripts {
-    @Html.Partial("_EditScriptPartial");
+    @Html.Partial("_EditScriptPartial")
+    @Html.Partial("_ScriptsPartial")
 }
 
