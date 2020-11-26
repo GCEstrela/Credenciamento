@@ -556,7 +556,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                             if (colaboradorAnexo == null)
                             {
                                 colaboradorAnexo = new ColaboradorAnexo();
-                                colaboradorAnexo.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                                anexo.ColaboradorId = colaboradorMapeado.ColaboradorId;
                                 colaboradorAnexo = Mapper.Map<ColaboradorAnexo>(anexo);
                                 objColaboradorAnexoWebService.Criar(colaboradorAnexo);
 
@@ -686,6 +686,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                     var colaborador = objService.Listar(colaboradorMapeado.ColaboradorId).FirstOrDefault();
                     colaborador.StatusCadastro = (int)StatusCadastro.AGUARDANDO_REVISAO;
+                    colaborador.Foto = (string)Session[SESS_FOTO_COLABORADOR];
                     objService.Alterar(colaborador);
 
                     // Inclusao de colaboradorweb 
@@ -725,17 +726,21 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                             var item = objColaboradorEmpresaService.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, null, vinculo.EmpresaContratoId).FirstOrDefault();
                             if (item == null)
                             {
-                                vinculo.ColaboradorId = colaboradorMapeado.ColaboradorId;
-                                vinculo.Ativo = true;
-                                vinculo.EmpresaId = SessionUsuario.EmpresaLogada.EmpresaId;
-                                var colaboradorEmpresa = Mapper.Map<ColaboradorEmpresa>(vinculo);
+                                var ItemWeb = objColaboradorEmpresaWebService.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, null, vinculo.EmpresaContratoId).FirstOrDefault();
+                                if (ItemWeb == null)
+                                {
+                                    vinculo.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                                    vinculo.Ativo = true;
+                                    vinculo.EmpresaId = SessionUsuario.EmpresaLogada.EmpresaId;
+                                    var colaboradorEmpresa = Mapper.Map<ColaboradorEmpresa>(vinculo);
 
-                                // Inserindo registro de colaboradorempresa em coloboradorempresaweb
-                                objColaboradorEmpresaWebService.Criar(colaboradorEmpresa);
-                                objColaboradorEmpresaWebService.CriarNumeroMatricula(colaboradorEmpresa);
-                                
-                                colaboradorEmpresa.ColaboradorEmpresaId = colaboradorEmpresa.ColaboradorEmpresaWebId;
-                                objColaboradorEmpresaWebService.Alterar(colaboradorEmpresa);
+                                    // Inserindo registro de colaboradorempresa em coloboradorempresaweb
+                                    objColaboradorEmpresaWebService.Criar(colaboradorEmpresa);
+                                    objColaboradorEmpresaWebService.CriarNumeroMatricula(colaboradorEmpresa);
+
+                                    colaboradorEmpresa.ColaboradorEmpresaId = colaboradorEmpresa.ColaboradorEmpresaWebId;
+                                    objColaboradorEmpresaWebService.Alterar(colaboradorEmpresa);
+                                }
                             }
                             else
                             {
@@ -769,17 +774,21 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                         foreach (var curso in (List<ColaboradorCurso>)Session[SESS_CURSOS_SELECIONADOS])
                         {
                             var colaboradorCurso = objColaboradorCursosService.Listar(colaboradorMapeado.ColaboradorId, curso.CursoId, null, null, null, null, null).FirstOrDefault();
-                            if (colaboradorCurso != null)
+                            if (colaboradorCurso == null)
                             {
-                                colaboradorCurso = new ColaboradorCurso();
-                                curso.ColaboradorId = colaboradorMapeado.ColaboradorId;
-                                colaboradorCurso = Mapper.Map<ColaboradorCurso>(curso);
+                                var colaboradorCursoWeb = objColaboradorCursosWebService.Listar(colaboradorMapeado.ColaboradorId, curso.CursoId, null, null, null, null, null).FirstOrDefault();
+                                if (colaboradorCursoWeb == null)
+                                {
+                                    colaboradorCurso = new ColaboradorCurso();
+                                    curso.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                                    colaboradorCurso = Mapper.Map<ColaboradorCurso>(curso);
 
-                                // Inserindo registro de colaboradorcurso em coloboradorcursoweb
-                                objColaboradorCursosWebService.Criar(colaboradorCurso);
+                                    // Inserindo registro de colaboradorcurso em coloboradorcursoweb
+                                    objColaboradorCursosWebService.Criar(colaboradorCurso);
 
-                                colaboradorCurso.ColaboradorCursoId = colaboradorCurso.ColaboradorCursoWebId;
-                                objColaboradorCursosService.Alterar(colaboradorCurso);
+                                    colaboradorCurso.ColaboradorCursoId = colaboradorCurso.ColaboradorCursoWebId;
+                                    objColaboradorCursosWebService.Alterar(colaboradorCurso);
+                                }
                             } 
                             else
                             {
@@ -817,15 +826,19 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                             var colaboradorAnexo = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId, anexo.ColaboradorAnexoId, anexo.NomeArquivo, null, null, null, null).FirstOrDefault();
                             if (colaboradorAnexo == null)
                             {
-                                colaboradorAnexo = new ColaboradorAnexo();
-                                anexo.ColaboradorId = colaboradorMapeado.ColaboradorId;
-                                colaboradorAnexo = Mapper.Map<ColaboradorAnexo>(anexo);
+                                var colaboradorAnexoWeb = objColaboradorAnexoWebService.Listar(colaboradorMapeado.ColaboradorId, anexo.ColaboradorAnexoId, anexo.NomeArquivo).FirstOrDefault();
+                                if (colaboradorAnexoWeb == null)
+                                {
+                                    colaboradorAnexo = new ColaboradorAnexo();
+                                    anexo.ColaboradorId = colaboradorMapeado.ColaboradorId;
+                                    colaboradorAnexo = Mapper.Map<ColaboradorAnexo>(anexo);
 
-                                // Inserindo registro de colaboradoranexo em coloboradoranexoweb
-                                objColaboradorAnexoWebService.Criar(colaboradorAnexo);
+                                    // Inserindo registro de colaboradoranexo em coloboradoranexoweb
+                                    objColaboradorAnexoWebService.Criar(colaboradorAnexo);
 
-                                colaboradorAnexo.ColaboradorAnexoId = colaboradorAnexo.ColaboradorAnexoWebId;
-                                objColaboradorAnexoWebService.Alterar(colaboradorAnexo);
+                                    colaboradorAnexo.ColaboradorAnexoId = colaboradorAnexo.ColaboradorAnexoWebId;
+                                    objColaboradorAnexoWebService.Alterar(colaboradorAnexo);
+                                }
                             }
                             else
                             {
@@ -1629,15 +1642,16 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             ICollection<ColaboradorCurso> cursosColaborador = null;
 
             //Popula anexos do colaborador
-            ICollection<ColaboradorAnexo> anexosSelecionados = null;
-
-            ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
+            ICollection<ColaboradorAnexo> anexosSelecionados = null;            
 
             if (colaboradorEditado.StatusCadastro != (int)StatusCadastro.APROVADO)
             {
+                if(colaboradorEditado.ColaboradorWebId != colaboradorEditado.ColaboradorId)
+                    colaboradorEditado = objServiceWeb.Listar(colaboradorEditado.ColaboradorId).FirstOrDefault();
+
                 objColaboradorEmpresa = objColaboradorEmpresaWebService.Listar(colaboradorEditado.ColaboradorId);
                 cursosColaborador = objColaboradorCursosWebService.Listar(colaboradorEditado.ColaboradorId);
-                anexosSelecionados = objColaboradorAnexoWebService.Listar(colaboradorMapeado.ColaboradorId);
+                anexosSelecionados = objColaboradorAnexoWebService.Listar(colaboradorEditado.ColaboradorId);
 
                 // A listagem de colaboradorxempresa sem ser web ja possui uma view realizando o join, portanto esta expressao so e aplicada na colaboradorxempresa web
                 objColaboradorEmpresa = objColaboradorEmpresa.Join(SessionUsuario.EmpresaLogada.Contratos, c => c.EmpresaContratoId, contrato => contrato.EmpresaContratoId, (empresaContrato, contrato) => { empresaContrato.Descricao = contrato.Descricao; return empresaContrato; }).ToList();
@@ -1646,8 +1660,10 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
             {
                 objColaboradorEmpresa = objColaboradorEmpresaService.Listar(colaboradorEditado.ColaboradorId);
                 cursosColaborador = objColaboradorCursosService.Listar(colaboradorEditado.ColaboradorId);
-                anexosSelecionados = objColaboradorAnexoService.Listar(colaboradorMapeado.ColaboradorId);
+                anexosSelecionados = objColaboradorAnexoService.Listar(colaboradorEditado.ColaboradorId);
             }
+
+            ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
 
             CarregaFotoColaborador(colaboradorMapeado);
 
