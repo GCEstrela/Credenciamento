@@ -684,7 +684,9 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     //Aguardando Revisao
                     colaboradorMapeado.StatusCadastro = (int)StatusCadastro.AGUARDANDO_REVISAO;
 
-                    objService.Alterar(colaboradorMapeado);
+                    var colaborador = objService.Listar(colaboradorMapeado.ColaboradorId).FirstOrDefault();
+                    colaborador.StatusCadastro = (int)StatusCadastro.AGUARDANDO_REVISAO;
+                    objService.Alterar(colaborador);
 
                     // Inclusao de colaboradorweb 
                     var colaboradorWebListar = objServiceWeb.Listar(colaboradorMapeado.ColaboradorId, null, null, null, null, (int)StatusCadastro.APROVADO).FirstOrDefault();
@@ -694,7 +696,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     }
                     else
                     {
-                        colaboradorMapeado.ColaboradorWebId = colaboradorWebListar.ColaboradorWebId; ;
+                        colaboradorMapeado.ColaboradorWebId = colaboradorWebListar.ColaboradorWebId;
                         objServiceWeb.Alterar(colaboradorMapeado);
                     }
 
@@ -727,11 +729,13 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                                 vinculo.Ativo = true;
                                 vinculo.EmpresaId = SessionUsuario.EmpresaLogada.EmpresaId;
                                 var colaboradorEmpresa = Mapper.Map<ColaboradorEmpresa>(vinculo);
-                                objColaboradorEmpresaService.Criar(colaboradorEmpresa);
-                                objColaboradorEmpresaService.CriarNumeroMatricula(colaboradorEmpresa);
 
                                 // Inserindo registro de colaboradorempresa em coloboradorempresaweb
                                 objColaboradorEmpresaWebService.Criar(colaboradorEmpresa);
+                                objColaboradorEmpresaWebService.CriarNumeroMatricula(colaboradorEmpresa);
+                                
+                                colaboradorEmpresa.ColaboradorEmpresaId = colaboradorEmpresa.ColaboradorEmpresaWebId;
+                                objColaboradorEmpresaWebService.Alterar(colaboradorEmpresa);
                             }
                             else
                             {
@@ -770,10 +774,12 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                                 colaboradorCurso = new ColaboradorCurso();
                                 curso.ColaboradorId = colaboradorMapeado.ColaboradorId;
                                 colaboradorCurso = Mapper.Map<ColaboradorCurso>(curso);
-                                objColaboradorCursosService.Criar(colaboradorCurso);
 
                                 // Inserindo registro de colaboradorcurso em coloboradorcursoweb
                                 objColaboradorCursosWebService.Criar(colaboradorCurso);
+
+                                colaboradorCurso.ColaboradorCursoId = colaboradorCurso.ColaboradorCursoWebId;
+                                objColaboradorCursosService.Alterar(colaboradorCurso);
                             } 
                             else
                             {
@@ -814,10 +820,12 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                                 colaboradorAnexo = new ColaboradorAnexo();
                                 anexo.ColaboradorId = colaboradorMapeado.ColaboradorId;
                                 colaboradorAnexo = Mapper.Map<ColaboradorAnexo>(anexo);
-                                objColaboradorAnexoService.Criar(colaboradorAnexo);
 
                                 // Inserindo registro de colaboradoranexo em coloboradoranexoweb
                                 objColaboradorAnexoWebService.Criar(colaboradorAnexo);
+
+                                colaboradorAnexo.ColaboradorAnexoId = colaboradorAnexo.ColaboradorAnexoWebId;
+                                objColaboradorAnexoWebService.Alterar(colaboradorAnexo);
                             }
                             else
                             {
@@ -1625,7 +1633,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
             ColaboradorViewModel colaboradorMapeado = Mapper.Map<ColaboradorViewModel>(colaboradorEditado);
 
-            if (colaboradorEditado.StatusCadastro != (int)StatusCadastro.APROVADO && colaboradorEditado.StatusCadastro != (int)StatusCadastro.AGUARDANDO_REVISAO)
+            if (colaboradorEditado.StatusCadastro != (int)StatusCadastro.APROVADO)
             {
                 objColaboradorEmpresa = objColaboradorEmpresaWebService.Listar(colaboradorEditado.ColaboradorId);
                 cursosColaborador = objColaboradorCursosWebService.Listar(colaboradorEditado.ColaboradorId);

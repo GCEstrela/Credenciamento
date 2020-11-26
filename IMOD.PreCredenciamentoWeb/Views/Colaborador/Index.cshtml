@@ -70,7 +70,7 @@
                                 @Html.DisplayFor(modelItem => item.Cpf)
                             </td>
                             <td class="col-lg-3">
-                                @Html.DisplayFor(modelItem => item.Nome).ToString().ToUpper()
+                                @Html.Raw(Html.DisplayFor(modelItem => item.Nome).ToString().ToUpper())
                             </td>
                             <td class="col-lg-2">
                                 @Html.DisplayFor(modelItem => item.TelefoneCelular)
