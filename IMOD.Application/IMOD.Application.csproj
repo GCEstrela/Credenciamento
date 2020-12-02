@@ -92,11 +92,16 @@
     <Compile Include="Interfaces\ITipoRepresentanteService.cs" />
     <Compile Include="Interfaces\ITiposAcessoService.cs" />
     <Compile Include="Interfaces\ITipoServicoService.cs" />
+    <Compile Include="Interfaces\IVeiculoAnexoWebService.cs" />
     <Compile Include="Interfaces\IVeiculoAnexoService.cs" />
     <Compile Include="Interfaces\IVeiculoCredencialimpressaoService.cs" />
     <Compile Include="Interfaces\IVeiculoCredencialService.cs" />
+    <Compile Include="Interfaces\IVeiculoempresaWebService.cs" />
     <Compile Include="Interfaces\IVeiculoempresaService.cs" />
+    <Compile Include="Interfaces\IVeiculoObservacaoService.cs" />
+    <Compile Include="Interfaces\IVeiculoSeguroWebService.cs" />
     <Compile Include="Interfaces\IVeiculoSeguroService.cs" />
+    <Compile Include="Interfaces\IVeiculoWebService.cs" />
     <Compile Include="Interfaces\IVeiculoService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ColaboradorAnexoWebService.cs" />
@@ -146,12 +151,17 @@
     <Compile Include="Service\TipoPendenciaService.cs" />
     <Compile Include="Service\TipoRepresentanteService.cs" />
     <Compile Include="Service\TipoServicoService.cs" />
+    <Compile Include="Service\VeiculoAnexoWebService.cs" />
     <Compile Include="Service\VeiculoAnexoService.cs" />
     <Compile Include="Service\VeiculoCredencialimpressaoService.cs" />
     <Compile Include="Service\VeiculoCredencialService.cs" />
+    <Compile Include="Service\VeiculoEmpresaWebService.cs" />
     <Compile Include="Service\VeiculoEmpresaService.cs" />
     <Compile Include="Service\VeiculoEquipTipoServicoService.cs" />
+    <Compile Include="Service\VeiculoObservacaoService.cs" />
+    <Compile Include="Service\VeiculoSeguroWebService.cs" />
     <Compile Include="Service\VeiculoSeguroService.cs" />
+    <Compile Include="Service\VeiculoWebService.cs" />
     <Compile Include="Service\VeiculoService.cs" />
   </ItemGroup>
   <ItemGroup>

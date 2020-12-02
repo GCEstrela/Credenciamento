@@ -5,6 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using IMOD.Domain.Entities;
+using System.Text.RegularExpressions;
 
 namespace IMOD.PreCredenciamentoWeb.Models
 {
@@ -12,30 +13,45 @@ namespace IMOD.PreCredenciamentoWeb.Models
     {
         [Key]
         public int VeiculoSeguroId { get; set; }
+        public int VeiculoSeguroWebId { get; set; }
         [Required(ErrorMessage = "A Seguradora é requerida.")]
         [Display(Name = "Seguradora")]
         public string NomeSeguradora { get; set; }
         [Required(ErrorMessage = "O Número da Apólice é requerido.")]
         [Display(Name = "Número da Apólice")]
-        public int NumeroApolice { get; set; }
+        public string NumeroApolice { get; set; }
+        [DisplayFormat(DataFormatString = "{0:C}")]
+        public double ValorCobertura { get; set; }
         [Required(ErrorMessage = "O Valor Da Cobertura é requerido.")]
         [Display(Name = "Valor da Cobertura")]
-        public double ValorCobertura { get; set; }
+        public string ValorCoberturaMask {
+            get { return ValorCobertura.ToString(); }
+            set 
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _valorcoberturamask = Regex.Replace(value, ",", "");
+                    _valorcoberturamask = Regex.Replace(_valorcoberturamask, "\\.", "");
+
+                    ValorCobertura = Double.Parse(_valorcoberturamask);
+                }
+            } 
+        }
+        private string _valorcoberturamask;
         public int VeiculoId { get; set; }
-        [Required(ErrorMessage = "O Arquivo é requerido.")]
-        [Display(Name = "Documento Anexo")]
-        public HttpPostedFileBase FileUpload { get; set; }
-        [Display(Name = "Documento Anexo")]
+        public string Arquivo { get; set; }
+        [Display(Name = "Apólice Digitalizada")]
         public string NomeArquivo { get; set; }
         [Required(ErrorMessage = "A Emissão é requerida.")]
         [Display(Name = "Data Emissão")]
-        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? Emissao { get; set; }
 
         [Display(Name = "Data Validade")]
-        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? Validade { get; set; }
+        public int EmpresaSeguroId { get; set; }
+        [Display(Name = "Selecionar Apólice")]
+        public HttpPostedFileBase SeguroArquivo { get; set; }
     }
 }

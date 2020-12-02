@@ -1,0 +1,232 @@
+﻿
+<script>
+    $(document).ready(function () {
+        //evento do botão incluir contrato
+        $("#btContrato").click(function () {
+            var id = $("#ddlContrato").val();
+            var areaManobra = $('#chkAreaManobra').is(':checked');
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AdicionarContrato")',
+                data: {
+                    id: id,
+                    flagAreaManobra: areaManobra
+                },
+                success: function (result) {
+                    if (typeof (result) !== "string" && typeof (result) === "object") {
+                        var html = '';
+                        $.each(result, function (key, item) {
+                            html += '<div class="col-lg-2">' + item.Matricula + '</div>';
+                            html += '<div class="col-lg-9">' + item.Descricao + '</div>';
+                            html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
+                        });
+
+                        $('#divContrato').html('');
+                        $('#divContrato').append(html);
+                    } else {
+                        toastr['error']('O contrato informado já está associado a este veículo.', '', { closeButton: true, progressBar: true });
+                    }
+                    
+                    $("#ddlContrato").val('');
+                    $("#chkAreaManobra").attr('checked', false);
+                    console.log(result);
+                },
+                error: function (result) {
+                    console.log("Error ao incluir Contrato: " + result);
+                }
+            });
+        });
+
+        $("#btAnexo").click(function(e) {
+            e.preventDefault();
+
+            var fileUpload = $("#FileUpload1").get(0);
+            var files = fileUpload.files;
+            var fileData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+            var descricao = ($("#txtDescricao").val() == "" ? "" : $("#txtDescricao").val());
+            fileData.append('descricao', descricao);
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AdicionarAnexo")',
+                data: fileData,
+                dataType: 'JSON',
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    var html = '';
+                    $.each(result, function (key, item) {
+                        html += '<div class="col-lg-3">' + item.Descricao + '</div>';
+                        html += '<div class="col-lg-7">' + item.NomeArquivo + '</div>';
+                        html += '<div class="col-lg-2"><a class="btnRemover" title="Remover Anexo" id=' + item.VeiculoAnexoId + ' href="#" onclick="RemoverAnexo(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
+                    });
+                    $('#divAnexo').html('');
+                    $('#divAnexo').append(html);
+                    $("#FileUpload1").val('');
+                    $("#txtDescricao").val('');
+                    console.log(result);
+                },
+                error: function (result) {
+                    console.log("Error ao incluir Anexo: " + result);
+                }
+            });
+        });
+
+        //evento do botão incluir serviço
+        $("#btServico").click(function () {
+            var id = $("#ddlServico").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AdicionarServico")',
+                data: {
+                    id: id
+                },
+                success: function (result) {
+                    var html = '';
+                    $.each(result, function (key, item) {
+                        html += '<div class="col-lg-1"><a class="btnRemover" title="Remover Serviço" id=' + item.TipoServicoId + ' onclick="RemoverServico(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
+                        html += '<div class="col-lg-2 text-uppercase">' + item.Descricao + '</div>';
+                    });
+                    $('#divServico').html('');
+                    $('#divServico').append(html);
+                    $("#divServico").val('');
+                },
+                error: function (result) {
+                    console.log("Error ao incluir Serviço: " + result);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    function RemoverContrato(it)
+    {
+        var id = it.id;
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("RemoverContrato")',
+            data: { id: id },
+            success: function (result) {
+                var html = '';
+                $.each(result, function (key, item) {
+                    html += '<div class="col-lg-2">' + item.Matricula + '</div>';
+                    html += '<div class="col-lg-2 text-uppercase">' + item.Descricao + '</div>';
+                    html += '<div class="col-lg-1"><a class="btnRemoverContrato" title="Remover Contrato" id=' + item.EmpresaContratoId + ' onclick="RemoverContrato(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
+
+                });
+                $('#divContrato').html('');
+                $('#divContrato').append(html);
+                console.log(result);
+            },
+            error: function (result) {
+                console.log("Error ao Remover Contrato: " + result);
+            }
+        });
+    };
+
+    function RemoverAnexo(it)
+    {
+        var id = it.id;
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("RemoverAnexo")',
+            data: { id: id },
+            success: function (result) {
+                var html = '';
+                $.each(result, function (key, item) {
+                    //html += '<div class="col-lg-1">' + item.VeiculoAnexoId + '</div>';
+                    html += '<div class="col-lg-3">' + item.Descricao + '</div>';
+                    html += '<div class="col-lg-7">' + item.NomeArquivo + '</div>';
+                    html += '<div class="col-lg-2"><a class="btnRemoverAnexo" title="Remover Anexo" id=' + item.VeiculoAnexoId + ' onclick="RemoverAnexo(this)"><i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center"></i></a></div>';
+
+                });
+                $('#divAnexo').html('');
+                $('#divAnexo').append(html);
+                console.log(result);
+            },
+            error: function (result) {
+                console.log("Error ao Remover Anexo: " + result);
+            }
+        });
+    };
+</script>
+<script>
+    function BuscarMunicipio() {
+        var id = $("#ddlEstado").val();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("BuscarMunicipios")',
+            data: { id: id },
+            success: function (result) {
+                var html = '<option value="">SELECIONE</option>';
+                $.each(result, function (key, item) {
+                    html += '<option value=' + this.MunicipioId + '>' + this.Nome + '</option>';
+                });
+
+                $('#ddlMunicipio').html(html);
+                console.log(result);
+            },
+            error: function (result) {
+                console.log("Error ao Buscar Municipios: " + result);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $("#FotoVeiculo").change(function () {
+            readURL(this);
+        });
+
+        $("#ddlEstado").change(function () {
+            BuscarMunicipio();
+        });
+
+        //Initialize tooltips
+        $('.nav-tabs > li a[title]').tooltip();
+
+        //Wizard
+        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+
+            var $target = $(e.target);
+
+            if ($target.parent().hasClass('disabled')) {
+                return false;
+            }
+        });
+
+        $(".next-step").click(function (e) {
+            var $active = $('.wizard .nav-tabs li.active');
+            $active.next().removeClass('disabled');
+            nextTab($active);
+        });
+        $(".prev-step").click(function (e) {
+            var $active = $('.wizard .nav-tabs li.active');
+            prevTab($active);
+        });
+
+        $('#txtValorCobertura').mask('#.##0,00', {reverse: true});
+    });
+
+    function nextTab(elem) {
+        $(elem).next().find('a[data-toggle="tab"]').click();
+    }
+    function prevTab(elem) {
+        $(elem).prev().find('a[data-toggle="tab"]').click();
+    }
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#FotoUpload').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

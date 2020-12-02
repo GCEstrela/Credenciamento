@@ -1,0 +1,137 @@
+﻿
+<script>
+    $(document).ready(function () {
+        //evento do botão incluir Observação de Aprovação
+        $("#btObservacao").click(function () {
+            var fileData = new FormData();
+            var veiculoId = $("#EquipamentoVeiculoID").val();
+            fileData.append('EquipamentoVeiculoID', veiculoId);
+            var observacaoAprovacao = $("#txtObservacaoAprovacao").val();
+            fileData.append('ObservacaoAprovacao', observacaoAprovacao);
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AdicionarObservacao")',
+                data: fileData,
+                contentType: false,
+                processData: false,
+                dataType: 'JSON',
+                success: function (result) {
+                    var html = '';
+                    var regex = /([0-9])\d+/g;
+
+                        $.each(result, function (key, item) {
+                            html += '<div class="panel panel-default" id="panel-item-revisao-' + item.VeiculoObservacaoId + '"> ';
+                            html += '    <div role="tab" style="position:relative; padding:15px;background-color: #fdfdfd;border-radius: 10px;box-shadow: 5px 5px 4px #566787; z-index: 1;"> ';
+                            html += '        <div class="row"> ';
+                            html += '            <div class="col-lg-11" style="cursor: pointer;" onclick="toggleEllipsis(this)" id=' + item.VeiculoObservacaoId + '> ';
+                            html += '                <div style="width: 64%;" class="col-lg-7 text-truncate" id="truncate-text-' + item.VeiculoObservacaoId + '">';
+                            if (item.Resolvido) {
+                                html += '               <a title="Resolvido"> ';
+                                html += '                   <i class="btn-icon fa fa-check" style="color: #72c677; font-size: 25px; text-align:center;"></i> ';
+                                html += '               </a> ';
+                            }
+                            html += item.Observacao
+                            html +=                 '</div> ';
+                            html += '                <div style="width: 19%;" class="col-lg-2">' + item.UsuarioRevisaoInfo + '</div> ';
+                            html += '                <div class="col-lg-2">' + new Date(parseInt((item.DataRevisao).match(regex))).toLocaleString() + '</div> ';
+                            html += '            </div> ';
+                            html += '            <div class="col-lg-1"> ';
+                            html += '                <a title="Remover Observação" id=' + item.VeiculoObservacaoId + ' class="btnRemoverObservacao" onclick="RemoverObservacao(this)"> ';
+                            html += '                    <i class="danger btn-icon fa fa-minus-circle" style="color: #f55145; font-size: 25px; text-align:center; cursor: pointer;"></i> ';
+                            html += '                </a> ';
+                            html += '            </div> ';
+                            html += '        </div> ';
+                            html += '    <div class="panel-collapse collapse" role="tabpanel" id="collapseListGroup' + item.VeiculoObservacaoId + '" aria-labelledby="collapseListGroupHeading' + item.VeiculoObservacaoId + '" aria-expanded="true" data-toggle="false"> ';
+                            html += '        <ul class="list-group" style="margin-bottom: 0px;" id="listObservacaoResposta' + item.VeiculoObservacaoId + '"> ';
+                            html += '        </ul> ';
+                            html += '        <div class="panel-footer" style="padding-left: 0px;"> ';
+                            html += '            <div class="row"> ';
+                            html += '                <div class="col-lg-10"> ';
+                            html += '                    <textarea id="txtObservacaoResposta' + item.VeiculoObservacaoId + '" maxlength="1000" rows="4" class="form-control remove-resize-textarea"></textarea> ';
+                            html += '                    <input type="hidden" id="ColaboradorObservacaoId' + item.VeiculoObservacaoId + '" value=' + item.VeiculoObservacaoId + '> ';
+                            html += '                </div> ';
+                            html += '                <div class="col-lg-2"> ';
+                            html += '                    <button type="button" style="margin-top: 70px;" class="btn btn-info" name="btResposta" id=' + item.VeiculoObservacaoId + '><span><strong>Interagir</strong></span> </button> ';
+                            html += '                </div> ';
+                            html += '            </div> ';
+                            html += '        </div> ';
+                            html += '    </div> ';
+                            html += '    </div> ';
+                            html += '</div> ';
+                        });
+                        $('#collapseRespostas').append(html);
+                        $('#txtObservacaoAprovacao').val('');
+
+                    //console.log(result);
+                },
+                error: function (result) {
+                    console.log("Ocorreu um erro ao adicionar a observacao: " + result);
+                }
+            });
+        });
+    });
+
+    //evento do botão incluir Observação de Aprovação Resposta
+    $(document).on('click', 'button[name="btResposta"]', function () {
+        var id = this.id;
+        //alert(id);
+        var fileData = new FormData();
+        var observacaoResposta = $("#txtObservacaoResposta" + id).val();
+        fileData.append('ObservacaoResposta', observacaoResposta);
+        var veiculoObservacaoId = $("#VeiculoObservacaoId" + id).val();
+        fileData.append('VeiculoObservacaoId', veiculoObservacaoId);
+        var VeiculoId = $("#EquipamentoVeiculoID").val();
+        fileData.append('EquipamentoVeiculoID', VeiculoId);
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("AdicionarObservacaoResposta")',
+            data: fileData,
+            contentType: false,
+            processData: false,
+            dataType: 'JSON',
+            success: function (result) {
+                var html = '';
+                var regex = /([0-9])\d+/g;
+                $.each(result, function (key, item) {
+                    html += '<li class="list-group-item">';
+                    html += '   <div class="row" id=' + item.VeiculoObservacaoId + ' style="cursor: pointer;" onclick="toggleEllipsis(this)">';
+                    html += '       <div class="col-lg-7 text-truncate" id="truncate-text-' + item.VeiculoObservacaoId + '"><i class="fa fa-level-up fa-rotate-90 fa-lg" aria-hidden="true" style="margin-right: 4px;"></i>' + item.ObservacaoResposta + '</div>';
+                    html += '       <div class="col-lg-3" style="width: 18%;">' + item.UsuarioRevisaoInfo + '</div>';
+                    html += '       <div class="col-lg-2">' + new Date(parseInt((item.DataRevisao).match(regex))).toLocaleString() + '</div>';
+                    html += '       <div class="col-lg-1"></div>'
+                    html += '   </div>'
+                    html += '</li> ';
+                });
+
+                $('#listObservacaoResposta' + veiculoObservacaoId).html('');
+                $('#listObservacaoResposta' + veiculoObservacaoId).append(html);
+                $('#txtObservacaoResposta' + veiculoObservacaoId).val('');
+            },
+            error: function (result) {
+                console.log("Error ao incluir resposta: " + result)
+            }
+        });
+    });
+
+    function RemoverObservacao(it)
+    {
+        var id = it.id;
+        var veiculoId = $("#EquipamentoVeiculoID").val();
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("RemoverObservacao")',
+            data: { id: id, veiculoId: veiculoId },
+            success: function (result) {
+                if (!isNaN(parseInt(result.resultItemRemovido))) {
+                    $('#panel-item-revisao-' + result.resultItemRemovido).remove();
+                }
+            },
+            error: function (result) {
+                console.log("Error ao remover observação: " + result);
+            }
+        });
+    }
+</script>

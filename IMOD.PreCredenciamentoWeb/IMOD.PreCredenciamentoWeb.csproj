@@ -153,13 +153,17 @@
     </Compile>
     <Compile Include="Helper\CriptografiaHelper.cs" />
     <Compile Include="Models\AutorizacaoViewModel.cs" />
+    <Compile Include="Models\VeiculoAnexoViewModel.cs" />
     <Compile Include="Models\VeiculoEmpresaViewModel.cs" />
     <Compile Include="Models\ColaboradorEmpresaViewModel.cs" />
     <Compile Include="Models\ColaboradorViewModel.cs" />
     <Compile Include="Models\LoginViewModel .cs" />
     <Compile Include="Models\EmpresaViewModel.cs" />
+    <Compile Include="Models\VeiculoObservacaoViewModel.cs" />
+    <Compile Include="Models\VeiculoSeguroViewModel.cs" />
     <Compile Include="Models\VeiculoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\ConverterArquivo.cs" />
     <Compile Include="Util\SessionUsuario.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -318,6 +322,13 @@
     <Content Include="Views\Colaborador\DetailsPreCadastro.cshtml" />
     <Content Include="Views\Colaborador\_DetailsPartial.cshtml" />
     <Content Include="Views\Colaborador\_ScriptsPartial.cshtml" />
+    <Content Include="Views\Veiculo\_EditScriptPartial.cshtml" />
+    <Content Include="Views\Veiculo\EditRevisao.cshtml" />
+    <Content Include="Views\Veiculo\DetailsRevisao.cshtml" />
+    <Content Include="Views\Veiculo\_EditPartial.cshtml" />
+    <Content Include="Views\Veiculo\_ScriptsPartial.cshtml" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.pt-BR.js" />
+    <Content Include="Views\Veiculo\_DetailsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

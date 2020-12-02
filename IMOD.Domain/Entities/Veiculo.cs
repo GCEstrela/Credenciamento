@@ -57,6 +57,17 @@ namespace IMOD.Domain.Entities
         public string Arquivo { get; set; }
         public string NomeArquivo { get; set; }
         public int? StatusCadastro { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Veiculo veiculo &&
+                   EquipamentoVeiculoId == veiculo.EquipamentoVeiculoId;
+        }
+
+        public override int GetHashCode()
+        {
+            return -460737279 + EquipamentoVeiculoId.GetHashCode();
+        }
         #endregion
     }
 }
