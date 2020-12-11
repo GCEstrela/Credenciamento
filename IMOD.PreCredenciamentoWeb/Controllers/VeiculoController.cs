@@ -1188,6 +1188,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                 objVeiculoEmpresa = Mapper.Map<List<VeiculoEmpresaViewModel>>(objVeiculoEmpresaService.Listar(veiculoMapeado.EquipamentoVeiculoId));
             }
 
+            CarregaFotoVeiculo(veiculoMapeado);
             PopularDadosDropDownList();
             PopularEstadosDropDownList();
             PopularMunicipiosDropDownList(veiculoMapeado.EstadoId.ToString());
@@ -1272,6 +1273,26 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
 
                 Session.Add(SESS_FOTO_VEICULO, base64);
                 ViewBag.FotoVeiculo = String.Format("data:image/gif;base64,{0}", base64);
+            }
+        }
+
+        [Authorize]
+        public void CarregaFotoVeiculo(VeiculoViewModel model)
+        {
+            if (model.FotoVeiculo != null) return;
+
+            var listaFoto = objService.BuscarPelaChave(model.EquipamentoVeiculoId);
+            if (!model.StatusCadastro.Equals((int)StatusCadastro.APROVADO))
+                listaFoto = objWebService.BuscarPelaChave(model.EquipamentoVeiculoId);
+
+            if (listaFoto != null)
+                model.Foto = listaFoto.Foto;
+            if (model.Foto != null)
+            {
+                var bytes = Convert.FromBase64String(model.Foto);
+                string base64 = Convert.ToBase64String(bytes);
+
+                Session.Add(SESS_FOTO_VEICULO, base64);
             }
         }
         #endregion
