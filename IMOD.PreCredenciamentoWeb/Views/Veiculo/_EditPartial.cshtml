@@ -99,9 +99,9 @@
                                             <div id="datepicker">
                                                 <div class="input-group date">
                                                     @Html.EditorFor(model => model.DataLicenciameno, new { htmlAttributes = new { @class = "form-control text-uppercase" } })
-                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                    @Html.ValidationMessageFor(model => model.DataLicenciameno, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>                                                   
                                                 </div>
+                                                @Html.ValidationMessageFor(model => model.DataLicenciameno, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                             </div>
                                         </div>
                                     </div>
@@ -373,7 +373,6 @@
                                     <div class="col-md-2">
                                         @Html.EditorFor(model => model.VeiculoSeguro.ValorCoberturaMask, new { htmlAttributes = new { @class = "form-control text-uppercase", @ID = "txtValorCobertura" } })
                                         @Html.ValidationMessageFor(model => model.VeiculoSeguro.ValorCoberturaMask, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
-                                        @Html.HiddenFor(model => model.VeiculoSeguro.ValorCobertura)
                                     </div>
 
                                     @Html.LabelFor(model => model.VeiculoSeguro.Emissao, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -382,8 +381,8 @@
                                             <div class="input-group date">
                                                 @Html.EditorFor(model => model.VeiculoSeguro.Emissao, new { htmlAttributes = new { @class = "form-control text-uppercase", @ID = "txtDataEmissao" } })
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                @Html.ValidationMessageFor(model => model.VeiculoSeguro.Emissao, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                             </div>
+                                            @Html.ValidationMessageFor(model => model.VeiculoSeguro.Emissao, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
                                     </div>
                                     @Html.LabelFor(model => model.VeiculoSeguro.Validade, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -391,9 +390,9 @@
                                         <div id="datepicker">
                                             <div class="input-group date">
                                                 @Html.EditorFor(model => model.VeiculoSeguro.Validade, new { htmlAttributes = new { @class = "form-control text-uppercase", @id = "txtDataValidade" } })
-                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                @Html.ValidationMessageFor(model => model.VeiculoSeguro.Validade, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>                                                
                                             </div>
+                                            @Html.ValidationMessageFor(model => model.VeiculoSeguro.Validade, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                         </div>
                                     </div>
                                 </div>
@@ -401,7 +400,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.VeiculoSeguro.NomeArquivo, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-3">
-                                        @Html.EditorFor(model => model.VeiculoSeguro.NomeArquivo, new { htmlAttributes = new { @class = "form-control text-uppercase", @ID = "txtNomeAnexoApolice", @disabled = "disabled" } })
+                                        @Html.EditorFor(model => model.VeiculoSeguro.NomeArquivo, new { htmlAttributes = new { @class = "form-control text-uppercase", @ID = "txtNomeAnexoApolice", @readonly = "true", @style = "color: #c0" } })
                                         @Html.ValidationMessageFor(model => model.VeiculoSeguro.NomeArquivo, "", new { @class = "text-danger", @style = "font-family:Open Sans, Helvetica Neue; font-weight:700; font-size: 85%" })
                                     </div>
                                 </div>

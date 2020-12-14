@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using IMOD.Domain.Entities;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace IMOD.PreCredenciamentoWeb.Models
 {
@@ -25,15 +26,15 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Required(ErrorMessage = "O Valor Da Cobertura é requerido.")]
         [Display(Name = "Valor da Cobertura")]
         public string ValorCoberturaMask {
-            get { return ValorCobertura.ToString(); }
+            get { return ValorCobertura.ToString("0.00", CultureInfo.InvariantCulture); }
             set 
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    _valorcoberturamask = Regex.Replace(value, ",", "");
-                    _valorcoberturamask = Regex.Replace(_valorcoberturamask, "\\.", "");
+                    _valorcoberturamask = Regex.Replace(value, "\\.", "");
+                    _valorcoberturamask = Regex.Replace(_valorcoberturamask, ",", ".");
 
-                    ValorCobertura = Double.Parse(_valorcoberturamask);
+                    ValorCobertura = Double.Parse(_valorcoberturamask, CultureInfo.InvariantCulture);
                 }
             } 
         }

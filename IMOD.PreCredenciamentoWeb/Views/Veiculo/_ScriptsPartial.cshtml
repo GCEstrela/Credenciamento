@@ -208,7 +208,11 @@
             prevTab($active);
         });
 
-        $('#txtValorCobertura').mask('#.##0,00', {reverse: true});
+        $('#txtValorCobertura').mask('#.##0,00', { reverse: true });
+        $('#Ano').mask('0000');
+        $('#Altura').mask('#');
+        $('#Comprimento').mask('#');
+        $('#Largura').mask('#');
     });
 
     function nextTab(elem) {

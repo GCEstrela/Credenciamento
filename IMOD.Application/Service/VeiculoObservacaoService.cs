@@ -17,19 +17,11 @@ using IMOD.Infra.Repositorios;
 
 namespace IMOD.Application.Service
 {
-    public class VeiculoSeguroService : IVeiculoSeguroService
+    public class VeiculoObservacaoService : IVeiculoObservacaoService
     {
-        /// <summary>
-        ///     Pendência serviços
-        /// </summary>
-        public IPendenciaService Pendencia
-        {
-            get { return new PendenciaService(); }
-        }
-
         #region Variaveis Globais
 
-        private readonly IVeiculoSeguroRepositorio _repositorio = new VeiculoSeguroRepositorio();
+        private readonly IVeiculoObservacaoRepositorio _repositorio = new VeiculoObservacaoRepositorio();
 
         #endregion
 
@@ -43,15 +35,9 @@ namespace IMOD.Application.Service
         ///     Criar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Criar(VeiculoSeguro entity)
+        public void Criar(VeiculoObservacao entity)
         {
             _repositorio.Criar(entity);
-            #region Retirar pendencias de sistema
-            var pendencia = Pendencia.ListarPorVeiculo(entity.VeiculoId)
-                .FirstOrDefault(n => n.PendenciaSistema & n.CodPendencia == 19 );
-            if (pendencia == null) return;
-            Pendencia.Remover(pendencia);
-            #endregion
         }
 
         /// <summary>
@@ -59,7 +45,7 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public VeiculoSeguro BuscarPelaChave(int id)
+        public VeiculoObservacao BuscarPelaChave(int id)
         {
             return _repositorio.BuscarPelaChave(id);
         }
@@ -69,26 +55,16 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="objects">Expressão de consulta</param>
         /// <returns></returns>
-        public ICollection<VeiculoSeguro> Listar(params object[] objects)
+        public ICollection<VeiculoObservacao> Listar(params object[] objects)
         {
             return _repositorio.Listar(objects);
-        }
-
-        /// <summary>
-        ///     Listar
-        /// </summary>
-        /// <param name="objects">Expressão de consulta retornando o anexo associado</param>
-        /// <returns></returns>
-        public ICollection<VeiculoSeguro> ListarComAnexo(params object[] objects)
-        {
-            return _repositorio.ListarComAnexo(objects);
         }
 
         /// <summary>
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Alterar(VeiculoSeguro entity)
+        public void Alterar(VeiculoObservacao entity)
         {
             _repositorio.Alterar(entity);
         }
@@ -97,7 +73,7 @@ namespace IMOD.Application.Service
         ///     Deletar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Remover(VeiculoSeguro entity)
+        public void Remover(VeiculoObservacao entity)
         {
             _repositorio.Remover(entity);
         }

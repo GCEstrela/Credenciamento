@@ -820,7 +820,7 @@ namespace IMOD.PreCredenciamentoWeb.Controllers
                     }
                 } else
                 {
-                    var veiculoSeguro = objVeiculoSeguroService.Listar(veiculoId).FirstOrDefault();
+                    var veiculoSeguro = objVeiculoSeguroService.ListarComAnexo(veiculoId).FirstOrDefault(); // Trazer Anexo
                     var veicSeguroWeb = objVeiculoSeguroWebService.Listar(veiculoId).FirstOrDefault();
 
                     if(veicSeguroWeb == null)

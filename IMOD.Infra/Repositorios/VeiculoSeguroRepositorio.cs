@@ -147,6 +147,42 @@ namespace IMOD.Infra.Repositorios
         }
 
         /// <summary>
+        ///     Listar VeiculoSeguro
+        /// </summary>
+        /// <param name="objects">Expressão de consulta</param>
+        /// <returns></returns>
+        public ICollection<VeiculoSeguro> ListarComAnexo(params object[] objects)
+        {
+            try
+            {
+                using (var conn = _dataBase.CreateOpenConnection())
+                {
+                    using (var cmd = _dataBase.SelectText("VeiculosSeguros", conn))
+                    {
+
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("VeiculoID", DbType.Int32, objects, 0).Igual()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NomeSeguradora", DbType.String, objects, 1).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("NumeroApolice", DbType.String, objects, 2).Like()));
+                        cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("EmpresaSeguroID", DbType.String, objects, 3).Igual()));
+
+                        //
+                        var reader = cmd.ExecuteReaderSelect();
+                        var d1 = reader.MapToList<VeiculoSeguro>();
+
+                        return d1;
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        /// <summary>
         ///     Alterar registro VeiculoSeguro
         /// </summary>
         /// <param name="entity"></param>

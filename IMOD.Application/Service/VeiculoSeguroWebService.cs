@@ -17,7 +17,7 @@ using IMOD.Infra.Repositorios;
 
 namespace IMOD.Application.Service
 {
-    public class VeiculoSeguroService : IVeiculoSeguroService
+    public class VeiculoSeguroWebService : IVeiculoSeguroWebService
     {
         /// <summary>
         ///     Pendência serviços
@@ -29,7 +29,7 @@ namespace IMOD.Application.Service
 
         #region Variaveis Globais
 
-        private readonly IVeiculoSeguroRepositorio _repositorio = new VeiculoSeguroRepositorio();
+        private readonly IVeiculoSeguroWebRepositorio _repositorio = new VeiculoSeguroWebRepositorio();
 
         #endregion
 
@@ -43,7 +43,7 @@ namespace IMOD.Application.Service
         ///     Criar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Criar(VeiculoSeguro entity)
+        public void Criar(VeiculoSeguroWeb entity)
         {
             _repositorio.Criar(entity);
             #region Retirar pendencias de sistema
@@ -59,7 +59,7 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public VeiculoSeguro BuscarPelaChave(int id)
+        public VeiculoSeguroWeb BuscarPelaChave(int id)
         {
             return _repositorio.BuscarPelaChave(id);
         }
@@ -69,26 +69,16 @@ namespace IMOD.Application.Service
         /// </summary>
         /// <param name="objects">Expressão de consulta</param>
         /// <returns></returns>
-        public ICollection<VeiculoSeguro> Listar(params object[] objects)
+        public ICollection<VeiculoSeguroWeb> Listar(params object[] objects)
         {
             return _repositorio.Listar(objects);
-        }
-
-        /// <summary>
-        ///     Listar
-        /// </summary>
-        /// <param name="objects">Expressão de consulta retornando o anexo associado</param>
-        /// <returns></returns>
-        public ICollection<VeiculoSeguro> ListarComAnexo(params object[] objects)
-        {
-            return _repositorio.ListarComAnexo(objects);
         }
 
         /// <summary>
         ///     Alterar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Alterar(VeiculoSeguro entity)
+        public void Alterar(VeiculoSeguroWeb entity)
         {
             _repositorio.Alterar(entity);
         }
@@ -97,7 +87,7 @@ namespace IMOD.Application.Service
         ///     Deletar registro
         /// </summary>
         /// <param name="entity"></param>
-        public void Remover(VeiculoSeguro entity)
+        public void Remover(VeiculoSeguroWeb entity)
         {
             _repositorio.Remover(entity);
         }
