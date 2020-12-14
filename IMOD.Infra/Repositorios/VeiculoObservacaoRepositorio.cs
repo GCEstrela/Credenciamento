@@ -185,14 +185,17 @@ namespace IMOD.Infra.Repositorios
 
                 try
                 {
+                    var listarRespostas = Listar(entity.VeiculoId).Where(ver => ver.VeiculoObservacaoRespostaId != null);
+
                     using (var cmd = _dataBase.DeleteText("VeiculosObservacoes", conn))
                     {
                         cmd.Transaction = tran;
-                        var listarRespostas = Listar(entity.VeiculoId, entity.VeiculoObservacaoId).Where(ver => ver.VeiculoObservacaoRespostaId != null);
+                        
                         foreach (var resposta in listarRespostas)
                         {
-                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("VeiculoObservacaoRespostaID", resposta.VeiculoObservacaoRespostaId).Igual()));
+                            cmd.Parameters.Add(_dataBase.CreateParameter(new ParamDelete("VeiculoObservacaoID", DbType.Int32,resposta.VeiculoObservacaoId).Igual()));
                             cmd.ExecuteNonQuery();
+                            cmd.Parameters.Clear();
                         }
                     }
 
