@@ -16,12 +16,21 @@ namespace IMOD.PreCredenciamentoWeb.Mapeamento
             Mapper.Initialize(
             m =>
             {
-
                 m.CreateMap<ColaboradorViewModel, Colaborador>().ReverseMap();
                 m.CreateMap<Colaborador, ColaboradorViewModel>().ReverseMap();
+               
+                m.CreateMap<EmpresaViewModel, Empresa>().ReverseMap();
 
                 m.CreateMap<Veiculo, VeiculoViewModel>().ReverseMap();
-                m.CreateMap<EmpresaViewModel, Empresa>().ReverseMap();
+                m.CreateMap<VeiculoAnexo, VeiculoAnexoViewModel>().ReverseMap();
+                m.CreateMap<VeiculoSeguro, VeiculoSeguroViewModel>().ReverseMap();
+                m.CreateMap<VeiculoEmpresa, VeiculoEmpresaViewModel>().ReverseMap();
+                m.CreateMap<VeiculoObservacao, VeiculoObservacaoViewModel>().ReverseMap();
+
+                m.CreateMap<VeiculoWeb, VeiculoViewModel>().ReverseMap();
+                m.CreateMap<VeiculoAnexoWeb, VeiculoAnexoViewModel>().ReverseMap();
+                m.CreateMap<VeiculoSeguroWeb, VeiculoSeguroViewModel>().ReverseMap();
+                m.CreateMap<VeiculoEmpresaWeb, VeiculoEmpresaViewModel>().ReverseMap();
             });
         }
     }

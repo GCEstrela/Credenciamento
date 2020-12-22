@@ -14,7 +14,8 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Key]
         [HiddenInput(DisplayValue = false)]
         public int EquipamentoVeiculoId { get; set; }
-        
+        public int EquipamentoVeiculoWebId { get; set; }
+
         [Required(ErrorMessage = "A Descrição é requerida.")]
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
@@ -76,6 +77,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         public string Renavam { get; set; }
 
         public string Foto { get; set; }
+        public HttpPostedFileBase FotoVeiculo { get; set; }
 
         public bool Ativo { get; set; }
 
@@ -118,37 +120,6 @@ namespace IMOD.PreCredenciamentoWeb.Models
         [Display(Name = "Contrato Empresa")]
         public string ContratoEmpresaID { get; set; }
 
-        public int VeiculoSeguroId { get; set; }
-
-        [Required(ErrorMessage = "A Seguradora é requerida.")]
-        [Display(Name = "Seguradora")]
-        public string NomeSeguradora { get; set; }
-
-        [Required(ErrorMessage = "O Número da Apólice é requerido.")]
-        [Display(Name = "Número da Apólice")]
-        public string NumeroApolice { get; set; }
-
-        [Required(ErrorMessage = "O Valor Da Cobertura é requerido.")]
-        [Display(Name = "Valor da Cobertura")]
-        public double ValorCobertura { get; set; }
-
-        public int VeiculoId { get; set; }
-
-        [Display(Name = "Apólice Digitalizada")]
-        public string NomeAnexoApolice { get; set; }
-
-        [Display(Name = "Selecionar Apólice")]
-        public HttpPostedFileBase AnexoApolice { get; set; }
-        
-        [Required(ErrorMessage = "A Emissão é requerida.")]
-        [Display(Name = "Data Emissão")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime? Emissao { get; set; }
-
-        [Display(Name = "Data Validade")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime? Validade { get; set; }
-
         public bool Precadastro { get; set; }
         public string Observacao { get; set; }
 
@@ -183,7 +154,14 @@ namespace IMOD.PreCredenciamentoWeb.Models
         }
         public int? StatusCadastro { get; set; }
 
-        [Display(Name = "Selecione um Contrato:")]
-        public int EmpresaSeguroId { get; set; }
+        /*
+         *   Veiculo x Observacao
+         */
+        public VeiculoObservacaoViewModel VeiculoObservacao { get; set; }
+
+        /*
+         *   Veiculo x Seguro
+         */
+        public VeiculoSeguroViewModel VeiculoSeguro { get; set; }
     }
 }

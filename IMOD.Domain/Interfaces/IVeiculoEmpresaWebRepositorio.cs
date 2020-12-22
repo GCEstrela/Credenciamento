@@ -7,14 +7,14 @@
 #region
 
 using IMOD.Domain.Entities;
-using System.Collections.Generic;
 
 #endregion
 
 namespace IMOD.Domain.Interfaces
 {
-    public interface IVeiculoSeguroRepositorio : IRepositorioBaseAdoNet<VeiculoSeguro>
+    public interface IVeiculoEmpresaWebRepositorio : IRepositorioBaseAdoNet<VeiculoEmpresaWeb>
     {
-        ICollection<VeiculoSeguro> ListarComAnexo(params object[] objects);
+        void CriarNumeroMatricula(VeiculoEmpresaWeb entity);
+
     }
 }

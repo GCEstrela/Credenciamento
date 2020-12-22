@@ -95,6 +95,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Repositorios\ColaboradorAnexoWebRepositorio.cs" />
+    <Compile Include="Repositorios\VeiculoObservacaoRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorWebRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorCursoWebRepositorio.cs" />
     <Compile Include="Repositorios\ColaboradorEmpresaWebRepositorio.cs" />
@@ -141,11 +142,15 @@
     <Compile Include="Repositorios\TipoPendenciaRepositorio.cs" />
     <Compile Include="Repositorios\TipoRepresentanteRepositorio.cs" />
     <Compile Include="Repositorios\TipoServicoRepositorio.cs" />
+    <Compile Include="Repositorios\VeiculoAnexoWebRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoAnexoRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoCredencialimpressaoRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoCredencialRepositorio.cs" />
+    <Compile Include="Repositorios\VeiculoEmpresaWebRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoEmpresaRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoEquipTipoServicoRepositorio.cs" />
+    <Compile Include="Repositorios\VeiculoSeguroWebRepositorio.cs" />
+    <Compile Include="Repositorios\VeiculoWebRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoSeguroRepositorio.cs" />
     <Compile Include="Repositorios\VeiculoRepositorio.cs" />
     <Compile Include="Servicos\CredencialGenetecService.cs" />

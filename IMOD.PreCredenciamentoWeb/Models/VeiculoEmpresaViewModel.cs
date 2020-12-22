@@ -12,6 +12,7 @@ namespace IMOD.PreCredenciamentoWeb.Models
         #region  Propriedades
 
         public int VeiculoEmpresaId { get; set; }
+        public int VeiculoEmpresaWebId { get; set; }
         public string CardHolderGuid { get; set; }
         public int VeiculoId { get; set; }
         public int EmpresaId { get; set; }
@@ -31,10 +32,10 @@ namespace IMOD.PreCredenciamentoWeb.Models
                    VeiculoEmpresaId == veiculo.VeiculoEmpresaId;
         }
 
-        //public override int GetHashCode()
-        //{
-        //    return -2141522505 + ColaboradorEmpresaId.GetHashCode();
-        //}
+        public override int GetHashCode()
+        {
+            return -2141522505 + VeiculoEmpresaId.GetHashCode();
+        }
 
         public VeiculoEmpresaViewModel(int veiculoEmpresaId)
         {

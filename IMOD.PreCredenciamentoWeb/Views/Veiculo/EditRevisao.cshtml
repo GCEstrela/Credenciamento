@@ -6,11 +6,12 @@
 }
 
 <h3>Veículo</h3>
-@using (Html.BeginForm("Edit", "Veiculo", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("EditRevisao", "Veiculo", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.Partial("_EditPartial", Model)
 }
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 

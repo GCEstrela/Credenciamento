@@ -13,8 +13,7 @@ using System.Collections.Generic;
 
 namespace IMOD.Domain.Interfaces
 {
-    public interface IVeiculoSeguroRepositorio : IRepositorioBaseAdoNet<VeiculoSeguro>
+    public interface IVeiculoObservacaoRepositorio : IRepositorioBaseAdoNet<VeiculoObservacao>
     {
-        ICollection<VeiculoSeguro> ListarComAnexo(params object[] objects);
     }
 }

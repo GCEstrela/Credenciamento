@@ -419,9 +419,12 @@
                 ]
             });
 
-            $('.datepicker').datepicker({
+            $('#datepicker .input-group.date').datepicker({
                 format: 'dd/mm/yyyy',
-                language: 'pt-BR'
+                language: 'pt-BR',
+                autoclose: true,
+                orientation: "bottom",
+                todayHighlight: true
             });
 
             $(function () {
