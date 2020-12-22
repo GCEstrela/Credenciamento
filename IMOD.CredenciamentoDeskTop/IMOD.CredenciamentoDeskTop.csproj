@@ -197,6 +197,48 @@
       <DependentUpon>BHCinzaCiaAereas.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Cracha\BHAirport\BHAutorizacaoManobra.cs">
+      <DependentUpon>BHAutorizacaoManobra.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Cracha\BHAirport\BHAutorizacaoTemporaria_Azul.cs">
+      <DependentUpon>BHAutorizacaoTemporaria_Azul.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Cracha\BHAirport\BHAutorizacaoTemporaria_Laranja.cs">
+      <DependentUpon>BHAutorizacaoTemporaria_Laranja.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Cracha\BHAirport\BHAutorizacaoTemporaria_Verde.cs">
+      <DependentUpon>BHAutorizacaoTemporaria_Verde.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Cracha\BHAirport\BHPretoPF.cs">
+      <DependentUpon>BHPretoPF.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Cracha\BHAirport\BHRoxoRFB.cs">
+      <DependentUpon>BHRoxoRFB.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Cracha\BHAirport\BHVerdeOrgaosPublicos.cs">
+      <DependentUpon>BHVerdeOrgaosPublicos.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Cracha\CRACHA ESTRELA .cs">
       <DependentUpon>CRACHA ESTRELA .rpt</DependentUpon>
       <SubType>Component</SubType>
@@ -1543,6 +1585,34 @@
     <EmbeddedResource Include="Cracha\BHAirport\BHCinzaCiaAereas.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BHCinzaCiaAereas.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\BHAirport\BHAutorizacaoManobra.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BHAutorizacaoManobra.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\BHAirport\BHAutorizacaoTemporaria_Azul.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BHAutorizacaoTemporaria_Azul.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\BHAirport\BHAutorizacaoTemporaria_Laranja.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BHAutorizacaoTemporaria_Laranja.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\BHAirport\BHAutorizacaoTemporaria_Verde.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BHAutorizacaoTemporaria_Verde.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\BHAirport\BHPretoPF.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BHPretoPF.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\BHAirport\BHRoxoRFB.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BHRoxoRFB.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\BHAirport\BHVerdeOrgaosPublicos.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BHVerdeOrgaosPublicos.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\CRACHA ESTRELA .rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
