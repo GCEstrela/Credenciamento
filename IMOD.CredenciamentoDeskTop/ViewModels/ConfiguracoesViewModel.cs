@@ -91,6 +91,10 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private readonly IColaboradorEmpresaService colaboradorEmpresaService = new ColaboradorEmpresaService();
 
+        private readonly IColaboradorCursoService colaboradorCursoService = new ColaboradorCursosService();
+
+        private readonly IColaboradorService colaboradorService = new ColaboradorService();
+
         private ObservableCollection<ConfiguraSistemaView> _congiracaoSistema;
         private ConfiguraSistemaView _configuracaosistemaSelecionado;
         private int _configuracaosistemaSelectedIndex;
@@ -1877,6 +1881,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             try
             {
                 var entity = CursoSelecionado;
+                entity.Validade = null;
                 var entityConv = Mapper.Map<Curso>(entity);
 
                 if (CursoSelecionado.CursoId != 0)
@@ -1954,8 +1959,33 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var entity = CursoSelecionado;
                 if (entity == null) return;
                 var entityConv = Mapper.Map<Curso>(entity);
-                _auxiliaresService.CursoService.Remover(entityConv);
-                Cursos.Remove(CursoSelecionado);
+
+                ICollection<ColaboradorCurso> n1 = new List<ColaboradorCurso>();
+                ICollection<Colaborador> n2 = new List<Colaborador>();
+                n1 = colaboradorCursoService.Listar(null, entity.CursoId, null, null, null);
+                string apelido = "";
+
+                foreach (var colaboradorCurso in n1)
+                {
+
+                    n2 = colaboradorService.Listar(colaboradorCurso.ColaboradorId, null, null, null, null);
+
+                    foreach (var colaborador in n2)
+                    {
+                        apelido += colaborador.Apelido + ", ";
+                    }
+
+                }
+
+                if(n1 != null && n1.Count() > 0)
+                {
+                    WpfHelp.Mbox("Não é possível excluir esse curso. Os Colaboradores "+ apelido + " estão associados. Para excluir o curso, exclua as associações.");
+                }
+                else
+                {
+                    _auxiliaresService.CursoService.Remover(entityConv);
+                    Cursos.Remove(CursoSelecionado);
+                }
 
                 CarregaColecaoCursos();
             }

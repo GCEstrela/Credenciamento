@@ -15,7 +15,7 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool Cracha { get; set; }
         public bool Ativo { get; set; }
         public bool Habilitado { get; set; }
-
+        public string Validade { get; set; }
         public override bool Equals(object obj)
         {
             var view = obj as CursoView;
