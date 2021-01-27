@@ -93,8 +93,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
         private readonly IColaboradorCursoService colaboradorCursoService = new ColaboradorCursosService();
 
-        private readonly IColaboradorService colaboradorService = new ColaboradorService();
-
         private ObservableCollection<ConfiguraSistemaView> _congiracaoSistema;
         private ConfiguraSistemaView _configuracaosistemaSelecionado;
         private int _configuracaosistemaSelectedIndex;
@@ -1961,25 +1959,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var entityConv = Mapper.Map<Curso>(entity);
 
                 ICollection<ColaboradorCurso> n1 = new List<ColaboradorCurso>();
-                ICollection<Colaborador> n2 = new List<Colaborador>();
                 n1 = colaboradorCursoService.Listar(null, entity.CursoId, null, null, null);
-                string apelido = "";
-
-                foreach (var colaboradorCurso in n1)
-                {
-
-                    n2 = colaboradorService.Listar(colaboradorCurso.ColaboradorId, null, null, null, null);
-
-                    foreach (var colaborador in n2)
-                    {
-                        apelido += colaborador.Apelido + ", ";
-                    }
-
-                }
 
                 if(n1 != null && n1.Count() > 0)
                 {
-                    WpfHelp.Mbox("Não é possível excluir esse curso. Os Colaboradores "+ apelido + " estão associados. Para excluir o curso, exclua as associações.");
+                    WpfHelp.Mbox("Não é possível excluir esse curso, pois existe(m) Colaborador(es) associado(s).");
                 }
                 else
                 {

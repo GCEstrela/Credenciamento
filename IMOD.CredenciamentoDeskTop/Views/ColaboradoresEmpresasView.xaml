@@ -132,7 +132,7 @@
                             <Label Content="Autorização Dirigir:" Height="28" Width="143" Foreground="#FFD0D0D0" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Right" />
                             <CheckBox VerticalAlignment="Center" x:Name="chkMotorista"  Foreground="#FFD0D0D0" Grid.Row="0" Grid.Column="1"
                                   IsEnabled="{Binding Comportamento.isEnableCancelar}"
-                                  IsChecked="{Binding Entity.Motorista, UpdateSourceTrigger=PropertyChanged}"/>
+                                  IsChecked="{Binding Entity.Motorista, UpdateSourceTrigger=PropertyChanged}" Checked="ChkMotorista_Checked"/>
                             <Label Content=" Manuseio de Bagagem:" Height="26" Width="145"   VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Foreground="#FFD0D0D0" HorizontalContentAlignment="Right" />
                             <CheckBox VerticalAlignment="Center" x:Name="chkManuseioBagagem"  Foreground="#FFD0D0D0" Grid.Row="0" Grid.Column="2" IsChecked="{Binding Entity.ManuseioBagagem, UpdateSourceTrigger=PropertyChanged}"/>
 

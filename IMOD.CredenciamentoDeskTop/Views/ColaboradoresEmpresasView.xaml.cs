@@ -188,6 +188,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
                 _viewModel.Entity.SetMessageErro("Data Fim", "Data inválida");
             }
         }
+        private void ChkMotorista_Checked(object sender, RoutedEventArgs e)
+        {
+            if (!_viewModel.DadosMotorista(_viewModel.Entity.ColaboradorId))
+            {
+                chkMotorista.IsChecked = false;
+                WpfHelp.Mbox("Para autorizar a dirigir, é necessário preencher os dados da CNH na aba Geral.");
+            }
+        }
 
         private void ChkAtivo_Checked(object sender, RoutedEventArgs e)
         {

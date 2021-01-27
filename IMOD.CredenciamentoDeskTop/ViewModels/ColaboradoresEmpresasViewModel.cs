@@ -162,6 +162,31 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 throw;
             }
         }
+        public bool DadosMotorista(int _colaborador)
+        {
+            try
+            {
+                //Verificar se os dados da CNH estão preenchidos na aba Geral
+                ICollection<Colaborador> n1 = new List<Colaborador>();
+                n1 = _serviceColaborador.Listar(_colaborador, null, null, null, null, null, null);
+
+                foreach (var item in n1)
+                {
+                    if (item.Cnh == "" || item.CnhCategoria == "" || item.CnhEmissor == "" || item.Cnhuf == "" || item.CnhValidade == null)
+                    {
+                        return false;
+
+                    }
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
