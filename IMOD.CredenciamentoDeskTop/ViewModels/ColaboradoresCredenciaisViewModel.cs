@@ -57,6 +57,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IColaboradorCursoService _serviceColaboradorCurso = new ColaboradorCursosService();
         private readonly ICursoAreaAcessoService _serviceCursoAreaAcesso = new CursoAreaAcessoService();
         private readonly ICursoService _serviceCurso = new CursoService();
+        private readonly IColaboradorService _colaboradorService = new ColaboradorService();
         #endregion
 
         #region  Propriedades da Classe
@@ -763,7 +764,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     }
 
                 }
-                
+
 
                 //Criar registro no banco de dados e setar uma data de validade
                 _prepareCriarCommandAcionado = false;
@@ -775,7 +776,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (tecCredencial.PodeGerarCardHolder)
                 {
                     var entity = _service.BuscarCredencialPelaChave(n1.ColaboradorCredencialId);
-                    
+
                     entity.NumeroCredencial = Entity.NumeroCredencial;
                     entity.FormatoCredencialId = Entity.FormatoCredencialId;
                     entity.TecnologiaCredencialId = Entity.TecnologiaCredencialId;
@@ -1211,6 +1212,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 Cursor.Current = Cursors.WaitCursor;
 
+
                 var arrayBytes = WpfHelp.ConverterBase64(layoutCracha.LayoutRpt, "Layout Cracha");
                 var relatorio = WpfHelp.ShowRelatorioCrystalReport(arrayBytes, layoutCracha.Nome);
 
@@ -1263,6 +1265,11 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 var c1 = Mapper.Map<CredencialViewCracha>(credencialView);
                 c1.CrachaCursos = _cursosCracha;
 
+                if (!c1.Motorista)
+                {
+                    c1.CNHCategoria = "";
+                }
+
                 //se o tipo for diferente de via adicional ou o motivo form "DANO" não exibe no crachá;
                 if (c1.CredencialMotivoID != 2 || c1.CredencialmotivoViaAdicionalID == 22)
                 {
@@ -1294,6 +1301,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var pathImagem = objCode.GerarQrCode(querySistema, "QrCodeAutorizacao" + c1.ColaboradorCredencialID.ToString() + ".png");
                 relatorio.SetParameterValue("PathImgQrCode", pathImagem);
+
 
                 //IDENTIFICACAO
                 var popupCredencial = new PopupCredencial(relatorio, _service, Entity, layoutCracha, HabilitaImpressao);
@@ -1624,7 +1632,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             {
                 if (Entity.CredencialStatusId == 1)
                 {
-                    if(Cursos!=null)
+                    if (Cursos != null)
                         if (Cursos.Any(c => c.Ativo == false))
                         {
                             WpfHelp.PopupBox("O Colaborador não possui os CURSOS obrigatórios para a(s) área(s) selecionada(s)!", 1);
