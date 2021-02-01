@@ -199,7 +199,10 @@ namespace IMOD.CredenciamentoDeskTop.Views
 
         private void ChkAtivo_Checked(object sender, RoutedEventArgs e)
         {
-            txtDtInicio.Text = DateTime.Today.Date.ToShortDateString();
+            if (!_viewModel.statusVinculo(_viewModel.Entity.ColaboradorEmpresaId))
+            {
+                txtDtInicio.Text = DateTime.Today.Date.ToShortDateString();
+            }
             txtDtFim.Text = "";
         }
 
@@ -207,7 +210,14 @@ namespace IMOD.CredenciamentoDeskTop.Views
         {
             try
             {
-                txtDtFim.Text = DateTime.Today.Date.ToShortDateString();
+                if (_viewModel.Entity == null) return;
+                //tentar chamar um metodo na viewmodel retornando status do vinculo para usar como teste no if
+                if (_viewModel.statusVinculo(_viewModel.Entity.ColaboradorEmpresaId))
+                {
+                    txtDtFim.Text = DateTime.Today.Date.ToShortDateString();
+                    _viewModel.Entity.DataFim = DateTime.Today.Date;
+                }
+                
             }
             catch (Exception ex)
             {

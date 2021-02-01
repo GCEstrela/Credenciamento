@@ -39,6 +39,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         private readonly IColaboradorService _serviceColaborador = new ColaboradorService();
 
         private readonly IColaboradorCredencialService _serviceColaboradorCredencial = new ColaboradorCredencialService();
+        private readonly IColaboradorEmpresaService _serviceColaboradorEmpresa = new ColaboradorEmpresaService();
 
         //private readonly object _auxiliaresService;
         private ColaboradorView _colaboradorView;
@@ -161,6 +162,18 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 return false;
                 throw;
             }
+        }
+        public bool statusVinculo(int vinculoId)
+        {
+            ICollection<ColaboradorEmpresa> n1 = new List<ColaboradorEmpresa>();
+            n1 = _serviceColaboradorEmpresa.Listar(null, null, null, null, null, null, null, vinculoId);
+
+            foreach (var item in n1)
+            {
+                if (!item.Ativo)
+                    return false;
+            }
+            return true;
         }
         public bool DadosMotorista(int _colaborador)
         {
@@ -699,6 +712,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 throw ex;
             }
         }
+
+
         #endregion
 
         #region Propriedade Commands
