@@ -202,8 +202,9 @@ namespace IMOD.CredenciamentoDeskTop.Views
             if (!_viewModel.statusVinculo(_viewModel.Entity.ColaboradorEmpresaId))
             {
                 txtDtInicio.Text = DateTime.Today.Date.ToShortDateString();
+                txtDtFim.Text = "";
             }
-            txtDtFim.Text = "";
+            
         }
 
         private void ChkAtivo_Unchecked(object sender, RoutedEventArgs e)
