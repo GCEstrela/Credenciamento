@@ -414,6 +414,16 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
 
                 var n1 = Mapper.Map<ColaboradorEmpresa>(Entity);
                 n1.ColaboradorId = _colaboradorView.ColaboradorId;
+
+                if (Entity.Validade != null)
+                {
+                    if (Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59) < DateTime.Now)
+                    {
+                        WpfHelp.PopupBox("Data de Validade não pode ser menor que a data atual. Não é possível continua essa ação.", 1);
+                        return;
+                    }
+                }
+
                 if (_configuraSistema.Contrato)
                 {
                     n1.EmpresaContratoId = Contratos[0].EmpresaContratoId;
@@ -760,14 +770,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 Entity.SetMessageErro("EmpresaContratoId", "Favor informar o contrato.");
                 return true;
             }
-            if (Entity.Validade != null)
-            {
-                if (Entity.Validade.Value.AddHours(23).AddMinutes(59).AddSeconds(59) < DateTime.Now)
-                {
-                    WpfHelp.PopupBox("Data de Validade não pode ser menor que a data atual. Não é possível continua essa ação.", 1);
-                    return true;
-                }
-            }
+            
 
 
             var hasErros = Entity.HasErrors;

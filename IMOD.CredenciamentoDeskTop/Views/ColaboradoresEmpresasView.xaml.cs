@@ -203,6 +203,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             {
                 txtDtInicio.Text = DateTime.Today.Date.ToShortDateString();
                 txtDtFim.Text = "";
+                _viewModel.Entity.DataFim = null;
             }
             
         }
