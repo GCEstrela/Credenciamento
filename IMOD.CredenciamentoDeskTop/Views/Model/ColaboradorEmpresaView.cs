@@ -46,5 +46,10 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public bool regraAlterado { get; set; }
         public string ColaboradorNome { get; set; }
         #endregion
+
+        public object Clone()
+        {
+            return (ColaboradorEmpresaView)MemberwiseClone();
+        }
     }
 }

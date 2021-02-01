@@ -588,6 +588,8 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 IsEnableLstView = true;
                 if (Entity != null) Entity.ClearMessageErro();
                 Entity = null;
+                EntityObserver.Clear();
+                EntityObserver = new ObservableCollection<ColaboradorEmpresaView>(_entityObserverCloned);
                 _viewModelParent.HabilitaControleTabControls(true, true, true, true, true, true);
             }
             catch (Exception ex)
@@ -653,6 +655,7 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             Comportamento.PrepareSalvar();
         }
 
+        private List<ColaboradorEmpresaView> _entityObserverCloned = new List<ColaboradorEmpresaView>();
         /// <summary>
         ///     Acionado antes de alterar
         /// </summary>
@@ -668,6 +671,26 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
             IsEnableLstView = false;
             _viewModelParent.HabilitaControleTabControls(false, false, true, false, false, false);
             ListarEmpresa_e_Contratos();
+            
+            CloneObservable();
+
+        }
+
+        /// <summary>
+        /// Clone Observable
+        /// </summary>
+        private void CloneObservable()
+        {
+            try
+            {
+                _entityObserverCloned.Clear();
+                EntityObserver.ToList().ForEach(n => { _entityObserverCloned.Add((ColaboradorEmpresaView)n.Clone()); });
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
