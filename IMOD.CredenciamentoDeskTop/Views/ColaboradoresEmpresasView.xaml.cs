@@ -211,7 +211,7 @@ namespace IMOD.CredenciamentoDeskTop.Views
             try
             {
                 if (_viewModel.Entity == null) return;
-                //tentar chamar um metodo na viewmodel retornando status do vinculo para usar como teste no if
+                
                 if (_viewModel.statusVinculo(_viewModel.Entity.ColaboradorEmpresaId))
                 {
                     txtDtFim.Text = DateTime.Today.Date.ToShortDateString();
