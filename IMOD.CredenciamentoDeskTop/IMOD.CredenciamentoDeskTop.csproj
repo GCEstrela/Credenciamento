@@ -194,16 +194,28 @@
       <DependentUpon>AUTORIZAÇÃO #1.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Cracha\BHAirport\BHAutorizacaoPermanente.cs">
+      <DependentUpon>BHAutorizacaoPermanente.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Cracha\BHAirport\BHAmareloTerceiras.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BHAmareloTerceiras.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Cracha\BHAirport\BHAzul.cs">
+    <Compile Include="Cracha\BHAirport\BHTemporaria.cs">
+      <DependentUpon>BHTemporaria.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Cracha\BHAirport\BHAzulold.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BHAzul.rpt</DependentUpon>
+      <DependentUpon>BHAzulold.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Cracha\BHAirport\BHCinzaCiaAereas.cs">
@@ -211,6 +223,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BHCinzaCiaAereas.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Cracha\BHAirport\BHAzul.cs">
+      <DependentUpon>BHAzul.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Cracha\CRACHA ESTRELA .cs">
       <DependentUpon>CRACHA ESTRELA .rpt</DependentUpon>
@@ -1539,17 +1557,29 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>AUTORIZAÇÃO #1.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\BHAirport\BHAutorizacaoPermanente.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BHAutorizacaoPermanente.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Cracha\BHAirport\BHAmareloTerceiras.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BHAmareloTerceiras.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cracha\BHAirport\BHAzul.rpt">
+    <EmbeddedResource Include="Cracha\BHAirport\BHTemporaria.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>BHAzul.cs</LastGenOutput>
+      <LastGenOutput>BHTemporaria.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\BHAirport\BHAzulold.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BHAzulold.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\BHAirport\BHCinzaCiaAereas.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BHCinzaCiaAereas.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\BHAirport\BHAzul.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BHAzul.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\CRACHA ESTRELA .rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
