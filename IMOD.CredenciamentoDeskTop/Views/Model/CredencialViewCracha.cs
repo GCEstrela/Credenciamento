@@ -27,8 +27,8 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public string RGOrgUF { get; set; }
         public string TelefoneEmergencia { get; set; }
         public string Foto { get; set; }
-        public byte [] Foto2 { get; set; }
-        public byte [] Logo2 { get; set; }
+        public byte[] Foto2 { get; set; }
+        public byte[] Logo2 { get; set; }
         public string Identificacao1 { get; set; }
         public string Identificacao2 { get; set; }
         public string CNHCategoria { get; set; }
@@ -51,5 +51,6 @@ namespace IMOD.CredenciamentoDeskTop.Views.Model
         public int CredencialmotivoViaAdicionalID { get; set; }
         public bool Estrangeiro { get; set; }
         public bool Terceirizada { get; set; }
+        public bool PossuiArma { get; set; }
     }
 }

@@ -35,7 +35,7 @@ namespace IMOD.Domain.Entities
         public DateTime? DataInicio { get; set; }
         public DateTime? DataFim { get; set; }
         public string Usuario { get; set; }
-        
+
         public override bool Equals(object obj)
         {
             var empresa = obj as ColaboradorEmpresa;
@@ -63,6 +63,7 @@ namespace IMOD.Domain.Entities
         public bool grupoAlterado { get; set; }
         public bool regraAlterado { get; set; }
         public string ColaboradorNome { get; set; }
+        public bool PossuiArma { get; set; }
         #endregion
 
 

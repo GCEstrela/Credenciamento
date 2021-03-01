@@ -74,6 +74,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataInicio", entity.DataInicio, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("DataFim", entity.DataFim, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("Usuario", entity.Usuario, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamUpdate("PossuiArma", entity.PossuiArma, false)));
 
                         cmd.ExecuteNonQuery();
 
@@ -153,6 +154,7 @@ namespace IMOD.Infra.Repositorios
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataInicio", entity.DataInicio, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("DataFim", entity.DataFim, false)));
                         cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("Usuario", entity.Usuario, false)));
+                        cmd.Parameters.Add(_dataBase.CreateParameter(new ParamInsert("PossuiArma", entity.PossuiArma, false)));
 
                         var key = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -344,7 +346,7 @@ namespace IMOD.Infra.Repositorios
         {
             try
             {
-                var select = string.Empty;                
+                var select = string.Empty;
                 switch (nomedaTabela)
                 {
                     case TipoSelectColaboradorEmpresa.integracao:
@@ -359,12 +361,12 @@ namespace IMOD.Infra.Repositorios
                     default:
                         break;
                 }
-                
+
 
                 using (var conn = _dataBase.CreateOpenConnection())
                 {
-                   
-                    
+
+
                     using (var cmd = _dataBase.SelectSQL(select, conn))
                     {
 
