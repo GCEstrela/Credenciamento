@@ -206,6 +206,12 @@
       <DependentUpon>BHAmareloTerceiras.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Cracha\BHAirport\BHVisitante.cs">
+      <DependentUpon>BHVisitante.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Cracha\BHAirport\BHTemporaria.cs">
       <DependentUpon>BHTemporaria.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -1564,6 +1570,10 @@
     <EmbeddedResource Include="Cracha\BHAirport\BHAmareloTerceiras.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BHAmareloTerceiras.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cracha\BHAirport\BHVisitante.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BHVisitante.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Cracha\BHAirport\BHTemporaria.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

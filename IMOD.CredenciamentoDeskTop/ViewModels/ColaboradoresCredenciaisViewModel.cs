@@ -1222,7 +1222,15 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                     txtRNE.Text = "RNE:";
 
                     TextObject txt_RG_RNE = (TextObject)relatorio.ReportDefinition.ReportObjects["obj_RG_RNE"];
-                    txt_RG_RNE.Text = Entity.RNE.ToString();
+                    if (Entity.RNE == null)
+                    {
+                        txt_RG_RNE.Text = "";
+                    }
+                    else
+                    {
+                        txt_RG_RNE.Text = Entity.RNE.ToString();
+
+                    }
                 }
                 else
                 {
