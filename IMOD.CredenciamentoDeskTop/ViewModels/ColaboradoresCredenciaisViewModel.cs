@@ -445,23 +445,6 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         /// </summary>
         /// <param name="empresaId"></param>
-        public void ListarCracha(int empresaId, int codigoTipoValidade)
-        {
-            try
-            {
-                EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
-                var service = new EmpresaLayoutCrachaService();
-                var list1 = service.ListarLayoutCrachaView(empresaId, null, null, null, 1, codigoTipoValidade);
-                var list2 = Mapper.Map<List<EmpresaLayoutCracha>>(list1);
-                EmpresaLayoutCracha = list2;
-
-                //_todosContratosEmpresas.ForEach(n => { ColaboradoresEmpresas.Add(n); });
-            }
-            catch (Exception ex)
-            {
-                Utils.TraceException(ex);
-            }
-        }
 
         /// <summary>
         /// </summary>
@@ -942,8 +925,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity.ColaboradorPrivilegio1Id != 0)
                 {
                     var areaAcesso1 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio1Id).FirstOrDefault();
-                    Entity.Identificacao1 = areaAcesso1.Identificacao;
-                    n1.Identificacao1 = areaAcesso1.Identificacao;
+                    if (areaAcesso1 != null)
+                    {
+                        Entity.Identificacao1 = areaAcesso1.Identificacao;
+                        n1.Identificacao1 = areaAcesso1.Identificacao;
+                    }
+                    else
+                    {
+                        Entity.ColaboradorPrivilegio1Id = 0;
+                        Entity.Identificacao1 = null;
+                        n1.Identificacao1 = null;
+                    }                
                 }
                 else
                 {
@@ -953,8 +945,17 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
                 if (Entity.ColaboradorPrivilegio2Id != 0)
                 {
                     var areaAcesso2 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio2Id).FirstOrDefault();
-                    Entity.Identificacao2 = areaAcesso2.Identificacao;
-                    n1.Identificacao2 = areaAcesso2.Identificacao;
+                    if (areaAcesso2 != null)
+                    {
+                        Entity.Identificacao2 = areaAcesso2.Identificacao;
+                        n1.Identificacao2 = areaAcesso2.Identificacao;
+                    }
+                    else
+                    {
+                        Entity.ColaboradorPrivilegio2Id = 0;
+                        Entity.Identificacao2 = null;
+                        n1.Identificacao2 = null;
+                    }
                 }
                 else
                 {
@@ -1072,20 +1073,38 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            if (Entity.ColaboradorPrivilegio1Id != 0 && Entity.ColaboradorPrivilegio1Id != 41)
+            if (Entity.ColaboradorPrivilegio1Id != 0)
             {
                 var areaAcesso1 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio1Id).FirstOrDefault();
-                entity.Identificacao1 = areaAcesso1.Identificacao;
+                if (areaAcesso1 != null)
+                {
+                    entity.Identificacao1 = areaAcesso1.Identificacao;
+                }
+                else
+                {
+                    Entity.ColaboradorPrivilegio1Id = 0;
+                    Entity.Identificacao1 = null;
+                }
+               
             }
 
-            if (Entity.ColaboradorPrivilegio2Id != 0 && Entity.ColaboradorPrivilegio2Id != 41)
+            if (Entity.ColaboradorPrivilegio2Id != 0)
             {
                 var areaAcesso2 = _auxiliaresService.AreaAcessoService.Listar(Entity.ColaboradorPrivilegio2Id).FirstOrDefault();
-                entity.Identificacao2 = areaAcesso2.Identificacao;
+                if (areaAcesso2 != null)
+                {
+                    entity.Identificacao2 = areaAcesso2.Identificacao;
+                }
+                else
+                {
+                    Entity.ColaboradorPrivilegio2Id = 0;
+                    Entity.Identificacao2 = null;
+                }
+                
             }
             _configuraSistema = ObterConfiguracao();
             entity.Regras = _configuraSistema.Regras;
-            entity.GrupoPadrao = _configuraSistema.GrupoPadrao;
+            entity.GrupoPadrao = _configuraSistema.GrupoPadrao.Trim();
 
             _service.CriarTitularCartao(new CredencialGenetecService(Main.Engine), new ColaboradorService(), entity);
 
