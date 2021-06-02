@@ -445,6 +445,23 @@ namespace IMOD.CredenciamentoDeskTop.ViewModels
         /// <summary>
         /// </summary>
         /// <param name="empresaId"></param>
+        public void ListarCracha(int empresaId, int codigoTipoValidade)
+        {
+            try
+            {
+                EmpresaLayoutCracha = new List<EmpresaLayoutCracha>();
+                var service = new EmpresaLayoutCrachaService();
+                var list1 = service.ListarLayoutCrachaView(empresaId, null, null, null, 1, codigoTipoValidade);
+                var list2 = Mapper.Map<List<EmpresaLayoutCracha>>(list1);
+                EmpresaLayoutCracha = list2;
+
+                //_todosContratosEmpresas.ForEach(n => { ColaboradoresEmpresas.Add(n); });
+            }
+            catch (Exception ex)
+            {
+                Utils.TraceException(ex);
+            }
+        }
 
         /// <summary>
         /// </summary>
