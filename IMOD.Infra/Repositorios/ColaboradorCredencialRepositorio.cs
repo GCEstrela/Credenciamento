@@ -894,6 +894,11 @@ namespace IMOD.Infra.Repositorios
                                 cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("DataStatusFim", DbType.DateTime, entity.DataStatusFim).MenorIgual()));
                             }
 
+                            if (entity.Validade != null || entity.ValidadeFim != null)
+                            {
+                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Validade", DbType.DateTime, entity.Validade).MaiorIgual()));
+                                cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("ValidadeFim", DbType.DateTime, entity.ValidadeFim).MenorIgual()));
+                            }
                             //if (entity.CredencialMotivoId == 15 && entity.Baixa == null)
                             //{
                             //    cmd.CreateParameterSelect(_dataBase.CreateParameter(new ParamSelect("Baixa", DbType.DateTime, entity.Baixa).IsNull()));
